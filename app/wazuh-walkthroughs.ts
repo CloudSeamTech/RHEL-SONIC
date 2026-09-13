@@ -180,7 +180,7 @@ export const wazuhWalkthroughs: Record<string, WalkthroughStep[]> = {
       'Add narrowly scoped Azure HTTPS access',
       portal,
       [
-        'Use the workstation’s current public egress IPv4 from your restricted-SSH record; verify it is still current. Write it with /32. This is not the workstation’s private LAN address.',
+        'Use the workstation’s current public IPv4 used for outbound connections from your restricted-SSH record; verify it is still current. Write it with /32. This is not the workstation’s private LAN address.',
         'Open manager VM → Networking → Network settings → its NSG → Inbound security rules → Add. Set Source to IP Addresses, Source IP to that workstation /32, Source port ranges to *, Destination to the manager private IP, Service to Custom, Destination port to 443, Protocol TCP, Action Allow.',
         'Choose an unused priority that precedes a blocking rule; lower numbers take precedence. Name the rule sonic-dashboard-workstation and select Add. Record the priority. Check NIC and subnet effective rules; preserve SSH and investigate any existing broad allow rather than assuming this rule removes it.',
       ],

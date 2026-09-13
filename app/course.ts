@@ -3,6 +3,7 @@ import type { WalkthroughStep } from './wazuh-walkthroughs.ts';
 import { lessonTime } from './course-timing.ts';
 import { labLessons } from './lab-lessons.ts';
 import { lessonOrder } from './course-roadmap.ts';
+import { nsgWalkthrough } from './nsg-walkthrough.ts';
 export { modules, primaryFlow } from './course-roadmap.ts';
 export type Lesson = {
   walkthrough?: WalkthroughStep[];
@@ -300,7 +301,7 @@ const foundationLessons: Lesson[] = [
     methodology: [
       'Compare subnet membership and region first.',
       'Check intended routes and overlaps before editing address space.',
-      'For policy-restricted private networks, obtain the existing access/egress design from the owner; do not add billable network appliances just for the tutorial.',
+      'For policy-restricted private networks, obtain the existing inbound and outbound connection plan from the owner; do not add billable network appliances just for the tutorial.',
     ],
     rollback:
       'Before NICs exist, correct an empty incorrect subnet/VNet after dependency review. Once a VM attaches, changing or deleting the subnet is disruptive and needs a separate plan.',
@@ -318,7 +319,7 @@ const foundationLessons: Lesson[] = [
     scenario:
       'A public IP will provide lab access without buying a gateway. Prepare a restrictive rule before exposing the VM.',
     objective:
-      'Create nsg-rhel9-lab with a TCP 22 allowance from your current public egress IPv4 only.',
+      'Create nsg-rhel9-lab with a TCP 22 allowance from your current public IPv4 used for outbound connections only.',
     why: 'An NSG filters Azure traffic. It is separate from Linux firewalld and SELinux. You need reachability and authentication; an allow rule supplies neither a username nor a key.',
     change:
       'Create one NSG and a source-restricted inbound rule. VM NIC association happens during provisioning. No Wazuh ports are opened.',
@@ -326,7 +327,7 @@ const foundationLessons: Lesson[] = [
     command:
       '$AdminSourceCidr = "REPLACE_WITH_YOUR_PUBLIC_IPV4/32"\n$AdminSourceCidr',
     args: [
-      'Replace the entire placeholder with your verified internet egress IPv4 followed by /32. $AdminSourceCidr records that planned rule value.',
+      'Replace the entire placeholder with your verified public IPv4 used for outbound connections followed by /32. $AdminSourceCidr records that planned rule value.',
       '/32 selects one IPv4 address; it is not a port. A Windows LAN address like 192.168.x.x usually is not the public source Azure receives.',
       'Use your organization’s approved IP-check method or Azure My IP, confirming the VPN/proxy path. This command records a value; it does not discover or authorize the source.',
     ],
@@ -352,7 +353,7 @@ const foundationLessons: Lesson[] = [
     challenge:
       'Why is Source port * acceptable while Source IP Any is not intended?',
     answer:
-      'The client’s ephemeral source port is unpredictable, but its egress address can be restricted. These are different packet fields.',
+      'The client’s ephemeral source port is unpredictable, but its public address can be restricted. These are different packet fields.',
     sources: ['nsg'],
   },
   {
@@ -512,7 +513,7 @@ const foundationLessons: Lesson[] = [
       'Timeout suggests a dropped/blocked path or stopped VM. Refused connections suggest a reached host without the expected listener or an active reject. DNS lookup failures are different again.',
     methodology: [
       'Confirm this VM is Running and the destination is current.',
-      'Check your egress source /32, NIC/subnet NSG associations, effective rules, VPN, and routing.',
+      'Check your public source address ending in /32, NIC/subnet NSG associations, effective rules, VPN, and routing.',
       'If the Azure path is correct, have the recovery owner inspect sshd and the guest firewall through Run Command/console. Do not disable firewalls or SELinux. Retest after one explained change.',
     ],
     rollback:
@@ -885,11 +886,33 @@ const updates: Record<string, Partial<Lesson>> = {
       'A VNet/subnet is a logical network/addressing concept. vSphere connectivity may involve port groups, VLANs, NSX, and physical routing; no single vSphere object is automatically equivalent to an Azure VNet.',
   },
   'nsg-v2': {
+    walkthrough: nsgWalkthrough,
+    title: 'Allow SSH from your home connection',
+    scenario:
+      'You will use your Windows computer to connect to the RHEL lab VM. First, tell Azure which internet address is allowed to start that connection.',
     objective:
-      'Create the endpoint NSG with TCP 22 permitted only from the current workstation public egress IPv4. The manager build repeats this rule in its own NSG.',
+      'Create a network rule that allows SSH into the endpoint VM from your current home public IPv4 address. You will repeat this for the manager VM later.',
+    why: 'A Network Security Group (NSG) is a list of rules for traffic entering or leaving a VM. This rule lets your connection reach SSH on port 22. Signing in is a separate step: you still need your username and SSH key. Linux also has its own protections, which you will learn later.',
+    change:
+      'Create nsg-rhel9-lab and add one inbound rule. Inbound means coming into the Azure VM. Outbound means leaving it. You will attach this NSG to the VM during the VM creation lesson.',
+    shell:
+      'Your Windows computer · Windows Terminal → PowerShell · normal user',
+    command:
+      '$AdminSourceCidr = Read-Host "Type your current public IPv4 followed by /32"\n$AdminSourceCidr',
+    expected:
+      'Your new inbound rule appears in nsg-rhel9-lab. It allows TCP port 22 from your current public IPv4/32. It is not attached to a VM yet.',
+    verify:
+      'Open the rule and check: Source = your public IPv4/32, source port = *, destination port = 22, protocol = TCP, action = Allow. Save the rule name and settings in your notes.',
+    trouble:
+      'If SSH fails later, your home public IP may have changed. Check the saved source address first. A VPN or proxy can also change which public address Azure sees. Check the VM’s attached rules before changing anything.',
+    rollback:
+      'Save the old settings before editing this rule. If an edit causes a problem, restore the last correct specific settings from your notes. Do not delete all the rules or allow every internet address.',
+    challenge: 'Why do we choose Inbound security rules for the Azure VM?',
+    answer:
+      'Your SSH connection travels from your Windows computer into the Azure VM. It is outbound from Windows and inbound to the VM. The Azure rule controls traffic entering the VM.',
     args: [
-      ...foundationLessons.find((l) => l.id === 'nsg-v2')!.args,
-      'Inbound means traffic entering the associated VM/network interface. Source is the sender’s public egress IP/CIDR; destination is the VM side of the connection. TCP is the connection-oriented transport used by SSH; destination port 22 selects its listener. Allow permits matching traffic; priority orders evaluation, with lower numbers first. Restricting the source reduces exposure to unrelated internet clients, but does not replace key authentication.',
+      'Read-Host asks you to type an answer. $AdminSourceCidr stores that answer in the current PowerShell tab. Printing it lets you check for typing mistakes.',
+      '/32 means one IPv4 address. It does not mean port 32. You enter port 22 in a different Azure field.',
     ],
     vsphere:
       'Azure NSG ≈ an access-control concept, not a direct vSphere feature. A workplace may enforce this with physical firewalls, NSX, or the guest firewall. Identify the actual enforcement point.',

@@ -1,4 +1,5 @@
 'use client';
+import { SessionGuide } from './session-guide';
 import { formatMinutes, lessonTimings, timingFor } from './course-timing';
 import { Fragment, useEffect, useState, useSyncExternalStore } from 'react';
 import type { ProgressState } from '@/lib/progress-model';
@@ -55,7 +56,8 @@ function FollowupBlock({ block }: { block: NonNullable<Lesson['followup']> }) {
   const [message, setMessage] = useState('');
   return (
     <section className="followup-block">
-      <h3>Continue in the named environment</h3>
+      <h3>Where to do the next steps</h3>
+      <SessionGuide location={block.shell} />
       <div className="terminal">
         <header>
           <b>{block.shell}</b>
@@ -686,11 +688,11 @@ export default function Home() {
                   )}
                   <div className="concept-grid">
                     <section>
-                      <h3>Your objective</h3>
+                      <h3>What you will learn</h3>
                       <p>{lesson.objective}</p>
                     </section>
                     <section>
-                      <h3>Why this matters in an enterprise</h3>
+                      <h3>Why this matters at work</h3>
                       <p>{lesson.why}</p>
                     </section>
                   </div>
@@ -705,10 +707,11 @@ export default function Home() {
                     <SonicWalkthrough steps={lesson.walkthrough} />
                   ) : (
                     <>
+                      <SessionGuide location={lesson.shell} />
                       <h3>
                         {visualSample
                           ? 'COMMAND // WINDOWS POWERSHELL'
-                          : 'Run it with intention'}
+                          : 'Type these commands in the app named below'}
                       </h3>
                       {visualSample ? (
                         <SonicTerminal

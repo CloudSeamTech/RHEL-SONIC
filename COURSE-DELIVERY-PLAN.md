@@ -4,6 +4,8 @@ This is course authoring only. Do not sign in to the user's Azure account, conne
 
 Preserve the approved SONIC dashboard layout and palette. All new lessons need numbered actions, exact machine/application/account, commands and option explanations, expected results, verification, troubleshooting, rollback and redacted evidence.
 
+Beginner reading standard: assume no prior IT knowledge. Use short sentences and explain new terms before using them. Prefer inbound/outbound to ingress/egress, and state which computer the direction refers to. Never label a step only “PowerShell”: identify the computer, how to open the app, normal versus administrator access, and what the prompt should look like. Separate each field/click and explain whether a command only records a value or changes a system. The NSG walkthrough is the current example of this standard; older lesson prose still needs a systematic pass to reach it throughout.
+
 1. Windows workstation and Azure scope: home public IPv4 /32, local passphrase-protected SSH keys in `%USERPROFILE%\.ssh` outside OneDrive/source control; public-key deployment and host fingerprint verification.
 2. Dedicated lab resource group, VNet/subnet, scoped administration, VM sizing and disk preparation.
 3. Dedicated AD DS & DNS navigation section: Windows domain controller, DNS zones, forward/reverse records, service records, users/groups and prerequisites.

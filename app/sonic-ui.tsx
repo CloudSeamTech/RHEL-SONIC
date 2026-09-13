@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
+import { SessionGuide } from './session-guide';
 import type { WalkthroughStep } from './wazuh-walkthroughs';
 import {
   Activity,
@@ -253,6 +254,7 @@ export function SonicWalkthrough({ steps }: { steps: WalkthroughStep[] }) {
               <h4>{step.title}</h4>
             </header>
             <p className="walkthrough-location">WHERE: {step.where}</p>
+            <SessionGuide location={step.where} />
             <ol>
               {step.actions.map((action) => (
                 <li key={action}>{action}</li>
