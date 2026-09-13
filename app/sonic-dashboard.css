@@ -1,0 +1,802 @@
+.sonic-training-dashboard {
+  --panel-edge: #2e58716b;
+}
+.dashboard-overview {
+  display: grid;
+  grid-template-columns: minmax(215px, 0.9fr) minmax(380px, 1.8fr) 205px;
+  gap: 22px;
+  align-items: start;
+  padding: 12px 0 28px;
+}
+.dashboard-mission {
+  padding: 20px 0 0;
+  min-width: 0;
+}
+.dashboard-mission > .eyebrow {
+  color: #6fdef7;
+  font-size: 9px;
+  line-height: 1.9;
+}
+.dashboard-mission h1 {
+  font-size: clamp(24px, 1.85vw, 31px);
+  line-height: 1.25;
+  font-weight: 600;
+  margin: 17px 0 18px;
+  letter-spacing: -0.025em;
+}
+.mission-lead {
+  color: #d1e9f7;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.mission-description {
+  color: #8eafc5;
+  font-size: 13px;
+  margin-top: 14px;
+  line-height: 1.9;
+}
+.mission-start {
+  margin-top: 27px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.start-here.primary {
+  min-height: 49px;
+  width: 100%;
+  justify-content: center;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  border-color: #8af0ff;
+  box-shadow:
+    0 0 27px #00c8ff25,
+    inset 0 1px #ffffff60;
+}
+.mission-path-link {
+  color: #9be6fc;
+  font-size: 12px;
+  min-height: 34px;
+}
+.mission-path-link:hover {
+  color: #e3faff;
+}
+.mission-next-lesson {
+  border-left: 2px solid #35d9ff66;
+  padding-left: 12px;
+  margin-top: 18px;
+}
+.mission-next-lesson > span {
+  display: block;
+  color: #7fa9c2;
+  font:
+    9px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  letter-spacing: 0.08em;
+}
+.mission-next-lesson > strong {
+  display: block;
+  font-size: 13px;
+  line-height: 1.7;
+  font-weight: 500;
+  color: #d0e8f8;
+  margin-top: 8px;
+}
+.mission-overall {
+  margin-top: 25px;
+  border-top: 1px solid #2b526c66;
+  padding-top: 20px;
+  scroll-margin-top: 25px;
+}
+.mission-overall > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.mission-overall h2 {
+  font:
+    10px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  color: #7adefa;
+  letter-spacing: 0.05em;
+}
+.mission-overall strong {
+  color: #60e0ff;
+  font:
+    24px var(--font-geist-mono),
+    Consolas,
+    monospace;
+}
+.mission-overall [data-slot='progress-track'] {
+  height: 11px;
+}
+.mission-overall p {
+  font-size: 11px;
+  color: #9cbed2;
+  margin-top: 12px;
+  line-height: 1.8;
+}
+.mission-overall p > span {
+  display: inline-block;
+  margin-left: 8px;
+  color: #87a7bf;
+}
+.mission-overall small {
+  display: block;
+  color: #7698b0;
+  font-size: 10px;
+  line-height: 1.7;
+  margin-top: 6px;
+}
+.mission-boundary {
+  font-size: 11px;
+  color: #9aadc0;
+  margin-top: 17px;
+  line-height: 1.7;
+}
+.dashboard-overview > .sonic-core {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 16px 0 0;
+  align-self: center;
+}
+.dashboard-overview .core-header {
+  padding: 0 8px;
+}
+.dashboard-overview .core-header h2 {
+  font-size: 17px;
+}
+.dashboard-overview .core-map {
+  overflow: hidden;
+}
+.dashboard-overview .core-globe {
+  width: 122%;
+  max-width: none;
+  margin-left: -11%;
+}
+.dashboard-overview .core-system {
+  width: 26%;
+  background: #061421b0;
+}
+.dashboard-overview .core-system strong {
+  font-size: 9px;
+}
+.dashboard-overview .core-system small {
+  font-size: 9px;
+}
+.dashboard-overview .core-system--compliance {
+  top: 94% !important;
+}
+.dashboard-overview .core-selection {
+  min-height: 114px;
+  gap: 10px;
+  padding: 12px;
+}
+.dashboard-overview .core-selection > button {
+  font-size: 10px;
+}
+.dashboard-overview .core-selection p {
+  font-size: 11px;
+}
+.dashboard-overview .core-legend {
+  gap: 8px;
+  font-size: 8px;
+}
+.dashboard-overview .core-legend > span:last-child {
+  margin-left: 0;
+  flex-basis: 100%;
+  font-size: 7px;
+}
+.dashboard-actions {
+  display: grid;
+  gap: 15px;
+  padding-top: 12px;
+  min-width: 0;
+}
+.dashboard-panel {
+  background: linear-gradient(130deg, #0a20308c, #05121ee0);
+  border: 1px solid var(--panel-edge);
+  border-radius: 8px;
+  padding: 19px;
+  box-shadow: inset 0 1px #7adefa08;
+  min-width: 0;
+}
+.dashboard-panel h2 {
+  font-size: 13px;
+  color: #d1e6f4;
+  letter-spacing: 0.025em;
+  font-weight: 550;
+}
+.dashboard-actions .dashboard-panel {
+  padding: 16px 13px;
+}
+.dashboard-actions h2 {
+  font-size: 11px;
+}
+.quick-action-buttons {
+  display: grid;
+  gap: 9px;
+  margin-top: 16px;
+}
+.quick-action-buttons button {
+  min-height: 42px;
+  padding: 10px;
+  color: #c6eafa;
+  border: 1px solid #2a64807a;
+  background: #08203270;
+  border-radius: 5px;
+  font-size: 11px;
+  gap: 8px;
+  text-align: left;
+  line-height: 1.6;
+}
+.quick-action-buttons button > svg {
+  color: #7edcf6;
+}
+.quick-action-buttons button:hover {
+  background: #0a354a;
+  border-color: #35d9ff88;
+}
+.current-mission dl {
+  display: grid;
+  gap: 16px;
+  margin: 17px 0 0;
+}
+.current-mission dt {
+  font:
+    8px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  letter-spacing: 0.08em;
+  color: #76a6c2;
+}
+.current-mission dd {
+  font-size: 12px;
+  color: #b7d1e3;
+  line-height: 1.7;
+  margin: 6px 0 0;
+}
+.current-mission dl > div:first-child dd {
+  color: #81e3fc;
+}
+.dashboard-learning-path {
+  background: #071725a6;
+  border: 1px solid var(--panel-edge);
+  border-radius: 9px;
+  padding: 21px;
+  margin: 0 0 23px;
+}
+.dashboard-learning-path > header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.dashboard-learning-path h2 {
+  font-size: 19px;
+  margin-top: 6px;
+  color: #d9edf9;
+}
+.dashboard-learning-path > header > span {
+  margin-left: auto;
+  color: #8fc9e1;
+  font-size: 11px;
+}
+.stage-rail-controls {
+  display: flex;
+  gap: 7px;
+}
+.stage-rail-controls button {
+  width: 34px;
+  height: 34px;
+  justify-content: center;
+  border: 1px solid #2e5c77;
+  border-radius: 4px;
+  color: #8bdff5;
+}
+.stage-rail-controls button:hover {
+  background: #13364a;
+}
+.stage-progress-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 235px;
+  gap: 14px;
+  overflow-x: auto;
+  padding: 4px 3px 16px;
+  margin: -4px -3px 0;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+.stage-progress-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  text-align: left;
+  min-height: 243px;
+  padding: 17px;
+  border: 1px solid #2a4861;
+  border-radius: 7px;
+  background: linear-gradient(145deg, #0c2436a6, #061521);
+  scroll-snap-align: start;
+}
+.stage-progress-card:hover {
+  background: #0d2c40;
+  border-color: #35d9ff88;
+}
+.stage-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #8eacc1;
+  font-size: 9px;
+  line-height: 1.5;
+}
+.stage-card-top > svg {
+  margin-left: auto;
+}
+.stage-card-number {
+  font:
+    19px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  border: 1px solid #426078;
+  background: #1a3041;
+  color: #a6bbca;
+  border-radius: 4px;
+  padding: 5px 6px;
+}
+.stage-progress-card > strong {
+  font-size: 14px;
+  font-weight: 550;
+  color: #d3e6f5;
+  line-height: 1.55;
+}
+.stage-card-description {
+  font-size: 11px;
+  line-height: 1.75;
+  color: #8aaac0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.stage-card-progress {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 9px;
+  align-items: center;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 8px;
+}
+.stage-meter {
+  display: block;
+  height: 6px;
+  border-radius: 1px;
+  background: #17384c;
+  overflow: hidden;
+}
+.stage-meter > span {
+  display: block;
+  height: 100%;
+  background: #35d9ff;
+}
+.stage-card-progress b {
+  font:
+    11px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  color: #9bb9cc;
+}
+.stage-card-progress small {
+  grid-column: 1 / -1;
+  color: #88aabe;
+  font-size: 10px;
+}
+.stage-planned-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 1px solid #24425a77;
+  padding-top: 13px;
+  margin-top: auto;
+  color: #7f9cb2;
+  font-size: 11px;
+}
+.stage-progress-card.state-completed {
+  border-color: #39c89888;
+  background: linear-gradient(130deg, #0a322b80, #051b20);
+}
+.stage-progress-card.state-completed .stage-card-number {
+  color: #a3ffe0;
+  background: #0d4a39;
+  border-color: #5be0ae;
+}
+.stage-progress-card.state-completed .stage-meter > span {
+  background: #6de2af;
+}
+.stage-progress-card.state-completed .stage-card-top,
+.stage-progress-card.state-completed .stage-card-progress b {
+  color: #6de2af;
+}
+.stage-progress-card.state-in-progress,
+.stage-progress-card.is-current {
+  border-color: #35d9ff88;
+}
+.stage-progress-card.state-in-progress .stage-card-number,
+.stage-progress-card.is-current .stage-card-number {
+  background: #08415b;
+  color: #a0edff;
+  border-color: #35d9ff;
+}
+.stage-progress-card.is-current .stage-card-top {
+  color: #72defb;
+}
+.dashboard-learning-path > footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  margin-top: 12px;
+}
+.dashboard-learning-path > footer p {
+  font-size: 11px;
+  color: #86a5bc;
+  line-height: 1.8;
+}
+.dashboard-learning-path > footer button {
+  color: #87dcf5;
+  font-size: 12px;
+  white-space: nowrap;
+  min-height: 36px;
+}
+.dashboard-support {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 22px;
+}
+.lab-tasks > header {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: center;
+}
+.lab-tasks h2 {
+  font-size: 20px;
+  margin-top: 6px;
+}
+.lab-tasks > header > span {
+  color: #88a8c1;
+  font-size: 10px;
+}
+.lab-tasks ul {
+  list-style: none;
+  padding: 0;
+  margin: 17px 0 13px;
+}
+.lab-tasks li + li {
+  border-top: 1px solid #23425a66;
+}
+.lab-tasks li button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 40px;
+  padding: 10px 4px;
+  text-align: left;
+}
+.lab-task-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #bcd6e8;
+}
+.lab-task-name > svg {
+  color: #648ba7;
+  flex-shrink: 0;
+}
+.lab-task-status {
+  color: #8ca7bc;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.lab-tasks .state-completed .lab-task-status,
+.lab-tasks .state-completed svg {
+  color: #6de2af;
+}
+.lab-tasks .state-in-progress .lab-task-status,
+.lab-tasks .state-in-progress svg {
+  color: #35d9ff;
+}
+.lab-tasks li button:hover {
+  background: #14304466;
+}
+.lab-tasks > p {
+  color: #88a3b8;
+  font-size: 11px;
+}
+.dashboard-reference {
+  min-width: 0;
+}
+.architecture-reference summary {
+  color: #bcdff1;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.architecture-reference summary > svg {
+  display: inline-block;
+  margin: 0 9px 0 3px;
+  vertical-align: middle;
+  color: #7ddeff;
+}
+.architecture-reference summary > span {
+  display: block;
+  color: #88a7bd;
+  font-size: 11px;
+  margin: 4px 0 0 25px;
+}
+.architecture-reference .console-architecture {
+  margin-top: 18px;
+}
+.mission-readiness {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.mission-readiness > svg {
+  flex-shrink: 0;
+  color: #84def7;
+}
+.mission-readiness p {
+  font-size: 12px;
+  color: #91b1c7;
+  margin-top: 10px;
+  line-height: 1.8;
+}
+.sonic-training-dashboard button:focus-visible {
+  outline: 2px solid #78e7ff;
+  outline-offset: 2px;
+}
+@media (min-width: 1700px) {
+  .dashboard-overview {
+    grid-template-columns: minmax(255px, 0.95fr) minmax(440px, 1.9fr) 235px;
+    gap: 28px;
+  }
+}
+@media (max-width: 1200px) {
+  .dashboard-overview {
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 20px;
+  }
+  .dashboard-actions {
+    grid-column: 1 / -1;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 0;
+  }
+  .quick-action-buttons {
+    grid-template-columns: 1fr 1fr;
+  }
+  .current-mission dl {
+    gap: 10px;
+  }
+  .current-mission dl > div:last-child {
+    display: none;
+  }
+  .dashboard-overview .core-selection {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .dashboard-overview .core-system small {
+    display: none;
+  }
+  .dashboard-overview .core-system strong {
+    font-size: 8px;
+  }
+  .dashboard-support {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+@media (max-width: 950px) {
+  .dashboard-overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dashboard-mission {
+    padding-top: 5px;
+  }
+  .dashboard-mission h1 br {
+    display: none;
+  }
+  .dashboard-mission h1 {
+    font-size: 29px;
+  }
+  .mission-start .start-here {
+    width: auto;
+    min-width: 200px;
+  }
+  .mission-start {
+    margin-top: 19px;
+  }
+  .dashboard-overview > .sonic-core {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .dashboard-actions {
+    grid-row: 3;
+  }
+  .dashboard-overview .core-system small {
+    display: block;
+  }
+  .dashboard-overview .core-system strong {
+    font-size: 10px;
+  }
+  .mission-overall {
+    margin-top: 20px;
+  }
+  .dashboard-support {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .dashboard-overview {
+    gap: 20px;
+  }
+  .dashboard-overview .core-globe {
+    width: 150%;
+    margin-left: -25%;
+  }
+  .dashboard-overview .core-system {
+    width: 100%;
+  }
+  .dashboard-overview .core-system strong {
+    font-size: 9px;
+  }
+  .dashboard-actions {
+    grid-template-columns: 1fr;
+  }
+  .current-mission dl > div:last-child {
+    display: block;
+  }
+  .mission-start {
+    align-items: flex-start;
+  }
+  .mission-start .start-here {
+    width: 100%;
+  }
+  .dashboard-learning-path {
+    padding: 17px 14px;
+  }
+  .dashboard-learning-path > header {
+    gap: 12px;
+  }
+  .dashboard-learning-path > header > span {
+    margin-left: 0;
+    font-size: 10px;
+  }
+  .stage-rail-controls {
+    margin-left: auto;
+  }
+  .stage-progress-rail {
+    grid-auto-columns: 230px;
+  }
+  .dashboard-learning-path > footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  .dashboard-overview .core-selection p {
+    font-size: 12px;
+  }
+  .dashboard-panel {
+    padding: 17px;
+  }
+  .lab-task-name {
+    font-size: 11px;
+  }
+  .lab-task-status {
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage-progress-rail {
+    scroll-behavior: auto;
+  }
+}
+
+/* Color-balance refinement. No geometry, typography sizing or layout changes. */
+.dashboard-mission h1,
+.dashboard-learning-path h2,
+.dashboard-panel h2,
+.dashboard-overview .core-header h2 {
+  color: #f5f7fb;
+}
+.mission-lead {
+  color: #eef2f7;
+}
+.mission-description {
+  color: #b4c0cd;
+}
+.mission-next-lesson > strong {
+  color: #f0f4f9;
+}
+.mission-overall strong,
+.mission-overall p > b {
+  color: #ffffff;
+}
+.mission-overall p {
+  color: #bdc9d5;
+}
+.current-mission dl > div:first-child dd,
+.current-mission dd {
+  color: #eef3f8;
+}
+.quick-action-buttons button {
+  color: #f1f5fa;
+}
+.quick-action-buttons button > svg {
+  color: #6fdfff;
+}
+.stage-progress-card > strong,
+.stage-progress-card .stage-card-progress b,
+.stage-progress-card.state-completed .stage-card-progress b {
+  color: #f4f7fc;
+}
+.stage-card-description {
+  color: #a8b8c8;
+}
+.stage-card-number {
+  color: #e9eff5;
+}
+.stage-progress-card.is-current .stage-card-number,
+.stage-progress-card.state-in-progress .stage-card-number {
+  color: #ffffff;
+}
+.stage-progress-card.state-completed .stage-card-number {
+  color: #f3fff9;
+}
+.stage-progress-card:is(
+    [data-stage-id='central'],
+    [data-stage-id='agent'],
+    [data-stage-id='fault'],
+    [data-stage-id='recover']
+  )
+  .stage-card-number {
+  border-color: #ff637275;
+  background: #3c1b295c;
+  color: #fff1f3;
+}
+.stage-progress-card:is(
+    [data-stage-id='central'],
+    [data-stage-id='agent'],
+    [data-stage-id='fault'],
+    [data-stage-id='recover']
+  )
+  .stage-planned-label
+  > svg {
+  color: #ff7886;
+}
+.stage-progress-card:is([data-stage-id='fault'], [data-stage-id='recover']) {
+  border-top-color: #ff637275;
+}
+.lab-task-name {
+  color: #edf2f7;
+}
+.lab-tasks .state-planned .lab-task-name > svg {
+  color: #b47681;
+}
+.architecture-reference summary {
+  color: #f2f6fb;
+}
+.mission-boundary {
+  color: #c4abb2;
+}

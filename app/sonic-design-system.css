@@ -1,0 +1,360 @@
+/* Locked SONIC palette. Layout remains in the existing component stylesheets. */
+.sonic-walkthrough > ol {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 24px;
+}
+.sonic-walkthrough > ol > li {
+  padding: 20px;
+  border: 1px solid #aeb4c329;
+  border-radius: 8px;
+  background: #111318;
+  min-width: 0;
+}
+.sonic-walkthrough header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sonic-walkthrough header > span {
+  color: #e68c96;
+  font:
+    12px var(--font-geist-mono),
+    monospace;
+}
+.sonic-walkthrough h4 {
+  color: #f2f3f5;
+  font-size: 17px;
+  line-height: 1.5;
+}
+.sonic-lesson .walkthrough-location {
+  color: #82dff0;
+  font-size: 12px;
+  margin: 12px 0;
+}
+.sonic-walkthrough > ol > li > ol {
+  list-style: decimal;
+  padding-left: 22px;
+  color: #d4d6dc;
+}
+.sonic-walkthrough > ol > li > ol > li {
+  margin: 12px 0;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
+}
+.walkthrough-check {
+  border-left: 2px solid #64cfe780;
+  padding: 12px 15px;
+  margin-top: 18px;
+}
+.walkthrough-check strong {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #f2f3f5;
+}
+@media (max-width: 640px) {
+  .sonic-walkthrough > ol > li {
+    padding: 13px;
+  }
+}
+:root {
+  --sonic-graphite: #101114;
+  --sonic-silver: #bfc2ca;
+  --sonic-red: #ca4c59;
+  --sonic-error: #ff5366;
+  --background: #08090b;
+  --foreground: #f2f3f5;
+  --card: #121317;
+  --surface: #121317dd;
+  --surface-raised: #1a1c21ee;
+  --edge: #aeb4c329;
+  --border: #35383f;
+  --muted-foreground: #b1b5be;
+  --ink-soft: #c8cbd2;
+  --ink-muted: #a3a8b3;
+  --sidebar: #0c0d10;
+  --danger: var(--sonic-error);
+}
+body {
+  background:
+    radial-gradient(ellipse at 70% 0, #29252b40, transparent 48%), #08090b;
+}
+body::before {
+  background-image:
+    linear-gradient(#ffffff03 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff03 1px, transparent 1px);
+}
+[data-slot='sidebar-inner'] {
+  background: linear-gradient(180deg, #111216f5, #090a0cfa);
+}
+.topbar {
+  background: #0c0d10e8;
+  color: var(--sonic-silver);
+}
+.brand .brand-icon,
+.edition > span {
+  color: var(--sonic-red);
+}
+.edition > span,
+.nav-item.selected .nav-dot {
+  background: var(--sonic-red);
+}
+.nav-item,
+.brand div span,
+.nav-label,
+.edition,
+.version {
+  color: var(--sonic-silver);
+}
+.nav-item.selected {
+  color: #f4f5f7;
+  border-left-color: var(--sonic-red);
+}
+.avatar {
+  background: #24272e;
+  color: #f4f5f7;
+}
+.sonic-readout,
+.sidebar-tip .sonic-readout {
+  background: #17191e88;
+  border-color: var(--edge);
+  border-left-color: #60cce099;
+}
+.sonic-readout-copy {
+  color: #ced1d8;
+}
+.sonic-readout h3,
+.lesson-content .sonic-readout h3 {
+  color: #e6ecf0;
+}
+.sonic-readout--check {
+  color: #65d6ee;
+}
+.sonic-readout--verify {
+  color: var(--success);
+  border-left-color: var(--success);
+  background: #13231b66;
+}
+.sonic-readout--verify h3,
+.lesson-content .sonic-readout--verify h3 {
+  color: var(--success);
+}
+.sonic-readout--warning {
+  color: var(--warning);
+  border-left-color: var(--warning);
+}
+.sonic-readout--warning h3 {
+  color: var(--warning);
+}
+.console-architecture,
+.console-network {
+  background: #0c0e1188;
+}
+.console-node {
+  background: linear-gradient(110deg, #24262c99, #111317aa);
+  border-color: var(--edge);
+}
+.console-node div > span,
+.console-architecture p {
+  color: var(--sonic-silver);
+}
+.sonic-training-dashboard {
+  --panel-edge: #aeb4c330;
+}
+.sonic-training-dashboard .dashboard-panel,
+.sonic-training-dashboard .dashboard-learning-path,
+.sonic-training-dashboard .stage-progress-card {
+  background: linear-gradient(140deg, #191a1fe0, #0d0e11e8);
+  border-color: var(--edge);
+}
+.sonic-training-dashboard .stage-progress-card.is-current {
+  border-color: #57cbe27a;
+  border-top-color: var(--sonic-red);
+}
+.sonic-training-dashboard .stage-progress-card.state-completed {
+  border-color: #6de2af66;
+}
+.sonic-training-dashboard .stage-card-number {
+  color: #d4d6dc;
+  background: #25272d;
+}
+.sonic-training-dashboard .is-current .stage-card-number {
+  color: #f0f1f4;
+  border-color: var(--sonic-red);
+}
+.sonic-training-dashboard .state-completed .stage-card-number {
+  color: var(--success);
+}
+.sonic-training-dashboard .dashboard-mission > .eyebrow,
+.sonic-training-dashboard .core-header > div > span {
+  color: #db7883;
+}
+.sonic-training-dashboard .mission-description,
+.sonic-training-dashboard .mission-lead,
+.sonic-training-dashboard .stage-card-description,
+.sonic-training-dashboard .current-mission dt,
+.sonic-training-dashboard .mission-boundary,
+.sonic-training-dashboard .mission-overall small {
+  color: var(--sonic-silver);
+}
+.sonic-training-dashboard .mission-next-lesson {
+  border-left-color: var(--sonic-red);
+}
+.sonic-training-dashboard .quick-action-buttons button {
+  background: #171a20;
+  color: #f0f2f5;
+  border-color: #565b6555;
+}
+.sonic-training-dashboard .quick-action-buttons svg {
+  color: #64cfe7;
+}
+.course-time,
+.lesson-timing,
+.stage-time {
+  color: var(--sonic-silver);
+  font-size: 11px;
+  line-height: 1.8;
+}
+.course-time {
+  margin-top: 15px;
+}
+.course-time strong {
+  color: #f3f4f6;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.stage-time {
+  display: block;
+  margin-top: 8px;
+}
+.sonic-training-dashboard .core-system {
+  background: #111318e3;
+}
+.sonic-training-dashboard .core-system small,
+.sonic-training-dashboard .core-legend {
+  color: var(--sonic-silver);
+}
+.sonic-training-dashboard .core-selection {
+  background: #181a1faa;
+  border-color: var(--edge);
+  border-left-color: var(--sonic-red);
+}
+.sonic-training-dashboard .core-system[aria-pressed='true'] {
+  background: #23262ce8;
+}
+.sonic-training-dashboard .core-system--wazuh {
+  border-color: #ca4c5999;
+  background: #27151a99;
+}
+.sonic-training-dashboard .core-submark {
+  fill: #c4c7ce;
+}
+.sonic-training-dashboard .core-coordinates {
+  fill: #a3a8b1;
+}
+.sonic-training-dashboard .core-points {
+  filter: drop-shadow(0 0 4px #ca4c5944);
+}
+.sonic-training-dashboard .core-points > g:nth-child(3) {
+  fill: #ee6977;
+}
+.sonic-training-dashboard .core-points > g:nth-child(3) circle:last-child {
+  stroke: #ee6977;
+}
+.sonic-training-dashboard .core-leaders path {
+  stroke: #7a7e87;
+}
+.sonic-training-dashboard .core-leaders path.selected {
+  stroke: #69d0e6;
+}
+.sonic-lesson .lesson-content {
+  background: linear-gradient(155deg, #181a1ee8, #111216ed);
+}
+.sonic-lesson .lesson-index {
+  background: #101216b3;
+}
+.sonic-lesson .lesson-content p,
+.sonic-lesson .explanation li {
+  color: #d4d6dc;
+}
+.sonic-lesson .scenario,
+.sonic-lesson .concept-grid > section,
+.sonic-lesson .planned-change,
+.sonic-lesson .vsphere-callout,
+.sonic-lesson .your-turn,
+.sonic-lesson .sonic-breakdown,
+.sonic-lesson .explanation {
+  background: #15171ca8;
+  border-color: var(--edge);
+}
+.sonic-lesson .concept-grid h3,
+.sonic-lesson .planned-change h3,
+.sonic-lesson .vsphere-callout h3,
+.sonic-lesson .your-turn h3 {
+  color: #eef0f3;
+}
+.sonic-lesson .sonic-terminal {
+  background: #090b0e;
+}
+.sonic-lesson .sonic-terminal header,
+.sonic-lesson .terminal-output {
+  background: #1a1d23;
+}
+.sonic-lesson .sonic-terminal pre,
+.sonic-lesson .sonic-terminal header strong {
+  color: #f1f3f6;
+}
+.sonic-lesson .sonic-click-path li {
+  background: linear-gradient(115deg, #24262c99, #15171daa);
+  border-color: var(--edge);
+}
+.sonic-lesson .click-step-number {
+  background: #29232a;
+  color: #e68c96;
+  border-color: #ca4c5977;
+}
+.sonic-lesson .click-target {
+  color: #82dff0;
+}
+.sonic-lesson .rollback-checkpoint {
+  border-left: 2px solid var(--sonic-red);
+}
+.sonic-lesson .rollback-checkpoint summary {
+  color: #edbcc2;
+}
+.sonic-lesson .explanation:has(.troubleshooting-steps) {
+  border-left-color: var(--warning);
+}
+.lesson-context {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  padding: 18px 20px;
+  margin-bottom: 24px;
+  border: 1px solid var(--edge);
+  border-top: 2px solid #ca4c5988;
+  border-radius: 8px;
+  background: #15171baa;
+}
+.lesson-context dt {
+  font:
+    9px var(--font-geist-mono),
+    monospace;
+  color: #aeb3bd;
+  letter-spacing: 0.09em;
+  margin-bottom: 6px;
+}
+.lesson-context dd {
+  font-size: 12px;
+  color: #f0f1f4;
+  line-height: 1.7;
+}
+.context-objective {
+  grid-column: 1 / -1;
+}
+@media (max-width: 700px) {
+  .lesson-context {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

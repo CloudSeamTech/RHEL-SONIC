@@ -1,0 +1,522 @@
+/* Dashboard centerpiece only. Existing lesson and console styles are unchanged. */
+.sonic-dashboard .sonic-core-center {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 245px;
+  gap: 24px;
+  padding: 22px;
+  background:
+    radial-gradient(ellipse at 40% 38%, #07304455, transparent 58%),
+    linear-gradient(140deg, #061421e8, #030c15eb);
+}
+.sonic-core {
+  min-width: 0;
+  grid-column: 1;
+  grid-row: 1;
+}
+.core-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 6px 0;
+}
+.core-header > div > span {
+  color: #62dbff;
+  font:
+    9px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  letter-spacing: 0.18em;
+}
+.sonic-core .core-header h2 {
+  color: #c9e7f6;
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  margin: 7px 0 0;
+}
+.core-header > button {
+  color: #8cbbcf;
+  font-size: 10px;
+  border: 1px solid #28556e66;
+  border-radius: 4px;
+  padding: 7px 9px;
+  min-height: 34px;
+}
+.core-header > button:hover {
+  border-color: #35d9ff88;
+  background: #103449;
+}
+.core-map {
+  position: relative;
+  width: 100%;
+  margin: 14px auto 0;
+}
+.core-globe {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.core-wordmark {
+  font:
+    27px var(--font-geist-sans),
+    'Segoe UI',
+    sans-serif;
+  letter-spacing: 13px;
+  fill: #f3fbff;
+  transform: translateX(6px);
+}
+.core-submark {
+  font:
+    7px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  letter-spacing: 2.1px;
+  fill: #4db8d4;
+}
+.core-coordinates {
+  font:
+    7px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  letter-spacing: 1.5px;
+  fill: #5c92aa;
+}
+.core-ring {
+  transform-origin: 450px 285px;
+  animation: core-orbit 100s linear infinite;
+}
+.core-scan {
+  animation: core-scan 12s ease-in-out infinite;
+}
+.core-network-paths {
+  stroke-dasharray: 5 3;
+  animation: core-packets 30s linear infinite;
+  opacity: 0.58;
+}
+.core-points {
+  filter: drop-shadow(0 0 4px #00c8ff88);
+}
+.core-leaders path {
+  stroke: #237fa0;
+  stroke-width: 0.6;
+  opacity: 0.65;
+}
+.core-leaders path.selected {
+  stroke: #72eaff;
+  stroke-width: 1.2;
+  opacity: 1;
+}
+.core-system {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 23%;
+  min-height: 44px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  padding: 7px 5px;
+  background: #061421c9;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.core-system > span:last-child {
+  min-width: 0;
+}
+.core-system strong {
+  display: block;
+  font:
+    10px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  letter-spacing: 0.07em;
+  color: #f0f6fc;
+}
+.core-system small {
+  display: block;
+  font-size: 9px;
+  color: #7fadc4;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+.core-system:hover,
+.core-system[aria-pressed='true'] {
+  border-color: #35d9ff55;
+  background: #0b2a3ce8;
+  box-shadow: 0 0 15px #00c8ff0c;
+}
+.core-system[aria-pressed='true'] strong {
+  color: #b3f1ff;
+}
+.core-node-light {
+  display: block;
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  background: #35d9ff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #35d9ff50;
+}
+.core-node-light--planned {
+  background: transparent;
+  border: 1px solid #e48791;
+  box-shadow: none;
+}
+.core-selection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid #2a617a55;
+  border-left: 2px solid #35d9ff70;
+  background: #0a213266;
+  padding: 14px 16px;
+  border-radius: 4px;
+  min-height: 104px;
+}
+.core-selection-label {
+  color: #91e7ff;
+  font:
+    10px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  letter-spacing: 0.07em;
+}
+.core-selection-label > span {
+  color: #799fb5;
+  font-size: 9px;
+}
+.sonic-core .core-selection p {
+  color: #9cbed3;
+  font-size: 12px;
+  line-height: 1.7;
+  max-width: none;
+  margin: 7px 0 0;
+}
+.core-selection > button {
+  flex-shrink: 0;
+  color: #76defb;
+  font-size: 11px;
+  min-height: 38px;
+  border-bottom: 1px solid #35d9ff33;
+  white-space: nowrap;
+}
+.core-selection > button:hover {
+  color: #cef6ff;
+  border-color: #78e7ff;
+}
+.core-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 2px 0;
+  color: #7da5ba;
+  font-size: 9px;
+  line-height: 1.7;
+}
+.core-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.core-legend i {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #35d9ff;
+}
+.core-legend > span:nth-child(2) i {
+  background: transparent;
+  border: 1px solid #e48791;
+}
+.core-legend > span:last-child {
+  margin-left: auto;
+  color: #7695a9;
+  font:
+    8px var(--font-geist-mono),
+    Consolas,
+    monospace;
+  letter-spacing: 0.04em;
+}
+.sonic-core-center > .console-architecture {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: center;
+  padding: 14px;
+}
+.sonic-core-center > .console-architecture .console-node {
+  padding: 12px 9px;
+  gap: 9px;
+}
+.sonic-core-center > .console-architecture .console-network {
+  padding: 9px;
+}
+.sonic-core-center > .console-architecture .console-network-label > span {
+  display: none;
+}
+.sonic-core-center > .console-architecture .node-index {
+  display: none;
+}
+.sonic-core-center > .console-architecture .console-link {
+  font-size: 7px;
+  padding-left: 10px;
+}
+.sonic-core-center > .continue-copy {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  border-top: 1px solid #2a4e6455;
+  padding: 22px 5px 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 28px;
+  align-items: center;
+}
+.sonic-core-center > .continue-copy > .chip {
+  grid-column: 1;
+  font-size: 9px;
+}
+.sonic-core-center > .continue-copy > h2 {
+  grid-column: 1;
+  font-size: 24px;
+  line-height: 1.4;
+  margin: 10px 0;
+}
+.sonic-core-center > .continue-copy > h2 br {
+  display: none;
+}
+.sonic-core-center > .continue-copy > p {
+  grid-column: 1;
+  font-size: 12px;
+  max-width: 72ch;
+}
+.sonic-core-center > .continue-copy > .mission-sequence {
+  grid-column: 1;
+  margin-top: 10px;
+}
+.sonic-core-center > .continue-copy > .primary {
+  grid-column: 2;
+  grid-row: 1 / 4;
+  margin-top: 0;
+  align-self: center;
+}
+.sonic-core-center > .continue-copy > .hero-meta {
+  grid-column: 2;
+  grid-row: 4;
+  margin-top: 0;
+  font-size: 9px;
+  max-width: 235px;
+}
+.core-paused .core-ring,
+.core-paused .core-scan,
+.core-paused .core-network-paths {
+  animation-play-state: paused;
+}
+@keyframes core-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes core-scan {
+  0%,
+  100% {
+    transform: translateY(-45px);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  75% {
+    opacity: 0.7;
+  }
+  90% {
+    transform: translateY(280px);
+    opacity: 0;
+  }
+}
+@keyframes core-packets {
+  to {
+    stroke-dashoffset: -160;
+  }
+}
+@media (min-width: 1600px) {
+  .sonic-dashboard .sonic-core-center {
+    grid-template-columns: minmax(0, 1fr) 285px;
+    gap: 28px;
+    padding: 26px;
+  }
+}
+@media (max-width: 1200px) {
+  .sonic-dashboard .sonic-core-center {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 22px;
+  }
+  .sonic-core-center > .console-architecture {
+    grid-row: 2;
+    grid-column: 1;
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: 30px;
+  }
+  .sonic-core-center > .console-architecture figcaption {
+    grid-column: 1 / -1;
+  }
+  .sonic-core-center > .console-architecture > .console-link {
+    display: none;
+  }
+  .sonic-core-center > .console-architecture > p {
+    grid-column: 1 / -1;
+  }
+  .sonic-core-center > .continue-copy {
+    grid-row: 3;
+  }
+}
+@media (max-width: 640px) {
+  .sonic-dashboard .sonic-core-center {
+    padding: 16px 12px;
+    gap: 18px;
+  }
+  .core-header {
+    padding: 3px 4px;
+  }
+  .sonic-core .core-header h2 {
+    font-size: 17px;
+  }
+  .core-header > button > span {
+    display: none;
+  }
+  .core-map {
+    margin-top: 10px;
+  }
+  .core-globe {
+    width: 150%;
+    max-width: none;
+    margin-left: -25%;
+  }
+  .core-map {
+    overflow: hidden;
+  }
+  .core-leaders,
+  .core-coordinates {
+    display: none;
+  }
+  .core-system-nodes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin: -9px 3px 16px;
+    position: relative;
+  }
+  .core-system {
+    position: static;
+    transform: none;
+    width: 100%;
+    border-color: #24506a70;
+    justify-content: flex-start;
+    padding: 10px;
+    min-height: 54px;
+  }
+  .core-system strong {
+    font-size: 9px;
+  }
+  .core-system small {
+    font-size: 9px;
+  }
+  .core-system--compliance {
+    grid-column: 1 / -1;
+  }
+  .core-selection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 13px;
+  }
+  .core-selection > button {
+    min-height: 40px;
+  }
+  .core-legend {
+    padding: 10px 4px 0;
+  }
+  .core-legend > span:last-child {
+    margin-left: 0;
+    flex-basis: 100%;
+    line-height: 1.6;
+  }
+  .sonic-core-center > .console-architecture {
+    display: block;
+    padding: 14px;
+  }
+  .sonic-core-center > .console-architecture > .console-link {
+    display: block;
+  }
+  .sonic-core-center > .continue-copy {
+    display: block;
+    padding-top: 20px;
+  }
+  .sonic-core-center > .continue-copy > h2 {
+    font-size: 23px;
+  }
+  .sonic-core-center > .continue-copy > .primary {
+    margin-top: 18px;
+  }
+  .sonic-core-center > .continue-copy > .hero-meta {
+    margin-top: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .core-ring,
+  .core-scan,
+  .core-network-paths {
+    animation: none;
+  }
+  .core-scan {
+    display: none;
+  }
+}
+
+/* White carries information; cyan carries connectivity; red marks select
+   infrastructure details. These accents do not represent detected failures. */
+.sonic-core .core-header h2 {
+  color: #f3f7fc;
+}
+.core-tactical-ring {
+  opacity: 0.9;
+}
+.core-network-paths .core-tactical-route {
+  stroke: #ff6372;
+  stroke-width: 1.25;
+  stroke-dasharray: none;
+}
+.core-points > g:nth-child(2) {
+  fill: #ff6b77;
+}
+.core-points > g:nth-child(2) circle:last-child {
+  stroke: #ff6372;
+}
+.core-system[aria-pressed='true'] strong {
+  color: #ffffff;
+}
+.core-system--wazuh {
+  border-color: #ff58695c;
+  background: #24121d66;
+}
+.core-system--wazuh .core-node-light {
+  border-color: #ff6472;
+  background: #ff5869;
+}
+.core-system--wazuh[aria-pressed='true'] {
+  border-color: #ff6876b3;
+  background: #35182399;
+}
+.core-selection-label {
+  color: #f2f7fc;
+}
+.sonic-core .core-selection p {
+  color: #c1cfdb;
+}
