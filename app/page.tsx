@@ -1,5 +1,6 @@
 'use client';
 import { SessionGuide } from './session-guide';
+import { beginnerTerms } from './beginner-language';
 import { formatMinutes, lessonTimings, timingFor } from './course-timing';
 import { Fragment, useEffect, useState, useSyncExternalStore } from 'react';
 import type { ProgressState } from '@/lib/progress-model';
@@ -681,10 +682,12 @@ export default function Home() {
                     <SonicCallout kind="note">{lesson.change}</SonicCallout>
                   )}
                   {lesson.vsphere && (
-                    <aside className="vsphere-callout">
-                      <h3>At Work in vSphere</h3>
+                    <details className="vsphere-callout">
+                      <summary>
+                        Optional: how this compares with vSphere at work
+                      </summary>
                       <p>{lesson.vsphere}</p>
-                    </aside>
+                    </details>
                   )}
                   <div className="concept-grid">
                     <section>
@@ -700,6 +703,23 @@ export default function Home() {
                     <h3>What we are about to change</h3>
                     <p>{lesson.change}</p>
                   </section>
+                  <details
+                    className="explanation"
+                    key={'words' + lesson.id}
+                    open
+                  >
+                    <summary>Words used in this lesson</summary>
+                    <dl>
+                      {beginnerTerms(lesson).map(({ term, meaning }) => (
+                        <Fragment key={term}>
+                          <dt>
+                            <strong>{term}</strong>
+                          </dt>
+                          <dd>{meaning}</dd>
+                        </Fragment>
+                      ))}
+                    </dl>
+                  </details>
                   {lesson.visual === 'keys' && <KeyDiagram key={lesson.id} />}
                   {lesson.visual === 'architecture' && <ArchitectureDiagram />}
                   {lesson.visual === 'protocols' && <ProtocolDiagram />}

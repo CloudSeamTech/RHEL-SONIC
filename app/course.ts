@@ -4,6 +4,8 @@ import { lessonTime } from './course-timing.ts';
 import { labLessons } from './lab-lessons.ts';
 import { lessonOrder } from './course-roadmap.ts';
 import { nsgWalkthrough } from './nsg-walkthrough.ts';
+import { beginnerIntroduction } from './beginner-language.ts';
+import { beginnerWalkthrough } from './beginner-walkthroughs.ts';
 export { modules, primaryFlow } from './course-roadmap.ts';
 export type Lesson = {
   walkthrough?: WalkthroughStep[];
@@ -988,7 +990,7 @@ const byId = new Map(
 export const lessons: Lesson[] = lessonOrder.map((id) => {
   const lesson = byId.get(id);
   if (!lesson) throw new Error(`Missing curriculum task: ${id}`);
-  return lesson;
+  return beginnerWalkthrough(beginnerIntroduction(lesson));
 });
 export const retainedMilestone2Ids = foundationLessons.map(
   (lesson) => lesson.id,

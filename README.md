@@ -2,13 +2,15 @@
 
 ## Current SONIC design lock
 
+All 40 available lessons now include ordered walkthroughs, plain-language introductions and a contextual glossary. Each command names its computer/app and gives a result to check. Key generation, SCP and SFTP have separate decision checkpoints. The approved dashboard layout is unchanged. The broader AD/DNS/realm and client-workstation expansion remains planned; see COURSE-DELIVERY-PLAN.md.
+
 The ten Wazuh lessons now use ordered beginner walkthroughs from `app/wazuh-walkthroughs.ts`: named machine/application/account, exact clicks or commands, option explanations, expected outcomes, explicit branch/wait checkpoints and evidence capture. They replace the former bulk command/procedure presentation for those lessons. The dashboard layout and completion IDs are unchanged. The walkthrough standard is the baseline for future lesson work; do not substitute “follow the documentation” for the actual steps of the main lab path. Environment-specific trust/authorization decisions remain explicit stop conditions.
 
 The dashboard retains its approved layout with a graphite, silver, tactical-red and limited-cyan palette. The globe uses silver geography, red instrumentation and selected cyan connectivity. The VNet lesson (`network-plan-v2`) is the representative calm workspace. See [SONIC-DESIGN-SYSTEM.md](SONIC-DESIGN-SYSTEM.md) for semantic color rules and scope.
 
 The 30 implemented preparation lessons total **2–3 hours hands-on** for a learner with a functioning workstation/Azure environment. Build/access: **87–130 minutes**; file delivery: **10–15 minutes**; baseline/rollback: **23–35 minutes**. Optional detailed reading is **80–150 minutes separately**; passive Azure provisioning/deallocation waits are **11–25 minutes separately**, varying with the environment. These are planning estimates, not measured completion times. All lesson, stage and remaining-work estimates use `app/course-timing.ts`. Planned stages have no invented duration.
 
-Current validation: 24 automated tests and lint pass. Dashboard browser checks cover real completion, START/CONTINUE/REVIEW, cross-tab updates and 390–1600px layouts. The design was approved; ten Wazuh deployment, validation, fault and recovery lessons are now implemented.
+Current validation: 27 automated tests and lint pass. Dashboard browser checks cover real completion, START/CONTINUE/REVIEW, cross-tab updates and 390–1600px layouts. The design was approved; ten Wazuh deployment, validation, fault and recovery lessons are now implemented.
 
 The existing Milestone 2 application is retained: dashboard, styling, terminal blocks, SSH-key visualization, named account `rexuser`, challenges, and browser progress. The first major lab is now one continuous two-system administration scenario. No advanced storage prerequisite is placed before Wazuh.
 
