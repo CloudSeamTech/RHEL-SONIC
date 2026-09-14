@@ -6,10 +6,12 @@ import { lessonOrder } from './course-roadmap.ts';
 import { nsgWalkthrough } from './nsg-walkthrough.ts';
 import { beginnerIntroduction } from './beginner-language.ts';
 import { beginnerWalkthrough } from './beginner-walkthroughs.ts';
+import { withAccessHelp } from './access-troubleshooting.ts';
 export { modules, primaryFlow } from './course-roadmap.ts';
 export type Lesson = {
   walkthrough?: WalkthroughStep[];
   workplaceWalkthrough?: WalkthroughStep[];
+  helpSections?: { title: string; steps: WalkthroughStep[] }[];
   id: string;
   phase: string;
   title: string;
@@ -48,6 +50,15 @@ export const changeMethod = [
 ];
 export const sources: Record<string, { title: string; url: string }> = {
   ...wazuhSources,
+  windowsAcl: {
+    title:
+      'Microsoft · Inspect, save and change Windows file permissions with icacls',
+    url: 'https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/icacls',
+  },
+  rhelFirewall: {
+    title: 'Red Hat · firewalld zones, sources and runtime/permanent rules',
+    url: 'https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/configuring_firewalls_and_packet_filters/using-and-configuring-firewalld_firewall-packet-filters',
+  },
   veeamPowerShell: {
     title:
       'Veeam · Backup & Replication PowerShell reference (select your version)',
@@ -990,7 +1001,7 @@ const byId = new Map(
 export const lessons: Lesson[] = lessonOrder.map((id) => {
   const lesson = byId.get(id);
   if (!lesson) throw new Error(`Missing curriculum task: ${id}`);
-  return beginnerWalkthrough(beginnerIntroduction(lesson));
+  return withAccessHelp(beginnerWalkthrough(beginnerIntroduction(lesson)));
 });
 export const retainedMilestone2Ids = foundationLessons.map(
   (lesson) => lesson.id,

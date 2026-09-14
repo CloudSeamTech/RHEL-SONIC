@@ -829,6 +829,19 @@ export default function Home() {
                         ))}
                     </>
                   )}
+                  {lesson.helpSections?.map((help) => (
+                    <details
+                      className="explanation"
+                      key={lesson.id + help.title}
+                    >
+                      <summary>{help.title}</summary>
+                      <p>
+                        Use this section only when its situation matches your
+                        problem. Read the checks before changing anything.
+                      </p>
+                      <SonicWalkthrough steps={help.steps} />
+                    </details>
+                  ))}
                   {lesson.workplaceWalkthrough && (
                     <details className="explanation" key={'workplace' + step}>
                       <summary>

@@ -10,7 +10,7 @@ The dashboard retains its approved layout with a graphite, silver, tactical-red 
 
 The 30 implemented preparation lessons total **2–3 hours hands-on** for a learner with a functioning workstation/Azure environment. Build/access: **87–130 minutes**; file delivery: **10–15 minutes**; baseline/rollback: **23–35 minutes**. Optional detailed reading is **80–150 minutes separately**; passive Azure provisioning/deallocation waits are **11–25 minutes separately**, varying with the environment. These are planning estimates, not measured completion times. All lesson, stage and remaining-work estimates use `app/course-timing.ts`. Planned stages have no invented duration.
 
-Current validation: 27 automated tests and lint pass. Dashboard browser checks cover real completion, START/CONTINUE/REVIEW, cross-tab updates and 390–1600px layouts. The design was approved; ten Wazuh deployment, validation, fault and recovery lessons are now implemented.
+Current validation: 29 automated tests and lint pass. Dashboard browser checks cover real completion, START/CONTINUE/REVIEW, cross-tab updates and 390–1600px layouts. The design was approved; ten Wazuh deployment, validation, fault and recovery lessons are now implemented.
 
 The existing Milestone 2 application is retained: dashboard, styling, terminal blocks, SSH-key visualization, named account `rexuser`, challenges, and browser progress. The first major lab is now one continuous two-system administration scenario. No advanced storage prerequisite is placed before Wazuh.
 
