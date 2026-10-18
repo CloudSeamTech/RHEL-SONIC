@@ -1,5 +1,8 @@
 .sonic-training-dashboard {
   --panel-edge: #2e58716b;
+  --dashboard-glass: linear-gradient(135deg, #17324970, #06111d8a);
+  --dashboard-glass-strong: linear-gradient(135deg, #17324996, #06111db8);
+  --dashboard-highlight: inset 0 1px #ffffff16, 0 20px 55px #0006;
 }
 .sonic-pathway-switcher {
   display: flex;
@@ -11,8 +14,10 @@
   border: 1px solid #4ddff33d;
   border-left: 3px solid #5ee7ff;
   border-radius: 12px;
-  background: linear-gradient(110deg, #10202bd9, #0b1118df);
-  box-shadow: inset 0 1px #ffffff0d, 0 14px 45px #0005;
+  background: var(--dashboard-glass);
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
+  box-shadow: var(--dashboard-highlight), 0 0 35px #35d9ff0b;
 }
 .sonic-pathway-switcher h2 {
   margin: 5px 0 7px;
@@ -33,7 +38,10 @@
   border: 1px solid #80ecff70;
   border-radius: 8px;
   color: #b9f3ff;
-  background: #14303cb8;
+  background: linear-gradient(135deg, #205266a6, #1027348c);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px #ffffff20, 0 0 24px #35d9ff12;
   text-decoration: none;
 }
 .dashboard-overview {
@@ -54,8 +62,14 @@
   }
 }
 .dashboard-mission {
-  padding: 20px 0 0;
+  padding: 22px;
   min-width: 0;
+  border: 1px solid var(--panel-edge);
+  border-radius: 14px;
+  background: var(--dashboard-glass);
+  backdrop-filter: blur(24px) saturate(130%);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  box-shadow: var(--dashboard-highlight);
 }
 .dashboard-mission > .eyebrow {
   color: #6fdef7;
@@ -186,8 +200,14 @@
 .dashboard-overview > .sonic-core {
   grid-column: 2;
   grid-row: 1;
-  padding: 16px 0 0;
+  padding: 16px;
   align-self: center;
+  border: 1px solid var(--panel-edge);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #12263859, #050b1280);
+  backdrop-filter: blur(18px) saturate(125%);
+  -webkit-backdrop-filter: blur(18px) saturate(125%);
+  box-shadow: var(--dashboard-highlight);
 }
 .dashboard-overview .core-header {
   padding: 0 8px;
@@ -221,7 +241,7 @@
   gap: 10px;
   padding: 12px;
 }
-.dashboard-overview .core-selection > button {
+.dashboard-overview .core-selection-actions > button {
   font-size: 10px;
 }
 .dashboard-overview .core-selection p {
@@ -243,11 +263,13 @@
   min-width: 0;
 }
 .dashboard-panel {
-  background: linear-gradient(130deg, #0a20308c, #05121ee0);
+  background: var(--dashboard-glass);
   border: 1px solid var(--panel-edge);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 19px;
-  box-shadow: inset 0 1px #7adefa08;
+  backdrop-filter: blur(22px) saturate(130%);
+  -webkit-backdrop-filter: blur(22px) saturate(130%);
+  box-shadow: var(--dashboard-highlight);
   min-width: 0;
 }
 .dashboard-panel h2 {
@@ -309,11 +331,14 @@
   color: #81e3fc;
 }
 .dashboard-learning-path {
-  background: #071725a6;
+  background: var(--dashboard-glass);
   border: 1px solid var(--panel-edge);
-  border-radius: 9px;
+  border-radius: 14px;
   padding: 21px;
   margin: 0 0 23px;
+  backdrop-filter: blur(24px) saturate(130%);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  box-shadow: var(--dashboard-highlight);
 }
 .dashboard-learning-path > header {
   display: flex;
@@ -367,8 +392,11 @@
   min-height: 243px;
   padding: 17px;
   border: 1px solid #2a4861;
-  border-radius: 7px;
-  background: linear-gradient(145deg, #0c2436a6, #061521);
+  border-radius: 11px;
+  background: linear-gradient(145deg, #17364b75, #06111d99);
+  backdrop-filter: blur(18px) saturate(125%);
+  -webkit-backdrop-filter: blur(18px) saturate(125%);
+  box-shadow: inset 0 1px #ffffff12, 0 15px 34px #0004;
   scroll-snap-align: start;
 }
 .stage-progress-card:hover {

@@ -9,6 +9,10 @@ const appSource = await readFile(new URL('../app/migration/migration-academy.tsx
 const terminalSource = await readFile(new URL('../app/lab-terminal/lab-terminal.tsx', import.meta.url), 'utf8');
 const existingCourse = await readFile(new URL('../app/course.ts', import.meta.url), 'utf8');
 const sourceWorkbook = await readFile(new URL('../docs/sources/SONIC_MIGRATION_WORKBOOK_FULL_SOURCE_v3.md', import.meta.url), 'utf8');
+const migrationCourseSource = await readFile(new URL('../app/migration-course.ts', import.meta.url), 'utf8');
+const migrationCss = await readFile(new URL('../app/migration/migration.css', import.meta.url), 'utf8');
+const coreSource = await readFile(new URL('../app/sonic-core.tsx', import.meta.url), 'utf8');
+const dashboardSource = await readFile(new URL('../app/sonic-dashboard.tsx', import.meta.url), 'utf8');
 
 test('all 44 approved migration workbook lessons are published once in contract order', () => {
   assert.equal(catalog.lessons.length, 44);
@@ -68,4 +72,49 @@ test('hosted terminal says copy/help and cannot construct a non-loopback compani
 test('original curriculum naming and rexuser defaults remain present', () => {
   assert.match(existingCourse, /export const adminAccount = 'rexuser'/);
   assert.match(existingCourse, /Wazuh/);
+});
+
+test('every learner task opens an implemented Windows migration project', () => {
+  const taskLessonIds = [...migrationCourseSource.matchAll(/lessonId: '([^']+)'/g)].map((match) => match[1]);
+  const lessonIds = new Set(catalog.lessons.map((lesson) => lesson.id));
+  assert.equal(taskLessonIds.length, 10);
+  for (const lessonId of taskLessonIds) {
+    assert.ok(lessonIds.has(lessonId), `${lessonId} points to a missing lesson`);
+  }
+  assert.equal((migrationCourseSource.match(/state: 'available'/g) ?? []).length, 10);
+  assert.equal((migrationCourseSource.match(/machine: '/g) ?? []).length, 10);
+});
+
+test('large migration catalog is grouped into explicit beginner stages', () => {
+  const stageIds = [...migrationCourseSource.matchAll(/^  \['([^']+)',/gm)].map((match) => match[1]);
+  assert.equal(stageIds.length, 10);
+  assert.match(migrationCourseSource, /Start Here: See the Windows Migration Lab/);
+  assert.match(migrationCourseSource, /Build the Agency Windows Domain/);
+  assert.match(migrationCourseSource, /Build SQL01/);
+  assert.match(migrationCourseSource, /Build the MECM Configuration Manager Lab/);
+});
+
+test('migration learner view provides one obvious start and exact project navigation', () => {
+  assert.match(appSource, /START HERE/);
+  assert.match(appSource, /Begin with LAB 00/);
+  assert.match(appSource, /Open the exact project you need/);
+  assert.match(appSource, /ProjectDirectory/);
+  assert.match(appSource, /Open this exact workflow/);
+  assert.match(appSource, /setModeState\('home'\)/);
+});
+
+test('globe offers a direct Windows migration entry', () => {
+  assert.match(coreSource, /migrationEntry: true/);
+  assert.match(coreSource, /Open Windows migration/);
+  assert.match(coreSource, /useState\('windows'\)/);
+  assert.match(dashboardSource, /Enter Windows migration/);
+  assert.match(dashboardSource, /onOpenMigration/);
+});
+
+test('learner panels use reusable transparent glass treatments', () => {
+  assert.match(migrationCss, /--migration-glass:/);
+  assert.match(migrationCss, /backdrop-filter: blur/);
+  assert.match(migrationCss, /\.migration-start-panel/);
+  assert.match(migrationCss, /\.migration-task-card/);
+  assert.match(migrationCss, /\.project-stage/);
 });

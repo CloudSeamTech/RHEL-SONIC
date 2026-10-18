@@ -296,11 +296,12 @@ const systems = [
   {
     id: 'windows',
     label: 'WINDOWS',
-    detail: 'Administrative workstation',
+    detail: 'Workstation + migration pathway',
     status: 'PREPARATION',
     description:
-      'Start here. Windows hosts PowerShell and OpenSSH; your private SSH key stays on this workstation.',
+      'Start here. Prepare Windows for RHEL administration, or enter the separate Windows Agency-to-Azure migration pathway with AG-DC01, APP01, DEST-DC01, SQL, MECM, and Azure.',
     lesson: 'windows-tools-v2',
+    migrationEntry: true,
     x: 17,
     y: 24,
     point: [300, 176],
@@ -381,11 +382,13 @@ const systems = [
 export function SonicCore({
   onOpenLesson,
   onOpenRoadmap,
+  onOpenMigration,
 }: {
   onOpenLesson: (id: string) => void;
   onOpenRoadmap: () => void;
+  onOpenMigration: () => void;
 }) {
-  const [selected, setSelected] = useState('azure');
+  const [selected, setSelected] = useState('windows');
   const [paused, setPaused] = useState(false);
   const uid = useId().replaceAll(':', '');
   const system = systems.find((item) => item.id === selected)!;
@@ -659,15 +662,23 @@ export function SonicCore({
           </span>
           <p>{system.description}</p>
         </div>
-        <button
-          type="button"
-          onClick={() =>
-            system.lesson ? onOpenLesson(system.lesson) : onOpenRoadmap()
-          }
-        >
-          {system.lesson ? 'Open lesson' : 'View roadmap'}
-          <ArrowRight size={14} />
-        </button>
+        <div className="core-selection-actions">
+          {'migrationEntry' in system && system.migrationEntry && (
+            <button type="button" className="core-migration-action" onClick={onOpenMigration}>
+              Open Windows migration
+              <ArrowRight size={14} />
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={() =>
+              system.lesson ? onOpenLesson(system.lesson) : onOpenRoadmap()
+            }
+          >
+            {system.lesson ? 'Open RHEL pathway lesson' : 'View roadmap'}
+            <ArrowRight size={14} />
+          </button>
+        </div>
       </div>
       <footer className="core-legend">
         <span>

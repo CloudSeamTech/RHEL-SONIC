@@ -119,9 +119,12 @@
   justify-content: center;
   text-align: left;
   padding: 7px 5px;
-  background: #061421c9;
-  border: 1px solid transparent;
-  border-radius: 4px;
+  background: linear-gradient(145deg, #17324673, #06101c8f);
+  border: 1px solid #92eaff1a;
+  border-radius: 8px;
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  box-shadow: inset 0 1px #ffffff10, 0 10px 24px #0005;
 }
 .core-system > span:last-child {
   min-width: 0;
@@ -172,7 +175,10 @@
   gap: 20px;
   border: 1px solid #2a617a55;
   border-left: 2px solid #35d9ff70;
-  background: #0a213266;
+  background: linear-gradient(130deg, #1432476e, #07111b82);
+  backdrop-filter: blur(20px) saturate(130%);
+  -webkit-backdrop-filter: blur(20px) saturate(130%);
+  box-shadow: inset 0 1px #ffffff12, 0 18px 42px #0005;
   padding: 14px 16px;
   border-radius: 4px;
   min-height: 104px;
@@ -196,17 +202,31 @@
   max-width: none;
   margin: 7px 0 0;
 }
-.core-selection > button {
+.core-selection-actions {
+  display: grid;
+  gap: 7px;
+  flex-shrink: 0;
+}
+.core-selection-actions > button {
   flex-shrink: 0;
   color: #76defb;
   font-size: 11px;
   min-height: 38px;
+  justify-content: flex-end;
   border-bottom: 1px solid #35d9ff33;
   white-space: nowrap;
 }
-.core-selection > button:hover {
+.core-selection-actions > button:hover {
   color: #cef6ff;
   border-color: #78e7ff;
+}
+.core-selection-actions > .core-migration-action {
+  padding: 0 12px;
+  border: 1px solid #78e7ff70;
+  border-radius: 7px;
+  color: #e2fbff;
+  background: linear-gradient(135deg, #1d566a9c, #1030408c);
+  box-shadow: inset 0 1px #ffffff1f, 0 0 20px #35d9ff12;
 }
 .core-legend {
   display: flex;
@@ -437,8 +457,13 @@
     gap: 5px;
     padding: 13px;
   }
-  .core-selection > button {
+  .core-selection-actions,
+  .core-selection-actions > button {
+    width: 100%;
+  }
+  .core-selection-actions > button {
     min-height: 40px;
+    justify-content: space-between;
   }
   .core-legend {
     padding: 10px 4px 0;
