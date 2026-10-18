@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+/local-companion/node_modules/
 /.pnp
 .pnp.*
 .yarn/*

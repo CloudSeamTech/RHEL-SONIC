@@ -11,7 +11,9 @@
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
     "format": "oxfmt",
-    "test": "node --experimental-strip-types --test tests/*.test.mjs"
+    "test": "node --experimental-strip-types --test tests/*.test.mjs && npm --prefix local-companion test",
+    "companion:install": "npm --prefix local-companion install",
+    "companion:start": "npm --prefix local-companion start"
   },
   "dependencies": {
     "react": "19.2.6",

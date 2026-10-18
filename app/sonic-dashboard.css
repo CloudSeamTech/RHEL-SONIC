@@ -1,12 +1,57 @@
 .sonic-training-dashboard {
   --panel-edge: #2e58716b;
 }
+.sonic-pathway-switcher {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin: 10px 0 22px;
+  padding: 18px 20px;
+  border: 1px solid #4ddff33d;
+  border-left: 3px solid #5ee7ff;
+  border-radius: 12px;
+  background: linear-gradient(110deg, #10202bd9, #0b1118df);
+  box-shadow: inset 0 1px #ffffff0d, 0 14px 45px #0005;
+}
+.sonic-pathway-switcher h2 {
+  margin: 5px 0 7px;
+  font-size: 19px;
+}
+.sonic-pathway-switcher p {
+  max-width: 760px;
+  color: #89a8bb;
+  font-size: 13px;
+}
+.sonic-pathway-switcher a {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 15px;
+  border: 1px solid #80ecff70;
+  border-radius: 8px;
+  color: #b9f3ff;
+  background: #14303cb8;
+  text-decoration: none;
+}
 .dashboard-overview {
   display: grid;
   grid-template-columns: minmax(215px, 0.9fr) minmax(380px, 1.8fr) 205px;
   gap: 22px;
   align-items: start;
   padding: 12px 0 28px;
+}
+@media (max-width: 680px) {
+  .sonic-pathway-switcher {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .sonic-pathway-switcher a {
+    width: 100%;
+    justify-content: center;
+  }
 }
 .dashboard-mission {
   padding: 20px 0 0;
