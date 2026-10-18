@@ -1,5 +1,29 @@
 # Wazuh Deployment — continuous-workflow pivot
 
+## Agency-to-Azure migration pathway and local lab terminal
+
+SONIC now has a separate `/migration` pathway generated from the approved v3
+migration workbook. Its 44 stable lesson IDs do not replace, renumber, or share
+progress with the existing 40 RHEL/Wazuh lessons. Learners can follow the
+ordered **Learn It** route or enter the same modular content through **Do the
+Job** task cards. The complete source workbook and implementation contract are
+retained under `docs/sources`, and generated catalog entries retain source-line
+mapping.
+
+The migration console also includes an opt-in three-tab LAB TERMINAL for
+Windows PowerShell, Azure CLI inside Windows PowerShell, and an actually
+installed WSL distribution. The Cloudflare-hosted app is always copy/help mode:
+it never fabricates terminal output or claims to execute workstation commands.
+Live mode requires a local SONIC page plus the separate loopback-only,
+token-authenticated Windows companion. See
+[README-LOCAL-TERMINAL.md](README-LOCAL-TERMINAL.md) and
+[SECURITY-LAB-TERMINAL.md](SECURITY-LAB-TERMINAL.md).
+
+No command runs merely because a learner opens a lesson or terminal. Azure
+state-changing commands receive an explicit target/impact/rollback confirmation
+gate. The companion does not log terminal input/output and never elevates the
+current Windows user.
+
 ## Current SONIC design lock
 
 All 40 available lessons now include ordered walkthroughs, plain-language introductions and a contextual glossary. Each command names its computer/app and gives a result to check. Key generation, SCP and SFTP have separate decision checkpoints. The approved dashboard layout is unchanged. The broader AD/DNS/realm and client-workstation expansion remains planned; see COURSE-DELIVERY-PLAN.md.
