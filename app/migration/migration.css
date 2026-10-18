@@ -260,3 +260,233 @@
 @media (prefers-reduced-motion: reduce) {
   .migration-shell *, .migration-shell *::before, .migration-shell *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
+
+/* SONIC learner palette: black glass, graphite, silver, white and red.
+   Green is reserved for verified/success states. */
+.migration-shell {
+  --migration-bg: #050506;
+  --migration-panel: rgba(18, 18, 21, 0.42);
+  --migration-edge: rgba(224, 224, 230, 0.2);
+  --migration-cyan: #d7d7dc;
+  --migration-red: #dc4657;
+  --migration-green: #65bd79;
+  --migration-amber: #b8b8bf;
+  --migration-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.085), rgba(16, 16, 19, 0.26));
+  --migration-glass-strong: linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(20, 20, 23, 0.38));
+  --migration-glass-edge: rgba(238, 238, 242, 0.22);
+  --migration-glass-shadow: inset 0 1px rgba(255, 255, 255, 0.2), inset 0 -1px rgba(255, 255, 255, 0.035), 0 24px 64px rgba(0, 0, 0, 0.56);
+  background:
+    radial-gradient(circle at 72% 12%, rgba(220, 70, 87, 0.13), transparent 29rem),
+    radial-gradient(circle at 12% 48%, rgba(255, 255, 255, 0.055), transparent 26rem),
+    linear-gradient(145deg, #030304, #0a0a0c 55%, #030304);
+}
+.migration-shell::before {
+  opacity: 0.3;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+}
+.migration-topbar {
+  background: rgba(8, 8, 10, 0.62);
+  border-color: rgba(235, 235, 240, 0.18);
+  backdrop-filter: blur(32px) saturate(110%);
+  -webkit-backdrop-filter: blur(32px) saturate(110%);
+}
+.migration-brand small,
+.migration-progress,
+.migration-topbar nav button,
+.migration-hero-copy > p,
+.migration-start-panel p,
+.mode-cards small,
+.migration-task-feature > header p,
+.task-machine,
+.migration-task-grid p,
+.migration-stage-rail > header > span,
+.migration-stage-card > span:not(.stage-number):not(.stage-meter),
+.migration-stage-card small,
+.migration-index > header p,
+.project-directory > header p,
+.project-stage summary small,
+.project-stage > p,
+.project-stage li button > small,
+.lesson-hero p,
+.stage-progress > span:not(.stage-meter),
+.migration-pane p,
+.engineer-detail,
+.terminal-placeholder p,
+.migration-footer {
+  color: #a9a9b0;
+}
+.migration-topbar nav button:hover,
+.migration-topbar nav button[aria-current='page'] {
+  color: #fff;
+  background: rgba(220, 70, 87, 0.13);
+  box-shadow: inset 0 0 0 1px rgba(220, 70, 87, 0.34), 0 0 24px rgba(220, 70, 87, 0.1);
+}
+.migration-progress i,
+.stage-meter > span {
+  background: var(--migration-red);
+  box-shadow: 0 0 10px rgba(220, 70, 87, 0.62);
+}
+.eyebrow,
+.pane-label,
+.migration-start-panel > div > span,
+.task-card-top,
+.task-open,
+.you-are-here > span,
+.lesson-pagination button small,
+.migration-footer a {
+  color: #ef6674;
+}
+.migration-hero-copy,
+.migration-start-panel,
+.mode-cards button,
+.migration-orbit,
+.orbit-node,
+.migration-task-feature > header,
+.migration-stage-rail > header,
+.migration-task-card,
+.migration-stage-card,
+.migration-index > header,
+.project-directory > header,
+.project-stage,
+.you-are-here,
+.lesson-hero,
+.stage-progress,
+.migration-pane,
+.project-rhythm > span,
+.engineer-detail,
+.lesson-pagination button,
+.terminal-placeholder,
+.migration-footer {
+  border-color: rgba(235, 235, 240, 0.22);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.09), rgba(14, 14, 17, 0.25));
+  backdrop-filter: blur(30px) saturate(108%);
+  -webkit-backdrop-filter: blur(30px) saturate(108%);
+  box-shadow: var(--migration-glass-shadow);
+}
+.migration-hero-copy,
+.lesson-hero,
+.migration-index > header {
+  box-shadow: var(--migration-glass-shadow), 0 0 70px rgba(220, 70, 87, 0.08);
+}
+.migration-hero-copy h1 span {
+  -webkit-text-stroke-color: #c9c9ce;
+  text-shadow: 0 0 34px rgba(255, 255, 255, 0.12);
+}
+.migration-start-panel {
+  border-color: rgba(238, 238, 242, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.115), rgba(18, 18, 21, 0.3));
+}
+.migration-start-panel li,
+.project-stage li button,
+.migration-index-stage button {
+  background: rgba(8, 8, 10, 0.34);
+  color: #dedee2;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.migration-start-panel li b,
+.project-rhythm b,
+.project-stage-number {
+  color: #f1f1f3;
+  border-color: rgba(230, 230, 235, 0.38);
+  background: rgba(255, 255, 255, 0.06);
+}
+.migration-primary {
+  border-color: #ef6674;
+  color: #fff;
+  background: linear-gradient(135deg, #d63f50, #8e1f2e);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.26), 0 0 30px rgba(220, 70, 87, 0.25);
+}
+.migration-orbit {
+  border-color: rgba(225, 225, 230, 0.24);
+  background: radial-gradient(circle, rgba(220, 70, 87, 0.2) 0 12%, rgba(255, 255, 255, 0.07) 13% 40%, rgba(24, 24, 27, 0.2) 41% 61%, rgba(8, 8, 10, 0.18) 62%);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.18), inset 0 0 80px rgba(255, 255, 255, 0.04), 0 30px 100px rgba(0, 0, 0, 0.64);
+}
+.migration-orbit::before { border-color: rgba(225, 225, 230, 0.25); }
+.migration-orbit::after { border-color: rgba(220, 70, 87, 0.42); }
+.orbit-core { text-shadow: 0 0 16px rgba(220, 70, 87, 0.55); }
+.orbit-node.identity,
+.orbit-node.data { color: #d5d5da; }
+.orbit-node.recovery { color: var(--migration-green); }
+.migration-task-card:hover,
+.migration-stage-card:hover,
+.project-stage li button:hover,
+.migration-index-stage button:hover {
+  border-color: rgba(239, 102, 116, 0.55);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(40, 14, 19, 0.34));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.2), 0 24px 64px rgba(0, 0, 0, 0.58), 0 0 30px rgba(220, 70, 87, 0.1);
+}
+.migration-stage-card .stage-number,
+.project-stage li button > span,
+.migration-index-stage button span,
+.stage-progress strong,
+.project-rhythm b {
+  color: #dcdce0;
+}
+.project-stage[open] > summary {
+  background: rgba(220, 70, 87, 0.08);
+}
+.you-are-here a,
+.you-are-here button {
+  color: #bebec4;
+}
+.pane-mission {
+  border-left-color: var(--migration-red);
+  background: linear-gradient(120deg, rgba(111, 22, 35, 0.28), rgba(18, 18, 21, 0.28));
+}
+.pane-mission .pane-label,
+.pane-danger .pane-label { color: #f0717e; }
+.pane-action { border-left-color: #c9c9ce; }
+.pane-warning { border-left-color: #a9a9af; }
+.pane-warning .pane-label { color: #d2d2d6; }
+.pane-good { border-left-color: var(--migration-green); }
+.pane-good .pane-label { color: var(--migration-green); }
+.lesson-content code,
+.engineer-detail code {
+  background: rgba(220, 70, 87, 0.11);
+  color: #f1f1f3;
+}
+.action-list li { color: #dedee2; }
+.action-list li > span {
+  border-color: rgba(225, 225, 230, 0.35);
+  color: #eeeef1;
+}
+.migration-command {
+  border-color: rgba(239, 102, 116, 0.34);
+  background: rgba(2, 2, 3, 0.78);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.06), 0 0 30px rgba(220, 70, 87, 0.07);
+}
+.migration-command header {
+  border-color: rgba(239, 102, 116, 0.22);
+  background: rgba(28, 28, 31, 0.72);
+  color: #ececef;
+}
+.migration-command header button {
+  background: rgba(255, 255, 255, 0.06);
+  color: #c8c8cd;
+}
+.migration-command pre { color: #f4f4f5; }
+.migration-command p { color: #99999f; }
+.migration-table-wrap { border-color: rgba(235, 235, 240, 0.2); }
+.migration-table-wrap table { background: rgba(12, 12, 14, 0.75); }
+.migration-table-wrap th {
+  color: #f0f0f2;
+  background: rgba(220, 70, 87, 0.12);
+}
+.migration-table-wrap td { color: #c9c9cd; }
+.lesson-complete {
+  border-color: rgba(101, 189, 121, 0.42);
+  background: linear-gradient(135deg, rgba(43, 103, 58, 0.25), rgba(8, 12, 9, 0.28));
+}
+.lesson-complete button {
+  border-color: rgba(101, 189, 121, 0.45);
+  background: rgba(34, 84, 47, 0.32);
+  color: #a9ddb4;
+}
+.lesson-complete button.is-complete { background: var(--migration-green); color: #071008; }
+.storage-notice {
+  background: rgba(80, 15, 25, 0.88);
+  color: #fff;
+  border-color: rgba(239, 102, 116, 0.55);
+}

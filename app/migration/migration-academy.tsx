@@ -1,7 +1,7 @@
 'use client';
+/* oxlint-disable next/no-html-link-for-pages -- Vinext's client router currently crashes on these cross-page transitions; native navigation is intentional. */
 
 import { Fragment, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
 import {
   ArrowLeft,
   ArrowRight,
@@ -278,7 +278,7 @@ function LessonView({ lesson, completed, toggle, openLesson }: { lesson: Migrati
   const previous = migrationLessons[globalIndex - 1];
   return (
     <article className="migration-lesson">
-      <nav className="you-are-here" aria-label="You are here"><span>YOU ARE HERE</span><Link href="/">SONIC</Link><ChevronRight size={13} /><Link href="/migration">Windows Migration</Link><ChevronRight size={13} /><button onClick={() => openLesson(stage.lessonIds[0])}>{stage.title}</button><ChevronRight size={13} /><b>{lesson.code}</b></nav>
+      <nav className="you-are-here" aria-label="You are here"><span>YOU ARE HERE</span><a href="/">SONIC</a><ChevronRight size={13} /><a href="/migration">Windows Migration</a><ChevronRight size={13} /><button onClick={() => openLesson(stage.lessonIds[0])}>{stage.title}</button><ChevronRight size={13} /><b>{lesson.code}</b></nav>
       <header className="lesson-hero">
         <div><span className="eyebrow">{stage.title.toUpperCase()} · {stageIndex + 1} OF {stage.lessonIds.length}</span><h1>{lesson.title}</h1><p><b>Named workspace:</b> {lesson.surface}</p></div>
         <div className="stage-progress"><strong>{stageCompleted} / {stage.lessonIds.length}</strong><span>stage projects verified</span><span className="stage-meter"><span style={{ width: `${Math.round((stageCompleted / stage.lessonIds.length) * 100)}%` }} /></span></div>
@@ -349,7 +349,7 @@ export function MigrationAcademy() {
 
   return (
     <div className="migration-shell">
-      <header className="migration-topbar"><Link href="/" className="migration-brand"><span>SONIC</span><small>WINDOWS AGENCY-TO-AZURE MIGRATION</small></Link><nav><button aria-current={mode === 'home' ? 'page' : undefined} onClick={() => setMode('home')}>Start Here</button><button aria-current={mode === 'learn' ? 'page' : undefined} onClick={() => setMode('learn')}>All Projects</button><button aria-current={mode === 'job' ? 'page' : undefined} onClick={() => setMode('job')}>Exact Jobs</button><button aria-current={mode === 'terminal' ? 'page' : undefined} onClick={() => setMode('terminal')}><TerminalSquare size={15} /> Lab Terminal</button></nav><span className="migration-progress"><i style={{ width: `${percent}%` }} />{percent}% MIGRATION VERIFIED</span></header>
+      <header className="migration-topbar"><a href="/" className="migration-brand"><span>SONIC</span><small>WINDOWS AGENCY-TO-AZURE MIGRATION</small></a><nav><button aria-current={mode === 'home' ? 'page' : undefined} onClick={() => setMode('home')}>Start Here</button><button aria-current={mode === 'learn' ? 'page' : undefined} onClick={() => setMode('learn')}>All Projects</button><button aria-current={mode === 'job' ? 'page' : undefined} onClick={() => setMode('job')}>Exact Jobs</button><button aria-current={mode === 'terminal' ? 'page' : undefined} onClick={() => setMode('terminal')}><TerminalSquare size={15} /> Lab Terminal</button></nav><span className="migration-progress"><i style={{ width: `${percent}%` }} />{percent}% MIGRATION VERIFIED</span></header>
       <main>
         {mode === 'home' && <HomeView completed={completed} setMode={setMode} openLesson={openLesson} />}
         {mode === 'learn' && <LearnView completed={completed} openLesson={openLesson} />}
@@ -358,7 +358,7 @@ export function MigrationAcademy() {
         {mode === 'terminal' && <LabTerminal />}
         {storageNotice && <p className="storage-notice">{storageNotice}</p>}
       </main>
-      <footer className="migration-footer"><span>SONIC / AGENCY-TO-AZURE</span><span><RotateCcw size={14} /> Rollback before risk</span><span><CircleDollarSign size={14} /> Budget before Create</span><Link href="/">RHEL / Wazuh course <ExternalLink size={13} /></Link></footer>
+      <footer className="migration-footer"><span>SONIC / AGENCY-TO-AZURE</span><span><RotateCcw size={14} /> Rollback before risk</span><span><CircleDollarSign size={14} /> Budget before Create</span><a href="/">RHEL / Wazuh course <ExternalLink size={13} /></a></footer>
     </div>
   );
 }

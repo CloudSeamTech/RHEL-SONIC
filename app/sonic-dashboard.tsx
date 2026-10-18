@@ -1,9 +1,9 @@
 'use client';
+/* oxlint-disable next/no-html-link-for-pages -- Vinext's client router currently crashes on these cross-page transitions; native navigation is intentional. */
 import { preparationLessonIds } from './course-roadmap';
 import { formatMinutes, timingFor } from './course-timing';
 
 import { useRef } from 'react';
-import Link from 'next/link';
 import {
   ArrowLeft,
   ArrowRight,
@@ -372,9 +372,9 @@ export function SonicDashboard({
             rollback gates.
           </p>
         </div>
-        <Link href="/migration">
+        <a href="/migration">
           Enter Windows migration <ArrowRight size={15} />
-        </Link>
+        </a>
       </section>
       <div className="dashboard-overview">
         <MissionPanel
@@ -385,7 +385,6 @@ export function SonicDashboard({
         <SonicCore
           onOpenLesson={onOpenLesson}
           onOpenRoadmap={onOpenPath}
-          onOpenMigration={() => window.location.assign('/migration')}
         />
         <QuickActions
           model={model}

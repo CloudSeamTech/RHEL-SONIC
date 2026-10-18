@@ -1,4 +1,5 @@
 'use client';
+/* oxlint-disable next/no-html-link-for-pages -- Vinext's client router currently crashes on this cross-page transition; native navigation is intentional. */
 
 import { useId, useState } from 'react';
 import { ArrowRight, Pause, Play } from 'lucide-react';
@@ -382,11 +383,9 @@ const systems = [
 export function SonicCore({
   onOpenLesson,
   onOpenRoadmap,
-  onOpenMigration,
 }: {
   onOpenLesson: (id: string) => void;
   onOpenRoadmap: () => void;
-  onOpenMigration: () => void;
 }) {
   const [selected, setSelected] = useState('windows');
   const [paused, setPaused] = useState(false);
@@ -530,18 +529,18 @@ export function SonicCore({
             <path
               d={landMesh.join(' ')}
               fill="none"
-              stroke="#d6edf7"
+              stroke="#d2d2d6"
               strokeWidth=".55"
               opacity=".34"
             />
             <path
               d={continents.map(line).join(' ')}
               fill="none"
-              stroke="#f0f8ff"
+              stroke="#f4f4f5"
               strokeWidth=".8"
               opacity=".78"
             />
-            <g fill="#e1f4ff" opacity=".65">
+            <g fill="#dadade" opacity=".65">
               {landDots.map((point, i) => (
                 <circle
                   key={i}
@@ -554,7 +553,7 @@ export function SonicCore({
             <g
               className="core-network-paths"
               fill="none"
-              stroke="#50d8fa"
+              stroke="#c3c3c8"
               strokeWidth=".7"
             >
               <path d="M336 218 Q399 117 479 187 Q557 203 566 301 Q511 287 485 399 Q391 356 336 218 M336 218 Q434 245 566 301 M479 187 Q432 268 485 399" />
@@ -563,7 +562,7 @@ export function SonicCore({
                 d="M336 218 Q399 117 479 187 Q557 203 566 301"
               />
             </g>
-            <g fill="#91eeff" className="core-points">
+            <g fill="#d7d7dc" className="core-points">
               {[
                 [336, 218],
                 [479, 187],
@@ -577,7 +576,7 @@ export function SonicCore({
                     cy={y}
                     r="7"
                     fill="none"
-                    stroke="#35d9ff"
+                    stroke="#c8c8cd"
                     strokeWidth=".6"
                   />
                 </g>
@@ -620,7 +619,7 @@ export function SonicCore({
               );
             })}
           </g>
-          <g fill="#53d8fb">
+          <g fill="#d2d2d6">
             <circle cx="450" cy="57" r="2.5" />
             <circle cx="228" cy="285" r="2" />
             <circle cx="672" cy="285" r="2" />
@@ -664,10 +663,10 @@ export function SonicCore({
         </div>
         <div className="core-selection-actions">
           {'migrationEntry' in system && system.migrationEntry && (
-            <button type="button" className="core-migration-action" onClick={onOpenMigration}>
+            <a href="/migration" className="core-migration-action">
               Open Windows migration
               <ArrowRight size={14} />
-            </button>
+            </a>
           )}
           <button
             type="button"

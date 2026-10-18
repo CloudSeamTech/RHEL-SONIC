@@ -1363,3 +1363,171 @@ h1 {
 .lesson-content h2 {
   color: #f2f6fb;
 }
+
+/* Final learner-facing SONIC palette: black, graphite, silver, red, white,
+   with green reserved for verified/success states. Blue is intentionally excluded. */
+:root {
+  --background: #050506;
+  --foreground: #f3f3f5;
+  --primary: #dc4657;
+  --primary-foreground: #ffffff;
+  --muted: #1a1a1e;
+  --muted-foreground: #aaaab0;
+  --sidebar: rgba(8, 8, 10, 0.72);
+  --sidebar-foreground: #dedee2;
+  --sidebar-accent: rgba(93, 27, 37, 0.48);
+  --sidebar-accent-foreground: #ffffff;
+  --border: rgba(225, 225, 230, 0.2);
+  --input: rgba(31, 31, 35, 0.72);
+  --ring: #ef6674;
+  --card: rgba(17, 17, 20, 0.5);
+  --card-foreground: #f1f1f3;
+  --popover: rgba(17, 17, 20, 0.92);
+  --popover-foreground: #f1f1f3;
+  --surface: rgba(20, 20, 23, 0.42);
+  --surface-raised: rgba(31, 31, 35, 0.56);
+  --edge: rgba(230, 230, 235, 0.2);
+  --ink-soft: #cacace;
+  --ink-muted: #a3a3aa;
+  --accent: rgba(74, 29, 36, 0.56);
+  --accent-foreground: #ffffff;
+  --success: #65bd79;
+  --warning: #c4c4c9;
+  --danger: #ef6674;
+}
+
+body {
+  color: var(--foreground);
+  background:
+    radial-gradient(circle at 76% 12%, rgba(190, 43, 61, 0.12), transparent 31rem),
+    radial-gradient(circle at 18% 76%, rgba(215, 215, 220, 0.07), transparent 29rem),
+    #050506;
+}
+
+body::before {
+  background-image:
+    linear-gradient(rgba(220, 220, 225, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(220, 220, 225, 0.025) 1px, transparent 1px);
+}
+
+::selection { background: rgba(220, 70, 87, 0.42); color: #ffffff; }
+* { scrollbar-color: #68686e #111114; }
+a { color: #ef7a87; }
+:focus-visible { outline-color: #ef6674; }
+
+.sidebar,
+.topbar {
+  background: rgba(8, 8, 10, 0.64);
+  border-color: rgba(225, 225, 230, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(28px) saturate(120%);
+  -webkit-backdrop-filter: blur(28px) saturate(120%);
+}
+
+.module-card,
+.lesson-content,
+.mission-next,
+.explanation,
+.command-block,
+.callout,
+.checkpoint,
+.knowledge-check,
+.troubleshooting,
+.lesson-context {
+  background: linear-gradient(145deg, rgba(34, 34, 38, 0.54), rgba(10, 10, 12, 0.38));
+  border-color: rgba(225, 225, 230, 0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.075),
+    0 22px 55px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(26px) saturate(125%);
+  -webkit-backdrop-filter: blur(26px) saturate(125%);
+}
+
+.nav-item:hover,
+.nav-item.active,
+.sidebar a[aria-current="page"] {
+  color: #ffffff;
+  border-color: rgba(239, 102, 116, 0.4);
+  background: linear-gradient(90deg, rgba(220, 70, 87, 0.22), rgba(255, 255, 255, 0.035));
+}
+
+.primary-button,
+.lesson-complete-button,
+.command-run-button {
+  color: #ffffff;
+  border-color: rgba(255, 132, 144, 0.5);
+  background: linear-gradient(135deg, #b52d3f, #7f1f2d);
+  box-shadow: 0 12px 30px rgba(137, 29, 44, 0.3);
+}
+
+.success,
+.verified,
+[data-status="complete"] { color: #72d087; }
+
+/* Remove the previous blue information accent from shared chrome. */
+.skip-link { background: #17171a; color: #ef6674; }
+.nav-item.selected,
+.nav-item:hover { border-color: rgba(239, 102, 116, 0.28); }
+.mission-next > span,
+.mission-next p,
+.eyebrow,
+.topbar-divider,
+.edition-note summary,
+.edition-note summary span,
+.sidebar-footer,
+.sidebar-footer > div,
+.core-legend {
+  color: #b8b8be;
+}
+.topbar-divider,
+.edition-note summary { color: #ef6674; }
+.edition-note {
+  color: #c8c8cc;
+  border-color: rgba(225, 225, 230, 0.18);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.055), rgba(24, 10, 13, 0.34));
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+.sidebar-tip .sonic-readout,
+.sonic-readout--tip,
+.sonic-readout--tip svg,
+.sonic-readout--tip > div { color: #c9c9ce; }
+.avatar {
+  color: #f4f4f5;
+  border-color: rgba(225, 225, 230, 0.22);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(220, 70, 87, 0.12));
+}
+.bg-muted { background-color: #222226 !important; }
+
+.console-architecture,
+.console-network {
+  color: #eeeeef;
+  border-color: rgba(225, 225, 230, 0.18);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(8, 8, 10, 0.42));
+}
+.console-architecture figcaption,
+.console-architecture figcaption > span,
+.console-network-label,
+.console-network-label svg,
+.console-link,
+.console-node > svg,
+.console-node .node-index {
+  color: #bdbdc2;
+}
+.console-link > span { background: #dc4657; }
+.console-node:first-of-type > svg { color: #ef6674; }
+.console-architecture figcaption > span:last-child,
+.console-network-label span { color: #bdbdc2; }
+.sonic-readout--note,
+.sonic-readout--note svg,
+.sonic-readout--note > div { color: #c9c9ce; }
+.nav-item svg { color: #bdbdc2; }
+.nav-item.selected svg,
+.nav-item:hover svg { color: #ef7b87; }
+.mission-readiness > svg,
+.mission-readiness p,
+.page-footer,
+.page-footer span {
+  color: #a8a8ae;
+  border-color: rgba(225, 225, 230, 0.14);
+}

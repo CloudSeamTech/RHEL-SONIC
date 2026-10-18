@@ -13,6 +13,9 @@ const migrationCourseSource = await readFile(new URL('../app/migration-course.ts
 const migrationCss = await readFile(new URL('../app/migration/migration.css', import.meta.url), 'utf8');
 const coreSource = await readFile(new URL('../app/sonic-core.tsx', import.meta.url), 'utf8');
 const dashboardSource = await readFile(new URL('../app/sonic-dashboard.tsx', import.meta.url), 'utf8');
+const sonicCss = await readFile(new URL('../app/sonic.css', import.meta.url), 'utf8');
+const dashboardCss = await readFile(new URL('../app/sonic-dashboard.css', import.meta.url), 'utf8');
+const terminalCss = await readFile(new URL('../app/lab-terminal/lab-terminal.css', import.meta.url), 'utf8');
 
 test('all 44 approved migration workbook lessons are published once in contract order', () => {
   assert.equal(catalog.lessons.length, 44);
@@ -108,7 +111,11 @@ test('globe offers a direct Windows migration entry', () => {
   assert.match(coreSource, /Open Windows migration/);
   assert.match(coreSource, /useState\('windows'\)/);
   assert.match(dashboardSource, /Enter Windows migration/);
-  assert.match(dashboardSource, /onOpenMigration/);
+  assert.match(coreSource, /<a href="\/migration" className="core-migration-action">/);
+  assert.match(dashboardSource, /<a href="\/migration">/);
+  assert.doesNotMatch(coreSource, /onOpenMigration/);
+  assert.doesNotMatch(dashboardSource, /next\/link/);
+  assert.doesNotMatch(appSource, /next\/link/);
 });
 
 test('learner panels use reusable transparent glass treatments', () => {
@@ -117,4 +124,15 @@ test('learner panels use reusable transparent glass treatments', () => {
   assert.match(migrationCss, /\.migration-start-panel/);
   assert.match(migrationCss, /\.migration-task-card/);
   assert.match(migrationCss, /\.project-stage/);
+});
+
+test('learner surfaces close on the approved graphite silver red white and green palette', () => {
+  for (const source of [sonicCss, dashboardCss, migrationCss, terminalCss]) {
+    assert.match(source, /backdrop-filter:\s*blur/);
+    assert.match(source, /rgba\(/);
+  }
+  assert.match(sonicCss, /Blue is intentionally excluded/);
+  assert.match(sonicCss, /--primary:\s*#dc4657/);
+  assert.match(sonicCss, /--success:\s*#65bd79/);
+  assert.match(migrationCss, /--migration-red:\s*#dc4657/);
 });
