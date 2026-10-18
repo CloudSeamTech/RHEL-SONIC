@@ -142,3 +142,32 @@
 .terminal-examples code {
   color: #ededf0;
 }
+
+/* Cyberpunk terminal shell: smoked glass with red controls and green ready state. */
+.lab-terminal-shell {
+  position: relative;
+  overflow: hidden;
+  border-color: rgba(232, 232, 237, 0.22);
+  background:
+    radial-gradient(circle at 88% 0, rgba(255, 64, 88, 0.11), transparent 30%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.065), rgba(5, 5, 7, 0.62));
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.12),
+    0 0 38px rgba(255, 64, 88, 0.07),
+    0 30px 85px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(34px) saturate(126%);
+  -webkit-backdrop-filter: blur(34px) saturate(126%);
+}
+.lab-terminal-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 4px);
+}
+.terminal-input-row { border-top-color: rgba(255, 64, 88, 0.2); }
+.terminal-prompt,
+.terminal-status--ready,
+.terminal-ready { color: #78e08f; text-shadow: 0 0 14px rgba(120, 224, 143, 0.28); }
+.terminal-tabs button[aria-selected='true'],
+.terminal-tabs button.active { box-shadow: inset 0 -2px #ff4058, 0 8px 22px rgba(255, 64, 88, 0.11); }

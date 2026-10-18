@@ -136,3 +136,13 @@ test('learner surfaces close on the approved graphite silver red white and green
   assert.match(sonicCss, /--success:\s*#65bd79/);
   assert.match(migrationCss, /--migration-red:\s*#dc4657/);
 });
+
+test('cyberpunk presentation adds blurred neon atmosphere without changing content sources', () => {
+  assert.match(sonicCss, /--neon-red:\s*#ff4058/);
+  assert.match(sonicCss, /--neon-green:\s*#78e08f/);
+  assert.match(sonicCss, /@keyframes sonic-neon-drift/);
+  assert.match(sonicCss, /backdrop-filter:\s*blur\(34px\)/);
+  assert.match(migrationCss, /@keyframes migration-neon-drift/);
+  assert.match(migrationCss, /filter:\s*blur\(90px\)/);
+  assert.match(migrationCss, /prefers-reduced-motion:\s*reduce/);
+});
