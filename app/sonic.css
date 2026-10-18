@@ -1531,3 +1531,105 @@ a { color: #ef7a87; }
   color: #a8a8ae;
   border-color: rgba(225, 225, 230, 0.14);
 }
+
+/* Cyberpunk atmosphere layer. The approved SONIC palette stays black, graphite,
+   silver, red and white; green is reserved for verified/system-ready signals. */
+:root {
+  --neon-red: #ff4058;
+  --neon-red-soft: rgba(255, 64, 88, 0.2);
+  --neon-green: #78e08f;
+  --neon-green-soft: rgba(120, 224, 143, 0.12);
+  --chrome: #d8d8dd;
+  --glass-black: rgba(10, 10, 13, 0.46);
+  --glass-edge: rgba(238, 238, 242, 0.2);
+}
+
+html { background: #030304; }
+
+body {
+  background:
+    radial-gradient(ellipse at 88% 8%, rgba(255, 64, 88, 0.2), transparent 31rem),
+    radial-gradient(ellipse at 12% 62%, rgba(120, 224, 143, 0.09), transparent 28rem),
+    radial-gradient(ellipse at 52% 112%, rgba(214, 214, 220, 0.09), transparent 34rem),
+    linear-gradient(145deg, #030304 0%, #0a080a 48%, #050506 100%);
+  background-attachment: fixed;
+}
+
+body::before {
+  opacity: 0.68;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 4px);
+  background-size: 48px 48px, 48px 48px, 100% 4px;
+  mask-image: linear-gradient(to bottom, black 0 72%, transparent 100%);
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: -16%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.52;
+  filter: blur(82px) saturate(120%);
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255, 48, 75, 0.34), transparent 19%),
+    radial-gradient(circle at 22% 70%, rgba(112, 222, 135, 0.14), transparent 17%),
+    radial-gradient(circle at 55% 85%, rgba(220, 220, 226, 0.12), transparent 18%);
+  animation: sonic-neon-drift 16s ease-in-out infinite alternate;
+}
+
+@keyframes sonic-neon-drift {
+  from { transform: translate3d(-1.5%, -1%, 0) scale(1); }
+  to { transform: translate3d(2%, 1.5%, 0) scale(1.06); }
+}
+
+.sidebar,
+.topbar,
+.module-card,
+.lesson-content,
+.mission-next,
+.explanation,
+.command-block,
+.callout,
+.checkpoint,
+.knowledge-check,
+.troubleshooting,
+.lesson-context,
+.console-architecture,
+.console-network {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.018) 34%, transparent 52%),
+    rgba(8, 8, 11, 0.5);
+  border-color: var(--glass-edge);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.11),
+    inset 0 0 28px rgba(255, 255, 255, 0.018),
+    0 22px 70px rgba(0, 0, 0, 0.42),
+    0 0 28px rgba(255, 64, 88, 0.035);
+  backdrop-filter: blur(34px) saturate(128%);
+  -webkit-backdrop-filter: blur(34px) saturate(128%);
+}
+
+h1,
+h2,
+h3 { text-shadow: 0 0 28px rgba(255, 255, 255, 0.055); }
+
+.eyebrow,
+.pane-label,
+.topbar-divider { text-shadow: 0 0 16px rgba(255, 64, 88, 0.34); }
+
+.primary-button:hover,
+.lesson-complete-button:hover,
+.command-run-button:hover {
+  border-color: rgba(255, 151, 163, 0.72);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.26),
+    0 0 24px rgba(255, 64, 88, 0.34),
+    0 15px 40px rgba(0, 0, 0, 0.38);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after { animation: none; }
+}

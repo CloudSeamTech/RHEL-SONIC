@@ -1047,3 +1047,96 @@
 .lab-tasks li,
 .lab-tasks li + li { border-color: rgba(225, 225, 230, 0.13); }
 .architecture-reference summary > svg { color: #c9c9ce; }
+
+/* Cyberpunk dashboard glass: luminous red focus, chrome edges, green proof. */
+.sonic-training-dashboard {
+  --panel-edge: rgba(230, 230, 235, 0.2);
+  --dashboard-glass:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.015) 38%, transparent 58%),
+    rgba(8, 8, 11, 0.46);
+  --dashboard-glass-strong:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.025) 40%, transparent 61%),
+    rgba(11, 11, 14, 0.62);
+  --dashboard-highlight:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 0 32px rgba(255, 255, 255, 0.018),
+    0 26px 72px rgba(0, 0, 0, 0.44);
+}
+
+.sonic-pathway-switcher,
+.dashboard-mission,
+.dashboard-panel,
+.stage-progress-card,
+.dashboard-overview > .sonic-core {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border-color: rgba(229, 229, 234, 0.21);
+  background: var(--dashboard-glass);
+  box-shadow:
+    var(--dashboard-highlight),
+    -16px -16px 70px rgba(255, 64, 88, 0.025),
+    18px 18px 70px rgba(120, 224, 143, 0.018);
+  backdrop-filter: blur(34px) saturate(130%);
+  -webkit-backdrop-filter: blur(34px) saturate(130%);
+}
+
+.sonic-pathway-switcher::before,
+.dashboard-mission::before,
+.dashboard-panel::before,
+.stage-progress-card::before,
+.dashboard-overview > .sonic-core::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.085), transparent 20% 78%, rgba(255, 64, 88, 0.045)),
+    radial-gradient(circle at 100% 0, rgba(255, 64, 88, 0.08), transparent 34%);
+}
+
+.sonic-pathway-switcher,
+.dashboard-mission { border-left-color: #ff4058; }
+
+.sonic-pathway-switcher:hover,
+.stage-progress-card:hover,
+.dashboard-panel:hover {
+  border-color: rgba(255, 101, 119, 0.48);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 28px 76px rgba(0, 0, 0, 0.48),
+    0 0 34px rgba(255, 64, 88, 0.08);
+}
+
+.stage-progress-card.state-completed {
+  border-color: rgba(120, 224, 143, 0.35);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.1), 0 0 28px rgba(120, 224, 143, 0.07);
+}
+
+.dashboard-mission h1 {
+  text-shadow: 0 0 36px rgba(255, 64, 88, 0.14);
+}
+
+.sonic-pathway-switcher a,
+.dashboard-mission .mission-primary {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 0 26px rgba(255, 64, 88, 0.28),
+    0 14px 32px rgba(0, 0, 0, 0.34);
+}
+
+.dashboard-overview > .sonic-core {
+  background:
+    radial-gradient(circle at 48% 42%, rgba(255, 64, 88, 0.13), transparent 34%),
+    radial-gradient(circle at 78% 76%, rgba(120, 224, 143, 0.06), transparent 25%),
+    var(--dashboard-glass);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.13),
+    0 30px 90px rgba(0, 0, 0, 0.5),
+    0 0 44px rgba(255, 64, 88, 0.07);
+}
+
+.mission-readiness > svg,
+.mission-readiness p { color: #aaaab1; }
+.mission-readiness > svg { color: #78e08f; }
