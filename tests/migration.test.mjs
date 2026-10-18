@@ -16,6 +16,7 @@ const dashboardSource = await readFile(new URL('../app/sonic-dashboard.tsx', imp
 const sonicCss = await readFile(new URL('../app/sonic.css', import.meta.url), 'utf8');
 const dashboardCss = await readFile(new URL('../app/sonic-dashboard.css', import.meta.url), 'utf8');
 const terminalCss = await readFile(new URL('../app/lab-terminal/lab-terminal.css', import.meta.url), 'utf8');
+const cyberpunkBackground = await readFile(new URL('../public/assets/sonic-cyberpunk-downtown-v1.webp', import.meta.url));
 
 test('all 44 approved migration workbook lessons are published once in contract order', () => {
   assert.equal(catalog.lessons.length, 44);
@@ -126,23 +127,24 @@ test('learner panels use reusable transparent glass treatments', () => {
   assert.match(migrationCss, /\.project-stage/);
 });
 
-test('learner surfaces close on the approved graphite silver red white and green palette', () => {
+test('learner surfaces use the approved cyberpunk yellow cyan magenta glass palette', () => {
   for (const source of [sonicCss, dashboardCss, migrationCss, terminalCss]) {
     assert.match(source, /backdrop-filter:\s*blur/);
     assert.match(source, /rgba\(/);
   }
-  assert.match(sonicCss, /Blue is intentionally excluded/);
-  assert.match(sonicCss, /--primary:\s*#dc4657/);
-  assert.match(sonicCss, /--success:\s*#65bd79/);
-  assert.match(migrationCss, /--migration-red:\s*#dc4657/);
+  assert.match(sonicCss, /--cyber-yellow:\s*#fcee0a/);
+  assert.match(sonicCss, /--cyber-cyan:\s*#00f0ff/);
+  assert.match(sonicCss, /--cyber-magenta:\s*#ff2a6d/);
+  assert.match(migrationCss, /--migration-amber:\s*#fcee0a/);
 });
 
-test('cyberpunk presentation adds blurred neon atmosphere without changing content sources', () => {
-  assert.match(sonicCss, /--neon-red:\s*#ff4058/);
-  assert.match(sonicCss, /--neon-green:\s*#78e08f/);
+test('cyberpunk presentation uses the generated downtown street image and blurred neon atmosphere', () => {
+  assert.ok(cyberpunkBackground.length > 100_000);
+  assert.match(sonicCss, /sonic-cyberpunk-downtown-v1\.webp/);
+  assert.match(migrationCss, /sonic-cyberpunk-downtown-v1\.webp/);
   assert.match(sonicCss, /@keyframes sonic-neon-drift/);
   assert.match(sonicCss, /backdrop-filter:\s*blur\(34px\)/);
-  assert.match(migrationCss, /@keyframes migration-neon-drift/);
-  assert.match(migrationCss, /filter:\s*blur\(90px\)/);
+  assert.match(migrationCss, /@keyframes migration-city-drift/);
+  assert.match(migrationCss, /filter:\s*blur\(4px\)/);
   assert.match(migrationCss, /prefers-reduced-motion:\s*reduce/);
 });

@@ -651,3 +651,47 @@
   border-color: rgba(120, 224, 143, 0.42);
   box-shadow: 0 0 24px rgba(120, 224, 143, 0.1);
 }
+
+/* Neon-city infrastructure display. Interaction and topology stay unchanged. */
+.sonic-dashboard .sonic-core-center {
+  background:
+    radial-gradient(circle at 45% 44%, rgba(0, 240, 255, 0.15), transparent 34%),
+    radial-gradient(circle at 72% 72%, rgba(255, 42, 109, 0.1), transparent 27%),
+    linear-gradient(145deg, rgba(252, 238, 10, 0.035), rgba(4, 5, 11, 0.56));
+}
+
+.core-globe {
+  filter:
+    drop-shadow(0 0 25px rgba(0, 240, 255, 0.2))
+    drop-shadow(0 0 38px rgba(255, 42, 109, 0.1))
+    drop-shadow(0 28px 36px rgba(0, 0, 0, 0.52));
+}
+
+.core-header > div > span,
+.core-selection-label,
+.core-system[aria-pressed='true'] strong { color: #fcee0a; }
+
+.core-network-paths { stroke: rgba(0, 240, 255, 0.72); }
+.core-network-paths .core-tactical-route,
+.core-leaders path.selected { stroke: #fcee0a; }
+.core-selection { border-left-color: #fcee0a; }
+
+.core-system:hover,
+.core-system[aria-pressed='true'] {
+  border-color: rgba(0, 240, 255, 0.58);
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.12), rgba(255, 42, 109, 0.1));
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.18), 0 0 32px rgba(0, 240, 255, 0.16);
+}
+
+.core-selection-actions > .core-migration-action {
+  color: #090a0c;
+  border-color: #fcee0a;
+  background: linear-gradient(135deg, #fff65a, #f3d600);
+  box-shadow: 0 0 28px rgba(252, 238, 10, 0.24);
+}
+
+.core-system--wazuh .core-node-light {
+  background: #ff2a6d;
+  border-color: #ff7aad;
+  box-shadow: 0 0 10px rgba(255, 42, 109, 0.52);
+}
