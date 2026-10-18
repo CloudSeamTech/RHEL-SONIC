@@ -451,3 +451,62 @@ body::before {
   backdrop-filter: blur(34px) saturate(128%);
   -webkit-backdrop-filter: blur(34px) saturate(128%);
 }
+
+/* Final cascade authority for the street-level cyberpunk theme. */
+:root {
+  --sonic-red: #ff2a6d;
+  --background: #020205;
+  --foreground: #f7f7fa;
+  --primary: #fcee0a;
+  --primary-foreground: #08090b;
+  --ring: #00f0ff;
+  --success: #7dff85;
+  --warning: #fcee0a;
+  --danger: #ff2a6d;
+}
+
+body {
+  background:
+    linear-gradient(105deg, rgba(2, 3, 8, 0.92) 0%, rgba(3, 4, 10, 0.75) 38%, rgba(5, 2, 12, 0.56) 72%, rgba(2, 2, 5, 0.74) 100%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.72)),
+    url('/assets/sonic-cyberpunk-downtown-v1.webp') center center / cover fixed no-repeat;
+}
+
+body::before {
+  opacity: 0.58;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.034) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(252, 238, 10, 0.028) 1px, transparent 1px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 4px);
+  background-size: 52px 52px, 52px 52px, 100% 4px;
+}
+
+[data-slot='sidebar-inner'],
+.topbar {
+  background:
+    linear-gradient(145deg, rgba(252, 238, 10, 0.035), transparent 38%),
+    rgba(4, 5, 10, 0.68);
+  border-color: rgba(0, 240, 255, 0.18);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.08), 0 18px 55px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(38px) saturate(138%);
+  -webkit-backdrop-filter: blur(38px) saturate(138%);
+}
+
+.sonic-readout,
+.sonic-walkthrough,
+.sonic-lesson .lesson-context,
+.sonic-lesson .command-card,
+.sonic-lesson .lesson-section,
+.sonic-lesson .explanation {
+  background:
+    linear-gradient(145deg, rgba(0, 240, 255, 0.055), transparent 30%),
+    linear-gradient(325deg, rgba(255, 42, 109, 0.045), transparent 36%),
+    rgba(5, 6, 12, 0.56);
+  border-color: rgba(0, 240, 255, 0.2);
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.11),
+    0 24px 72px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(252, 238, 10, 0.045);
+  backdrop-filter: blur(38px) saturate(138%);
+  -webkit-backdrop-filter: blur(38px) saturate(138%);
+}

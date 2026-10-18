@@ -171,3 +171,29 @@
 .terminal-ready { color: #78e08f; text-shadow: 0 0 14px rgba(120, 224, 143, 0.28); }
 .terminal-tabs button[aria-selected='true'],
 .terminal-tabs button.active { box-shadow: inset 0 -2px #ff4058, 0 8px 22px rgba(255, 64, 88, 0.11); }
+
+/* Street-neon terminal treatment. */
+.lab-terminal-shell {
+  border-color: rgba(0, 240, 255, 0.28);
+  background:
+    radial-gradient(circle at 88% 0, rgba(0, 240, 255, 0.13), transparent 30%),
+    radial-gradient(circle at 10% 100%, rgba(255, 42, 109, 0.11), transparent 30%),
+    rgba(4, 5, 10, 0.7);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.12), 0 0 42px rgba(0, 240, 255, 0.08), 0 30px 85px rgba(0, 0, 0, 0.55);
+}
+.terminal-input-row { border-top-color: rgba(252, 238, 10, 0.26); }
+.terminal-prompt,
+.terminal-status--ready,
+.terminal-ready { color: #7dff85; text-shadow: 0 0 14px rgba(125, 255, 133, 0.3); }
+.terminal-tabs button[aria-selected='true'],
+.terminal-tabs button.active {
+  color: #fffbd1;
+  border-color: rgba(0, 240, 255, 0.42);
+  box-shadow: inset 0 -2px #fcee0a, 0 8px 24px rgba(0, 240, 255, 0.12);
+}
+.terminal-input-row button,
+.terminal-connect-button {
+  color: #090a0c;
+  border-color: #fcee0a;
+  background: linear-gradient(135deg, #fff65a, #f3d600);
+}
