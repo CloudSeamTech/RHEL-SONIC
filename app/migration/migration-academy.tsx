@@ -14,7 +14,6 @@ import {
   ExternalLink,
   Play,
   RotateCcw,
-  Route,
   ShieldCheck,
   TerminalSquare,
   Wrench,
@@ -136,14 +135,73 @@ function StageRail({ completed, openLesson }: { completed: string[]; openLesson:
           const count = stage.lessonIds.filter((id) => completed.includes(id)).length;
           const next = stage.lessonIds.find((id) => !completed.includes(id)) ?? stage.lessonIds[0];
           const percent = Math.round((count / stage.lessonIds.length) * 100);
+          const first = migrationLessonById(stage.lessonIds[0])!;
+          const last = migrationLessonById(stage.lessonIds.at(-1)!)!;
           return (
             <button key={stage.id} onClick={() => openLesson(next)} className="migration-stage-card">
               <span className="stage-number">{String(index + 1).padStart(2, '0')}</span>
               <strong>{stage.title}</strong>
               <span>{stage.plainEnglish}</span>
               <span className="stage-meter"><span style={{ width: `${percent}%` }} /></span>
-              <small>{count} of {stage.lessonIds.length} verified</small>
+              <small>{first.code} → {last.code} · {count} of {stage.lessonIds.length} verified</small>
             </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function TaskCard({ task, openLesson }: { task: (typeof migrationTasks)[number]; openLesson: (id: string) => void }) {
+  const lesson = migrationLessonById(task.lessonId)!;
+  return (
+    <button className="migration-task-card" onClick={() => openLesson(task.lessonId)}>
+      <span className="task-card-top"><Cloud size={21} /><b>{lesson.code}</b></span>
+      <span className="task-machine">{task.machine}</span>
+      <h2>{task.title}</h2>
+      <p>{task.description}</p>
+      <span className="task-open">Open this exact workflow <ArrowRight size={14} /></span>
+    </button>
+  );
+}
+
+function ProjectDirectory({ completed, openLesson }: { completed: string[]; openLesson: (id: string) => void }) {
+  return (
+    <section className="project-directory" aria-labelledby="project-directory-title">
+      <header>
+        <span className="eyebrow">EVERY WINDOWS PROJECT / GROUPED BY STAGE</span>
+        <h2 id="project-directory-title">Open the exact project you need</h2>
+        <p>Open one stage at a time. Every listed project is implemented and opens the same authoritative lesson used by Learn It.</p>
+      </header>
+      <div className="project-stage-list">
+        {migrationStages.map((stage, stageIndex) => {
+          const first = migrationLessonById(stage.lessonIds[0])!;
+          const last = migrationLessonById(stage.lessonIds.at(-1)!)!;
+          const count = stage.lessonIds.filter((id) => completed.includes(id)).length;
+          return (
+            <details key={stage.id} className="project-stage" open={stageIndex === 0}>
+              <summary>
+                <span className="project-stage-number">{String(stageIndex + 1).padStart(2, '0')}</span>
+                <span><strong>{stage.title}</strong><small>{first.code} → {last.code} · {count} of {stage.lessonIds.length} verified</small></span>
+                <ChevronRight size={17} />
+              </summary>
+              <p>{stage.plainEnglish}</p>
+              <ol>
+                {stage.lessonIds.map((id) => {
+                  const project = migrationLessonById(id)!;
+                  return (
+                    <li key={id}>
+                      <button onClick={() => openLesson(id)}>
+                        <span>{completed.includes(id) ? <Check size={15} /> : project.code}</span>
+                        <b>{project.title}</b>
+                        <small>{project.surface}</small>
+                        <ArrowRight size={14} />
+                      </button>
+                    </li>
+                  );
+                })}
+              </ol>
+            </details>
           );
         })}
       </div>
@@ -157,14 +215,18 @@ function HomeView({ completed, setMode, openLesson }: { completed: string[]; set
     <>
       <section className="migration-hero">
         <div className="migration-hero-copy">
-          <span className="eyebrow">SONIC / AGENCY-TO-AZURE MIGRATION</span>
-          <h1>MOVE THE MISSION.<br /><span>PROVE EVERY STEP.</span></h1>
-          <p>Build a safe agency lab, move identity and workloads deliberately, verify the result, and keep a tested way back.</p>
+          <span className="eyebrow">SONIC / WINDOWS AGENCY-TO-AZURE MIGRATION</span>
+          <h1>BUILD IT.<br /><span>MOVE IT SAFELY.</span></h1>
+          <p>Build named Windows machines, move one workload at a time, prove what happened, and keep a tested way back.</p>
+          <section className="migration-start-panel" aria-label="Start here">
+            <div><span>START HERE</span><h2>{completed.length ? `Continue with ${next.code}` : 'Begin with LAB 00'}</h2><p>{completed.length ? next.title : 'Choose your training route, name every machine, and check the cost boundary before building.'}</p></div>
+            <ol><li><b>1</b><span>Open the next project.</span></li><li><b>2</b><span>Work only on the named machine.</span></li><li><b>3</b><span>Pass the check before continuing.</span></li></ol>
+            <button className="migration-primary" onClick={() => openLesson(next.id)}><Play size={17} fill="currentColor" />{completed.length ? `CONTINUE · ${next.code}` : 'START · LAB 00'}</button>
+          </section>
           <div className="mode-cards">
             <button onClick={() => setMode('learn')}><BookOpen size={22} /><span><b>LEARN IT</b><small>Teach me from the beginning.</small></span><ArrowRight size={18} /></button>
-            <button onClick={() => setMode('job')}><Wrench size={22} /><span><b>DO THE JOB</b><small>Take me to the task I need.</small></span><ArrowRight size={18} /></button>
+            <button onClick={() => setMode('job')}><Wrench size={22} /><span><b>DO THE JOB</b><small>Choose one exact Windows outcome.</small></span><ArrowRight size={18} /></button>
           </div>
-          <button className="migration-primary" onClick={() => openLesson(next.id)}><Play size={17} fill="currentColor" />{completed.length ? 'CONTINUE MISSION' : 'START THE MISSION'}</button>
         </div>
         <div className="migration-orbit" aria-label="Migration architecture preview">
           <span className="orbit-core">AZURE</span>
@@ -175,16 +237,9 @@ function HomeView({ completed, setMode, openLesson }: { completed: string[]; set
         </div>
       </section>
       <section className="migration-task-feature">
-        <span className="eyebrow">WHAT ARE YOU TRYING TO DO?</span>
+        <header><span className="eyebrow">WHAT EXACT WINDOWS JOB ARE YOU TRYING TO DO?</span><h2>Choose a named system and outcome</h2><p>Each glass card opens a real project. Nothing below is a vague placeholder.</p></header>
         <div className="migration-task-grid">
-          {migrationTasks.map((task) => (
-            <article key={task.id} className={task.state === 'planned' ? 'is-planned' : ''}>
-              <Cloud size={21} />
-              <h2>{task.title}</h2>
-              <p>{task.description}</p>
-              {task.state === 'available' && task.lessonId ? <button onClick={() => openLesson(task.lessonId)}>Open workflow <ArrowRight size={14} /></button> : <span>PLANNED</span>}
-            </article>
-          ))}
+          {migrationTasks.map((task) => <TaskCard key={task.id} task={task} openLesson={openLesson} />)}
         </div>
       </section>
       <StageRail completed={completed} openLesson={openLesson} />
@@ -195,24 +250,20 @@ function HomeView({ completed, setMode, openLesson }: { completed: string[]; set
 function LearnView({ completed, openLesson }: { completed: string[]; openLesson: (id: string) => void }) {
   return (
     <section className="migration-index">
-      <header><span className="eyebrow">LEARN IT / IN ORDER</span><h1>Agency-to-Azure learning path</h1><p>Each project stays independent. Open a stage, prove its work, then continue.</p></header>
-      {migrationStages.map((stage) => (
-        <section key={stage.id} className="migration-index-stage">
-          <div><h2>{stage.title}</h2><p>{stage.plainEnglish}</p></div>
-          <ol>{stage.lessonIds.map((id) => { const lesson = migrationLessonById(id)!; return <li key={id}><button onClick={() => openLesson(id)}><span>{completed.includes(id) ? <Check size={15} /> : lesson.code}</span><b>{lesson.title}</b><ArrowRight size={14} /></button></li>; })}</ol>
-        </section>
-      ))}
+      <header><span className="eyebrow">LEARN IT / IN ORDER</span><h1>Windows Agency-to-Azure project path</h1><p>Start at LAB 00. Open one stage, complete one named outcome, prove it, and then continue.</p></header>
+      <ProjectDirectory completed={completed} openLesson={openLesson} />
     </section>
   );
 }
 
-function JobView({ openLesson }: { openLesson: (id: string) => void }) {
+function JobView({ completed, openLesson }: { completed: string[]; openLesson: (id: string) => void }) {
   return (
     <section className="migration-index job-index">
-      <header><span className="eyebrow">DO THE JOB / TASK ENTRY</span><h1>What outcome do you need?</h1><p>Open the workflow directly. Prerequisite and safety gates still apply.</p></header>
+      <header><span className="eyebrow">DO THE JOB / EXACT WINDOWS TASK</span><h1>Which named system are you working on?</h1><p>Choose a specific outcome. The project opens directly, but its prerequisite and safety gates still apply.</p></header>
       <div className="migration-task-grid">
-        {migrationTasks.map((task) => <article key={task.id} className={task.state === 'planned' ? 'is-planned' : ''}><Route size={21} /><h2>{task.title}</h2><p>{task.description}</p>{task.state === 'available' && task.lessonId ? <button onClick={() => openLesson(task.lessonId)}>Check prerequisites and begin <ArrowRight size={14} /></button> : <span>PLANNED · NO FAKE ROUTE</span>}</article>)}
+        {migrationTasks.map((task) => <TaskCard key={task.id} task={task} openLesson={openLesson} />)}
       </div>
+      <ProjectDirectory completed={completed} openLesson={openLesson} />
     </section>
   );
 }
@@ -227,13 +278,14 @@ function LessonView({ lesson, completed, toggle, openLesson }: { lesson: Migrati
   const previous = migrationLessons[globalIndex - 1];
   return (
     <article className="migration-lesson">
-      <nav className="you-are-here" aria-label="You are here"><span>YOU ARE HERE</span><Link href="/">SONIC</Link><ChevronRight size={13} /><button onClick={() => openLesson(stage.lessonIds[0])}>{stage.title}</button><ChevronRight size={13} /><b>{lesson.code}</b></nav>
+      <nav className="you-are-here" aria-label="You are here"><span>YOU ARE HERE</span><Link href="/">SONIC</Link><ChevronRight size={13} /><Link href="/migration">Windows Migration</Link><ChevronRight size={13} /><button onClick={() => openLesson(stage.lessonIds[0])}>{stage.title}</button><ChevronRight size={13} /><b>{lesson.code}</b></nav>
       <header className="lesson-hero">
         <div><span className="eyebrow">{stage.title.toUpperCase()} · {stageIndex + 1} OF {stage.lessonIds.length}</span><h1>{lesson.title}</h1><p><b>Named workspace:</b> {lesson.surface}</p></div>
         <div className="stage-progress"><strong>{stageCompleted} / {stage.lessonIds.length}</strong><span>stage projects verified</span><span className="stage-meter"><span style={{ width: `${Math.round((stageCompleted / stage.lessonIds.length) * 100)}%` }} /></span></div>
       </header>
-      <section className="migration-pane pane-mission"><span className="pane-label">MISSION</span><p>Complete <b>{lesson.code}</b> on the named lab system, capture real evidence, and stop rather than guess when the expected result does not match.</p></section>
+      <section className="migration-pane pane-mission"><span className="pane-label">YOUR ONE JOB IN THIS PROJECT</span><p><b>{lesson.title}.</b> Work only on <b>{lesson.surface}</b>, capture real evidence, and stop rather than guess when the expected result does not match.</p></section>
       <section className="migration-pane pane-info"><span className="pane-label">IN PLAIN ENGLISH</span><p>{stage.plainEnglish} This project teaches the next necessary piece and keeps the recovery path visible.</p></section>
+      <section className="project-rhythm" aria-label="How to complete this project"><span><b>1</b> Understand the question</span><span><b>2</b> Follow one action at a time</span><span><b>3</b> Compare actual evidence</span><span><b>4</b> Mark verified only when it passes</span></section>
       <div className="lesson-content">{blocks.map((block, index) => <ContentBlock key={index} block={block} />)}</div>
       <details className="engineer-detail"><summary>LEVEL 3 · ENGINEER DETAIL / SOURCE TRACE</summary><p>Authoritative workbook section <b>{lesson.code} / {lesson.sourceLabel}</b>, source lines {lesson.sourceStartLine}–{lesson.sourceEndLine}. The complete approved section is rendered above; the source copy remains in <code>docs/sources</code>.</p></details>
       <section className="migration-pane pane-warning"><span className="pane-label">BUDGET + CHANGE GATE</span><p>For Azure work, review estimated cost and approved limits before Create. For state-changing work, record the rollback first. SONIC does not execute cloud changes silently.</p></section>
@@ -241,7 +293,7 @@ function LessonView({ lesson, completed, toggle, openLesson }: { lesson: Migrati
         <div><ShieldCheck size={22} /><span><b>SELF-VERIFICATION</b><small>Mark complete only after your actual lab evidence matches the pass check.</small></span></div>
         <button onClick={toggle} className={completed.includes(lesson.id) ? 'is-complete' : ''}>{completed.includes(lesson.id) ? <Check size={17} /> : <span className="empty-check" />} {completed.includes(lesson.id) ? 'VERIFIED' : 'MARK VERIFIED'}</button>
       </section>
-      <nav className="lesson-pagination" aria-label="Lesson navigation">{previous ? <button onClick={() => openLesson(previous.id)}><ArrowLeft size={15} />{previous.code}</button> : <span />}{next ? <button onClick={() => openLesson(next.id)}>{next.code}<ArrowRight size={15} /></button> : <span>COURSE ROUTE COMPLETE</span>}</nav>
+      <nav className="lesson-pagination" aria-label="Lesson navigation">{previous ? <button onClick={() => openLesson(previous.id)}><ArrowLeft size={15} /><span><small>PREVIOUS · {previous.code}</small>{previous.title}</span></button> : <span />}{next ? <button onClick={() => openLesson(next.id)}><span><small>NEXT · {next.code}</small>{next.title}</span><ArrowRight size={15} /></button> : <span>COURSE ROUTE COMPLETE</span>}</nav>
     </article>
   );
 }
@@ -260,6 +312,7 @@ export function MigrationAcademy() {
       else if (params.get('view') === 'learn') setModeState('learn');
       else if (params.get('view') === 'job') setModeState('job');
       else if (params.get('view') === 'terminal') setModeState('terminal');
+      else { setLesson(null); setModeState('home'); }
     };
     const initialSync = window.setTimeout(() => {
       setCompleted(readMigrationProgress(lessonIds).completed);
@@ -296,11 +349,11 @@ export function MigrationAcademy() {
 
   return (
     <div className="migration-shell">
-      <header className="migration-topbar"><Link href="/" className="migration-brand"><span>SONIC</span><small>SECURE OPERATIONS & NETWORK INTEGRATION CONSOLE</small></Link><nav><button onClick={() => setMode('home')}>Dashboard</button><button onClick={() => setMode('learn')}>Learn It</button><button onClick={() => setMode('job')}>Do the Job</button><button onClick={() => setMode('terminal')}><TerminalSquare size={15} /> Lab Terminal</button></nav><span className="migration-progress"><i style={{ width: `${percent}%` }} />{percent}% MIGRATION VERIFIED</span></header>
+      <header className="migration-topbar"><Link href="/" className="migration-brand"><span>SONIC</span><small>WINDOWS AGENCY-TO-AZURE MIGRATION</small></Link><nav><button aria-current={mode === 'home' ? 'page' : undefined} onClick={() => setMode('home')}>Start Here</button><button aria-current={mode === 'learn' ? 'page' : undefined} onClick={() => setMode('learn')}>All Projects</button><button aria-current={mode === 'job' ? 'page' : undefined} onClick={() => setMode('job')}>Exact Jobs</button><button aria-current={mode === 'terminal' ? 'page' : undefined} onClick={() => setMode('terminal')}><TerminalSquare size={15} /> Lab Terminal</button></nav><span className="migration-progress"><i style={{ width: `${percent}%` }} />{percent}% MIGRATION VERIFIED</span></header>
       <main>
         {mode === 'home' && <HomeView completed={completed} setMode={setMode} openLesson={openLesson} />}
         {mode === 'learn' && <LearnView completed={completed} openLesson={openLesson} />}
-        {mode === 'job' && <JobView openLesson={openLesson} />}
+        {mode === 'job' && <JobView completed={completed} openLesson={openLesson} />}
         {mode === 'lesson' && lesson && <LessonView lesson={lesson} completed={completed} toggle={toggle} openLesson={openLesson} />}
         {mode === 'terminal' && <LabTerminal />}
         {storageNotice && <p className="storage-notice">{storageNotice}</p>}

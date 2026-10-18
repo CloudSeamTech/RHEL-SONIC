@@ -362,18 +362,18 @@ export function SonicDashboard({
   };
   return (
     <div className="sonic-training-dashboard">
-      <section className="sonic-pathway-switcher" aria-label="Available academy pathways">
+      <section className="sonic-pathway-switcher" aria-label="Windows migration pathway">
         <div>
-          <span className="eyebrow">SEPARATE MISSION PATHWAY</span>
-          <h2>Agency-to-Azure Migration</h2>
+          <span className="eyebrow">WINDOWS MIGRATION PATHWAY · AVAILABLE NOW</span>
+          <h2>Agency Windows Environment → Azure</h2>
           <p>
-            Build the source agency, destination identity, SQL and MECM labs,
-            then rehearse an evidence-driven Azure migration with budget and
+            Start with LAB 00. Build AG-DC01, APP01, DEST-DC01, SQL01 and
+            MECM01, then rehearse the Azure move with budget, proof, and
             rollback gates.
           </p>
         </div>
         <Link href="/migration">
-          Open migration console <ArrowRight size={15} />
+          Enter Windows migration <ArrowRight size={15} />
         </Link>
       </section>
       <div className="dashboard-overview">
@@ -382,7 +382,11 @@ export function SonicDashboard({
           onContinue={onContinue}
           onOpenPath={onOpenPath}
         />
-        <SonicCore onOpenLesson={onOpenLesson} onOpenRoadmap={onOpenPath} />
+        <SonicCore
+          onOpenLesson={onOpenLesson}
+          onOpenRoadmap={onOpenPath}
+          onOpenMigration={() => window.location.assign('/migration')}
+        />
         <QuickActions
           model={model}
           onContinue={onContinue}
