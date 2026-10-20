@@ -5,6 +5,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { GuidedLab as Guide } from '@/lib/guided-lab';
 import screenshotCatalog from '@/content/migration/lab-screenshots.json';
+import { BeginnerActions, BeginnerWords } from '../beginner-actions';
 import { InstructionScreenshots } from '../instruction-screenshots';
 import './guided-lab.css';
 
@@ -50,7 +51,10 @@ export function GuidedLab({
   function select(next: number) {
     setIndex(next);
     setCopied(false);
-    requestAnimationFrame(() => panel.current?.focus({ preventScroll: true }));
+    requestAnimationFrame(() => {
+      panel.current?.focus({ preventScroll: true });
+      panel.current?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
   }
   function toggle() {
     const next = checked.includes(index)
@@ -68,12 +72,17 @@ export function GuidedLab({
       <header className="guided-heading">
         <div>
           <span className="eyebrow">GUIDED LAB / ONE STEP AT A TIME</span>
-          <h2>Follow along in your own lab</h2>
+          <h2>Let’s do this together</h2>
         </div>
         <span>
           {checked.length} / {guide.steps.length} steps checked
         </span>
       </header>
+      <p className="guided-start-hint">
+        Use your own computer or practice VM. Read one small action, try it,
+        then check your screen. You can stop and come back.
+      </p>
+      <BeginnerWords />
       <dl className="guided-context">
         <div>
           <dt>WHERE TO WORK</dt>
@@ -84,6 +93,19 @@ export function GuidedLab({
           <dd>{guide.before}</dd>
         </div>
       </dl>
+      <label className="guided-step-picker">
+        Choose a step
+        <select
+          value={index}
+          onChange={(event) => select(Number(event.target.value))}
+        >
+          {guide.steps.map((item, n) => (
+            <option key={n} value={n}>
+              Step {n + 1}: {item.title}
+            </option>
+          ))}
+        </select>
+      </label>
       <div className="guided-workspace">
         <nav className="guided-step-list" aria-label="Walkthrough steps">
           {guide.steps.map((item, n) => (
@@ -109,14 +131,15 @@ export function GuidedLab({
             STEP {index + 1} OF {guide.steps.length}
           </div>
           <h3>{step.title}</h3>
+          <InstructionScreenshots stepId={`${lessonId}:guided:${index + 1}`} />
           <div className="guided-action">
-            <b>Do this</b>
-            <p>{step.action}</p>
+            <b>Try these small actions</b>
+            <BeginnerActions text={step.action} />
           </div>
           {step.command && (
             <section className="guided-command">
               <header>
-                <span>COMMAND · RUN ONLY IN THE NAMED SHELL</span>
+                <span>TYPE IN THE TERMINAL NAMED ABOVE</span>
                 <button
                   onClick={async () => {
                     try {
@@ -127,15 +150,16 @@ export function GuidedLab({
                     }
                   }}
                 >
-                  {copied ? 'Copied' : 'Copy command'}
+                  {copied ? 'Copied ✓' : 'Copy command block'}
                 </button>
               </header>
               <pre>
                 <code>{step.command}</code>
               </pre>
               <p>
-                The command is not executed by this page. Read the target and
-                explanation in this step first.
+                Copying does not run a command. Paste it into the app named in
+                this step. Read the whole block first; some lines belong
+                together.
               </p>
             </section>
           )}
@@ -163,24 +187,23 @@ export function GuidedLab({
               </figure>
             ) : null;
           })}
-          <InstructionScreenshots stepId={`${lessonId}:guided:${index + 1}`} />
           <section className="guided-expected">
-            <b>What you should see</b>
+            <b>Check: does your screen match this?</b>
             <p>{step.expect}</p>
           </section>
           <details className="guided-trouble">
             <summary>My screen is different / it did not work</summary>
             <p>{step.trouble}</p>
           </details>
-          <div className="guided-evidence">
-            <b>Capture your evidence</b>
+          <details className="guided-evidence">
+            <summary>Save a picture or note of your result</summary>
             <p>{step.evidence}</p>
             <small>
               Use Win + Shift + S on your host to capture the VM screen. Keep
               screenshots in your own lab folder; do not include passwords,
               tokens, or product keys.
             </small>
-          </div>
+          </details>
           <label className="guided-check">
             <input
               type="checkbox"

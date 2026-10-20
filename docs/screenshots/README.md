@@ -1,6 +1,10 @@
 # Curriculum visual guides and capture inventory
 
-## Approved core illustration scope
+## Pictures inside every step
+
+Every one of the 803 instructional actions now has its own always-visible illustrated step map. This includes all 72 AlmaLinux actions and the other curricula’s guided, workplace and troubleshooting steps. These are diagrams, not newly captured software screenshots. They show context, numbered small actions, command examples when applicable, and the expected observation. See [STEP-PICTURES.md](../STEP-PICTURES.md) and run `npm run pictures:check`. Existing vendor references remain alongside their relevant steps.
+
+## Class-level core illustrations
 
 The user approved adapting and generating the essential teaching screens rather than capturing every click. All **97 classes** now map to a relevant key-workflow illustration in `content/screenshots/core-guides.json`. Thirteen sheets cover Windows/Workstation, creating the AD forest, SQL install/backup/restore, Azure workload migration and OS upgrade, MECM dependencies, SQL quorum, RHEL commands/file verification, Wazuh agent inspection, change/recovery planning, and the AlmaLinux desktop/app/game/storage/command workflows. A worksheet illustrates planning classes; it does not pretend to be a product screenshot. Related classes reuse the relevant sheet.
 

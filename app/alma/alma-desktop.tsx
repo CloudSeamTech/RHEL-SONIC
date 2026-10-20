@@ -59,7 +59,7 @@ export function AlmaDesktop() {
           </small>
         </header>
         <details className="guided-reference alma-course-index">
-          <summary>Course plan · all 12 classes</summary>
+          <summary>Pick a class · start at 1</summary>
           {[...new Set(course.lessons.map((item) => item.section))].map(
             (section) => (
               <section key={section}>
@@ -84,7 +84,7 @@ export function AlmaDesktop() {
           <LessonVisualGuide lessonId={id} />
           <GuidedLab lessonId={id} guide={lesson.guide} />
           <section className="alma-verify">
-            <h2>Verify this class</h2>
+            <h2>Finished? Check your work</h2>
             <p>{lesson.guide.pass}</p>
             <p>
               Mark this only after checking your own results. Step notes and
