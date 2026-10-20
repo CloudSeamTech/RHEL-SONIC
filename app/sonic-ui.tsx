@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { SessionGuide } from './session-guide';
+import { InstructionScreenshots } from './instruction-screenshots';
 import type { WalkthroughStep } from './wazuh-walkthroughs';
 import {
   Activity,
@@ -234,7 +235,15 @@ export function CommandBreakdown({ arguments: args }: { arguments: string[] }) {
   );
 }
 
-export function SonicWalkthrough({ steps }: { steps: WalkthroughStep[] }) {
+export function SonicWalkthrough({
+  steps,
+  lessonId,
+  variant = 'guided',
+}: {
+  steps: WalkthroughStep[];
+  lessonId?: string;
+  variant?: string;
+}) {
   return (
     <section
       className="sonic-walkthrough"
@@ -260,6 +269,11 @@ export function SonicWalkthrough({ steps }: { steps: WalkthroughStep[] }) {
                 <li key={action}>{action}</li>
               ))}
             </ol>
+            {lessonId && (
+              <InstructionScreenshots
+                stepId={`${lessonId}:${variant}:${index + 1}`}
+              />
+            )}
             {step.command && (
               <SonicTerminal
                 shell={step.where}

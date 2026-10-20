@@ -15,7 +15,7 @@ const sourceCopyPath = resolve(sourceCopyArg);
 const markdown = await readFile(sourcePath, 'utf8');
 const lines = markdown.replaceAll('\r\n', '\n').split('\n');
 
-const marker = /^(LAB \d{2}|SQL-\d{2}|MECM-\d{2}|MOVE-\d{2}|AZ-\d{2}|HA-\d{2}|FIELD-\d{2}) \/ (.+)$/;
+const marker = /^(LAB \d{2}|SQL-\d{2}|MECM-\d{2}|MOVE-\d{2}|AZ-\d{2}|HA-\d{2}|FIELD-\d{2}|UPGRADE-\d{2}) \/ (.+)$/;
 const sections = new Map();
 const cleanBody = (value) =>
   value
@@ -59,6 +59,7 @@ const sequence = [
   ...Array.from({ length: 4 }, (_, i) => `MOVE-${String(i + 1).padStart(2, '0')}`),
   ...Array.from({ length: 4 }, (_, i) => `LAB ${String(i + 14).padStart(2, '0')}`),
   ...Array.from({ length: 3 }, (_, i) => `AZ-${String(i + 1).padStart(2, '0')}`),
+  'UPGRADE-01',
   ...Array.from({ length: 5 }, (_, i) => `HA-${String(i + 1).padStart(2, '0')}`),
   ...Array.from({ length: 3 }, (_, i) => `LAB ${String(i + 18).padStart(2, '0')}`),
   'FIELD-01',
@@ -72,13 +73,13 @@ const stageFor = (code) => {
   if (code.startsWith('MECM-')) return 'mecm';
   if (code.startsWith('MOVE-')) return 'migration-methods';
   if (/^LAB 1[4-7]$/.test(code)) return 'azure-foundation';
-  if (code.startsWith('AZ-')) return 'azure-move';
+  if (code.startsWith('AZ-') || code.startsWith('UPGRADE-')) return 'azure-move';
   if (code.startsWith('HA-')) return 'availability';
   return 'closeout';
 };
 
 const surfaceFor = (code) => {
-  if (/^(LAB 14|LAB 15|LAB 16|LAB 17|AZ-|HA-03)/.test(code)) return 'Azure portal + Windows lab';
+  if (/^(LAB 14|LAB 15|LAB 16|LAB 17|AZ-|UPGRADE-|HA-03)/.test(code)) return 'Azure portal + Windows lab';
   if (/^(SQL-|MECM-|HA-)/.test(code)) return 'Windows PowerShell / product UI';
   if (/^(MOVE-|FIELD-|LAB 00|LAB 01|LAB 18|LAB 19|LAB 20)/.test(code)) return 'Course workspace';
   return 'Windows Server / VMware lab';
@@ -97,13 +98,13 @@ const lessons = sequence.map((code, index) => {
   };
 });
 
-if (lessons.length !== 44) {
-  throw new Error(`Expected 44 approved lessons, found ${lessons.length}`);
+if (lessons.length !== 45) {
+  throw new Error(`Expected 45 authored lessons, found ${lessons.length}`);
 }
 
 await mkdir(dirname(outputPath), { recursive: true });
 await mkdir(dirname(sourceCopyPath), { recursive: true });
-await writeFile(outputPath, `${JSON.stringify({ version: 3, lessons }, null, 2)}\n`);
+await writeFile(outputPath, `${JSON.stringify({ version: 4, lessons }, null, 2)}\n`);
 await writeFile(sourceCopyPath, markdown);
 if (contractArg && contractCopyArg) {
   const contract = await readFile(resolve(contractArg), 'utf8');

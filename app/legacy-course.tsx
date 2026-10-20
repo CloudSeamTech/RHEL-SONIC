@@ -1,5 +1,6 @@
 'use client';
 import { SessionGuide } from './session-guide';
+import { LessonVisualGuide } from './lesson-visual-guide';
 import { beginnerTerms } from './beginner-language';
 import { formatMinutes, lessonTimings, timingFor } from './course-timing';
 import { Fragment, useEffect, useState, useSyncExternalStore } from 'react';
@@ -605,11 +606,15 @@ export default function Home() {
                     ))}
                   </dl>
                 </details>
+                <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />
                 {lesson.visual === 'keys' && <KeyDiagram key={lesson.id} />}
                 {lesson.visual === 'architecture' && <ArchitectureDiagram />}
                 {lesson.visual === 'protocols' && <ProtocolDiagram />}
                 {lesson.walkthrough ? (
-                  <SonicWalkthrough steps={lesson.walkthrough} />
+                  <SonicWalkthrough
+                    steps={lesson.walkthrough}
+                    lessonId={lesson.id}
+                  />
                 ) : (
                   <>
                     <SessionGuide location={lesson.shell} />
@@ -707,14 +712,18 @@ export default function Home() {
                       ))}
                   </>
                 )}
-                {lesson.helpSections?.map((help) => (
+                {lesson.helpSections?.map((help, helpIndex) => (
                   <details className="explanation" key={lesson.id + help.title}>
                     <summary>{help.title}</summary>
                     <p>
                       Use this section only when its situation matches your
                       problem. Read the checks before changing anything.
                     </p>
-                    <SonicWalkthrough steps={help.steps} />
+                    <SonicWalkthrough
+                      steps={help.steps}
+                      lessonId={lesson.id}
+                      variant={`help-${helpIndex + 1}`}
+                    />
                   </details>
                 ))}
                 {lesson.workplaceWalkthrough && (
@@ -728,7 +737,11 @@ export default function Home() {
                       from the Azure lab and adds time beyond its preparation
                       estimate.
                     </p>
-                    <SonicWalkthrough steps={lesson.workplaceWalkthrough} />
+                    <SonicWalkthrough
+                      steps={lesson.workplaceWalkthrough}
+                      lessonId={lesson.id}
+                      variant="workplace"
+                    />
                   </details>
                 )}
                 <section className="result">

@@ -42,6 +42,9 @@ import {
 import './migration.css';
 import { ConsoleReaderShell } from '../console-reader-shell';
 import { LearningConsole } from '../learning-console';
+import { GuidedLab } from './guided-lab';
+import { LessonVisualGuide } from '../lesson-visual-guide';
+import { parseGuidedLab, referenceBody } from '@/lib/guided-lab';
 
 type Mode = 'home' | 'learn' | 'job' | 'lesson' | 'terminal';
 const lessonIds = migrationLessons.map((lesson) => lesson.id);
@@ -350,9 +353,10 @@ function LessonView({
   )!;
   const display = pathwayLessons(course).find((item) => item.id === lesson.id)!;
   const blocks = useMemo(
-    () => parseMigrationContent(lesson.body),
+    () => parseMigrationContent(referenceBody(lesson.body)),
     [lesson.body],
   );
+  const guide = useMemo(() => parseGuidedLab(lesson.body), [lesson.body]);
   const pathwaySection = course.sections.find((section) =>
     section.lessons.some((item) => item.id === lesson.id),
   )!;
@@ -443,9 +447,16 @@ function LessonView({
         </span>
       </section>
       <div className="lesson-content">
-        {blocks.map((block, index) => (
-          <ContentBlock key={index} block={block} />
-        ))}
+        <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />
+        {guide && (
+          <GuidedLab key={lesson.id} lessonId={lesson.id} guide={guide} />
+        )}
+        <details className="guided-reference" open={!guide}>
+          <summary>Full lesson reference, commands, and background</summary>
+          {blocks.map((block, index) => (
+            <ContentBlock key={index} block={block} />
+          ))}
+        </details>
       </div>
       <details className="engineer-detail">
         <summary>LEVEL 3 · ENGINEER DETAIL / SOURCE TRACE</summary>
@@ -615,6 +626,7 @@ export function MigrationAcademy() {
         )}
         {mode === 'lesson' && lesson && (
           <LessonView
+            key={lesson.id}
             lesson={lesson}
             completed={completed}
             toggle={toggle}

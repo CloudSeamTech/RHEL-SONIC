@@ -1,0 +1,130 @@
+[
+  {
+    "id": "workstation-1",
+    "src": "/lab-screenshots/workstation-1.jpg",
+    "alt": "Accessing the New VM wizard",
+    "source": "https://www.ifixit.com/Guide/How+to+create+a+virtual+machine+on+VMware+Workstation+Pro+17/193735",
+    "credit": "iFixit guide 193735 \u00b7 Sean-e \u00b7 CC BY-NC-SA 3.0",
+    "note": "Authentic Workstation Pro 17 reference capture. This guide uses manual installation (Typical / install OS later), Server 2019, and a private NAT VMnet; ignore other example OS names or network choices in the source capture."
+  },
+  {
+    "id": "workstation-2",
+    "src": "/lab-screenshots/workstation-2.jpg",
+    "alt": "First Screen",
+    "source": "https://www.ifixit.com/Guide/How+to+create+a+virtual+machine+on+VMware+Workstation+Pro+17/193735",
+    "credit": "iFixit guide 193735 \u00b7 Sean-e \u00b7 CC BY-NC-SA 3.0",
+    "note": "Authentic Workstation Pro 17 reference capture. This guide uses manual installation (Typical / install OS later), Server 2019, and a private NAT VMnet; ignore other example OS names or network choices in the source capture."
+  },
+  {
+    "id": "workstation-4",
+    "src": "/lab-screenshots/workstation-4.jpg",
+    "alt": "Third Screen (OS Installation)",
+    "source": "https://www.ifixit.com/Guide/How+to+create+a+virtual+machine+on+VMware+Workstation+Pro+17/193735",
+    "credit": "iFixit guide 193735 \u00b7 Sean-e \u00b7 CC BY-NC-SA 3.0",
+    "note": "Authentic Workstation Pro 17 reference capture. This guide uses manual installation (Typical / install OS later), Server 2019, and a private NAT VMnet; ignore other example OS names or network choices in the source capture."
+  },
+  {
+    "id": "workstation-6",
+    "src": "/lab-screenshots/workstation-6.jpg",
+    "alt": "VM Name and Location",
+    "source": "https://www.ifixit.com/Guide/How+to+create+a+virtual+machine+on+VMware+Workstation+Pro+17/193735",
+    "credit": "iFixit guide 193735 \u00b7 Sean-e \u00b7 CC BY-NC-SA 3.0",
+    "note": "Authentic Workstation Pro 17 reference capture. This guide uses manual installation (Typical / install OS later), Server 2019, and a private NAT VMnet; ignore other example OS names or network choices in the source capture."
+  },
+  {
+    "id": "workstation-8",
+    "src": "/lab-screenshots/workstation-8.jpg",
+    "alt": "Processor Configuration",
+    "source": "https://www.ifixit.com/Guide/How+to+create+a+virtual+machine+on+VMware+Workstation+Pro+17/193735",
+    "credit": "iFixit guide 193735 \u00b7 Sean-e \u00b7 CC BY-NC-SA 3.0",
+    "note": "Authentic Workstation Pro 17 reference capture. This guide uses manual installation (Typical / install OS later), Server 2019, and a private NAT VMnet; ignore other example OS names or network choices in the source capture."
+  },
+  {
+    "id": "workstation-9",
+    "src": "/lab-screenshots/workstation-9.jpg",
+    "alt": "VM Memory Configuration",
+    "source": "https://www.ifixit.com/Guide/How+to+create+a+virtual+machine+on+VMware+Workstation+Pro+17/193735",
+    "credit": "iFixit guide 193735 \u00b7 Sean-e \u00b7 CC BY-NC-SA 3.0",
+    "note": "Authentic Workstation Pro 17 reference capture. This guide uses manual installation (Typical / install OS later), Server 2019, and a private NAT VMnet; ignore other example OS names or network choices in the source capture."
+  },
+  {
+    "id": "workstation-14",
+    "src": "/lab-screenshots/workstation-14.jpg",
+    "alt": "Disk Capacity",
+    "source": "https://www.ifixit.com/Guide/How+to+create+a+virtual+machine+on+VMware+Workstation+Pro+17/193735",
+    "credit": "iFixit guide 193735 \u00b7 Sean-e \u00b7 CC BY-NC-SA 3.0",
+    "note": "Authentic Workstation Pro 17 reference capture. This guide uses manual installation (Typical / install OS later), Server 2019, and a private NAT VMnet; ignore other example OS names or network choices in the source capture."
+  },
+  {
+    "id": "workstation-15",
+    "src": "/lab-screenshots/workstation-15.jpg",
+    "alt": "Settings Overview",
+    "source": "https://www.ifixit.com/Guide/How+to+create+a+virtual+machine+on+VMware+Workstation+Pro+17/193735",
+    "credit": "iFixit guide 193735 \u00b7 Sean-e \u00b7 CC BY-NC-SA 3.0",
+    "note": "Authentic Workstation Pro 17 reference capture. This guide uses manual installation (Typical / install OS later), Server 2019, and a private NAT VMnet; ignore other example OS names or network choices in the source capture."
+  },
+  {
+    "id": "ad-roles",
+    "src": "/lab-screenshots/ad-roles.png",
+    "alt": "Microsoft Server Manager reference: roles",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2012-active-directory-forest--level-200-",
+    "credit": "Microsoft Learn \u00b7 Microsoft documentation screenshot",
+    "note": "Authentic Microsoft reference image from the Server 2012 guide, not a capture of your Server 2019 lab. The wizard layout is similar; use this lab\u2019s agency.test, AG-DC01, and Windows Server 2016 functional levels, not the source image\u2019s example values."
+  },
+  {
+    "id": "ad-features",
+    "src": "/lab-screenshots/ad-features.gif",
+    "alt": "Microsoft Server Manager reference: features",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2012-active-directory-forest--level-200-",
+    "credit": "Microsoft Learn \u00b7 Microsoft documentation screenshot",
+    "note": "Authentic Microsoft reference image from the Server 2012 guide, not a capture of your Server 2019 lab. The wizard layout is similar; use this lab\u2019s agency.test, AG-DC01, and Windows Server 2016 functional levels, not the source image\u2019s example values."
+  },
+  {
+    "id": "ad-promote",
+    "src": "/lab-screenshots/ad-promote.png",
+    "alt": "Microsoft Server Manager reference: promote",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2012-active-directory-forest--level-200-",
+    "credit": "Microsoft Learn \u00b7 Microsoft documentation screenshot",
+    "note": "Authentic Microsoft reference image from the Server 2012 guide, not a capture of your Server 2019 lab. The wizard layout is similar; use this lab\u2019s agency.test, AG-DC01, and Windows Server 2016 functional levels, not the source image\u2019s example values."
+  },
+  {
+    "id": "ad-forest",
+    "src": "/lab-screenshots/ad-forest.png",
+    "alt": "Microsoft Server Manager reference: forest",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2012-active-directory-forest--level-200-",
+    "credit": "Microsoft Learn \u00b7 Microsoft documentation screenshot",
+    "note": "Authentic Microsoft reference image from the Server 2012 guide, not a capture of your Server 2019 lab. The wizard layout is similar; use this lab\u2019s agency.test, AG-DC01, and Windows Server 2016 functional levels, not the source image\u2019s example values."
+  },
+  {
+    "id": "ad-dc-options",
+    "src": "/lab-screenshots/ad-dc-options.gif",
+    "alt": "Microsoft Server Manager reference: dc-options",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2012-active-directory-forest--level-200-",
+    "credit": "Microsoft Learn \u00b7 Microsoft documentation screenshot",
+    "note": "Authentic Microsoft reference image from the Server 2012 guide, not a capture of your Server 2019 lab. The wizard layout is similar; use this lab\u2019s agency.test, AG-DC01, and Windows Server 2016 functional levels, not the source image\u2019s example values."
+  },
+  {
+    "id": "ad-paths",
+    "src": "/lab-screenshots/ad-paths.png",
+    "alt": "Microsoft Server Manager reference: paths",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2012-active-directory-forest--level-200-",
+    "credit": "Microsoft Learn \u00b7 Microsoft documentation screenshot",
+    "note": "Authentic Microsoft reference image from the Server 2012 guide, not a capture of your Server 2019 lab. The wizard layout is similar; use this lab\u2019s agency.test, AG-DC01, and Windows Server 2016 functional levels, not the source image\u2019s example values."
+  },
+  {
+    "id": "ad-review",
+    "src": "/lab-screenshots/ad-review.png",
+    "alt": "Microsoft Server Manager reference: review",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2012-active-directory-forest--level-200-",
+    "credit": "Microsoft Learn \u00b7 Microsoft documentation screenshot",
+    "note": "Authentic Microsoft reference image from the Server 2012 guide, not a capture of your Server 2019 lab. The wizard layout is similar; use this lab\u2019s agency.test, AG-DC01, and Windows Server 2016 functional levels, not the source image\u2019s example values."
+  },
+  {
+    "id": "ad-prerequisites",
+    "src": "/lab-screenshots/ad-prerequisites.png",
+    "alt": "Microsoft Server Manager reference: prerequisites",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-a-new-windows-server-2012-active-directory-forest--level-200-",
+    "credit": "Microsoft Learn \u00b7 Microsoft documentation screenshot",
+    "note": "Authentic Microsoft reference image from the Server 2012 guide, not a capture of your Server 2019 lab. The wizard layout is similar; use this lab\u2019s agency.test, AG-DC01, and Windows Server 2016 functional levels, not the source image\u2019s example values."
+  }
+]
