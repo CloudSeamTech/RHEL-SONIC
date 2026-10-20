@@ -1,0 +1,760 @@
+{
+  "version": 1,
+  "scope": "Key workflow illustrations per class; not a screenshot of every step.",
+  "assets": [
+    {
+      "id": "ad",
+      "title": "Create the agency.test forest",
+      "src": "/lab-screenshots/illustrated-ad.png",
+      "kind": "illustrated",
+      "note": "Example: AG-DC01 creates agency.test. Replica DCs join the existing domain; DEST-DC01 creates its separate forest. Never choose a new forest for AG-DC02.",
+      "provenance": "AI-adapted Microsoft AD DS wizard reference, with lab-specific domain and server labels. Not a Server 2019 capture."
+    },
+    {
+      "id": "sql",
+      "title": "Install, back up, and restore SQL Server",
+      "src": "/lab-screenshots/illustrated-sql.png",
+      "kind": "illustrated",
+      "note": "The sheet combines several SQL screens for orientation. Exact installer pages vary. Use SQL_Latin1_General_CP1_CI_AS where the lesson requires it. Restore tests must use separate database and data-file names.",
+      "provenance": "AI-generated schematic training illustration; software layouts are representative, not exact captures."
+    },
+    {
+      "id": "azure",
+      "title": "Build the Azure destination and upgrade its OS",
+      "src": "/lab-screenshots/illustrated-azure.png",
+      "kind": "illustrated",
+      "note": "The example is the Windows APP01 → APP02 route. Provision APP02 as Server 2019 first; use upgrade-01 for its later 2022 upgrade. Private connectivity and DNS must pass before copying data. This is a workload migration, not a Workstation VM rehost.",
+      "provenance": "AI-generated schematic training illustration; software layouts are representative, not exact captures."
+    },
+    {
+      "id": "linux",
+      "title": "Use SSH, inspect RHEL, and verify a file transfer",
+      "src": "/lab-screenshots/illustrated-linux.png",
+      "kind": "illustrated",
+      "note": "Commands shown are examples, not output. Use the host, user, key path, and test file from this lesson. Run PowerShell commands on Windows and Bash commands inside RHEL.",
+      "provenance": "AI-generated schematic training illustration; software layouts are representative, not exact captures."
+    },
+    {
+      "id": "mecm",
+      "title": "Prepare the MECM dependencies",
+      "src": "/lab-screenshots/illustrated-mecm.png",
+      "kind": "illustrated",
+      "note": "This is a dependency checklist, not proof of a successful installation. Check your Configuration Manager release support matrix before choosing SQL, ADK, and Windows components.",
+      "provenance": "AI-generated schematic training illustration; software layouts are representative, not exact captures."
+    },
+    {
+      "id": "ha",
+      "title": "Plan SQL quorum and the cloud witness",
+      "src": "/lab-screenshots/illustrated-ha.png",
+      "kind": "illustrated",
+      "note": "The cloud witness is Azure Storage, not a third SQL VM. A quorum witness does not replicate databases or make an application highly available by itself.",
+      "provenance": "AI-generated schematic training illustration; software layouts are representative, not exact captures."
+    },
+    {
+      "id": "wazuh",
+      "title": "Connect and inspect a Wazuh agent",
+      "src": "/lab-screenshots/illustrated-wazuh.png",
+      "kind": "illustrated",
+      "note": "Replace MANAGER_PRIVATE_IP with your approved manager address. Discover your installed service names and verify your own dashboard record; the illustration contains no live agent telemetry.",
+      "provenance": "AI-generated schematic training illustration; software layouts are representative, not exact captures."
+    },
+    {
+      "id": "windows",
+      "title": "Install Server 2019 and configure its network",
+      "src": "/lab-screenshots/illustrated-windows.png",
+      "kind": "illustrated",
+      "note": "The panels combine separate wizard pages for orientation. Select Server 2019 Desktop Experience, then use this lesson’s exact VM name, RAM, disk, private IP, and DNS settings.",
+      "provenance": "AI-generated schematic training illustration; software layouts are representative, not exact captures."
+    },
+    {
+      "id": "planning",
+      "title": "Plan the change and record your evidence",
+      "src": "/lab-screenshots/illustrated-planning.png",
+      "kind": "illustrated",
+      "note": "Fill in the worksheet using your own environment. Empty fields are intentional. Save actual observations and a recovery plan before making the next change.",
+      "provenance": "AI-generated schematic training illustration; software layouts are representative, not exact captures."
+    }
+  ],
+  "lessons": [
+    {
+      "lessonId": "lab-00",
+      "title": "Pick your training route",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Pick your training route"
+    },
+    {
+      "lessonId": "lab-01",
+      "title": "Understand the map",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Understand the map"
+    },
+    {
+      "lessonId": "lab-02",
+      "title": "Prepare your laptop and downloads",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Prepare your laptop and downloads"
+    },
+    {
+      "lessonId": "lab-03",
+      "title": "Build one safe VMware network",
+      "guideIds": [
+        "windows"
+      ],
+      "focus": "Build one safe VMware network"
+    },
+    {
+      "lessonId": "lab-04",
+      "title": "Make AG-DC01: the agency begins",
+      "guideIds": [
+        "ad"
+      ],
+      "focus": "Make AG-DC01: the agency begins"
+    },
+    {
+      "lessonId": "lab-05",
+      "title": "Create test users, OUs, and a GPO",
+      "guideIds": [
+        "windows"
+      ],
+      "focus": "Create test users, OUs, and a GPO"
+    },
+    {
+      "lessonId": "lab-06",
+      "title": "Make APP01: the server that will move",
+      "guideIds": [
+        "windows"
+      ],
+      "focus": "Make APP01: the server that will move"
+    },
+    {
+      "lessonId": "lab-07",
+      "title": "Add AG-DC02: copy the same domain",
+      "guideIds": [
+        "windows"
+      ],
+      "focus": "Add AG-DC02: copy the same domain"
+    },
+    {
+      "lessonId": "lab-08",
+      "title": "Create DEST-DC01: the NEW enterprise",
+      "guideIds": [
+        "windows"
+      ],
+      "focus": "Create DEST-DC01: the NEW enterprise"
+    },
+    {
+      "lessonId": "lab-09",
+      "title": "Teach the forests to find each other",
+      "guideIds": [
+        "windows"
+      ],
+      "focus": "Teach the forests to find each other"
+    },
+    {
+      "lessonId": "lab-10",
+      "title": "Export and import your test GPO",
+      "guideIds": [
+        "windows"
+      ],
+      "focus": "Export and import your test GPO"
+    },
+    {
+      "lessonId": "lab-11",
+      "title": "Move APP01 to the new domain",
+      "guideIds": [
+        "windows"
+      ],
+      "focus": "Move APP01 to the new domain"
+    },
+    {
+      "lessonId": "lab-12",
+      "title": "Test rollback and record the result",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Test rollback and record the result"
+    },
+    {
+      "lessonId": "lab-13",
+      "title": "Optional: build a WSUS server",
+      "guideIds": [
+        "mecm"
+      ],
+      "focus": "Optional: build a WSUS server"
+    },
+    {
+      "lessonId": "sql-01",
+      "title": "Choose the right SQL and MECM installers",
+      "guideIds": [
+        "sql"
+      ],
+      "focus": "Choose the right SQL and MECM installers"
+    },
+    {
+      "lessonId": "sql-02",
+      "title": "Create SQL01 and join agency.test",
+      "guideIds": [
+        "sql"
+      ],
+      "focus": "Create SQL01 and join agency.test"
+    },
+    {
+      "lessonId": "sql-03",
+      "title": "Install SQL Server correctly on SQL01",
+      "guideIds": [
+        "sql"
+      ],
+      "focus": "Install SQL Server correctly on SQL01"
+    },
+    {
+      "lessonId": "sql-04",
+      "title": "Use SSMS to create a database you understand",
+      "guideIds": [
+        "sql"
+      ],
+      "focus": "Use SSMS to create a database you understand"
+    },
+    {
+      "lessonId": "sql-05",
+      "title": "Make a real backup and restore it",
+      "guideIds": [
+        "sql"
+      ],
+      "focus": "Make a real backup and restore it"
+    },
+    {
+      "lessonId": "mecm-01",
+      "title": "Create MECM01 and prepare Windows roles",
+      "guideIds": [
+        "mecm"
+      ],
+      "focus": "Create MECM01 and prepare Windows roles"
+    },
+    {
+      "lessonId": "mecm-02",
+      "title": "Allow MECM01 to talk to Active Directory and SQL",
+      "guideIds": [
+        "mecm"
+      ],
+      "focus": "Allow MECM01 to talk to Active Directory and SQL"
+    },
+    {
+      "lessonId": "mecm-03",
+      "title": "Install a stand-alone primary site (evaluation)",
+      "guideIds": [
+        "mecm"
+      ],
+      "focus": "Install a stand-alone primary site (evaluation)"
+    },
+    {
+      "lessonId": "mecm-04",
+      "title": "Add a client and test the SQL dependency",
+      "guideIds": [
+        "mecm"
+      ],
+      "focus": "Add a client and test the SQL dependency"
+    },
+    {
+      "lessonId": "mecm-05",
+      "title": "Connect MECM to the separate WSUS01 server",
+      "guideIds": [
+        "mecm"
+      ],
+      "focus": "Connect MECM to the separate WSUS01 server"
+    },
+    {
+      "lessonId": "move-01",
+      "title": "You do not move every server the same way",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "You do not move every server the same way"
+    },
+    {
+      "lessonId": "move-02",
+      "title": ".bak migration: the portable practice database",
+      "guideIds": [
+        "sql"
+      ],
+      "focus": ".bak migration: the portable practice database"
+    },
+    {
+      "lessonId": "move-03",
+      "title": "Different mission: preserving or replacing MECM",
+      "guideIds": [
+        "mecm"
+      ],
+      "focus": "Different mission: preserving or replacing MECM"
+    },
+    {
+      "lessonId": "move-04",
+      "title": "What changes when an organization enters a new domain?",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "What changes when an organization enters a new domain?"
+    },
+    {
+      "lessonId": "lab-14",
+      "title": "Azure: create a safe destination plan",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Azure: create a safe destination plan"
+    },
+    {
+      "lessonId": "lab-15",
+      "title": "Azure: create AZ-DC01 carefully",
+      "guideIds": [
+        "azure"
+      ],
+      "focus": "Azure: create AZ-DC01 carefully"
+    },
+    {
+      "lessonId": "lab-16",
+      "title": "Azure: the networking gate comes FIRST",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Azure: the networking gate comes FIRST"
+    },
+    {
+      "lessonId": "lab-17",
+      "title": "Azure: run a real migration wave",
+      "guideIds": [
+        "azure"
+      ],
+      "focus": "Azure: run a real migration wave"
+    },
+    {
+      "lessonId": "az-01",
+      "title": "Azure cost worksheet: one cloud VM at a time",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Azure cost worksheet: one cloud VM at a time"
+    },
+    {
+      "lessonId": "az-02",
+      "title": "Choose a migration tool that supports your source",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Choose a migration tool that supports your source"
+    },
+    {
+      "lessonId": "az-03",
+      "title": "The pretend enterprise cutover plan",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "The pretend enterprise cutover plan"
+    },
+    {
+      "lessonId": "upgrade-01",
+      "title": "Upgrade APP02 from Server 2019 to Server 2022",
+      "guideIds": [
+        "azure"
+      ],
+      "focus": "Upgrade APP02 from Server 2019 to Server 2022"
+    },
+    {
+      "lessonId": "ha-01",
+      "title": "Two SQL servers + one cloud witness: the idea",
+      "guideIds": [
+        "ha"
+      ],
+      "focus": "Two SQL servers + one cloud witness: the idea"
+    },
+    {
+      "lessonId": "ha-02",
+      "title": "Before you click Create: prepare two SQL nodes",
+      "guideIds": [
+        "ha"
+      ],
+      "focus": "Before you click Create: prepare two SQL nodes"
+    },
+    {
+      "lessonId": "ha-03",
+      "title": "Create the witness storage account (no third VM)",
+      "guideIds": [
+        "ha"
+      ],
+      "focus": "Create the witness storage account (no third VM)"
+    },
+    {
+      "lessonId": "ha-04",
+      "title": "Tell Windows: use my Azure cloud witness",
+      "guideIds": [
+        "ha"
+      ],
+      "focus": "Tell Windows: use my Azure cloud witness"
+    },
+    {
+      "lessonId": "ha-05",
+      "title": "Prove quorum safely, then protect your wallet",
+      "guideIds": [
+        "ha"
+      ],
+      "focus": "Prove quorum safely, then protect your wallet"
+    },
+    {
+      "lessonId": "lab-18",
+      "title": "Interview drill and checklist",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Interview drill and checklist"
+    },
+    {
+      "lessonId": "lab-19",
+      "title": "Troubleshooting decision tree",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Troubleshooting decision tree"
+    },
+    {
+      "lessonId": "lab-20",
+      "title": "Shut down safely + official references",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Shut down safely + official references"
+    },
+    {
+      "lessonId": "field-01",
+      "title": "Joining a migration mid-project: ten questions to ask",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Joining a migration mid-project: ten questions to ask"
+    },
+    {
+      "lessonId": "assignment-v2",
+      "title": "Receive the assignment & plan the change",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Make a notebook for the lab and write down the names you will use."
+    },
+    {
+      "lessonId": "windows-tools-v2",
+      "title": "Check the tools & distinguish the protocols",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Check that your Windows computer has the four tools used in this course."
+    },
+    {
+      "lessonId": "azure-scope-v2",
+      "title": "Choose the tenant, subscription & spending boundary",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Choose the right Azure account and subscription, then set a spending plan."
+    },
+    {
+      "lessonId": "two-host-plan-v3",
+      "title": "Plan the manager and endpoint as one change",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Plan two Linux computers: the manager and the endpoint."
+    },
+    {
+      "lessonId": "resource-group-v2",
+      "title": "Create the lab resource group",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Create one resource group named rg-rhel9-lab for this lab."
+    },
+    {
+      "lessonId": "network-plan-v2",
+      "title": "Build one VNet and one subnet",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Create a private Azure network and one smaller section inside it."
+    },
+    {
+      "lessonId": "build-storage-v3",
+      "title": "Plan disks and mount points during the build",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Choose where each computer will store its operating system and files."
+    },
+    {
+      "lessonId": "nsg-v2",
+      "title": "Allow SSH from your home connection",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Create a network rule that allows SSH into the endpoint VM from your current home public IPv4 address. You will repeat this for the manager VM later."
+    },
+    {
+      "lessonId": "key-concept-v2",
+      "title": "Understand which key belongs where",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Learn which SSH key stays on Windows and which part can go to Linux."
+    },
+    {
+      "lessonId": "key-create-v2",
+      "title": "Create and inspect the rexuser key pair",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Create a new SSH key pair and protect the private key with a passphrase."
+    },
+    {
+      "lessonId": "vm-provision-v2",
+      "title": "Submit the endpoint build with rexuser’s public key",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Create the endpoint Linux VM and give rexuser your public key."
+    },
+    {
+      "lessonId": "manager-vm-v3",
+      "title": "Create the second VM without losing the endpoint",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Create the manager Linux VM and record both computers separately."
+    },
+    {
+      "lessonId": "reachability-v2",
+      "title": "Test the path from Windows",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Check whether your Windows computer can reach SSH on the VM."
+    },
+    {
+      "lessonId": "host-trust-v2",
+      "title": "Obtain the server fingerprint independently",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Get the VM’s SSH fingerprint from Azure before your first SSH login."
+    },
+    {
+      "lessonId": "first-ssh-v2",
+      "title": "Make the first SSH connection as rexuser",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Sign in to the endpoint as rexuser using your Windows private key."
+    },
+    {
+      "lessonId": "identity-v2",
+      "title": "Verify identity and available privilege",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Check your Linux username and whether you may use administrator commands."
+    },
+    {
+      "lessonId": "host-os-v2",
+      "title": "Identify the host, release & running kernel",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Check the computer name, RHEL version and running kernel version."
+    },
+    {
+      "lessonId": "guest-network-v2",
+      "title": "Read addresses and routes inside RHEL",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Find the private IP address and the route Linux uses to reach other networks."
+    },
+    {
+      "lessonId": "home-files-v2",
+      "title": "Orient yourself in the home directory",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Find your Linux home folder and inspect the public key allowed to sign in."
+    },
+    {
+      "lessonId": "storage-verify-v3",
+      "title": "Verify the storage you actually built",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Check each VM’s disks, folders and free space."
+    },
+    {
+      "lessonId": "paired-access-v3",
+      "title": "Prove rexuser access to both hosts",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Sign in to the manager and prove you can tell the two Linux computers apart."
+    },
+    {
+      "lessonId": "test-file-v3",
+      "title": "Create a harmless Windows test file",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Make a harmless text file on Windows and calculate its checksum."
+    },
+    {
+      "lessonId": "scp-test-v3",
+      "title": "Copy the test file with SCP",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Copy the practice file from Windows to the endpoint with SCP."
+    },
+    {
+      "lessonId": "verify-transfer-v3",
+      "title": "Verify the delivered file on RHEL",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Check the file that arrived on Linux and compare its checksum with Windows."
+    },
+    {
+      "lessonId": "sftp-test-v3",
+      "title": "Practice an interactive SFTP delivery",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Copy the same practice file using SFTP’s file-transfer prompt."
+    },
+    {
+      "lessonId": "installer-types-v3",
+      "title": "Match the installation method to the artifact",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Learn the difference between a script, an RPM package and an archive."
+    },
+    {
+      "lessonId": "software-inventory-v3",
+      "title": "Record what is installed before asking what changed",
+      "guideIds": [
+        "linux"
+      ],
+      "focus": "Make a list of installed software and services on each VM."
+    },
+    {
+      "lessonId": "baseline-v2",
+      "title": "Capture the baseline and plan the next change",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Write down the working state of Linux before installing Wazuh."
+    },
+    {
+      "lessonId": "rollback-gate-v3",
+      "title": "Checkpoint: what is your rollback plan?",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Write down what to back up and how to undo the next change."
+    },
+    {
+      "lessonId": "deallocate-v2",
+      "title": "Pause the continuous lab without leaving compute running",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Stop both Azure VMs properly when you finish the session."
+    },
+    {
+      "lessonId": "wazuh-release-v4",
+      "title": "Approve the release and recovery checkpoint",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Check the Wazuh version, computer size and recovery plan before installing."
+    },
+    {
+      "lessonId": "wazuh-central-v4",
+      "title": "Inspect and install the central components",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Install the three central Wazuh parts on the manager VM."
+    },
+    {
+      "lessonId": "wazuh-dashboard-v4",
+      "title": "Discover services and validate dashboard access",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Check that Wazuh is running and open its dashboard from Windows."
+    },
+    {
+      "lessonId": "wazuh-artifact-v4",
+      "title": "Verify the endpoint RPM before installation",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Check the Wazuh agent download before installing it."
+    },
+    {
+      "lessonId": "wazuh-agent-v4",
+      "title": "Install, discover and connect the agent",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Install the agent on the endpoint and tell it where the manager is."
+    },
+    {
+      "lessonId": "wazuh-checkin-v4",
+      "title": "Correlate the endpoint with its dashboard record",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Match the endpoint in Linux with its entry in the Wazuh dashboard."
+    },
+    {
+      "lessonId": "wazuh-event-v4",
+      "title": "Prove delivery with a harmless file change",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Change a harmless file and find that change in Wazuh."
+    },
+    {
+      "lessonId": "wazuh-fault-v4",
+      "title": "Diagnose a deliberately wrong manager address",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Practice finding a deliberately wrong manager address."
+    },
+    {
+      "lessonId": "wazuh-recover-v4",
+      "title": "Restore and validate the approved endpoint baseline",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Use the chosen rollback plan and check that Linux works afterward."
+    },
+    {
+      "lessonId": "wazuh-close-v4",
+      "title": "Close the change with evidence and cost control",
+      "guideIds": [
+        "wazuh"
+      ],
+      "focus": "Save the results and stop both VMs when you are finished."
+    }
+  ]
+}

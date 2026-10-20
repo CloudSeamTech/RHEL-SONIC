@@ -13,7 +13,10 @@
     "format": "oxfmt",
     "test": "node --experimental-strip-types --test tests/*.test.mjs && npm --prefix local-companion test",
     "companion:install": "npm --prefix local-companion install",
-    "companion:start": "npm --prefix local-companion start"
+    "companion:start": "npm --prefix local-companion start",
+    "screenshots:coverage": "node --experimental-strip-types tools/screenshot-coverage.mjs",
+    "screenshots:check": "node --experimental-strip-types tools/screenshot-coverage.mjs --require-complete",
+    "screenshots:core-check": "node --experimental-strip-types --test tests/core-guides.test.mjs"
   },
   "dependencies": {
     "react": "19.2.6",

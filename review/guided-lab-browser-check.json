@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "checks": [
+    "Real reference screenshot opens and closes",
+    "Step verification persists across reload",
+    "Step checks remain separate",
+    "Mobile has no horizontal overflow",
+    "New Azure upgrade route and 2022 media command"
+  ],
+  "pageErrors": []
+}

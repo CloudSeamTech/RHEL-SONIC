@@ -1,6 +1,6 @@
 HANDS-ON / BEGINNER LEVEL
 
-FROM HOME LAB  
+FROM HOME LAB
 TO CLOUD MIGRATION
 
 A click-by-click migration worksheet: Active Directory, WSUS, SQL Server, MECM and Azure
@@ -46,6 +46,7 @@ For beginners: every click, the reason it matters, a PASS CHECK, troubleshooting
 Version 3.0 \| October 15, 2026 \| Independent learning lab, NOT an official DISA or production implementation guide.
 
 LAB 00 / START HERE
+
 
 # Pick your training route
 
@@ -96,7 +97,48 @@ UPDATED LEARNING PATH - SQL/MECM labs follow Lab 13; optional HA-01 through HA-0
 
 **Your Azure monthly cost ceiling** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical Windows host / File Explorer / lab notes; no Azure deployment.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Create your evidence folder
+
+**DO** On the physical host, open File Explorer and create a SONIC-Lab folder with subfolders Installers, Screenshots, Baselines, and Backups. Keep passwords elsewhere.
+
+**EXPECT** The four folders exist on storage with sufficient free space.
+
+**IF STUCK** Do not use an employer’s production share or store keys in a Git repository.
+
+**EVIDENCE** Capture the four folders exist on storage with sufficient free space. Record the target computer and date.
+
+### Step 02: Record the version journey
+
+**DO** Create a lab note: VMware Workstation Pro on the host; Windows Server 2019 Desktop Experience on premises; Server 2019 Azure destination; migrate test workload/data; then upgrade that Azure member server to Server 2022.
+
+**EXPECT** Your note distinguishes moving an application from moving a whole VM.
+
+**IF STUCK** If an assignment requires full VM rehosting, choose the support-gated AZ-02 route, not a rebuild labeled as rehosting.
+
+**EVIDENCE** Capture your note distinguishes moving an application from moving a whole VM. Record the target computer and date.
+
+### Step 03: Choose the required route
+
+**DO** Complete the Windows/AD core, SQL core, Azure foundations, and migration core in sidebar order. Leave MECM and high availability extensions until their prerequisites pass.
+
+**EXPECT** DC01/DC02 and APP01 are prepared before the migration work.
+
+**IF STUCK** Do not buy Azure capacity before completing the local prerequisite checks.
+
+**EVIDENCE** Capture dC01/DC02 and APP01 are prepared before the migration work. Record the target computer and date.
+
 LAB 01 / DIAGRAM + TERMS
+
 
 # Understand the map
 
@@ -157,13 +199,34 @@ First understand what each computer represents. You are building a tiny version 
 </tbody>
 </table>
 
+## Guided walkthrough
+
+**WHERE** Physical Windows host / lab worksheet; read-only planning.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Record the named outcome
+
+**DO** # Understand the map
+
+**EXPECT** Compare your recorded result with the named lesson evidence before marking verified.
+
+**IF STUCK** Return to the prior pass check and preserve the first failed result before making another change.
+
+**EVIDENCE** Capture compare your recorded result with the named lesson evidence before marking verified. Record the target computer and date.
+
 LAB 02 / WORKSTATION
+
 
 # Prepare your laptop and downloads
 
 You need the right installer and enough resources before doing any domain work.
 
-**\[ \]** On your Windows desktop, open https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2025
+**\[ \]** On your Windows desktop, open https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2019
 
 **\[ \]** Register if Microsoft asks. Choose the 64-bit ISO and download it to a folder such as C:\LabISOs.
 
@@ -184,7 +247,7 @@ You need the right installer and enough resources before doing any domain work.
 <thead>
 <tr class="header">
 <th><p><strong>EVAL RULE</strong></p>
-<p>Microsoft states the Windows Server 2025 evaluation expires after 180 days. Activate the evaluation over the internet within the first 10 days to avoid automatic shutdown. The evaluation is for testing, not production use.</p></th>
+<p>Microsoft states the Windows Server 2019 evaluation expires after 180 days. Activate the evaluation over the internet within the first 10 days to avoid automatic shutdown. The evaluation is for testing, not production use.</p></th>
 </tr>
 </thead>
 <tbody>
@@ -211,7 +274,60 @@ You need the right installer and enough resources before doing any domain work.
 
 **Free RAM / free disk** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical Windows host / Workstation Pro / official ISO download; authorized local administrator for installation.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Your ISO downloaded; VMware Workstation Pro opens; you have sufficient free storage.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Confirm Workstation Pro
+
+**DO** On your physical Windows PC, open VMware Workstation Pro > Help > About. Record the installed version. This course uses Workstation, not vCenter or ESXi.
+
+**EXPECT** The product is Workstation Pro and it can create Windows Server 2019 guests.
+
+**IF STUCK** If you have Player, Fusion, or ESXi, the menus and migration route differ. Install the assigned supported Workstation version first.
+
+**EVIDENCE** Capture the product is Workstation Pro and it can create Windows Server 2019 guests. Record the target computer and date.
+
+**SCREENSHOTS** workstation-1
+
+### Step 02: Obtain Server 2019 media
+
+**DO** Use the Windows Server 2019 ISO your course or license administrator supplies. For local-only evaluation, open https://www.microsoft.com/evalcenter/evaluate-windows-server-2019 and download the 64-bit ISO. Save it under Installers.
+
+**EXPECT** The media is Windows Server 2019, not 2025.
+
+**IF STUCK** Evaluation is for practice. Do not assume an evaluation VM or an evaluation target supports the later Azure upgrade path.
+
+**EVIDENCE** Capture the media is Windows Server 2019, not 2025. Record the target computer and date.
+
+### Step 03: Choose the media and license path
+
+**DO** Record language, edition, evaluation/licensed status, and whether Desktop Experience is available. The Azure upgrade exercise uses a licensed/pay-as-you-go 2019 Marketplace member VM with a matching 2022 upgrade path.
+
+**EXPECT** Your source and destination license choices are written down.
+
+**IF STUCK** Stop rather than using borrowed product keys. Evaluation DCs cannot simply be converted to retail in place.
+
+**EVIDENCE** Capture your source and destination license choices are written down. Record the target computer and date.
+
+### Step 04: Check host resources
+
+**DO** On the host press Ctrl+Shift+Esc > Performance. Record available RAM and disk space. Plan roughly 4 GB RAM per DC and APP01, with more for SQL; run optional servers only when the host can accommodate them.
+
+**EXPECT** The host has enough free resources for the next required pair of VMs.
+
+**IF STUCK** These are lab sizing examples. Avoid allocating all host RAM; if needed shut down unused optional guests before proceeding.
+
+**EVIDENCE** Capture the host has enough free resources for the next required pair of VMs. Record the target computer and date.
+
 LAB 03 / NETWORKING
+
 
 # Build one safe VMware network
 
@@ -237,7 +353,7 @@ Every local VM needs to communicate, but none of the AD services should be expos
 | DEST-DC01      | 192.168.77.40 /24 | 192.168.77.40           | Your VMware NAT gateway |
 | WSUS01 (later) | 192.168.77.50 /24 | 192.168.77.10           | Your VMware NAT gateway |
 
-> ipconfig /all  
+> ipconfig /all
 > ping 192.168.77.10
 
 <table>
@@ -270,7 +386,78 @@ Every local VM needs to communicate, but none of the AD services should be expos
 
 **Actual VMnet number / NAT gateway** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical Windows host / Workstation Pro Virtual Network Editor; authorized host administrator.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Open the network editor
+
+**DO** On the physical host open Workstation Pro > Edit > Virtual Network Editor. Click Change Settings if shown and approve the local Windows administrator prompt.
+
+**EXPECT** You can edit virtual-network settings.
+
+**IF STUCK** If Change Settings is unavailable, close the editor and start Workstation with your authorized administrator account.
+
+**EVIDENCE** Capture you can edit virtual-network settings. Record the target computer and date.
+
+### Step 02: Create a dedicated NAT VMnet
+
+**DO** Click Add Network. Choose an unused VMnet, for example VMnet2. Select NAT. Do not edit the VMnet used by unrelated VMs.
+
+**EXPECT** A dedicated NAT network appears in the list.
+
+**IF STUCK** NAT provides outbound access and a host virtual adapter; it is not a VPN to Azure and not bridged to your physical LAN.
+
+**EVIDENCE** Capture a dedicated NAT network appears in the list. Record the target computer and date.
+
+### Step 03: Set a non-overlapping subnet
+
+**DO** For the example plan set Subnet IP to 192.168.77.0 and Subnet mask to 255.255.255.0 only after checking it does not overlap your host, home router, VPN, or Azure address range.
+
+**EXPECT** Your chosen lab subnet is private and does not overlap another route you use.
+
+**IF STUCK** If there is an overlap, choose another private /24 and update every subsequent example address consistently.
+
+**EVIDENCE** Capture your chosen lab subnet is private and does not overlap another route you use. Record the target computer and date.
+
+### Step 04: Record the actual NAT gateway
+
+**DO** Click NAT Settings. Read the Gateway IP and write it down exactly, then close the dialog. Do not assume it ends in .1 or .2.
+
+**EXPECT** Your worksheet has VMnet name, subnet, mask, and gateway.
+
+**IF STUCK** A DC IP is not automatically the NAT gateway. Using the wrong value can allow local AD tests while breaking outbound connectivity.
+
+**EVIDENCE** Capture your worksheet has VMnet name, subnet, mask, and gateway. Record the target computer and date.
+
+### Step 05: Reserve the static lab addresses
+
+**DO** Open DHCP Settings and reserve a static range outside its lease pool, or disable VMware DHCP for this dedicated static-only lab. Plan .10 AG-DC01, .11 AG-DC02, .20 APP01, .60 SQL01, and .70 MECM01 within the chosen /24. Apply and close.
+
+**EXPECT** No static server address overlaps a DHCP lease or another server.
+
+**IF STUCK** Do not disable DHCP on a network other VMs depend on. If the gateway or host adapter uses a planned address, pick a different unused one and update the plan.
+
+**EVIDENCE** Capture no static server address overlaps a DHCP lease or another server. Record the target computer and date.
+
+### Step 06: Attach each guest to this VMnet
+
+**DO** With a lab VM powered off, right-click it > Settings > Network Adapter. Choose Custom and your recorded VMnet. Enable Connect at power on.
+
+**EXPECT** All on-prem lab servers use the same dedicated VMnet.
+
+**IF STUCK** A host-only or different VMnet can make server discovery fail even when Windows settings look correct.
+
+**EVIDENCE** Capture all on-prem lab servers use the same dedicated VMnet. Record the target computer and date.
+
 LAB 04 / FIRST DOMAIN CONTROLLER
+
 
 # Make AG-DC01: the agency begins
 
@@ -278,7 +465,7 @@ Create the first Windows server, then make it the owner of the agency.test fores
 
 **\[ \]** VMware: File \> New Virtual Machine \> Typical \> Installer disc image file (ISO). Pick the Windows Server ISO.
 
-**\[ \]** Choose Windows Server 2025 Standard (Desktop Experience), if offered. Select 2 vCPUs, 4 GB RAM, ~60 GB thin disk, and your custom NAT VMnet.
+**\[ \]** Choose Windows Server 2019 Standard (Desktop Experience), if offered. Select 2 vCPUs, 4 GB RAM, ~60 GB thin disk, and your custom NAT VMnet.
 
 **\[ \]** Install Windows. Set a strong local Administrator password and keep it securely outside the workbook.
 
@@ -294,8 +481,8 @@ Create the first Windows server, then make it the owner of the agency.test fores
 
 **\[ \]** Let the server reboot; sign in with the new domain account (for example AGENCY\Administrator).
 
-> hostname  
-> ipconfig /all  
+> hostname
+> ipconfig /all
 > Get-ADDomain \| Select-Object DNSRoot,NetBIOSName
 
 **PASS CHECK** hostname = AG-DC01; the Active Directory domain DNS root shows agency.test.
@@ -330,7 +517,380 @@ Create the first Windows server, then make it the owner of the agency.test fores
 
 **Forest name / screenshot path** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical host Workstation Pro, then AG-DC01 guest / Server 2019 Desktop Experience / local Administrator, then AGENCY domain Administrator.
+
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+
+**PASS** hostname = AG-DC01; the Active Directory domain DNS root shows agency.test.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Open the new VM wizard
+
+**DO** On your physical Windows PC, open VMware Workstation Pro. Click File, then New Virtual Machine. Do not do this inside another VM.
+
+**EXPECT** The New Virtual Machine Wizard is open.
+
+**IF STUCK** If VMware is absent, finish LAB 02. Help > About identifies your installed version.
+
+**EVIDENCE** Capture the New Virtual Machine Wizard is open. Record the target computer and date.
+
+**SCREENSHOTS** workstation-1
+
+### Step 02: Choose Typical
+
+**DO** Select Typical (recommended), then Next. The reference image has Custom selected; use the upper Typical radio button for this lab.
+
+**EXPECT** The wizard asks how the guest operating system will be installed.
+
+**IF STUCK** If you chose Custom, cancel and restart; do not change random advanced disk options.
+
+**EVIDENCE** Capture the wizard asks how the guest operating system will be installed. Record the target computer and date.
+
+**SCREENSHOTS** workstation-2
+
+### Step 03: Use manual Windows installation
+
+**DO** Select I will install the operating system later, then Next. This avoids Easy Install silently choosing an edition.
+
+**EXPECT** The wizard lets you choose a guest OS profile.
+
+**IF STUCK** Do not select the example Windows 7 ISO visible in the reference. We attach your Server 2019 ISO later.
+
+**EVIDENCE** Capture the wizard lets you choose a guest OS profile. Record the target computer and date.
+
+**SCREENSHOTS** workstation-4
+
+### Step 04: Choose the Server 2019 guest profile
+
+**DO** Select Microsoft Windows. Open Version and choose Windows Server 2019, then Next.
+
+**EXPECT** The guest profile says Windows Server 2019.
+
+**IF STUCK** VERSION CHECK REQUIRED: if your Workstation version does not list Server 2019, stop and check Broadcom compatibility/update guidance; the profile is not the ISO and selecting a newer OS does not install it.
+
+**EVIDENCE** Capture the guest profile says Windows Server 2019. Record the target computer and date.
+
+### Step 05: Name the VM
+
+**DO** Enter AG-DC01 as the virtual machine name. Browse to a folder with enough free space, such as your dedicated SONIC lab folder, then Next.
+
+**EXPECT** The summary uses AG-DC01 and a location you can find again.
+
+**IF STUCK** The VMware name and the Windows computer name are different settings; we will rename Windows after installation.
+
+**EVIDENCE** Capture the summary uses AG-DC01 and a location you can find again. Record the target computer and date.
+
+**SCREENSHOTS** workstation-6
+
+### Step 06: Create a new virtual disk
+
+**DO** Set Maximum disk size to 60 GB for this lab plan. Choose Split virtual disk into multiple files, then Next. Do not attach an existing production disk.
+
+**EXPECT** A new blank virtual disk is selected.
+
+**IF STUCK** This is a lab sizing example, not a product minimum. Stop if the host lacks free space for your planned VMs.
+
+**EVIDENCE** Capture a new blank virtual disk is selected. Record the target computer and date.
+
+**SCREENSHOTS** workstation-14
+
+### Step 07: Set memory and CPU
+
+**DO** Click Customize Hardware. Select Memory and enter 4096 MB. Select Processors and use 1 processor with 2 cores for the basic lab.
+
+**EXPECT** The hardware list shows your memory allocation and two virtual cores.
+
+**IF STUCK** Leave RAM for the physical host. SQL/MECM need more resources than a domain controller; do not start all optional VMs together on a small PC.
+
+**EVIDENCE** Capture the hardware list shows your memory allocation and two virtual cores. Record the target computer and date.
+
+**SCREENSHOTS** workstation-9, workstation-8
+
+### Step 08: Attach the Server 2019 ISO
+
+**DO** Select CD/DVD in the hardware list. Choose Use ISO image file, Browse to your Windows Server 2019 ISO, and enable Connect at power on.
+
+**EXPECT** The CD/DVD path ends with your Server 2019 ISO filename.
+
+**IF STUCK** If a different ISO is listed, replace it now; the guest OS profile alone does not select installation media.
+
+**EVIDENCE** Capture the CD/DVD path ends with your Server 2019 ISO filename. Record the target computer and date.
+
+### Step 09: Attach the private VMnet
+
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+
+**EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
+
+**IF STUCK** Do not choose Bridged. If your custom VMnet is missing, return to Virtual Network Editor and verify its name before continuing.
+
+**EVIDENCE** Capture the VM is attached to the same private lab VMnet as the other lab servers. Record the target computer and date.
+
+### Step 10: Finish and start the VM
+
+**DO** Click Close, then Finish. Select the new VM in the Workstation library and click Power on this virtual machine. Click inside its console and press a key when the ISO boot prompt appears.
+
+**EXPECT** Windows Setup appears inside the VM console.
+
+**IF STUCK** If it boots to a network screen or no OS found, power off, check CD/DVD ISO and Connect at power on, then retry. Ctrl+Alt releases your mouse from the console.
+
+**EVIDENCE** Capture windows Setup appears inside the VM console. Record the target computer and date.
+
+**SCREENSHOTS** workstation-15
+
+### Step 11: Start Windows Setup
+
+**DO** Choose the language you need for the course, time format, and keyboard, then Next and Install now. Use English (United States) media if you will follow the Azure upgrade-media route later.
+
+**EXPECT** Setup displays an edition list or asks for a legitimate product key.
+
+**IF STUCK** A key prompt depends on your media. Use your authorized course media and license; never enter a sample or shared key.
+
+**EVIDENCE** Capture setup displays an edition list or asks for a legitimate product key. Record the target computer and date.
+
+### Step 12: Choose Desktop Experience
+
+**DO** Select Windows Server 2019 Standard (Desktop Experience), or the matching authorized Datacenter (Desktop Experience) edition your course supplies. If using Evaluation for local practice, record that limitation. Click Next and accept the license only if you agree.
+
+**EXPECT** The selected line explicitly includes 2019 and Desktop Experience.
+
+**IF STUCK** If you omit Desktop Experience you get Server Core. This course does not teach switching Core to Desktop Experience; rebuild this new empty lab VM with the correct option.
+
+**EVIDENCE** Capture the selected line explicitly includes 2019 and Desktop Experience. Record the target computer and date.
+
+### Step 13: Install only on the new blank disk
+
+**DO** Choose Custom: Install Windows only (advanced). Select the new VM’s blank Drive 0 unallocated space and click Next. This is a clean install in a new VM, not the later Azure in-place upgrade.
+
+**EXPECT** Windows copies files, installs, and restarts.
+
+**IF STUCK** Stop if the disk contains existing partitions or data you did not expect. Never delete an unfamiliar disk to make the instructions fit.
+
+**EVIDENCE** Capture windows copies files, installs, and restarts. Record the target computer and date.
+
+### Step 14: Create the local Administrator password
+
+**DO** At Customize settings, set and confirm a strong local Administrator password. Save it in your own password manager, then Finish.
+
+**EXPECT** The Windows sign-in screen appears.
+
+**IF STUCK** Do not put passwords in the course evidence worksheet or screenshots.
+
+**EVIDENCE** Capture the Windows sign-in screen appears. Record the target computer and date.
+
+### Step 15: Sign into the guest
+
+**DO** Use Workstation VM > Send Ctrl+Alt+Del (or Ctrl+Alt+Insert), then sign in as the guest’s local Administrator.
+
+**EXPECT** You see a Windows desktop and Server Manager.
+
+**IF STUCK** If only a command window appears, you installed Server Core; return to the edition-selection step for this new lab VM.
+
+**EVIDENCE** Capture you see a Windows desktop and Server Manager. Record the target computer and date.
+
+### Step 16: Install VMware Tools
+
+**DO** In Workstation select VM > Install VMware Tools. In the guest open File Explorer > This PC, open the VMware Tools CD, and run setup64.exe if offered. Choose the normal setup and restart when asked.
+
+**EXPECT** After restart, the guest is usable with the expected mouse/display integration.
+
+**IF STUCK** The menu may say Reinstall VMware Tools. VERSION CHECK REQUIRED: if the bundled Tools ISO is unavailable, use Broadcom’s supported Tools download for your Workstation and guest version.
+
+**EVIDENCE** Capture after restart, the guest is usable with the expected mouse/display integration. Record the target computer and date.
+
+### Step 17: Patch the new Server 2019 guest
+
+**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+
+**EXPECT** Windows has completed its pending restarts.
+
+**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+
+**EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
+
+### Step 18: Rename Windows
+
+**DO** Inside the guest press Win+R, enter sysdm.cpl, and press Enter. On Computer Name choose Change. Enter AG-DC01, confirm OK, and restart when prompted.
+
+**EXPECT** After signing in again, hostname returns AG-DC01.
+
+**IF STUCK** Renaming the entry in the Workstation library does not rename Windows.
+
+**EVIDENCE** Capture after signing in again, hostname returns AG-DC01. Record the target computer and date.
+
+**COMMAND**
+> hostname
+
+### Step 19: Open the guest IPv4 settings
+
+**DO** Inside the guest press Win+R, type ncpa.cpl, and press Enter. Right-click the connected Ethernet adapter > Properties. Select Internet Protocol Version 4 (TCP/IPv4), then Properties.
+
+**EXPECT** The IPv4 address and DNS fields are visible.
+
+**IF STUCK** This is the on-prem VM adapter. Azure VM address configuration is different and is set on the Azure NIC.
+
+**EVIDENCE** Capture the IPv4 address and DNS fields are visible. Record the target computer and date.
+
+### Step 20: Enter the lab address
+
+**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.10; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+
+**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+
+**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+
+**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+
+**COMMAND**
+> ipconfig /all
+
+### Step 21: Confirm this is Server 2019
+
+**DO** Open Start, search Windows PowerShell, right-click it > Run as administrator. Run the read-only inventory below in this VM.
+
+**EXPECT** WindowsProductName identifies Windows Server 2019; hostname identifies AG-DC01.
+
+**IF STUCK** If the version is 2022 or 2025, you have not built the requested source baseline. Do not present that as a 2019-to-2022 upgrade.
+
+**EVIDENCE** Capture windowsProductName identifies Windows Server 2019; hostname identifies AG-DC01. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber
+> DISM /online /Get-CurrentEdition
+
+### Step 22: Open Add Roles and Features
+
+**DO** Inside the named server open Server Manager. Choose Manage > Add Roles and Features. Click Next on Before you begin.
+
+**EXPECT** The Select installation type page is shown.
+
+**IF STUCK** If Server Manager is closed, open Start and select Server Manager. Run as the authorized local Administrator for a new forest, or Domain Admin for a replica.
+
+**EVIDENCE** Capture the Select installation type page is shown. Record the target computer and date.
+
+### Step 23: Select the local destination server
+
+**DO** Choose Role-based or feature-based installation > Next. Select a server from the server pool and select this VM’s computer name > Next.
+
+**EXPECT** The Server Roles page targets the correct computer.
+
+**IF STUCK** If the target name is wrong, cancel; do not install AD DS on a member server by mistake.
+
+**EVIDENCE** Capture the Server Roles page targets the correct computer. Record the target computer and date.
+
+### Step 24: Select AD DS and its tools
+
+**DO** Check Active Directory Domain Services. In the pop-up click Add Features, then Next.
+
+**EXPECT** AD DS is selected and its required management tools are included.
+
+**IF STUCK** Installing DNS alone does not create a domain. Confirm you selected Active Directory Domain Services.
+
+**EVIDENCE** Capture aD DS is selected and its required management tools are included. Record the target computer and date.
+
+**SCREENSHOTS** ad-roles, ad-features
+
+### Step 25: Install the role
+
+**DO** Keep the required Features selected. Click Next through the AD DS information page, review the selected target, then click Install.
+
+**EXPECT** Installation succeeds and offers Promote this server to a domain controller.
+
+**IF STUCK** If it fails, read the failed feature and Server Manager error before retrying; do not continue straight to promotion.
+
+**EVIDENCE** Capture installation succeeds and offers Promote this server to a domain controller. Record the target computer and date.
+
+**SCREENSHOTS** ad-promote
+
+### Step 26: Choose the correct promotion operation
+
+**DO** Click Promote this server to a domain controller. Choose Add a new forest. Enter agency.test as Root domain name. Click Next.
+
+**EXPECT** The wizard shows a NEW forest named agency.test.
+
+**IF STUCK** A replica must not create a second forest with the same name. A destination forest must not accidentally join the source forest.
+
+**EVIDENCE** Capture the wizard shows a NEW forest named agency.test. Record the target computer and date.
+
+**SCREENSHOTS** ad-forest
+
+### Step 27: Set controller options and DSRM
+
+**DO** For Server 2019 in this lab, use Windows Server 2016 for both forest and domain functional levels. Keep DNS server and Global Catalog selected. Set and confirm a unique DSRM recovery password, store it securely, then Next.
+
+**EXPECT** Required options are selected and the password boxes have no validation error.
+
+**IF STUCK** Windows Server 2019 has no Windows Server 2019 functional-level choice. Never copy the older functional levels or passwords from a reference image.
+
+**EVIDENCE** Capture required options are selected and the password boxes have no validation error. Record the target computer and date.
+
+**SCREENSHOTS** ad-dc-options
+
+### Step 28: Review DNS and additional options
+
+**DO** Continue past the isolated-root DNS-delegation warning only if it is the expected warning for this private lab. Confirm the AGENCY NetBIOS name on Additional Options.
+
+**EXPECT** The wizard advances without a blocking validation error.
+
+**IF STUCK** A yellow delegation warning for a private root is different from a red failed prerequisite. Stop for DNS, credential, or connectivity failures.
+
+**EVIDENCE** Capture the wizard advances without a blocking validation error. Record the target computer and date.
+
+### Step 29: Keep the default AD paths
+
+**DO** On Paths keep the default NTDS database/log and SYSVOL locations for this small lab, then Next.
+
+**EXPECT** The wizard shows Review Options.
+
+**IF STUCK** This is a disposable lab layout, not a production storage design. Do not put AD data on a temporary disk.
+
+**EVIDENCE** Capture the wizard shows Review Options. Record the target computer and date.
+
+**SCREENSHOTS** ad-paths
+
+### Step 30: Check prerequisites before promotion
+
+**DO** On Review Options confirm agency.test, the correct computer, and DNS. Click Next, then wait for Prerequisites Check.
+
+**EXPECT** The prerequisite check succeeds; only understood lab warnings remain.
+
+**IF STUCK** Read every red failure. Correct its stated cause and rerun the check before clicking Install.
+
+**EVIDENCE** Capture the prerequisite check succeeds; only understood lab warnings remain. Record the target computer and date.
+
+**SCREENSHOTS** ad-review, ad-prerequisites
+
+### Step 31: Promote and wait for restart
+
+**DO** Click Install only after the prerequisite check passes. Wait for the VM to restart; do not power it off to shorten the wait.
+
+**EXPECT** The guest restarts and offers a domain sign-in.
+
+**IF STUCK** If promotion fails, retain the message and inspect Server Manager and Event Viewer > Windows Logs > Directory Service/System before retrying.
+
+**EVIDENCE** Capture the guest restarts and offers a domain sign-in. Record the target computer and date.
+
+### Step 32: Verify the directory
+
+**DO** Sign in with your authorized agency.test administrator account. Open Windows PowerShell as administrator in this VM and run the checks.
+
+**EXPECT** The DNSRoot is agency.test and domain-controller records resolve to the lab’s private IPs.
+
+**IF STUCK** If Get-ADDomain is unavailable, confirm you are on the promoted server with the AD management tools. If DNS fails, inspect the adapter’s DNS and the domain DNS zone.
+
+**EVIDENCE** Capture the DNSRoot is agency.test and domain-controller records resolve to the lab’s private IPs. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> Get-ADDomain | Select-Object DNSRoot, NetBIOSName
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+
 LAB 05 / IDENTITY + RULES
+
 
 # Create test users, OUs, and a GPO
 
@@ -354,7 +914,7 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 **\[ \]** Close the editor. The GPO must remain linked to the Operations OU so that an Operations computer can receive it.
 
-> Get-ADUser test.analyst  
+> Get-ADUser test.analyst
 > Get-GPO -Name "LAB-Operations-Banner"
 
 **PASS CHECK** You see both OUs, the test user, GG-Operations, and the named GPO.
@@ -389,7 +949,103 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 **Your test user / GPO** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** AG-DC01 guest / Server Manager, ADUC, and GPMC / authorized agency.test administrator.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** You see both OUs, the test user, GG-Operations, and the named GPO.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Open Active Directory Users and Computers
+
+**DO** Inside AG-DC01 open Server Manager > Tools > Active Directory Users and Computers. Expand agency.test in the left pane.
+
+**EXPECT** You are managing the agency.test directory on AG-DC01.
+
+**IF STUCK** If Tools lacks this console, verify AD DS management tools were installed; do not create users on the physical host.
+
+**EVIDENCE** Capture you are managing the agency.test directory on AG-DC01. Record the target computer and date.
+
+### Step 02: Create the Operations OU
+
+**DO** Right-click agency.test > New > Organizational Unit. Enter Operations. Leave protection from accidental deletion enabled, then OK. Repeat to create Security.
+
+**EXPECT** Both OUs appear under agency.test.
+
+**IF STUCK** An OU is a directory container, not a Windows folder. Do not create it inside the default Users container.
+
+**EVIDENCE** Capture both OUs appear under agency.test. Record the target computer and date.
+
+### Step 03: Create the test user
+
+**DO** Right-click Operations > New > User. Enter a fictional name and user logon name test.analyst. Click Next, set a private temporary password, choose your lab password-change requirement, Next, then Finish.
+
+**EXPECT** test.analyst appears in Operations.
+
+**IF STUCK** Use fake identity data. Check the password-complexity error rather than weakening domain policy.
+
+**EVIDENCE** Capture test.analyst appears in Operations. Record the target computer and date.
+
+### Step 04: Create and populate the group
+
+**DO** Right-click Operations > New > Group. Name it GG-Operations, select Global and Security, then OK. Open the group > Members > Add; enter test.analyst > Check Names > OK.
+
+**EXPECT** Members lists the new test user.
+
+**IF STUCK** A group is not the same as an OU. Confirm you are editing Members, not Member Of.
+
+**EVIDENCE** Capture members lists the new test user. Record the target computer and date.
+
+### Step 05: Open Group Policy Management
+
+**DO** In Server Manager choose Tools > Group Policy Management. Expand Forest: agency.test > Domains > agency.test.
+
+**EXPECT** The Operations OU appears in the policy tree.
+
+**IF STUCK** If the tree is collapsed, expand each triangle rather than assuming the OU is missing.
+
+**EVIDENCE** Capture the Operations OU appears in the policy tree. Record the target computer and date.
+
+### Step 06: Create and link the GPO
+
+**DO** Right-click Operations > Create a GPO in this domain, and Link it here. Name it LAB-Operations-Banner and click OK.
+
+**EXPECT** The named GPO is linked under Operations.
+
+**IF STUCK** Creating an unlinked GPO under Group Policy Objects does not apply it to Operations.
+
+**EVIDENCE** Capture the named GPO is linked under Operations. Record the target computer and date.
+
+### Step 07: Edit the logon banner
+
+**DO** Right-click the linked GPO > Edit. Expand Computer Configuration > Policies > Windows Settings > Security Settings > Local Policies > Security Options. Set the interactive logon message title to AGENCY LAB and message text to This is a practice environment.
+
+**EXPECT** The two banner settings show your lab text.
+
+**IF STUCK** This is computer policy: the target computer account must be in the linked OU. Putting only a user there is insufficient.
+
+**EVIDENCE** Capture the two banner settings show your lab text. Record the target computer and date.
+
+### Step 08: Verify the objects
+
+**DO** On AG-DC01 run these read-only checks and capture ADUC plus the GPO link.
+
+**EXPECT** The user, group membership, and GPO are returned.
+
+**IF STUCK** If Get-GPO is missing, open elevated Windows PowerShell on AG-DC01 with Group Policy Management installed.
+
+**EVIDENCE** Capture the user, group membership, and GPO are returned. Record the target computer and date.
+
+**COMMAND**
+> Get-ADUser test.analyst
+> Get-ADGroupMember GG-Operations
+> Get-GPO -Name "LAB-Operations-Banner"
+
 LAB 06 / APPLICATION
+
 
 # Make APP01: the server that will move
 
@@ -411,11 +1067,11 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 **\[ \]** Open http://localhost on APP01. You should see your custom webpage.
 
-> nslookup agency.test 192.168.77.10  
-> Test-NetConnection 192.168.77.10 -Port 53  
-> Install-WindowsFeature Web-Server -IncludeManagementTools  
-> Set-Content C:\inetpub\wwwroot\index.html "\<h1\>Agency app is alive\</h1\>"  
-> gpupdate /force  
+> nslookup agency.test 192.168.77.10
+> Test-NetConnection 192.168.77.10 -Port 53
+> Install-WindowsFeature Web-Server -IncludeManagementTools
+> Set-Content C:\inetpub\wwwroot\index.html "\<h1\>Agency app is alive\</h1\>"
+> gpupdate /force
 > gpresult /r /scope computer
 
 **PASS CHECK** APP01 belongs to agency.test; localhost website works; gpresult lists LAB-Operations-Banner as applied.
@@ -450,7 +1106,329 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 **APP01 IPv4 / domain / website result** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical host Workstation Pro, then APP01 Server 2019 guest / local Administrator, then authorized domain account.
+
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+
+**PASS** APP01 belongs to agency.test; localhost website works; gpresult lists LAB-Operations-Banner as applied.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Open the new VM wizard
+
+**DO** On your physical Windows PC, open VMware Workstation Pro. Click File, then New Virtual Machine. Do not do this inside another VM.
+
+**EXPECT** The New Virtual Machine Wizard is open.
+
+**IF STUCK** If VMware is absent, finish LAB 02. Help > About identifies your installed version.
+
+**EVIDENCE** Capture the New Virtual Machine Wizard is open. Record the target computer and date.
+
+**SCREENSHOTS** workstation-1
+
+### Step 02: Choose Typical
+
+**DO** Select Typical (recommended), then Next. The reference image has Custom selected; use the upper Typical radio button for this lab.
+
+**EXPECT** The wizard asks how the guest operating system will be installed.
+
+**IF STUCK** If you chose Custom, cancel and restart; do not change random advanced disk options.
+
+**EVIDENCE** Capture the wizard asks how the guest operating system will be installed. Record the target computer and date.
+
+**SCREENSHOTS** workstation-2
+
+### Step 03: Use manual Windows installation
+
+**DO** Select I will install the operating system later, then Next. This avoids Easy Install silently choosing an edition.
+
+**EXPECT** The wizard lets you choose a guest OS profile.
+
+**IF STUCK** Do not select the example Windows 7 ISO visible in the reference. We attach your Server 2019 ISO later.
+
+**EVIDENCE** Capture the wizard lets you choose a guest OS profile. Record the target computer and date.
+
+**SCREENSHOTS** workstation-4
+
+### Step 04: Choose the Server 2019 guest profile
+
+**DO** Select Microsoft Windows. Open Version and choose Windows Server 2019, then Next.
+
+**EXPECT** The guest profile says Windows Server 2019.
+
+**IF STUCK** VERSION CHECK REQUIRED: if your Workstation version does not list Server 2019, stop and check Broadcom compatibility/update guidance; the profile is not the ISO and selecting a newer OS does not install it.
+
+**EVIDENCE** Capture the guest profile says Windows Server 2019. Record the target computer and date.
+
+### Step 05: Name the VM
+
+**DO** Enter APP01 as the virtual machine name. Browse to a folder with enough free space, such as your dedicated SONIC lab folder, then Next.
+
+**EXPECT** The summary uses APP01 and a location you can find again.
+
+**IF STUCK** The VMware name and the Windows computer name are different settings; we will rename Windows after installation.
+
+**EVIDENCE** Capture the summary uses APP01 and a location you can find again. Record the target computer and date.
+
+**SCREENSHOTS** workstation-6
+
+### Step 06: Create a new virtual disk
+
+**DO** Set Maximum disk size to 60 GB for this lab plan. Choose Split virtual disk into multiple files, then Next. Do not attach an existing production disk.
+
+**EXPECT** A new blank virtual disk is selected.
+
+**IF STUCK** This is a lab sizing example, not a product minimum. Stop if the host lacks free space for your planned VMs.
+
+**EVIDENCE** Capture a new blank virtual disk is selected. Record the target computer and date.
+
+**SCREENSHOTS** workstation-14
+
+### Step 07: Set memory and CPU
+
+**DO** Click Customize Hardware. Select Memory and enter 4096 MB. Select Processors and use 1 processor with 2 cores for the basic lab.
+
+**EXPECT** The hardware list shows your memory allocation and two virtual cores.
+
+**IF STUCK** Leave RAM for the physical host. SQL/MECM need more resources than a domain controller; do not start all optional VMs together on a small PC.
+
+**EVIDENCE** Capture the hardware list shows your memory allocation and two virtual cores. Record the target computer and date.
+
+**SCREENSHOTS** workstation-9, workstation-8
+
+### Step 08: Attach the Server 2019 ISO
+
+**DO** Select CD/DVD in the hardware list. Choose Use ISO image file, Browse to your Windows Server 2019 ISO, and enable Connect at power on.
+
+**EXPECT** The CD/DVD path ends with your Server 2019 ISO filename.
+
+**IF STUCK** If a different ISO is listed, replace it now; the guest OS profile alone does not select installation media.
+
+**EVIDENCE** Capture the CD/DVD path ends with your Server 2019 ISO filename. Record the target computer and date.
+
+### Step 09: Attach the private VMnet
+
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+
+**EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
+
+**IF STUCK** Do not choose Bridged. If your custom VMnet is missing, return to Virtual Network Editor and verify its name before continuing.
+
+**EVIDENCE** Capture the VM is attached to the same private lab VMnet as the other lab servers. Record the target computer and date.
+
+### Step 10: Finish and start the VM
+
+**DO** Click Close, then Finish. Select the new VM in the Workstation library and click Power on this virtual machine. Click inside its console and press a key when the ISO boot prompt appears.
+
+**EXPECT** Windows Setup appears inside the VM console.
+
+**IF STUCK** If it boots to a network screen or no OS found, power off, check CD/DVD ISO and Connect at power on, then retry. Ctrl+Alt releases your mouse from the console.
+
+**EVIDENCE** Capture windows Setup appears inside the VM console. Record the target computer and date.
+
+**SCREENSHOTS** workstation-15
+
+### Step 11: Start Windows Setup
+
+**DO** Choose the language you need for the course, time format, and keyboard, then Next and Install now. Use English (United States) media if you will follow the Azure upgrade-media route later.
+
+**EXPECT** Setup displays an edition list or asks for a legitimate product key.
+
+**IF STUCK** A key prompt depends on your media. Use your authorized course media and license; never enter a sample or shared key.
+
+**EVIDENCE** Capture setup displays an edition list or asks for a legitimate product key. Record the target computer and date.
+
+### Step 12: Choose Desktop Experience
+
+**DO** Select Windows Server 2019 Standard (Desktop Experience), or the matching authorized Datacenter (Desktop Experience) edition your course supplies. If using Evaluation for local practice, record that limitation. Click Next and accept the license only if you agree.
+
+**EXPECT** The selected line explicitly includes 2019 and Desktop Experience.
+
+**IF STUCK** If you omit Desktop Experience you get Server Core. This course does not teach switching Core to Desktop Experience; rebuild this new empty lab VM with the correct option.
+
+**EVIDENCE** Capture the selected line explicitly includes 2019 and Desktop Experience. Record the target computer and date.
+
+### Step 13: Install only on the new blank disk
+
+**DO** Choose Custom: Install Windows only (advanced). Select the new VM’s blank Drive 0 unallocated space and click Next. This is a clean install in a new VM, not the later Azure in-place upgrade.
+
+**EXPECT** Windows copies files, installs, and restarts.
+
+**IF STUCK** Stop if the disk contains existing partitions or data you did not expect. Never delete an unfamiliar disk to make the instructions fit.
+
+**EVIDENCE** Capture windows copies files, installs, and restarts. Record the target computer and date.
+
+### Step 14: Create the local Administrator password
+
+**DO** At Customize settings, set and confirm a strong local Administrator password. Save it in your own password manager, then Finish.
+
+**EXPECT** The Windows sign-in screen appears.
+
+**IF STUCK** Do not put passwords in the course evidence worksheet or screenshots.
+
+**EVIDENCE** Capture the Windows sign-in screen appears. Record the target computer and date.
+
+### Step 15: Sign into the guest
+
+**DO** Use Workstation VM > Send Ctrl+Alt+Del (or Ctrl+Alt+Insert), then sign in as the guest’s local Administrator.
+
+**EXPECT** You see a Windows desktop and Server Manager.
+
+**IF STUCK** If only a command window appears, you installed Server Core; return to the edition-selection step for this new lab VM.
+
+**EVIDENCE** Capture you see a Windows desktop and Server Manager. Record the target computer and date.
+
+### Step 16: Install VMware Tools
+
+**DO** In Workstation select VM > Install VMware Tools. In the guest open File Explorer > This PC, open the VMware Tools CD, and run setup64.exe if offered. Choose the normal setup and restart when asked.
+
+**EXPECT** After restart, the guest is usable with the expected mouse/display integration.
+
+**IF STUCK** The menu may say Reinstall VMware Tools. VERSION CHECK REQUIRED: if the bundled Tools ISO is unavailable, use Broadcom’s supported Tools download for your Workstation and guest version.
+
+**EVIDENCE** Capture after restart, the guest is usable with the expected mouse/display integration. Record the target computer and date.
+
+### Step 17: Patch the new Server 2019 guest
+
+**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+
+**EXPECT** Windows has completed its pending restarts.
+
+**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+
+**EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
+
+### Step 18: Rename Windows
+
+**DO** Inside the guest press Win+R, enter sysdm.cpl, and press Enter. On Computer Name choose Change. Enter APP01, confirm OK, and restart when prompted.
+
+**EXPECT** After signing in again, hostname returns APP01.
+
+**IF STUCK** Renaming the entry in the Workstation library does not rename Windows.
+
+**EVIDENCE** Capture after signing in again, hostname returns APP01. Record the target computer and date.
+
+**COMMAND**
+> hostname
+
+### Step 19: Open the guest IPv4 settings
+
+**DO** Inside the guest press Win+R, type ncpa.cpl, and press Enter. Right-click the connected Ethernet adapter > Properties. Select Internet Protocol Version 4 (TCP/IPv4), then Properties.
+
+**EXPECT** The IPv4 address and DNS fields are visible.
+
+**IF STUCK** This is the on-prem VM adapter. Azure VM address configuration is different and is set on the Azure NIC.
+
+**EVIDENCE** Capture the IPv4 address and DNS fields are visible. Record the target computer and date.
+
+### Step 20: Enter the lab address
+
+**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.20; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+
+**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+
+**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+
+**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+
+**COMMAND**
+> ipconfig /all
+
+### Step 21: Confirm this is Server 2019
+
+**DO** Open Start, search Windows PowerShell, right-click it > Run as administrator. Run the read-only inventory below in this VM.
+
+**EXPECT** WindowsProductName identifies Windows Server 2019; hostname identifies APP01.
+
+**IF STUCK** If the version is 2022 or 2025, you have not built the requested source baseline. Do not present that as a 2019-to-2022 upgrade.
+
+**EVIDENCE** Capture windowsProductName identifies Windows Server 2019; hostname identifies APP01. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber
+> DISM /online /Get-CurrentEdition
+
+### Step 22: Check domain DNS before joining
+
+**DO** In APP01, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for agency.test.
+
+**EXPECT** The domain resolves and the DC’s LDAP SRV records are returned.
+
+**IF STUCK** Do not continue on a failed DNS lookup. Verify both VMs use the same VMnet, source DC is running, and the adapter points at lab AD DNS.
+
+**EVIDENCE** Capture the domain resolves and the DC’s LDAP SRV records are returned. Record the target computer and date.
+
+**COMMAND**
+> Resolve-DnsName agency.test
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+
+### Step 23: Join the domain
+
+**DO** Inside APP01 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter agency.test, click OK, and supply your authorized lab join credentials.
+
+**EXPECT** Windows welcomes the computer to agency.test and requests a restart.
+
+**IF STUCK** Check DNS and time before changing passwords or disabling a firewall. Do not use your personal Microsoft account as AD credentials.
+
+**EVIDENCE** Capture windows welcomes the computer to agency.test and requests a restart. Record the target computer and date.
+
+### Step 24: Restart and verify membership
+
+**DO** Restart APP01. Sign in using Other user and an authorized account in agency.test. Run the checks below in Windows PowerShell.
+
+**EXPECT** The reported domain is agency.test and the secure-channel test returns True.
+
+**IF STUCK** If trust fails, record the error and inspect DNS/time and the computer account. Do not delete/rejoin a production computer as an experiment.
+
+**EVIDENCE** Capture the reported domain is agency.test and the secure-channel test returns True. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> Test-ComputerSecureChannel -Verbose
+
+### Step 25: Install IIS
+
+**DO** On APP01 open elevated Windows PowerShell and install the Web Server role. The command changes this guest, not the physical host.
+
+**EXPECT** Success is True and Web-Server is installed.
+
+**IF STUCK** Check the Server Manager result and servicing logs if the role fails; do not continue with an absent IIS service.
+
+**EVIDENCE** Capture success is True and Web-Server is installed. Record the target computer and date.
+
+**COMMAND**
+> Install-WindowsFeature Web-Server -IncludeManagementTools
+
+### Step 26: Create the test page
+
+**DO** On APP01 open Notepad as administrator. Save a simple index.html in C:\inetpub\wwwroot containing the text SONIC APP01 / Server 2019 source. Ensure the filename is not index.html.txt.
+
+**EXPECT** Opening http://localhost/index.html in APP01 displays your text.
+
+**IF STUCK** If you see the default IIS page, include /index.html in the URL and check the file extension. Do not expose the site publicly.
+
+**EVIDENCE** Capture opening http://localhost/index.html in APP01 displays your text. Record the target computer and date.
+
+### Step 27: Record the application baseline
+
+**DO** On another authorized lab guest open http://APP01/index.html. Record the URL, page text, source hostname, OS version, and file hash.
+
+**EXPECT** The private test client can retrieve the source page before migration.
+
+**IF STUCK** Check IIS service, private DNS, and Windows firewall scope. Do not treat a successful ping as application verification.
+
+**EVIDENCE** Capture the private test client can retrieve the source page before migration. Record the target computer and date.
+
+**COMMAND**
+> Get-FileHash C:\inetpub\wwwroot\index.html -Algorithm SHA256
+> Get-Service W3SVC
+
 LAB 07 / OPTIONAL REPLICA
+
 
 # Add AG-DC02: copy the same domain
 
@@ -472,8 +1450,8 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 **\[ \]** Confirm the Operations OU, test.analyst, and GPO appear when you connect the admin consoles to AG-DC02.
 
-> repadmin /replsummary  
-> dcdiag /test:dns  
+> repadmin /replsummary
+> dcdiag /test:dns
 > Get-ADDomainController -Filter \* \| Select-Object HostName,IPv4Address
 
 **PASS CHECK** Two DC names appear; replication shows no persistent errors; user/GPO objects match.
@@ -508,7 +1486,432 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 **Replication summary** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical host Workstation Pro, then AG-DC02 Server 2019 guest / local Administrator and agency.test Domain Admin.
+
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+
+**PASS** Two DC names appear; replication shows no persistent errors; user/GPO objects match.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Open the new VM wizard
+
+**DO** On your physical Windows PC, open VMware Workstation Pro. Click File, then New Virtual Machine. Do not do this inside another VM.
+
+**EXPECT** The New Virtual Machine Wizard is open.
+
+**IF STUCK** If VMware is absent, finish LAB 02. Help > About identifies your installed version.
+
+**EVIDENCE** Capture the New Virtual Machine Wizard is open. Record the target computer and date.
+
+**SCREENSHOTS** workstation-1
+
+### Step 02: Choose Typical
+
+**DO** Select Typical (recommended), then Next. The reference image has Custom selected; use the upper Typical radio button for this lab.
+
+**EXPECT** The wizard asks how the guest operating system will be installed.
+
+**IF STUCK** If you chose Custom, cancel and restart; do not change random advanced disk options.
+
+**EVIDENCE** Capture the wizard asks how the guest operating system will be installed. Record the target computer and date.
+
+**SCREENSHOTS** workstation-2
+
+### Step 03: Use manual Windows installation
+
+**DO** Select I will install the operating system later, then Next. This avoids Easy Install silently choosing an edition.
+
+**EXPECT** The wizard lets you choose a guest OS profile.
+
+**IF STUCK** Do not select the example Windows 7 ISO visible in the reference. We attach your Server 2019 ISO later.
+
+**EVIDENCE** Capture the wizard lets you choose a guest OS profile. Record the target computer and date.
+
+**SCREENSHOTS** workstation-4
+
+### Step 04: Choose the Server 2019 guest profile
+
+**DO** Select Microsoft Windows. Open Version and choose Windows Server 2019, then Next.
+
+**EXPECT** The guest profile says Windows Server 2019.
+
+**IF STUCK** VERSION CHECK REQUIRED: if your Workstation version does not list Server 2019, stop and check Broadcom compatibility/update guidance; the profile is not the ISO and selecting a newer OS does not install it.
+
+**EVIDENCE** Capture the guest profile says Windows Server 2019. Record the target computer and date.
+
+### Step 05: Name the VM
+
+**DO** Enter AG-DC02 as the virtual machine name. Browse to a folder with enough free space, such as your dedicated SONIC lab folder, then Next.
+
+**EXPECT** The summary uses AG-DC02 and a location you can find again.
+
+**IF STUCK** The VMware name and the Windows computer name are different settings; we will rename Windows after installation.
+
+**EVIDENCE** Capture the summary uses AG-DC02 and a location you can find again. Record the target computer and date.
+
+**SCREENSHOTS** workstation-6
+
+### Step 06: Create a new virtual disk
+
+**DO** Set Maximum disk size to 60 GB for this lab plan. Choose Split virtual disk into multiple files, then Next. Do not attach an existing production disk.
+
+**EXPECT** A new blank virtual disk is selected.
+
+**IF STUCK** This is a lab sizing example, not a product minimum. Stop if the host lacks free space for your planned VMs.
+
+**EVIDENCE** Capture a new blank virtual disk is selected. Record the target computer and date.
+
+**SCREENSHOTS** workstation-14
+
+### Step 07: Set memory and CPU
+
+**DO** Click Customize Hardware. Select Memory and enter 4096 MB. Select Processors and use 1 processor with 2 cores for the basic lab.
+
+**EXPECT** The hardware list shows your memory allocation and two virtual cores.
+
+**IF STUCK** Leave RAM for the physical host. SQL/MECM need more resources than a domain controller; do not start all optional VMs together on a small PC.
+
+**EVIDENCE** Capture the hardware list shows your memory allocation and two virtual cores. Record the target computer and date.
+
+**SCREENSHOTS** workstation-9, workstation-8
+
+### Step 08: Attach the Server 2019 ISO
+
+**DO** Select CD/DVD in the hardware list. Choose Use ISO image file, Browse to your Windows Server 2019 ISO, and enable Connect at power on.
+
+**EXPECT** The CD/DVD path ends with your Server 2019 ISO filename.
+
+**IF STUCK** If a different ISO is listed, replace it now; the guest OS profile alone does not select installation media.
+
+**EVIDENCE** Capture the CD/DVD path ends with your Server 2019 ISO filename. Record the target computer and date.
+
+### Step 09: Attach the private VMnet
+
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+
+**EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
+
+**IF STUCK** Do not choose Bridged. If your custom VMnet is missing, return to Virtual Network Editor and verify its name before continuing.
+
+**EVIDENCE** Capture the VM is attached to the same private lab VMnet as the other lab servers. Record the target computer and date.
+
+### Step 10: Finish and start the VM
+
+**DO** Click Close, then Finish. Select the new VM in the Workstation library and click Power on this virtual machine. Click inside its console and press a key when the ISO boot prompt appears.
+
+**EXPECT** Windows Setup appears inside the VM console.
+
+**IF STUCK** If it boots to a network screen or no OS found, power off, check CD/DVD ISO and Connect at power on, then retry. Ctrl+Alt releases your mouse from the console.
+
+**EVIDENCE** Capture windows Setup appears inside the VM console. Record the target computer and date.
+
+**SCREENSHOTS** workstation-15
+
+### Step 11: Start Windows Setup
+
+**DO** Choose the language you need for the course, time format, and keyboard, then Next and Install now. Use English (United States) media if you will follow the Azure upgrade-media route later.
+
+**EXPECT** Setup displays an edition list or asks for a legitimate product key.
+
+**IF STUCK** A key prompt depends on your media. Use your authorized course media and license; never enter a sample or shared key.
+
+**EVIDENCE** Capture setup displays an edition list or asks for a legitimate product key. Record the target computer and date.
+
+### Step 12: Choose Desktop Experience
+
+**DO** Select Windows Server 2019 Standard (Desktop Experience), or the matching authorized Datacenter (Desktop Experience) edition your course supplies. If using Evaluation for local practice, record that limitation. Click Next and accept the license only if you agree.
+
+**EXPECT** The selected line explicitly includes 2019 and Desktop Experience.
+
+**IF STUCK** If you omit Desktop Experience you get Server Core. This course does not teach switching Core to Desktop Experience; rebuild this new empty lab VM with the correct option.
+
+**EVIDENCE** Capture the selected line explicitly includes 2019 and Desktop Experience. Record the target computer and date.
+
+### Step 13: Install only on the new blank disk
+
+**DO** Choose Custom: Install Windows only (advanced). Select the new VM’s blank Drive 0 unallocated space and click Next. This is a clean install in a new VM, not the later Azure in-place upgrade.
+
+**EXPECT** Windows copies files, installs, and restarts.
+
+**IF STUCK** Stop if the disk contains existing partitions or data you did not expect. Never delete an unfamiliar disk to make the instructions fit.
+
+**EVIDENCE** Capture windows copies files, installs, and restarts. Record the target computer and date.
+
+### Step 14: Create the local Administrator password
+
+**DO** At Customize settings, set and confirm a strong local Administrator password. Save it in your own password manager, then Finish.
+
+**EXPECT** The Windows sign-in screen appears.
+
+**IF STUCK** Do not put passwords in the course evidence worksheet or screenshots.
+
+**EVIDENCE** Capture the Windows sign-in screen appears. Record the target computer and date.
+
+### Step 15: Sign into the guest
+
+**DO** Use Workstation VM > Send Ctrl+Alt+Del (or Ctrl+Alt+Insert), then sign in as the guest’s local Administrator.
+
+**EXPECT** You see a Windows desktop and Server Manager.
+
+**IF STUCK** If only a command window appears, you installed Server Core; return to the edition-selection step for this new lab VM.
+
+**EVIDENCE** Capture you see a Windows desktop and Server Manager. Record the target computer and date.
+
+### Step 16: Install VMware Tools
+
+**DO** In Workstation select VM > Install VMware Tools. In the guest open File Explorer > This PC, open the VMware Tools CD, and run setup64.exe if offered. Choose the normal setup and restart when asked.
+
+**EXPECT** After restart, the guest is usable with the expected mouse/display integration.
+
+**IF STUCK** The menu may say Reinstall VMware Tools. VERSION CHECK REQUIRED: if the bundled Tools ISO is unavailable, use Broadcom’s supported Tools download for your Workstation and guest version.
+
+**EVIDENCE** Capture after restart, the guest is usable with the expected mouse/display integration. Record the target computer and date.
+
+### Step 17: Patch the new Server 2019 guest
+
+**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+
+**EXPECT** Windows has completed its pending restarts.
+
+**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+
+**EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
+
+### Step 18: Rename Windows
+
+**DO** Inside the guest press Win+R, enter sysdm.cpl, and press Enter. On Computer Name choose Change. Enter AG-DC02, confirm OK, and restart when prompted.
+
+**EXPECT** After signing in again, hostname returns AG-DC02.
+
+**IF STUCK** Renaming the entry in the Workstation library does not rename Windows.
+
+**EVIDENCE** Capture after signing in again, hostname returns AG-DC02. Record the target computer and date.
+
+**COMMAND**
+> hostname
+
+### Step 19: Open the guest IPv4 settings
+
+**DO** Inside the guest press Win+R, type ncpa.cpl, and press Enter. Right-click the connected Ethernet adapter > Properties. Select Internet Protocol Version 4 (TCP/IPv4), then Properties.
+
+**EXPECT** The IPv4 address and DNS fields are visible.
+
+**IF STUCK** This is the on-prem VM adapter. Azure VM address configuration is different and is set on the Azure NIC.
+
+**EVIDENCE** Capture the IPv4 address and DNS fields are visible. Record the target computer and date.
+
+### Step 20: Enter the lab address
+
+**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.11; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+
+**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+
+**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+
+**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+
+**COMMAND**
+> ipconfig /all
+
+### Step 21: Confirm this is Server 2019
+
+**DO** Open Start, search Windows PowerShell, right-click it > Run as administrator. Run the read-only inventory below in this VM.
+
+**EXPECT** WindowsProductName identifies Windows Server 2019; hostname identifies AG-DC02.
+
+**IF STUCK** If the version is 2022 or 2025, you have not built the requested source baseline. Do not present that as a 2019-to-2022 upgrade.
+
+**EVIDENCE** Capture windowsProductName identifies Windows Server 2019; hostname identifies AG-DC02. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber
+> DISM /online /Get-CurrentEdition
+
+### Step 22: Check domain DNS before joining
+
+**DO** In AG-DC02, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for agency.test.
+
+**EXPECT** The domain resolves and the DC’s LDAP SRV records are returned.
+
+**IF STUCK** Do not continue on a failed DNS lookup. Verify both VMs use the same VMnet, source DC is running, and the adapter points at lab AD DNS.
+
+**EVIDENCE** Capture the domain resolves and the DC’s LDAP SRV records are returned. Record the target computer and date.
+
+**COMMAND**
+> Resolve-DnsName agency.test
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+
+### Step 23: Join the domain
+
+**DO** Inside AG-DC02 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter agency.test, click OK, and supply your authorized lab join credentials.
+
+**EXPECT** Windows welcomes the computer to agency.test and requests a restart.
+
+**IF STUCK** Check DNS and time before changing passwords or disabling a firewall. Do not use your personal Microsoft account as AD credentials.
+
+**EVIDENCE** Capture windows welcomes the computer to agency.test and requests a restart. Record the target computer and date.
+
+### Step 24: Restart and verify membership
+
+**DO** Restart AG-DC02. Sign in using Other user and an authorized account in agency.test. Run the checks below in Windows PowerShell.
+
+**EXPECT** The reported domain is agency.test and the secure-channel test returns True.
+
+**IF STUCK** If trust fails, record the error and inspect DNS/time and the computer account. Do not delete/rejoin a production computer as an experiment.
+
+**EVIDENCE** Capture the reported domain is agency.test and the secure-channel test returns True. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> Test-ComputerSecureChannel -Verbose
+
+### Step 25: Open Add Roles and Features
+
+**DO** Inside the named server open Server Manager. Choose Manage > Add Roles and Features. Click Next on Before you begin.
+
+**EXPECT** The Select installation type page is shown.
+
+**IF STUCK** If Server Manager is closed, open Start and select Server Manager. Run as the authorized local Administrator for a new forest, or Domain Admin for a replica.
+
+**EVIDENCE** Capture the Select installation type page is shown. Record the target computer and date.
+
+### Step 26: Select the local destination server
+
+**DO** Choose Role-based or feature-based installation > Next. Select a server from the server pool and select this VM’s computer name > Next.
+
+**EXPECT** The Server Roles page targets the correct computer.
+
+**IF STUCK** If the target name is wrong, cancel; do not install AD DS on a member server by mistake.
+
+**EVIDENCE** Capture the Server Roles page targets the correct computer. Record the target computer and date.
+
+### Step 27: Select AD DS and its tools
+
+**DO** Check Active Directory Domain Services. In the pop-up click Add Features, then Next.
+
+**EXPECT** AD DS is selected and its required management tools are included.
+
+**IF STUCK** Installing DNS alone does not create a domain. Confirm you selected Active Directory Domain Services.
+
+**EVIDENCE** Capture aD DS is selected and its required management tools are included. Record the target computer and date.
+
+**SCREENSHOTS** ad-roles, ad-features
+
+### Step 28: Install the role
+
+**DO** Keep the required Features selected. Click Next through the AD DS information page, review the selected target, then click Install.
+
+**EXPECT** Installation succeeds and offers Promote this server to a domain controller.
+
+**IF STUCK** If it fails, read the failed feature and Server Manager error before retrying; do not continue straight to promotion.
+
+**EVIDENCE** Capture installation succeeds and offers Promote this server to a domain controller. Record the target computer and date.
+
+**SCREENSHOTS** ad-promote
+
+### Step 29: Choose the correct promotion operation
+
+**DO** Click Promote this server to a domain controller. Select Add a domain controller to an existing domain. Enter agency.test and use Change to supply an authorized domain administrator account.
+
+**EXPECT** The wizard shows the existing agency.test domain.
+
+**IF STUCK** A replica must not create a second forest with the same name. A destination forest must not accidentally join the source forest.
+
+**EVIDENCE** Capture the wizard shows the existing agency.test domain. Record the target computer and date.
+
+### Step 30: Set controller options and DSRM
+
+**DO** Keep DNS server and Global Catalog selected; do not select Read only domain controller. Set and confirm a unique DSRM recovery password, store it securely, then Next.
+
+**EXPECT** Required options are selected and the password boxes have no validation error.
+
+**IF STUCK** Windows Server 2019 has no Windows Server 2019 functional-level choice. Never copy the older functional levels or passwords from a reference image.
+
+**EVIDENCE** Capture required options are selected and the password boxes have no validation error. Record the target computer and date.
+
+**SCREENSHOTS** ad-dc-options
+
+### Step 31: Review DNS and additional options
+
+**DO** On Additional Options choose AG-DC01 as the replication source if offered; confirm DNS resolves agency.test before continuing.
+
+**EXPECT** The wizard advances without a blocking validation error.
+
+**IF STUCK** A yellow delegation warning for a private root is different from a red failed prerequisite. Stop for DNS, credential, or connectivity failures.
+
+**EVIDENCE** Capture the wizard advances without a blocking validation error. Record the target computer and date.
+
+### Step 32: Keep the default AD paths
+
+**DO** On Paths keep the default NTDS database/log and SYSVOL locations for this small lab, then Next.
+
+**EXPECT** The wizard shows Review Options.
+
+**IF STUCK** This is a disposable lab layout, not a production storage design. Do not put AD data on a temporary disk.
+
+**EVIDENCE** Capture the wizard shows Review Options. Record the target computer and date.
+
+**SCREENSHOTS** ad-paths
+
+### Step 33: Check prerequisites before promotion
+
+**DO** On Review Options confirm agency.test, the correct computer, and DNS. Click Next, then wait for Prerequisites Check.
+
+**EXPECT** The prerequisite check succeeds; only understood lab warnings remain.
+
+**IF STUCK** Read every red failure. Correct its stated cause and rerun the check before clicking Install.
+
+**EVIDENCE** Capture the prerequisite check succeeds; only understood lab warnings remain. Record the target computer and date.
+
+**SCREENSHOTS** ad-review, ad-prerequisites
+
+### Step 34: Promote and wait for restart
+
+**DO** Click Install only after the prerequisite check passes. Wait for the VM to restart; do not power it off to shorten the wait.
+
+**EXPECT** The guest restarts and offers a domain sign-in.
+
+**IF STUCK** If promotion fails, retain the message and inspect Server Manager and Event Viewer > Windows Logs > Directory Service/System before retrying.
+
+**EVIDENCE** Capture the guest restarts and offers a domain sign-in. Record the target computer and date.
+
+### Step 35: Verify the directory
+
+**DO** Sign in with your authorized agency.test administrator account. Open Windows PowerShell as administrator in this VM and run the checks.
+
+**EXPECT** The DNSRoot is agency.test and domain-controller records resolve to the lab’s private IPs.
+
+**IF STUCK** If Get-ADDomain is unavailable, confirm you are on the promoted server with the AD management tools. If DNS fails, inspect the adapter’s DNS and the domain DNS zone.
+
+**EVIDENCE** Capture the DNSRoot is agency.test and domain-controller records resolve to the lab’s private IPs. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> Get-ADDomain | Select-Object DNSRoot, NetBIOSName
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+
+### Step 36: Prove replication
+
+**DO** On AG-DC02 run the read-only checks. On AG-DC01 create a harmless test OU in ADUC and confirm it appears when ADUC is explicitly connected to AG-DC02.
+
+**EXPECT** Both DCs are listed and replication reports no unexplained failures.
+
+**IF STUCK** Do not revert just one DC to an old snapshot. Inspect DNS, time, and Directory Service logs; use AD-aware recovery or rebuild the disposable replica after a proper demotion plan.
+
+**EVIDENCE** Capture both DCs are listed and replication reports no unexplained failures. Record the target computer and date.
+
+**COMMAND**
+> Get-ADDomainController -Filter * | Select-Object HostName, IPv4Address
+> repadmin /replsummary
+> dcdiag /test:replications
+
 LAB 08 / SECOND FOREST
+
 
 # Create DEST-DC01: the NEW enterprise
 
@@ -528,7 +1931,7 @@ Build the other school. Its directory must remain completely separate from agenc
 
 **\[ \]** Create an Operations OU. Create a \*new\* test.analyst account and GG-Operations group in destination.test. Record the domain in which you created each.
 
-> Get-ADDomain \| Select-Object DNSRoot  
+> Get-ADDomain \| Select-Object DNSRoot
 > Get-ADUser test.analyst \| Select-Object Name,SID
 
 **PASS CHECK** DEST-DC01 shows destination.test; the account SID differs from agency.test's test.analyst SID.
@@ -563,7 +1966,380 @@ Build the other school. Its directory must remain completely separate from agenc
 
 **Destination forest / sample SID ending** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical host Workstation Pro, then DEST-DC01 Server 2019 guest / local Administrator for a new destination.test forest.
+
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+
+**PASS** DEST-DC01 shows destination.test; the account SID differs from agency.test's test.analyst SID.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Open the new VM wizard
+
+**DO** On your physical Windows PC, open VMware Workstation Pro. Click File, then New Virtual Machine. Do not do this inside another VM.
+
+**EXPECT** The New Virtual Machine Wizard is open.
+
+**IF STUCK** If VMware is absent, finish LAB 02. Help > About identifies your installed version.
+
+**EVIDENCE** Capture the New Virtual Machine Wizard is open. Record the target computer and date.
+
+**SCREENSHOTS** workstation-1
+
+### Step 02: Choose Typical
+
+**DO** Select Typical (recommended), then Next. The reference image has Custom selected; use the upper Typical radio button for this lab.
+
+**EXPECT** The wizard asks how the guest operating system will be installed.
+
+**IF STUCK** If you chose Custom, cancel and restart; do not change random advanced disk options.
+
+**EVIDENCE** Capture the wizard asks how the guest operating system will be installed. Record the target computer and date.
+
+**SCREENSHOTS** workstation-2
+
+### Step 03: Use manual Windows installation
+
+**DO** Select I will install the operating system later, then Next. This avoids Easy Install silently choosing an edition.
+
+**EXPECT** The wizard lets you choose a guest OS profile.
+
+**IF STUCK** Do not select the example Windows 7 ISO visible in the reference. We attach your Server 2019 ISO later.
+
+**EVIDENCE** Capture the wizard lets you choose a guest OS profile. Record the target computer and date.
+
+**SCREENSHOTS** workstation-4
+
+### Step 04: Choose the Server 2019 guest profile
+
+**DO** Select Microsoft Windows. Open Version and choose Windows Server 2019, then Next.
+
+**EXPECT** The guest profile says Windows Server 2019.
+
+**IF STUCK** VERSION CHECK REQUIRED: if your Workstation version does not list Server 2019, stop and check Broadcom compatibility/update guidance; the profile is not the ISO and selecting a newer OS does not install it.
+
+**EVIDENCE** Capture the guest profile says Windows Server 2019. Record the target computer and date.
+
+### Step 05: Name the VM
+
+**DO** Enter DEST-DC01 as the virtual machine name. Browse to a folder with enough free space, such as your dedicated SONIC lab folder, then Next.
+
+**EXPECT** The summary uses DEST-DC01 and a location you can find again.
+
+**IF STUCK** The VMware name and the Windows computer name are different settings; we will rename Windows after installation.
+
+**EVIDENCE** Capture the summary uses DEST-DC01 and a location you can find again. Record the target computer and date.
+
+**SCREENSHOTS** workstation-6
+
+### Step 06: Create a new virtual disk
+
+**DO** Set Maximum disk size to 60 GB for this lab plan. Choose Split virtual disk into multiple files, then Next. Do not attach an existing production disk.
+
+**EXPECT** A new blank virtual disk is selected.
+
+**IF STUCK** This is a lab sizing example, not a product minimum. Stop if the host lacks free space for your planned VMs.
+
+**EVIDENCE** Capture a new blank virtual disk is selected. Record the target computer and date.
+
+**SCREENSHOTS** workstation-14
+
+### Step 07: Set memory and CPU
+
+**DO** Click Customize Hardware. Select Memory and enter 4096 MB. Select Processors and use 1 processor with 2 cores for the basic lab.
+
+**EXPECT** The hardware list shows your memory allocation and two virtual cores.
+
+**IF STUCK** Leave RAM for the physical host. SQL/MECM need more resources than a domain controller; do not start all optional VMs together on a small PC.
+
+**EVIDENCE** Capture the hardware list shows your memory allocation and two virtual cores. Record the target computer and date.
+
+**SCREENSHOTS** workstation-9, workstation-8
+
+### Step 08: Attach the Server 2019 ISO
+
+**DO** Select CD/DVD in the hardware list. Choose Use ISO image file, Browse to your Windows Server 2019 ISO, and enable Connect at power on.
+
+**EXPECT** The CD/DVD path ends with your Server 2019 ISO filename.
+
+**IF STUCK** If a different ISO is listed, replace it now; the guest OS profile alone does not select installation media.
+
+**EVIDENCE** Capture the CD/DVD path ends with your Server 2019 ISO filename. Record the target computer and date.
+
+### Step 09: Attach the private VMnet
+
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+
+**EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
+
+**IF STUCK** Do not choose Bridged. If your custom VMnet is missing, return to Virtual Network Editor and verify its name before continuing.
+
+**EVIDENCE** Capture the VM is attached to the same private lab VMnet as the other lab servers. Record the target computer and date.
+
+### Step 10: Finish and start the VM
+
+**DO** Click Close, then Finish. Select the new VM in the Workstation library and click Power on this virtual machine. Click inside its console and press a key when the ISO boot prompt appears.
+
+**EXPECT** Windows Setup appears inside the VM console.
+
+**IF STUCK** If it boots to a network screen or no OS found, power off, check CD/DVD ISO and Connect at power on, then retry. Ctrl+Alt releases your mouse from the console.
+
+**EVIDENCE** Capture windows Setup appears inside the VM console. Record the target computer and date.
+
+**SCREENSHOTS** workstation-15
+
+### Step 11: Start Windows Setup
+
+**DO** Choose the language you need for the course, time format, and keyboard, then Next and Install now. Use English (United States) media if you will follow the Azure upgrade-media route later.
+
+**EXPECT** Setup displays an edition list or asks for a legitimate product key.
+
+**IF STUCK** A key prompt depends on your media. Use your authorized course media and license; never enter a sample or shared key.
+
+**EVIDENCE** Capture setup displays an edition list or asks for a legitimate product key. Record the target computer and date.
+
+### Step 12: Choose Desktop Experience
+
+**DO** Select Windows Server 2019 Standard (Desktop Experience), or the matching authorized Datacenter (Desktop Experience) edition your course supplies. If using Evaluation for local practice, record that limitation. Click Next and accept the license only if you agree.
+
+**EXPECT** The selected line explicitly includes 2019 and Desktop Experience.
+
+**IF STUCK** If you omit Desktop Experience you get Server Core. This course does not teach switching Core to Desktop Experience; rebuild this new empty lab VM with the correct option.
+
+**EVIDENCE** Capture the selected line explicitly includes 2019 and Desktop Experience. Record the target computer and date.
+
+### Step 13: Install only on the new blank disk
+
+**DO** Choose Custom: Install Windows only (advanced). Select the new VM’s blank Drive 0 unallocated space and click Next. This is a clean install in a new VM, not the later Azure in-place upgrade.
+
+**EXPECT** Windows copies files, installs, and restarts.
+
+**IF STUCK** Stop if the disk contains existing partitions or data you did not expect. Never delete an unfamiliar disk to make the instructions fit.
+
+**EVIDENCE** Capture windows copies files, installs, and restarts. Record the target computer and date.
+
+### Step 14: Create the local Administrator password
+
+**DO** At Customize settings, set and confirm a strong local Administrator password. Save it in your own password manager, then Finish.
+
+**EXPECT** The Windows sign-in screen appears.
+
+**IF STUCK** Do not put passwords in the course evidence worksheet or screenshots.
+
+**EVIDENCE** Capture the Windows sign-in screen appears. Record the target computer and date.
+
+### Step 15: Sign into the guest
+
+**DO** Use Workstation VM > Send Ctrl+Alt+Del (or Ctrl+Alt+Insert), then sign in as the guest’s local Administrator.
+
+**EXPECT** You see a Windows desktop and Server Manager.
+
+**IF STUCK** If only a command window appears, you installed Server Core; return to the edition-selection step for this new lab VM.
+
+**EVIDENCE** Capture you see a Windows desktop and Server Manager. Record the target computer and date.
+
+### Step 16: Install VMware Tools
+
+**DO** In Workstation select VM > Install VMware Tools. In the guest open File Explorer > This PC, open the VMware Tools CD, and run setup64.exe if offered. Choose the normal setup and restart when asked.
+
+**EXPECT** After restart, the guest is usable with the expected mouse/display integration.
+
+**IF STUCK** The menu may say Reinstall VMware Tools. VERSION CHECK REQUIRED: if the bundled Tools ISO is unavailable, use Broadcom’s supported Tools download for your Workstation and guest version.
+
+**EVIDENCE** Capture after restart, the guest is usable with the expected mouse/display integration. Record the target computer and date.
+
+### Step 17: Patch the new Server 2019 guest
+
+**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+
+**EXPECT** Windows has completed its pending restarts.
+
+**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+
+**EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
+
+### Step 18: Rename Windows
+
+**DO** Inside the guest press Win+R, enter sysdm.cpl, and press Enter. On Computer Name choose Change. Enter DEST-DC01, confirm OK, and restart when prompted.
+
+**EXPECT** After signing in again, hostname returns DEST-DC01.
+
+**IF STUCK** Renaming the entry in the Workstation library does not rename Windows.
+
+**EVIDENCE** Capture after signing in again, hostname returns DEST-DC01. Record the target computer and date.
+
+**COMMAND**
+> hostname
+
+### Step 19: Open the guest IPv4 settings
+
+**DO** Inside the guest press Win+R, type ncpa.cpl, and press Enter. Right-click the connected Ethernet adapter > Properties. Select Internet Protocol Version 4 (TCP/IPv4), then Properties.
+
+**EXPECT** The IPv4 address and DNS fields are visible.
+
+**IF STUCK** This is the on-prem VM adapter. Azure VM address configuration is different and is set on the Azure NIC.
+
+**EVIDENCE** Capture the IPv4 address and DNS fields are visible. Record the target computer and date.
+
+### Step 20: Enter the lab address
+
+**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.30; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.30. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+
+**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+
+**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+
+**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+
+**COMMAND**
+> ipconfig /all
+
+### Step 21: Confirm this is Server 2019
+
+**DO** Open Start, search Windows PowerShell, right-click it > Run as administrator. Run the read-only inventory below in this VM.
+
+**EXPECT** WindowsProductName identifies Windows Server 2019; hostname identifies DEST-DC01.
+
+**IF STUCK** If the version is 2022 or 2025, you have not built the requested source baseline. Do not present that as a 2019-to-2022 upgrade.
+
+**EVIDENCE** Capture windowsProductName identifies Windows Server 2019; hostname identifies DEST-DC01. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber
+> DISM /online /Get-CurrentEdition
+
+### Step 22: Open Add Roles and Features
+
+**DO** Inside the named server open Server Manager. Choose Manage > Add Roles and Features. Click Next on Before you begin.
+
+**EXPECT** The Select installation type page is shown.
+
+**IF STUCK** If Server Manager is closed, open Start and select Server Manager. Run as the authorized local Administrator for a new forest, or Domain Admin for a replica.
+
+**EVIDENCE** Capture the Select installation type page is shown. Record the target computer and date.
+
+### Step 23: Select the local destination server
+
+**DO** Choose Role-based or feature-based installation > Next. Select a server from the server pool and select this VM’s computer name > Next.
+
+**EXPECT** The Server Roles page targets the correct computer.
+
+**IF STUCK** If the target name is wrong, cancel; do not install AD DS on a member server by mistake.
+
+**EVIDENCE** Capture the Server Roles page targets the correct computer. Record the target computer and date.
+
+### Step 24: Select AD DS and its tools
+
+**DO** Check Active Directory Domain Services. In the pop-up click Add Features, then Next.
+
+**EXPECT** AD DS is selected and its required management tools are included.
+
+**IF STUCK** Installing DNS alone does not create a domain. Confirm you selected Active Directory Domain Services.
+
+**EVIDENCE** Capture aD DS is selected and its required management tools are included. Record the target computer and date.
+
+**SCREENSHOTS** ad-roles, ad-features
+
+### Step 25: Install the role
+
+**DO** Keep the required Features selected. Click Next through the AD DS information page, review the selected target, then click Install.
+
+**EXPECT** Installation succeeds and offers Promote this server to a domain controller.
+
+**IF STUCK** If it fails, read the failed feature and Server Manager error before retrying; do not continue straight to promotion.
+
+**EVIDENCE** Capture installation succeeds and offers Promote this server to a domain controller. Record the target computer and date.
+
+**SCREENSHOTS** ad-promote
+
+### Step 26: Choose the correct promotion operation
+
+**DO** Click Promote this server to a domain controller. Choose Add a new forest. Enter destination.test as Root domain name. Click Next.
+
+**EXPECT** The wizard shows a NEW forest named destination.test.
+
+**IF STUCK** A replica must not create a second forest with the same name. A destination forest must not accidentally join the source forest.
+
+**EVIDENCE** Capture the wizard shows a NEW forest named destination.test. Record the target computer and date.
+
+**SCREENSHOTS** ad-forest
+
+### Step 27: Set controller options and DSRM
+
+**DO** For Server 2019 in this lab, use Windows Server 2016 for both forest and domain functional levels. Keep DNS server and Global Catalog selected. Set and confirm a unique DSRM recovery password, store it securely, then Next.
+
+**EXPECT** Required options are selected and the password boxes have no validation error.
+
+**IF STUCK** Windows Server 2019 has no Windows Server 2019 functional-level choice. Never copy the older functional levels or passwords from a reference image.
+
+**EVIDENCE** Capture required options are selected and the password boxes have no validation error. Record the target computer and date.
+
+**SCREENSHOTS** ad-dc-options
+
+### Step 28: Review DNS and additional options
+
+**DO** Continue past the isolated-root DNS-delegation warning only if it is the expected warning for this private lab. Confirm the DESTINATION NetBIOS name on Additional Options.
+
+**EXPECT** The wizard advances without a blocking validation error.
+
+**IF STUCK** A yellow delegation warning for a private root is different from a red failed prerequisite. Stop for DNS, credential, or connectivity failures.
+
+**EVIDENCE** Capture the wizard advances without a blocking validation error. Record the target computer and date.
+
+### Step 29: Keep the default AD paths
+
+**DO** On Paths keep the default NTDS database/log and SYSVOL locations for this small lab, then Next.
+
+**EXPECT** The wizard shows Review Options.
+
+**IF STUCK** This is a disposable lab layout, not a production storage design. Do not put AD data on a temporary disk.
+
+**EVIDENCE** Capture the wizard shows Review Options. Record the target computer and date.
+
+**SCREENSHOTS** ad-paths
+
+### Step 30: Check prerequisites before promotion
+
+**DO** On Review Options confirm destination.test, the correct computer, and DNS. Click Next, then wait for Prerequisites Check.
+
+**EXPECT** The prerequisite check succeeds; only understood lab warnings remain.
+
+**IF STUCK** Read every red failure. Correct its stated cause and rerun the check before clicking Install.
+
+**EVIDENCE** Capture the prerequisite check succeeds; only understood lab warnings remain. Record the target computer and date.
+
+**SCREENSHOTS** ad-review, ad-prerequisites
+
+### Step 31: Promote and wait for restart
+
+**DO** Click Install only after the prerequisite check passes. Wait for the VM to restart; do not power it off to shorten the wait.
+
+**EXPECT** The guest restarts and offers a domain sign-in.
+
+**IF STUCK** If promotion fails, retain the message and inspect Server Manager and Event Viewer > Windows Logs > Directory Service/System before retrying.
+
+**EVIDENCE** Capture the guest restarts and offers a domain sign-in. Record the target computer and date.
+
+### Step 32: Verify the directory
+
+**DO** Sign in with your authorized destination.test administrator account. Open Windows PowerShell as administrator in this VM and run the checks.
+
+**EXPECT** The DNSRoot is destination.test and domain-controller records resolve to the lab’s private IPs.
+
+**IF STUCK** If Get-ADDomain is unavailable, confirm you are on the promoted server with the AD management tools. If DNS fails, inspect the adapter’s DNS and the domain DNS zone.
+
+**EVIDENCE** Capture the DNSRoot is destination.test and domain-controller records resolve to the lab’s private IPs. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> Get-ADDomain | Select-Object DNSRoot, NetBIOSName
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.destination.test
+
 LAB 09 / DNS + OPTIONAL TRUST
+
 
 # Teach the forests to find each other
 
@@ -581,7 +2357,7 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 **\[ \]** Enter the other forest name and review the wizard. For a local-only lab you may configure a two-way forest trust with controlled test credentials, then validate it in both directions. Skip this step if you only intend to import GPO backups and rejoin one server.
 
-> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.destination.test 192.168.77.10  
+> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.destination.test 192.168.77.10
 > nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.agency.test 192.168.77.40
 
 **PASS CHECK** Each query returns an SRV record for the opposite forest; trust is optional, not a prerequisite for the rest of the exercises.
@@ -616,7 +2392,92 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 **DNS query results / trust used?** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** AG-DC01 and DEST-DC01 / DNS Manager / authorized administrator in each separate forest.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Each query returns an SRV record for the opposite forest; trust is optional, not a prerequisite for the rest of the exercises.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: On AG-DC01, open Server Manager / Tools
+
+**DO** On AG-DC01, open Server Manager > Tools > DNS. Expand AG-DC01.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Right-click Conditional Forwarders / New Conditional Forwarder. DNS domain:
+
+**DO** Right-click Conditional Forwarders > New Conditional Forwarder. DNS domain: destination.test. Master server IP: 192.168.77.40. Select OK.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: On DEST-DC01, open DNS / Conditional Forwarders
+
+**DO** On DEST-DC01, open DNS > Conditional Forwarders > New Conditional Forwarder. DNS domain: agency.test. Master server IP: 192.168.77.10.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: On both DCs run nslookup with the other domain name and its explicit local D
+
+**DO** On both DCs run nslookup with the other domain name and its explicit local DNS server.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: For a trust exercise ONLY, after name resolution works: open Active Director
+
+**DO** For a trust exercise ONLY, after name resolution works: open Active Directory Domains and Trusts > right-click the root domain > Properties > Trusts > New Trust.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Enter the other forest name and review the wizard. For a local-only lab you
+
+**DO** Enter the other forest name and review the wizard. For a local-only lab you may configure a two-way forest trust with controlled test credentials, then validate it in both directions. Skip this step if you only intend to import GPO backups and rejoin one server.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** Each query returns an SRV record for the opposite forest; trust is optional, not a prerequisite for the rest of the exercises.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture each query returns an SRV record for the opposite forest; trust is optional, not a prerequisite for the rest of the exercises. Record the target computer and date.
+
+**COMMAND**
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.destination.test 192.168.77.10
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.agency.test 192.168.77.40
+
 LAB 10 / POLICY MIGRATION
+
 
 # Export and import your test GPO
 
@@ -674,7 +2535,121 @@ This lesson is the answer to “How do I move the agency’s Group Policies into
 
 **Backup location / destination GPO** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** AG-DC01 and DEST-DC01 / Group Policy Management / authorized administrator in each forest.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** The destination GPO exists, contains the test banner, and is linked to the destination Operations OU.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: On AG-DC01 open Group Policy Management. Expand agency.test / Group Policy O
+
+**DO** On AG-DC01 open Group Policy Management. Expand agency.test > Group Policy Objects.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Right-click LAB-Operations-Banner / Back Up. Choose a folder like C:\GPOBack
+
+**DO** Right-click LAB-Operations-Banner > Back Up. Choose a folder like C:\GPOBackups. Give the backup a description.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Copy the completed GPO backup folder onto DEST-DC01 using an approved local
+
+**DO** Copy the completed GPO backup folder onto DEST-DC01 using an approved local lab method (for example, a temporary VMware shared folder). Keep all files within each backup folder.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: On DEST-DC01 open Group Policy Management. Expand destination.test / Group P
+
+**DO** On DEST-DC01 open Group Policy Management. Expand destination.test > Group Policy Objects.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Right-click Group Policy Objects / New. Create LAB-Operations-Banner-Dest.
+
+**DO** Right-click Group Policy Objects > New. Create LAB-Operations-Banner-Dest.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Right-click that new GPO / Import Settings
+
+**DO** Right-click that new GPO > Import Settings > Next. Back up the empty GPO if prompted, then browse to the transferred GPO backup folder.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Choose LAB-Operations-Banner. For our simple banner the wizard should not ne
+
+**DO** Choose LAB-Operations-Banner. For our simple banner the wizard should not need domain-specific security principal mappings. Finish importing.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Right-click the Operations OU in destination.test / Link an Existing GPO
+
+**DO** Right-click the Operations OU in destination.test > Link an Existing GPO > LAB-Operations-Banner-Dest.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: Open the destination GPO and confirm the login title and message are present
+
+**DO** Open the destination GPO and confirm the login title and message are present.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 10: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** The destination GPO exists, contains the test banner, and is linked to the destination Operations OU.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture the destination GPO exists, contains the test banner, and is linked to the destination Operations OU. Record the target computer and date.
+
+**COMMAND**
+> Get-GPO -Name "LAB-Operations-Banner-Dest" -Domain destination.test
+
 LAB 11 / CUTOVER DAY
+
 
 # Move APP01 to the new domain
 
@@ -712,11 +2687,11 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 **\[ \]** On APP01, run gpupdate /force and gpresult /r /scope computer. Open the website again. Check the logon notice.
 
-> hostname  
-> (Get-CimInstance Win32_ComputerSystem).Domain  
-> Get-Service W3SVC  
-> Test-NetConnection 192.168.77.40 -Port 53  
-> gpupdate /force  
+> hostname
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> Get-Service W3SVC
+> Test-NetConnection 192.168.77.40 -Port 53
+> gpupdate /force
 > gpresult /r /scope computer
 
 **PASS CHECK** APP01 now belongs to destination.test; the website works; destination GPO is applied; old DCs remain intact.
@@ -751,7 +2726,126 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 **Before-domain / after-domain / PASS?** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** APP01 guest / System Properties and PowerShell / known local Administrator plus authorized destination domain join credentials.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** APP01 now belongs to destination.test; the website works; destination GPO is applied; old DCs remain intact.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: On APP01, record the starting state using the commands below. Save results a
+
+**DO** On APP01, record the starting state using the commands below. Save results as a plain-text migration log.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Confirm the IIS webpage is still available at http://localhost.
+
+**DO** Confirm the IIS webpage is still available at http://localhost.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Create/verify a local Administrator login on APP01 and test that you know it
+
+**DO** Create/verify a local Administrator login on APP01 and test that you know its credentials. Keep a working VMware console session.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: On APP01, open sysdm.cpl / Computer Name
+
+**DO** On APP01, open sysdm.cpl > Computer Name > Change > Workgroup. Enter LAB-TEMP. Supply agency admin credentials if asked; reboot.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Log in with APP01\Administrator (local). Change APP01 DNS from 192.168.77.10
+
+**DO** Log in with APP01\Administrator (local). Change APP01 DNS from 192.168.77.10 to 192.168.77.40 in the IPv4 adapter settings. Keep its own IP as 192.168.77.30.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Run nslookup destination.test 192.168.77.40 and the destination AD SRV recor
+
+**DO** Run nslookup destination.test 192.168.77.40 and the destination AD SRV record check from Lesson 9.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Open sysdm.cpl / Computer Name
+
+**DO** Open sysdm.cpl > Computer Name > Change > Domain. Enter destination.test. Provide destination domain join credentials; reboot.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: On DEST-DC01, find APP01 in Active Directory Users and Computers and move th
+
+**DO** On DEST-DC01, find APP01 in Active Directory Users and Computers and move the computer account into destination.test > Operations.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: On APP01, run gpupdate /force and gpresult /r /scope computer. Open the webs
+
+**DO** On APP01, run gpupdate /force and gpresult /r /scope computer. Open the website again. Check the logon notice.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 10: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** APP01 now belongs to destination.test; the website works; destination GPO is applied; old DCs remain intact.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture aPP01 now belongs to destination.test; the website works; destination GPO is applied; old DCs remain intact. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> Get-Service W3SVC
+> Test-NetConnection 192.168.77.40 -Port 53
+> gpupdate /force
+> gpresult /r /scope computer
+
 LAB 12 / RECOVERY
+
 
 # Test rollback and record the result
 
@@ -769,9 +2863,9 @@ A real migration engineer needs a recovery path, not only a success screenshot.
 
 **\[ \]** Write a change ticket note stating what you changed, what worked, what failed, and whether you rolled back.
 
-> (Get-CimInstance Win32_ComputerSystem).Domain  
-> ipconfig /all  
-> gpresult /r /scope computer  
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> ipconfig /all
+> gpresult /r /scope computer
 > Get-Service W3SVC
 
 **PASS CHECK** You can show both a valid cutover checklist and an actual rollback verification.
@@ -798,7 +2892,94 @@ A real migration engineer needs a recovery path, not only a success screenshot.
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** APP01 member server and the two local domain environments / authorized lab administrators.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** You can show both a valid cutover checklist and an actual rollback verification.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Capture evidence: hostname, new domain, IP configuration, applied GPO name,
+
+**DO** Capture evidence: hostname, new domain, IP configuration, applied GPO name, and successful local IIS page.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Stop and imagine the destination app failed. State the rollback trigger: for
+
+**DO** Stop and imagine the destination app failed. State the rollback trigger: for example, DNS/domain join failure, app 500 error, or a broken service account.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: If you need rollback, power off APP01 and revert to its PRE-CUTOVER snapshot
+
+**DO** If you need rollback, power off APP01 and revert to its PRE-CUTOVER snapshot. Do not roll back domain controllers as your recovery technique.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Power on APP01. Confirm the old agency domain, DNS, GPO, and website are bac
+
+**DO** Power on APP01. Confirm the old agency domain, DNS, GPO, and website are back as expected.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: If you are continuing to the Azure extension, keep the rollback APP01 snapsh
+
+**DO** If you are continuing to the Azure extension, keep the rollback APP01 snapshot so you can practice a second migration from agency.test later.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Write a change ticket note stating what you changed, what worked, what faile
+
+**DO** Write a change ticket note stating what you changed, what worked, what failed, and whether you rolled back.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** You can show both a valid cutover checklist and an actual rollback verification.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture you can show both a valid cutover checklist and an actual rollback verification. Record the target computer and date.
+
+**COMMAND**
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> ipconfig /all
+> gpresult /r /scope computer
+> Get-Service W3SVC
+
 LAB 13 / PATCHING
+
 
 # Optional: build a WSUS server
 
@@ -872,7 +3053,88 @@ MECM and SQL Server can technically share a server for a lab, but we deliberatel
 
 **PASS CHECK** You can draw this dependency arrow: MECM01 -\> SQL01 (site database), MECM01 -\> AD/DNS, MECM software update point -\> WSUS01.
 
+## Guided walkthrough
+
+**WHERE** WSUS01 Server 2019 guest / Server Manager / local administrator; optional extension.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** You can explain the WSUS role, its data/content requirements, client targeting, and why it is not automatically migrated with an AD trust.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Create WSUS01 (Windows Server) on the agency.test lab network; set IP 192.16
+
+**DO** Create WSUS01 (Windows Server) on the agency.test lab network; set IP 192.168.77.50 and DNS 192.168.77.10.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Join WSUS01 to agency.test and restart.
+
+**DO** Join WSUS01 to agency.test and restart.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: In Server Manager / Manage
+
+**DO** In Server Manager > Manage > Add Roles and Features, select Windows Server Update Services. Review prerequisites and choose a local content directory on a volume with generous free space.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Install the role and complete the post-installation tasks. Open the WSUS con
+
+**DO** Install the role and complete the post-installation tasks. Open the WSUS console.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Do NOT immediately synchronize every product and classification. First revie
+
+**DO** Do NOT immediately synchronize every product and classification. First review upstream update source, proxy/internet requirements, storage, and cleanup.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Create a worksheet entry identifying which clients use WSUS and what GPO set
+
+**DO** Create a worksheet entry identifying which clients use WSUS and what GPO setting configures the intranet update service.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: For the “migration plan,” decide whether to preserve WSUS, rebuild it, or us
+
+**DO** For the “migration plan,” decide whether to preserve WSUS, rebuild it, or use an approved destination patching service.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 SQL-01 / DOWNLOADS + SIZING
+
 
 # Choose the right SQL and MECM installers
 
@@ -900,7 +3162,98 @@ We are building TWO kinds of databases: a practice database we own, and a specia
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical Windows host / Microsoft download pages and the SQL/MECM compatibility matrix.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** You have installer filenames, SQL version, MECM version, host RAM, and a storage plan written down.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Find your Windows Server evaluation installer from Microsoft Evaluation Cent
+
+**DO** Find your Windows Server evaluation installer from Microsoft Evaluation Center; reuse your Windows Server ISO in VMware.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Download SQL Server 2022 Evaluation (a full Database Engine edition), or ano
+
+**DO** Download SQL Server 2022 Evaluation (a full Database Engine edition), or another currently supported full SQL edition allowed by the evaluation terms.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: SQL Server 2025 can work with Configuration Manager version 2603 or later. C
+
+**DO** SQL Server 2025 can work with Configuration Manager version 2603 or later. Choose SQL Server 2022 for a straightforward compatible beginner lab; record both exact versions.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Download SQL Server Management Studio (SSMS) separately. Think: SQL Server i
+
+**DO** Download SQL Server Management Studio (SSMS) separately. Think: SQL Server is the engine; SSMS is the remote control.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Download Microsoft Configuration Manager current-branch evaluation from Micr
+
+**DO** Download Microsoft Configuration Manager current-branch evaluation from Microsoft Evaluation Center and record its build/version. Verify the current evaluation conditions in the download terms.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Read the Configuration Manager Windows ADK compatibility page before downloa
+
+**DO** Read the Configuration Manager Windows ADK compatibility page before downloading ADK/WinPE add-on; do NOT automatically choose the newest ADK.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Estimate memory: DC01 4 GB, DC02 4 GB, WSUS01 4+ GB, SQL01 12-16 GB, MECM01
+
+**DO** Estimate memory: DC01 4 GB, DC02 4 GB, WSUS01 4+ GB, SQL01 12-16 GB, MECM01 12-16 GB; host also needs RAM. 48-64 GB host RAM is a practical target for concurrent use.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Choose thin-provisioned VM disks but keep ample actual storage space for SQL
+
+**DO** Choose thin-provisioned VM disks but keep ample actual storage space for SQL data and MECM content. Avoid synchronizing full WSUS catalogs during first exercise.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 SQL-02 / NEW WINDOWS VM
+
 
 # Create SQL01 and join agency.test
 
@@ -918,9 +3271,9 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 \[ \] Windows \> Settings \> System \> About \> Rename this PC (advanced) \> Change \> Domain: agency.test. Enter lab domain join credentials; restart.
 
-> hostname  
-> (Get-CimInstance Win32_ComputerSystem).Domain  
-> ipconfig /all  
+> hostname
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> ipconfig /all
 > Resolve-DnsName AG-DC01.agency.test
 
 **PASS CHECK** SQL01 is a MEMBER of agency.test and resolves AG-DC01 correctly. It is NOT a DC.
@@ -929,7 +3282,292 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical host Workstation Pro, then SQL01 Server 2019 member guest / local Administrator and authorized domain join account.
+
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+
+**PASS** SQL01 is a MEMBER of agency.test and resolves AG-DC01 correctly. It is NOT a DC.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Open the new VM wizard
+
+**DO** On your physical Windows PC, open VMware Workstation Pro. Click File, then New Virtual Machine. Do not do this inside another VM.
+
+**EXPECT** The New Virtual Machine Wizard is open.
+
+**IF STUCK** If VMware is absent, finish LAB 02. Help > About identifies your installed version.
+
+**EVIDENCE** Capture the New Virtual Machine Wizard is open. Record the target computer and date.
+
+**SCREENSHOTS** workstation-1
+
+### Step 02: Choose Typical
+
+**DO** Select Typical (recommended), then Next. The reference image has Custom selected; use the upper Typical radio button for this lab.
+
+**EXPECT** The wizard asks how the guest operating system will be installed.
+
+**IF STUCK** If you chose Custom, cancel and restart; do not change random advanced disk options.
+
+**EVIDENCE** Capture the wizard asks how the guest operating system will be installed. Record the target computer and date.
+
+**SCREENSHOTS** workstation-2
+
+### Step 03: Use manual Windows installation
+
+**DO** Select I will install the operating system later, then Next. This avoids Easy Install silently choosing an edition.
+
+**EXPECT** The wizard lets you choose a guest OS profile.
+
+**IF STUCK** Do not select the example Windows 7 ISO visible in the reference. We attach your Server 2019 ISO later.
+
+**EVIDENCE** Capture the wizard lets you choose a guest OS profile. Record the target computer and date.
+
+**SCREENSHOTS** workstation-4
+
+### Step 04: Choose the Server 2019 guest profile
+
+**DO** Select Microsoft Windows. Open Version and choose Windows Server 2019, then Next.
+
+**EXPECT** The guest profile says Windows Server 2019.
+
+**IF STUCK** VERSION CHECK REQUIRED: if your Workstation version does not list Server 2019, stop and check Broadcom compatibility/update guidance; the profile is not the ISO and selecting a newer OS does not install it.
+
+**EVIDENCE** Capture the guest profile says Windows Server 2019. Record the target computer and date.
+
+### Step 05: Name the VM
+
+**DO** Enter SQL01 as the virtual machine name. Browse to a folder with enough free space, such as your dedicated SONIC lab folder, then Next.
+
+**EXPECT** The summary uses SQL01 and a location you can find again.
+
+**IF STUCK** The VMware name and the Windows computer name are different settings; we will rename Windows after installation.
+
+**EVIDENCE** Capture the summary uses SQL01 and a location you can find again. Record the target computer and date.
+
+**SCREENSHOTS** workstation-6
+
+### Step 06: Create a new virtual disk
+
+**DO** Set Maximum disk size to 120 GB for this lab plan. Choose Split virtual disk into multiple files, then Next. Do not attach an existing production disk.
+
+**EXPECT** A new blank virtual disk is selected.
+
+**IF STUCK** This is a lab sizing example, not a product minimum. Stop if the host lacks free space for your planned VMs.
+
+**EVIDENCE** Capture a new blank virtual disk is selected. Record the target computer and date.
+
+**SCREENSHOTS** workstation-14
+
+### Step 07: Set memory and CPU
+
+**DO** Click Customize Hardware. Select Memory and enter 12288 MB. Select Processors and use 1 processor with 2 cores for the basic lab.
+
+**EXPECT** The hardware list shows your memory allocation and two virtual cores.
+
+**IF STUCK** Leave RAM for the physical host. SQL/MECM need more resources than a domain controller; do not start all optional VMs together on a small PC.
+
+**EVIDENCE** Capture the hardware list shows your memory allocation and two virtual cores. Record the target computer and date.
+
+**SCREENSHOTS** workstation-9, workstation-8
+
+### Step 08: Attach the Server 2019 ISO
+
+**DO** Select CD/DVD in the hardware list. Choose Use ISO image file, Browse to your Windows Server 2019 ISO, and enable Connect at power on.
+
+**EXPECT** The CD/DVD path ends with your Server 2019 ISO filename.
+
+**IF STUCK** If a different ISO is listed, replace it now; the guest OS profile alone does not select installation media.
+
+**EVIDENCE** Capture the CD/DVD path ends with your Server 2019 ISO filename. Record the target computer and date.
+
+### Step 09: Attach the private VMnet
+
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+
+**EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
+
+**IF STUCK** Do not choose Bridged. If your custom VMnet is missing, return to Virtual Network Editor and verify its name before continuing.
+
+**EVIDENCE** Capture the VM is attached to the same private lab VMnet as the other lab servers. Record the target computer and date.
+
+### Step 10: Finish and start the VM
+
+**DO** Click Close, then Finish. Select the new VM in the Workstation library and click Power on this virtual machine. Click inside its console and press a key when the ISO boot prompt appears.
+
+**EXPECT** Windows Setup appears inside the VM console.
+
+**IF STUCK** If it boots to a network screen or no OS found, power off, check CD/DVD ISO and Connect at power on, then retry. Ctrl+Alt releases your mouse from the console.
+
+**EVIDENCE** Capture windows Setup appears inside the VM console. Record the target computer and date.
+
+**SCREENSHOTS** workstation-15
+
+### Step 11: Start Windows Setup
+
+**DO** Choose the language you need for the course, time format, and keyboard, then Next and Install now. Use English (United States) media if you will follow the Azure upgrade-media route later.
+
+**EXPECT** Setup displays an edition list or asks for a legitimate product key.
+
+**IF STUCK** A key prompt depends on your media. Use your authorized course media and license; never enter a sample or shared key.
+
+**EVIDENCE** Capture setup displays an edition list or asks for a legitimate product key. Record the target computer and date.
+
+### Step 12: Choose Desktop Experience
+
+**DO** Select Windows Server 2019 Standard (Desktop Experience), or the matching authorized Datacenter (Desktop Experience) edition your course supplies. If using Evaluation for local practice, record that limitation. Click Next and accept the license only if you agree.
+
+**EXPECT** The selected line explicitly includes 2019 and Desktop Experience.
+
+**IF STUCK** If you omit Desktop Experience you get Server Core. This course does not teach switching Core to Desktop Experience; rebuild this new empty lab VM with the correct option.
+
+**EVIDENCE** Capture the selected line explicitly includes 2019 and Desktop Experience. Record the target computer and date.
+
+### Step 13: Install only on the new blank disk
+
+**DO** Choose Custom: Install Windows only (advanced). Select the new VM’s blank Drive 0 unallocated space and click Next. This is a clean install in a new VM, not the later Azure in-place upgrade.
+
+**EXPECT** Windows copies files, installs, and restarts.
+
+**IF STUCK** Stop if the disk contains existing partitions or data you did not expect. Never delete an unfamiliar disk to make the instructions fit.
+
+**EVIDENCE** Capture windows copies files, installs, and restarts. Record the target computer and date.
+
+### Step 14: Create the local Administrator password
+
+**DO** At Customize settings, set and confirm a strong local Administrator password. Save it in your own password manager, then Finish.
+
+**EXPECT** The Windows sign-in screen appears.
+
+**IF STUCK** Do not put passwords in the course evidence worksheet or screenshots.
+
+**EVIDENCE** Capture the Windows sign-in screen appears. Record the target computer and date.
+
+### Step 15: Sign into the guest
+
+**DO** Use Workstation VM > Send Ctrl+Alt+Del (or Ctrl+Alt+Insert), then sign in as the guest’s local Administrator.
+
+**EXPECT** You see a Windows desktop and Server Manager.
+
+**IF STUCK** If only a command window appears, you installed Server Core; return to the edition-selection step for this new lab VM.
+
+**EVIDENCE** Capture you see a Windows desktop and Server Manager. Record the target computer and date.
+
+### Step 16: Install VMware Tools
+
+**DO** In Workstation select VM > Install VMware Tools. In the guest open File Explorer > This PC, open the VMware Tools CD, and run setup64.exe if offered. Choose the normal setup and restart when asked.
+
+**EXPECT** After restart, the guest is usable with the expected mouse/display integration.
+
+**IF STUCK** The menu may say Reinstall VMware Tools. VERSION CHECK REQUIRED: if the bundled Tools ISO is unavailable, use Broadcom’s supported Tools download for your Workstation and guest version.
+
+**EVIDENCE** Capture after restart, the guest is usable with the expected mouse/display integration. Record the target computer and date.
+
+### Step 17: Patch the new Server 2019 guest
+
+**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+
+**EXPECT** Windows has completed its pending restarts.
+
+**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+
+**EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
+
+### Step 18: Rename Windows
+
+**DO** Inside the guest press Win+R, enter sysdm.cpl, and press Enter. On Computer Name choose Change. Enter SQL01, confirm OK, and restart when prompted.
+
+**EXPECT** After signing in again, hostname returns SQL01.
+
+**IF STUCK** Renaming the entry in the Workstation library does not rename Windows.
+
+**EVIDENCE** Capture after signing in again, hostname returns SQL01. Record the target computer and date.
+
+**COMMAND**
+> hostname
+
+### Step 19: Open the guest IPv4 settings
+
+**DO** Inside the guest press Win+R, type ncpa.cpl, and press Enter. Right-click the connected Ethernet adapter > Properties. Select Internet Protocol Version 4 (TCP/IPv4), then Properties.
+
+**EXPECT** The IPv4 address and DNS fields are visible.
+
+**IF STUCK** This is the on-prem VM adapter. Azure VM address configuration is different and is set on the Azure NIC.
+
+**EVIDENCE** Capture the IPv4 address and DNS fields are visible. Record the target computer and date.
+
+### Step 20: Enter the lab address
+
+**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.60; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+
+**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+
+**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+
+**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+
+**COMMAND**
+> ipconfig /all
+
+### Step 21: Confirm this is Server 2019
+
+**DO** Open Start, search Windows PowerShell, right-click it > Run as administrator. Run the read-only inventory below in this VM.
+
+**EXPECT** WindowsProductName identifies Windows Server 2019; hostname identifies SQL01.
+
+**IF STUCK** If the version is 2022 or 2025, you have not built the requested source baseline. Do not present that as a 2019-to-2022 upgrade.
+
+**EVIDENCE** Capture windowsProductName identifies Windows Server 2019; hostname identifies SQL01. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber
+> DISM /online /Get-CurrentEdition
+
+### Step 22: Check domain DNS before joining
+
+**DO** In SQL01, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for agency.test.
+
+**EXPECT** The domain resolves and the DC’s LDAP SRV records are returned.
+
+**IF STUCK** Do not continue on a failed DNS lookup. Verify both VMs use the same VMnet, source DC is running, and the adapter points at lab AD DNS.
+
+**EVIDENCE** Capture the domain resolves and the DC’s LDAP SRV records are returned. Record the target computer and date.
+
+**COMMAND**
+> Resolve-DnsName agency.test
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+
+### Step 23: Join the domain
+
+**DO** Inside SQL01 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter agency.test, click OK, and supply your authorized lab join credentials.
+
+**EXPECT** Windows welcomes the computer to agency.test and requests a restart.
+
+**IF STUCK** Check DNS and time before changing passwords or disabling a firewall. Do not use your personal Microsoft account as AD credentials.
+
+**EVIDENCE** Capture windows welcomes the computer to agency.test and requests a restart. Record the target computer and date.
+
+### Step 24: Restart and verify membership
+
+**DO** Restart SQL01. Sign in using Other user and an authorized account in agency.test. Run the checks below in Windows PowerShell.
+
+**EXPECT** The reported domain is agency.test and the secure-channel test returns True.
+
+**IF STUCK** If trust fails, record the error and inspect DNS/time and the computer account. Do not delete/rejoin a production computer as an experiment.
+
+**EVIDENCE** Capture the reported domain is agency.test and the secure-channel test returns True. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> Test-ComputerSecureChannel -Verbose
+
 SQL-03 / SET UP SQL ENGINE
+
 
 # Install SQL Server correctly on SQL01
 
@@ -957,7 +3595,7 @@ SQL Server is the filing cabinet. We will configure its lock, doors and labels b
 
 \[ \] Do NOT allow public or entire-internet connections to TCP 1433; keep SQL inside private networks.
 
-> Get-Service MSSQLSERVER  
+> Get-Service MSSQLSERVER
 > Test-NetConnection SQL01.agency.test -Port 1433
 
 **PASS CHECK** SQL engine service Running; correct collation selected; TCP connectivity works from MECM01 later (not necessarily from other hosts).
@@ -968,7 +3606,131 @@ SQL Server is the filing cabinet. We will configure its lock, doors and labels b
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** SQL01 / SQL Server 2022 Setup and Configuration Manager / authorized setup administrator.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** SQL engine service Running; correct collation selected; TCP connectivity works from MECM01 later (not necessarily from other hosts).
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Start SQL Setup on SQL01
+
+**DO** Sign into SQL01 with your authorized setup account. Mount the SQL Server 2022 ISO, open it in File Explorer, and right-click setup.exe > Run as administrator.
+
+**EXPECT** SQL Server Installation Center opens on SQL01.
+
+**IF STUCK** Do not install SQL on AG-DC01. Confirm SQL01 is a domain member and your chosen SQL edition is compatible with any later MECM exercise.
+
+**EVIDENCE** Capture sQL Server Installation Center opens on SQL01. Record the target computer and date.
+
+### Step 02: Select a stand-alone engine installation
+
+**DO** Choose Installation > New SQL Server stand-alone installation or add features to an existing installation. Use the evaluation or licensed option approved for the lab.
+
+**EXPECT** The setup rules and license pages can be reviewed.
+
+**IF STUCK** SQL Server version and Windows Server version are separate: SQL 2022 can run on this Server 2019 guest.
+
+**EVIDENCE** Capture the setup rules and license pages can be reviewed. Record the target computer and date.
+
+### Step 03: Resolve setup rules
+
+**DO** Accept terms only if you agree. Continue through product updates/rules and stop for any failed rule.
+
+**EXPECT** No blocking setup rule remains.
+
+**IF STUCK** Record the named rule and remediation. A firewall warning is not permission to expose SQL to the internet.
+
+**EVIDENCE** Capture no blocking setup rule remains. Record the target computer and date.
+
+### Step 04: Choose Database Engine Services
+
+**DO** On Feature Selection check Database Engine Services. Leave unrelated features unselected for this core lesson, then Next.
+
+**EXPECT** Database Engine Services is the selected feature.
+
+**IF STUCK** SSMS is a separate management application; selecting client tools is not a substitute for the engine.
+
+**EVIDENCE** Capture database Engine Services is the selected feature. Record the target computer and date.
+
+### Step 05: Choose the default instance
+
+**DO** On Instance Configuration choose Default instance and record MSSQLSERVER. Continue to the service-account configuration.
+
+**EXPECT** The instance name is MSSQLSERVER.
+
+**IF STUCK** If you intentionally use a named instance, its service and connection name differ; do not copy the default-instance commands unchanged.
+
+**EVIDENCE** Capture the instance name is MSSQLSERVER. Record the target computer and date.
+
+### Step 06: Set the required collation
+
+**DO** On Server Configuration open the Collation tab and set Database Engine collation to SQL_Latin1_General_CP1_CI_AS for this lab’s later MECM dependency.
+
+**EXPECT** The collation text exactly matches the planned value.
+
+**IF STUCK** Collation is not a Windows language setting. Correct it before installation; changing it afterward is not a trivial toggle.
+
+**EVIDENCE** Capture the collation text exactly matches the planned value. Record the target computer and date.
+
+### Step 07: Grant your setup account access
+
+**DO** On Database Engine Configuration choose Windows authentication mode. Click Add Current User so your authorized setup identity is listed as a SQL administrator.
+
+**EXPECT** Your setup identity is explicitly in the SQL administrator list.
+
+**IF STUCK** Domain membership alone does not grant SQL sysadmin. Do not solve a missing SQL login with a weak sa password.
+
+**EVIDENCE** Capture your setup identity is explicitly in the SQL administrator list. Record the target computer and date.
+
+### Step 08: Finish installation and open the service
+
+**DO** Review the selected features and click Install. Wait for completion, then open elevated PowerShell on SQL01 and run Get-Service MSSQLSERVER.
+
+**EXPECT** MSSQLSERVER is Running.
+
+**IF STUCK** Use the SQL setup summary/detail logs for a failed installation; do not claim completion because setup.exe launched.
+
+**EVIDENCE** Capture mSSQLSERVER is Running. Record the target computer and date.
+
+**COMMAND**
+> Get-Service MSSQLSERVER
+
+### Step 09: Set a bounded SQL memory maximum
+
+**DO** After installing SSMS, connect to SQL01 > right-click server > Properties > Memory. Set an explicit maximum that leaves RAM for Windows and other required processes; record the allocation from your lab sizing plan.
+
+**EXPECT** The configured memory limit is recorded and leaves headroom for Windows.
+
+**IF STUCK** No single number fits every host. If the planned MECM requirements cannot fit your RAM, defer that optional extension.
+
+**EVIDENCE** Capture the configured memory limit is recorded and leaves headroom for Windows. Record the target computer and date.
+
+### Step 10: Enable private TCP access only when needed
+
+**DO** Open SQL Server Configuration Manager > SQL Server Network Configuration > Protocols for MSSQLSERVER. Enable TCP/IP. In TCP/IP Properties > IP Addresses > IPAll clear dynamic ports and set TCP Port 1433 for this lab; restart SQL Server through Configuration Manager.
+
+**EXPECT** The engine is listening on the planned fixed port after restart.
+
+**IF STUCK** This changes instance connectivity. Record existing settings first; avoid changing an unrelated or production instance.
+
+**EVIDENCE** Capture the engine is listening on the planned fixed port after restart. Record the target computer and date.
+
+### Step 11: Scope the Windows firewall rule
+
+**DO** On SQL01 open Windows Defender Firewall with Advanced Security > Inbound Rules > New Rule > Port > TCP > Specific local ports 1433 > Allow the connection. Use the Domain profile, name the rule, then Properties > Scope and limit remote addresses to the recorded MECM01/authorized private admin IPs.
+
+**EXPECT** The SQL rule is private, scoped, and documented.
+
+**IF STUCK** Do not allow Any remote address or create a public Azure rule for SQL 1433. A test from a deliberately excluded host should fail.
+
+**EVIDENCE** Capture the SQL rule is private, scoped, and documented. Record the target computer and date.
+
 SQL-04 / SSMS + FAKE DATA
+
 
 # Use SSMS to create a database you understand
 
@@ -980,25 +3742,25 @@ Think of SSMS as a filing-cabinet window. The SQL database lives on SQL01 even w
 
 \[ \] Expand Databases. Open New Query. Paste the practice script below. It creates only FAKE records and never touches MECM tables.
 
-> CREATE DATABASE AgencyHelpdesk;  
-> GO  
-> USE AgencyHelpdesk;  
-> GO  
-> CREATE TABLE dbo.Tickets (  
-> TicketID INT PRIMARY KEY,  
-> Summary NVARCHAR(100) NOT NULL,  
-> Status NVARCHAR(20) NOT NULL  
-> );  
-> INSERT INTO dbo.Tickets VALUES  
-> (101, 'Printer not working', 'Open'),  
-> (102, 'VPN help', 'Closed');  
+> CREATE DATABASE AgencyHelpdesk;
+> GO
+> USE AgencyHelpdesk;
+> GO
+> CREATE TABLE dbo.Tickets (
+> TicketID INT PRIMARY KEY,
+> Summary NVARCHAR(100) NOT NULL,
+> Status NVARCHAR(20) NOT NULL
+> );
+> INSERT INTO dbo.Tickets VALUES
+> (101, 'Printer not working', 'Open'),
+> (102, 'VPN help', 'Closed');
 > SELECT \* FROM dbo.Tickets;
 
 \[ \] Click Execute (or F5). Verify Messages says commands completed and Results shows two tickets. Refresh Databases and find AgencyHelpdesk.
 
 \[ \] Practice SELECT with WHERE Status = Open; screenshot your query and result.
 
-> USE AgencyHelpdesk;  
+> USE AgencyHelpdesk;
 > SELECT TicketID, Summary, Status FROM dbo.Tickets;
 
 **PASS CHECK** Two fake rows visible. You can explain DB = the binder, table = one sheet, rows = entries, SSMS = management tool.
@@ -1007,7 +3769,107 @@ Think of SSMS as a filing-cabinet window. The SQL database lives on SQL01 even w
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** SQL01 / SQL Server Management Studio / authorized Windows-authenticated SQL setup account.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Two fake rows visible. You can explain DB = the binder, table = one sheet, rows = entries, SSMS = management tool.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: On SQL01 install SSMS from the Microsoft website. Open SQL Server Management
+
+**DO** On SQL01 install SSMS from the Microsoft website. Open SQL Server Management Studio.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Connect to Server: Server type = Database Engine; Server name = SQL01 or SQL
+
+**DO** Connect to Server: Server type = Database Engine; Server name = SQL01 or SQL01.agency.test; Authentication = Windows Authentication; Connect.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Expand Databases. Open New Query. Paste the practice script below. It create
+
+**DO** Expand Databases. Open New Query. Paste the practice script below. It creates only FAKE records and never touches MECM tables.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Click Execute (or F5). Verify Messages says commands completed and Results s
+
+**DO** Click Execute (or F5). Verify Messages says commands completed and Results shows two tickets. Refresh Databases and find AgencyHelpdesk.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Practice SELECT with WHERE Status = Open; screenshot your query and result.
+
+**DO** Practice SELECT with WHERE Status = Open; screenshot your query and result.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** Two fake rows visible. You can explain DB = the binder, table = one sheet, rows = entries, SSMS = management tool.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture two fake rows visible. You can explain DB = the binder, table = one sheet, rows = entries, SSMS = management tool. Record the target computer and date.
+
+**COMMAND**
+> CREATE DATABASE AgencyHelpdesk;
+> GO
+> USE AgencyHelpdesk;
+> GO
+> CREATE TABLE dbo.Tickets (
+> TicketID INT PRIMARY KEY,
+> Summary NVARCHAR(100) NOT NULL,
+> Status NVARCHAR(20) NOT NULL
+> );
+> INSERT INTO dbo.Tickets VALUES
+> (101, 'Printer not working', 'Open'),
+> (102, 'VPN help', 'Closed');
+> SELECT * FROM dbo.Tickets;
+
+### Step 07: Run the reference check 2
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** Two fake rows visible. You can explain DB = the binder, table = one sheet, rows = entries, SSMS = management tool.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture two fake rows visible. You can explain DB = the binder, table = one sheet, rows = entries, SSMS = management tool. Record the target computer and date.
+
+**COMMAND**
+> USE AgencyHelpdesk;
+> SELECT TicketID, Summary, Status FROM dbo.Tickets;
+
 SQL-05 / .BAK AND RESTORE
+
 
 # Make a real backup and restore it
 
@@ -1021,7 +3883,7 @@ This is the same side-by-side idea you heard about when SQL 2017 moved to SQL 20
 
 \[ \] In SSMS choose New Query, then RESTORE VERIFYONLY to test whether the backup set is readable.
 
-> RESTORE VERIFYONLY  
+> RESTORE VERIFYONLY
 > FROM DISK = 'C:\SQLBackups\AgencyHelpdesk_full.bak';
 
 \[ \] Now practice restoring a COPY on SQL01 without overwriting original: SSMS \> Databases \> Restore Database \> Device \> ... choose .bak \> Destination: AgencyHelpdesk_RestoreTest.
@@ -1030,7 +3892,7 @@ This is the same side-by-side idea you heard about when SQL 2017 moved to SQL 20
 
 \[ \] After restore succeeds run SELECT against AgencyHelpdesk_RestoreTest. You should see the same two rows.
 
-> SELECT name, state_desc FROM sys.databases;  
+> SELECT name, state_desc FROM sys.databases;
 > SELECT \* FROM AgencyHelpdesk_RestoreTest.dbo.Tickets;
 
 **PASS CHECK** Original AgencyHelpdesk and AgencyHelpdesk_RestoreTest coexist; .bak file exists and passes VERIFYONLY.
@@ -1041,7 +3903,86 @@ This is the same side-by-side idea you heard about when SQL 2017 moved to SQL 20
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** SQL01 / SSMS / account permitted to back up and restore the practice database.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Original AgencyHelpdesk and AgencyHelpdesk_RestoreTest coexist; .bak file exists and passes VERIFYONLY.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Create the backup folder
+
+**DO** On SQL01 open File Explorer, create C:\SQLBackups, and ensure the SQL Server service account can write there.
+
+**EXPECT** The backup destination exists on SQL01, where the engine runs.
+
+**IF STUCK** An SSMS client path is not automatically a server-side path. Do not grant Everyone full control to bypass a service-account error.
+
+**EVIDENCE** Capture the backup destination exists on SQL01, where the engine runs. Record the target computer and date.
+
+### Step 02: Open the database backup dialog
+
+**DO** In SSMS connected to SQL01, expand Databases. Right-click AgencyHelpdesk > Tasks > Back Up. Choose Full and Disk. Remove an unintended default destination if necessary, then Add C:\SQLBackups\AgencyHelpdesk_full.bak.
+
+**EXPECT** The dialog targets AgencyHelpdesk and the intended .bak path.
+
+**IF STUCK** If AgencyHelpdesk is missing, finish SQL-04. Do not back up or restore a MECM site database using this practice-database lesson.
+
+**EVIDENCE** Capture the dialog targets AgencyHelpdesk and the intended .bak path. Record the target computer and date.
+
+### Step 03: Run and verify the backup
+
+**DO** Click OK and wait for the success message. Open New Query and run RESTORE VERIFYONLY against the exact server-side file path.
+
+**EXPECT** SQL reports that the backup set is valid; the file exists and is nonempty.
+
+**IF STUCK** VERIFYONLY is not a restore test. Read any access-denied or missing-file error on SQL01 before continuing.
+
+**EVIDENCE** Capture sQL reports that the backup set is valid; the file exists and is nonempty. Record the target computer and date.
+
+**COMMAND**
+> RESTORE VERIFYONLY FROM DISK = N'C:\SQLBackups\AgencyHelpdesk_full.bak';
+
+### Step 04: Restore as a separate test database
+
+**DO** Right-click Databases > Restore Database > Device > browse (...) > Add. Select the .bak. Set destination database name to AgencyHelpdesk_RestoreTest.
+
+**EXPECT** The restore targets a NEW database name.
+
+**IF STUCK** Do not select overwrite/REPLACE for AgencyHelpdesk. Cancel if the original database is the destination.
+
+**EVIDENCE** Capture the restore targets a NEW database name. Record the target computer and date.
+
+### Step 05: Keep the original data files untouched
+
+**DO** On the Files page use Relocate all files to folder or choose distinct new MDF/LDF paths. Review the destination names again, then OK.
+
+**EXPECT** Original and restored databases coexist in Object Explorer.
+
+**IF STUCK** A different database name alone may still reference original physical files; verify the file destinations before restoring.
+
+**EVIDENCE** Capture original and restored databases coexist in Object Explorer. Record the target computer and date.
+
+### Step 06: Compare the actual data
+
+**DO** Open New Query and query the restored Tickets table. Compare it with the source database before recording the result.
+
+**EXPECT** Both practice databases return the same two original sample tickets and are ONLINE.
+
+**IF STUCK** If the database restores but queries fail, check the database context, user mapping, and the full restore messages.
+
+**EVIDENCE** Capture both practice databases return the same two original sample tickets and are ONLINE. Record the target computer and date.
+
+**COMMAND**
+> SELECT name, state_desc FROM sys.databases;
+> SELECT * FROM AgencyHelpdesk.dbo.Tickets;
+> SELECT * FROM AgencyHelpdesk_RestoreTest.dbo.Tickets;
+
 MECM-01 / MAKE THE SITE SERVER
+
 
 # Create MECM01 and prepare Windows roles
 
@@ -1059,9 +4000,9 @@ Configuration Manager / MECM is the school office: it knows which computers exis
 
 \[ \] Verify MECM01 can contact SQL01 on the SQL TCP port from PowerShell. DNS and firewall must permit it.
 
-> hostname  
-> (Get-CimInstance Win32_ComputerSystem).Domain  
-> Resolve-DnsName SQL01.agency.test  
+> hostname
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> Resolve-DnsName SQL01.agency.test
 > Test-NetConnection SQL01.agency.test -Port 1433
 
 **PASS CHECK** MECM01 is domain-joined; SQL01 resolves; Test-NetConnection reports TcpTestSucceeded = True.
@@ -1070,7 +4011,94 @@ Configuration Manager / MECM is the school office: it knows which computers exis
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** MECM01 Server 2019 guest / Server Manager and elevated Windows PowerShell / authorized administrator.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** MECM01 is domain-joined; SQL01 resolves; Test-NetConnection reports TcpTestSucceeded = True.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: VMware / File
+
+**DO** VMware > File > New VM > Windows Server Desktop Experience; name MECM01; fixed lab IP 192.168.77.70; DNS 192.168.77.10; allocate about 12-16 GB RAM if possible.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Join MECM01 to agency.test, restart, and confirm domain name/DNS connectivit
+
+**DO** Join MECM01 to agency.test, restart, and confirm domain name/DNS connectivity.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Open Server Manager / Manage
+
+**DO** Open Server Manager > Manage > Add Roles and Features; review current Configuration Manager site prerequisites for IIS, BITS, .NET, RDC and other required components for your selected version.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Install the correct supported Windows ADK plus Windows PE add-on, if you pla
+
+**DO** Install the correct supported Windows ADK plus Windows PE add-on, if you plan to use operating-system deployment. Cross-check the current ADK support matrix first.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Create folders on MECM01: C:\CMPrereqs for prerequisite downloads, C:\CMSour
+
+**DO** Create folders on MECM01: C:\CMPrereqs for prerequisite downloads, C:\CMSource for setup sources, and a spacious content library folder as needed.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Verify MECM01 can contact SQL01 on the SQL TCP port from PowerShell. DNS and
+
+**DO** Verify MECM01 can contact SQL01 on the SQL TCP port from PowerShell. DNS and firewall must permit it.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** MECM01 is domain-joined; SQL01 resolves; Test-NetConnection reports TcpTestSucceeded = True.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture mECM01 is domain-joined; SQL01 resolves; Test-NetConnection reports TcpTestSucceeded = True. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> (Get-CimInstance Win32_ComputerSystem).Domain
+> Resolve-DnsName SQL01.agency.test
+> Test-NetConnection SQL01.agency.test -Port 1433
+
 MECM-02 / AD + SQL PERMISSIONS
+
 
 # Allow MECM01 to talk to Active Directory and SQL
 
@@ -1092,7 +4120,7 @@ A computer can be domain-joined and still be denied database access. We must giv
 
 \[ \] On MECM01 test name resolution and SQL connectivity again. Confirm SQL01 Windows firewall permits TCP 1433 ONLY from MECM01 and authorized admin hosts.
 
-> Test-NetConnection SQL01.agency.test -Port 1433  
+> Test-NetConnection SQL01.agency.test -Port 1433
 > \# In SSMS on SQL01 check Security \> Logins for AGENCY\MECM01\$
 
 **PASS CHECK** You can explain two access paths: MECM01 -\> SQL01 TCP and MECM01 computer identity -\> SQL Server permissions.
@@ -1103,7 +4131,112 @@ A computer can be domain-joined and still be denied database access. We must giv
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** AG-DC01, SQL01, and MECM01 / ADUC, SSMS, and Windows security tools / authorized administrators.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** You can explain two access paths: MECM01 -> SQL01 TCP and MECM01 computer identity -> SQL Server permissions.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: On AG-DC01, open Server Manager / Tools
+
+**DO** On AG-DC01, open Server Manager > Tools > ADSI Edit. This is the advanced AD editor; use ONLY in this disposable training forest.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: In ADSI Edit / Connect to Default naming context
+
+**DO** In ADSI Edit > Connect to Default naming context > DC=agency,DC=test > CN=System. Right-click System > New > Object > Container, name it System Management.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Right-click CN=System Management / Properties
+
+**DO** Right-click CN=System Management > Properties > Security > Add agency\MECM01\$ (select Computers); grant Full Control with inheritance to descendants for site publishing.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Optionally extend the lab AD schema using ConfigMgr media \SMSSETUP\BIN\X64\
+
+**DO** Optionally extend the lab AD schema using ConfigMgr media \SMSSETUP\BIN\X64\extadsch.exe as a Schema Admin; BACK UP AD system state first. Schema extension is a separate, forest-wide, difficult-to-reverse change.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: On SQL01: Computer Management / Local Users and Groups
+
+**DO** On SQL01: Computer Management > Local Users and Groups > Groups > Administrators > Add agency\MECM01\$ (site-server computer account), as required for this remote site-system setup.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: SSMS on SQL01 / Security
+
+**DO** SSMS on SQL01 > Security > Logins > New Login > agency\MECM01\$ > Server Roles > sysadmin. This high privilege is required by Configuration Manager; apply only to the isolated lab SQL instance.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Ensure the account RUNNING MECM Setup is local Administrator on MECM01 and S
+
+**DO** Ensure the account RUNNING MECM Setup is local Administrator on MECM01 and SQL01, and SQL sysadmin on the instance (per Microsoft requirements).
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: On MECM01 test name resolution and SQL connectivity again. Confirm SQL01 Win
+
+**DO** On MECM01 test name resolution and SQL connectivity again. Confirm SQL01 Windows firewall permits TCP 1433 ONLY from MECM01 and authorized admin hosts.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** You can explain two access paths: MECM01 -> SQL01 TCP and MECM01 computer identity -> SQL Server permissions.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture you can explain two access paths: MECM01 -> SQL01 TCP and MECM01 computer identity -> SQL Server permissions. Record the target computer and date.
+
+**COMMAND**
+> Test-NetConnection SQL01.agency.test -Port 1433
+> \# In SSMS on SQL01 check Security > Logins for AGENCY\MECM01\$
+
 MECM-03 / SETUP WIZARD
+
 
 # Install a stand-alone primary site (evaluation)
 
@@ -1135,7 +4268,118 @@ Use the graphical Setup Wizard and verify every prerequisite. We are NOT install
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** MECM01 / Configuration Manager setup wizard / authorized setup account.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** The console opens successfully and SQL01 SSMS > Databases contains CM_LAB. You never manually created CM_LAB!
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: On MECM01, mount the official Configuration Manager evaluation media. Run sp
+
+**DO** On MECM01, mount the official Configuration Manager evaluation media. Run splash.hta or the documented setup entry point and choose Install; follow setup.exe wizard.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Select Install a Configuration Manager primary site. For a small lab choose
+
+**DO** Select Install a Configuration Manager primary site. For a small lab choose Use typical installation options only if that path correctly matches your remote SQL layout; otherwise Custom setup options.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Product Key page: Evaluation. Accept product terms. Download prerequisite fi
+
+**DO** Product Key page: Evaluation. Accept product terms. Download prerequisite files to C:\CMPrereqs (internet connection needed) or use predownloaded files.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Site settings: Site code LAB (three characters); Site name Agency Lab; insta
+
+**DO** Site settings: Site code LAB (three characters); Site name Agency Lab; installation folder on MECM01. Choose stand-alone primary site.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Database Information: SQL Server FQDN SQL01.agency.test; default instance (l
+
+**DO** Database Information: SQL Server FQDN SQL01.agency.test; default instance (leave name blank); database by default CM_LAB; Service Broker port 4022.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: SMS Provider: MECM01.agency.test. On client communication choose HTTPS/enhan
+
+**DO** SMS Provider: MECM01.agency.test. On client communication choose HTTPS/enhanced HTTP design appropriate for your isolated lab; do NOT expose HTTP roles to the internet.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Management Point and Distribution Point: MECM01.agency.test for small lab. U
+
+**DO** Management Point and Distribution Point: MECM01.agency.test for small lab. Use required certificates/communication options for your chosen version.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Run Prerequisite Checker. STOP if red errors appear. Resolve missing Windows
+
+**DO** Run Prerequisite Checker. STOP if red errors appear. Resolve missing Windows features, ADK, permissions, SQL collation, port or network issues before installing.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: Begin install. Watch the setup progress and logs, including C:\ConfigMgrSetu
+
+**DO** Begin install. Watch the setup progress and logs, including C:\ConfigMgrSetup.log or logs shown by the wizard. This can take a while.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 10: When done, open Configuration Manager Console / Administration
+
+**DO** When done, open Configuration Manager Console > Administration > Site Configuration > Sites. Confirm site LAB appears.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 MECM-04 / A REAL MANAGED DEVICE
+
 
 # Add a client and test the SQL dependency
 
@@ -1155,7 +4399,7 @@ The office needs a student. An MECM site with no client is like a tracking syste
 
 \[ \] For dependency proof (lab only), pause MECM-related work and stop SQL Server briefly on SQL01. Observe MECM console/database connectivity errors, then START the SQL service immediately.
 
-> Get-Service MSSQLSERVER \# on SQL01  
+> Get-Service MSSQLSERVER \# on SQL01
 > Get-Service CcmExec \# on APP01 if client installed
 
 **PASS CHECK** APP01 is visible as a managed client and returns after SQL restarts. You can explain that MECM uses a LIVE SQL database, not a one-time .bak.
@@ -1166,7 +4410,102 @@ The office needs a student. An MECM site with no client is like a tracking syste
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** MECM01 console and named test client / authorized management account.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** APP01 is visible as a managed client and returns after SQL restarts. You can explain that MECM uses a LIVE SQL database, not a one-time .bak.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: On MECM01 / Administration
+
+**DO** On MECM01 > Administration > Hierarchy Configuration > Boundaries, add the LAB subnet 192.168.77.0/24 or your actual VMnet IP range.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Create a Boundary Group (example LAB-BG), add that boundary, and associate s
+
+**DO** Create a Boundary Group (example LAB-BG), add that boundary, and associate site assignment LAB and the distribution/management server as appropriate.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: On APP01 (a lab member server), install the Configuration Manager client usi
+
+**DO** On APP01 (a lab member server), install the Configuration Manager client using the approved client push/setup method documented for your version. For example, an authorized manual install from \MECM01\SMS_LAB\Client uses ccmsetup.exe with site parameters.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Check the Windows Control Panel / Configuration Manager applet on APP01, the
+
+**DO** Check the Windows Control Panel > Configuration Manager applet on APP01, then Actions and assigned site; verify client is healthy and assigned LAB.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: On MECM01 console / Assets and Compliance
+
+**DO** On MECM01 console > Assets and Compliance > Devices, find APP01, see active/client status and new inventory.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: In SSMS on SQL01, refresh databases; confirm CM_LAB is online. Do NOT make m
+
+**DO** In SSMS on SQL01, refresh databases; confirm CM_LAB is online. Do NOT make manual inserts/deletes in CM_LAB.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: For dependency proof (lab only), pause MECM-related work and stop SQL Server
+
+**DO** For dependency proof (lab only), pause MECM-related work and stop SQL Server briefly on SQL01. Observe MECM console/database connectivity errors, then START the SQL service immediately.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** APP01 is visible as a managed client and returns after SQL restarts. You can explain that MECM uses a LIVE SQL database, not a one-time .bak.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture aPP01 is visible as a managed client and returns after SQL restarts. You can explain that MECM uses a LIVE SQL database, not a one-time .bak. Record the target computer and date.
+
+**COMMAND**
+> Get-Service MSSQLSERVER \# on SQL01
+> Get-Service CcmExec \# on APP01 if client installed
+
 MECM-05 / WSUS + SUP
+
 
 # Connect MECM to the separate WSUS01 server
 
@@ -1196,7 +4535,98 @@ WSUS is the update catalog. MECM is the manager that approves and targets update
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** MECM01 and WSUS01 / Configuration Manager console / authorized site administrator.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** WSUS01 has a SUP role in ConfigMgr; MECM shows configuration/sync status; you know the update workflow and disk impact.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Confirm WSUS01 already has the WSUS role installed (original Lab 13) and is
+
+**DO** Confirm WSUS01 already has the WSUS role installed (original Lab 13) and is joined to agency.test with proper DNS.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: On WSUS01 open IIS Manager and check whether WSUS Administration is listenin
+
+**DO** On WSUS01 open IIS Manager and check whether WSUS Administration is listening on HTTP 8530 or HTTPS 8531; record actual configured ports.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Install WSUS Administration Console/components on MECM01 as required by your
+
+**DO** Install WSUS Administration Console/components on MECM01 as required by your ConfigMgr version. Make sure MECM01 can talk to WSUS01 and SQL01.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: MECM console / Administration
+
+**DO** MECM console > Administration > Site Configuration > Servers and Site System Roles > Add Site System Server > WSUS01.agency.test.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Add Software Update Point role, select lab-appropriate HTTPS/security settin
+
+**DO** Add Software Update Point role, select lab-appropriate HTTPS/security settings and WSUS ports; use the correct port values for the existing WSUS install.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Use Administration / Site Configuration
+
+**DO** Use Administration > Site Configuration > Sites > Configure Site Components > Software Update Point to choose narrow products/classifications, for example a limited Windows category, and a safe sync schedule.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Monitor Monitoring / Software Update Point Synchronization Status and review
+
+**DO** Monitor Monitoring > Software Update Point Synchronization Status and review WCM.log and wsyncmgr.log on the site server if sync fails.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Avoid downloading every update. A tiny demo can prove architecture with mini
+
+**DO** Avoid downloading every update. A tiny demo can prove architecture with minimal or no package content; use a limited pilot client for deployment.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 MOVE-01 / COMPARE MIGRATION METHODS
+
 
 # You do not move every server the same way
 
@@ -1218,7 +4648,48 @@ Here is the secret to cloud migration interviews: inventory one system at a time
 
 **PASS CHECK** You can describe why SQL user database restore and Configuration Manager site recovery are different tasks.
 
+## Guided walkthrough
+
+**WHERE** Lab inventory worksheet / read-only discovery and dependency planning.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** You can describe why SQL user database restore and Configuration Manager site recovery are different tasks.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Inventory name/IP/OS/CPU/RAM/disks, AD domain, SQL instance, applications, s
+
+**DO** Inventory name/IP/OS/CPU/RAM/disks, AD domain, SQL instance, applications, service accounts, certificates, ports and backup status.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Draw arrows: APP01 - / MECM management service; MECM01 -
+
+**DO** Draw arrows: APP01 -> MECM management service; MECM01 -> SQL01; MECM SUP -> WSUS01; every domain-joined server -> AD DNS/DC.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Pick one cutover and rollback point PER service. Never shut down all origina
+
+**DO** Pick one cutover and rollback point PER service. Never shut down all original services before testing a pilot.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 MOVE-02 / SQL TO AZURE
+
 
 # .bak migration: the portable practice database
 
@@ -1244,7 +4715,7 @@ Azure is the new building. We will move ONLY our practice database first, then p
 
 \[ \] Retest backups and connectivity after cutover. When finished deallocate AZ-SQL01, then remove unneeded staging files and temporary access grants.
 
-> SELECT name, state_desc FROM sys.databases;  
+> SELECT name, state_desc FROM sys.databases;
 > SELECT COUNT(\*) AS TicketCount FROM AgencyHelpdesk.dbo.Tickets;
 
 **PASS CHECK** Both local and Azure servers return two fake tickets. Explain why a .bak does not move Windows settings, SQL Agent jobs, logins, or MECM site configuration.
@@ -1255,7 +4726,132 @@ Azure is the new building. We will move ONLY our practice database first, then p
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** SQL01 and the named Azure SQL Server VM / SSMS and an approved private file-transfer route / authorized SQL administrators.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Both local and Azure servers return two fake tickets. Explain why a .bak does not move Windows settings, SQL Agent jobs, logins, or MECM site configuration.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: On local SQL01: SSMS / right-click AgencyHelpdesk
+
+**DO** On local SQL01: SSMS > right-click AgencyHelpdesk > Tasks > Back Up > Full to C:\SQLBackups\AgencyHelpdesk_Azure.bak. Verify with RESTORE VERIFYONLY.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Before cutover: identify every app that writes to it. Since this is a test d
+
+**DO** Before cutover: identify every app that writes to it. Since this is a test database with no writes, no downtime is needed; for a real app use a change window, final backup and consistency checks.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Azure portal / Resource groups
+
+**DO** Azure portal > Resource groups > choose lab group > Create a VNet subnet for application/SQL. Do not overlap your VMware 192.168.77.0/24.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Create an Azure Windows Server VM named AZ-SQL01 on a private subnet; access
+
+**DO** Create an Azure Windows Server VM named AZ-SQL01 on a private subnet; access it via an approved secure management path (VPN/Bastion), not an open public RDP rule.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Install the SAME or NEWER supported SQL Server version on AZ-SQL01 and SSMS;
+
+**DO** Install the SAME or NEWER supported SQL Server version on AZ-SQL01 and SSMS; for a practice user database SQL Developer is an option for nonproduction if its terms allow. MECM site DB needs its own compatible licensed edition.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Azure portal / Storage accounts
+
+**DO** Azure portal > Storage accounts > Create a short-lived LAB staging account/container; keep anonymous blob access disabled and restrict network access as appropriate.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Upload AgencyHelpdesk_Azure.bak to staging through the portal/storage tools
+
+**DO** Upload AgencyHelpdesk_Azure.bak to staging through the portal/storage tools using appropriate auth. Download the blob on AZ-SQL01 using an authenticated transfer; avoid embedding storage keys in scripts.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: On AZ-SQL01 open SSMS / Connect
+
+**DO** On AZ-SQL01 open SSMS > Connect > Databases > Restore Database > Device > ... choose downloaded .bak > set database name AgencyHelpdesk > Files > relocate files if needed > OK.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: Run SELECT and compare row count/data with SQL01; create required destinatio
+
+**DO** Run SELECT and compare row count/data with SQL01; create required destination login/permissions for your practice app separately; change app connection string only after test.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 10: Retest backups and connectivity after cutover. When finished deallocate AZ-S
+
+**DO** Retest backups and connectivity after cutover. When finished deallocate AZ-SQL01, then remove unneeded staging files and temporary access grants.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 11: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** Both local and Azure servers return two fake tickets. Explain why a .bak does not move Windows settings, SQL Agent jobs, logins, or MECM site configuration.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture both local and Azure servers return two fake tickets. Explain why a .bak does not move Windows settings, SQL Agent jobs, logins, or MECM site configuration. Record the target computer and date.
+
+**COMMAND**
+> SELECT name, state_desc FROM sys.databases;
+> SELECT COUNT(*) AS TicketCount FROM AgencyHelpdesk.dbo.Tickets;
+
 MOVE-03 / MECM SITE TO AZURE
+
 
 # Different mission: preserving or replacing MECM
 
@@ -1289,7 +4885,98 @@ PATH B - NEW DESTINATION FOREST / NEW MECM HIERARCHY: this most closely resemble
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** MECM site inventory / Configuration Manager backup/recovery planning / authorized site owner.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** You can explain SAME hierarchy maintenance vs NEW hierarchy migration to the interviewer, and identify why either requires a pilot and rollback.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: MECM console / Administration
+
+**DO** MECM console > Administration > Site Configuration > Sites. Record site code LAB and version; list site system roles, client count, packages and distribution points.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: MECM console / Administration
+
+**DO** MECM console > Administration > Site Configuration > Servers and Site System Roles. Write down which server hosts MP, DP, SUP, site server and SMS Provider.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Enable and complete the supported Backup Site Server maintenance task and ar
+
+**DO** Enable and complete the supported Backup Site Server maintenance task and archive supporting content. Test recovery planning; a casual SQL .bak alone is not a site migration plan.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: For moving only SQL to Azure in the SAME supported forest/site scenario, rev
+
+**DO** For moving only SQL to Azure in the SAME supported forest/site scenario, review Microsoft ConfigMgr SQL database location change/setup maintenance guidance and validate latency, permissions, DB compatibility, certificates, firewall and DNS BEFORE change.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Create a NEW target-domain MECM primary site and target SQL instance, with i
+
+**DO** Create a NEW target-domain MECM primary site and target SQL instance, with its own site code. Make sure the required domain/trust and network connectivity is approved.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: In the new MECM console / Administration
+
+**DO** In the new MECM console > Administration > Migration > Source Hierarchy, configure supported old hierarchy connection and credentials; gather data from source site.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Use migration jobs for supported collections and objects. Recreate or config
+
+**DO** Use migration jobs for supported collections and objects. Recreate or configure destination roles, update clients/site assignment, test packages and software updates. Not all settings move automatically.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Do NOT attempt to join the existing MECM01 to an unrelated destination fores
+
+**DO** Do NOT attempt to join the existing MECM01 to an unrelated destination forest and assume CM_LAB, service identities and management roles will keep working.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 MOVE-04 / DOMAIN CHANGE
+
 
 # What changes when an organization enters a new domain?
 
@@ -1311,7 +4998,68 @@ An existing domain controller cannot simply be joined to the destination domain.
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Source and destination domain inventory / identity/application planning / named domain owners.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** You can explain: DCs manage identity; member servers join domains; data/services and permissions need separate checks.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Write down current domain = agency.test and destination = destination.test (
+
+**DO** Write down current domain = agency.test and destination = destination.test (or approved mock Azure domain). Keep both AD systems available during transition.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Create new users/groups/OUs and permitted GPOs in destination forest. Use Gr
+
+**DO** Create new users/groups/OUs and permitted GPOs in destination forest. Use Group Policy Migration Table if account/group references differ.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Check which MECM01 services, SQL permissions and clients refer to AGENCY use
+
+**DO** Check which MECM01 services, SQL permissions and clients refer to AGENCY users/groups; those need mapping to destination identities.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Move only APP01 first: backup app, validate destination DNS/credentials, cha
+
+**DO** Move only APP01 first: backup app, validate destination DNS/credentials, change domain in System Properties, reboot, apply new GPO, verify application.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: After APP01 is healthy, run approved MECM client migration/reassignment work
+
+**DO** After APP01 is healthy, run approved MECM client migration/reassignment workflow on it. Never re-home your only DC first.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 AZ-01 / SPEND LESS
+
 
 # Azure cost worksheet: one cloud VM at a time
 
@@ -1339,7 +5087,98 @@ You can learn the on-prem build at home. Cloud VMs consume money per powered-on 
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical host browser / Azure Cost Management / approved subscription owner or cost-management reader.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Your Azure VM is Stopped (deallocated) or deleted, and you have checked storage, public IP and network service charges separately.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Before deploying: Azure portal / Subscriptions
+
+**DO** Before deploying: Azure portal > Subscriptions > select your subscription > Cost Management > Budgets. Set a monthly budget and email alerts; alerts do NOT auto-stop spending.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Estimate actual VM size/region/disk/storage/SQL licensing with Azure Pricing
+
+**DO** Estimate actual VM size/region/disk/storage/SQL licensing with Azure Pricing Calculator BEFORE creating resources.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Azure portal / Virtual Machines
+
+**DO** Azure portal > Virtual Machines > AZ-SQL01 > Auto-shutdown > On and select your end-of-lab time. Confirm timezone/email notification.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Use a single AZ-SQL01 at first. Defer Azure AD DCs, WSUS and MECM until your
+
+**DO** Use a single AZ-SQL01 at first. Defer Azure AD DCs, WSUS and MECM until your local simulation is complete and you can pay for combined uptime.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Do NOT leave VPN Gateway, Azure Bastion, public IP resources, storage snapsh
+
+**DO** Do NOT leave VPN Gateway, Azure Bastion, public IP resources, storage snapshots, backup vaults or managed disks running without checking cost; some charge even while VMs are off.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: When done: Azure portal / Virtual Machines
+
+**DO** When done: Azure portal > Virtual Machines > select VM > Stop and wait for status Stopped (deallocated). Shutting down inside Windows may NOT deallocate VM billing.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Delete unneeded temporary VMs/disks/IPs after copying your sample backups of
+
+**DO** Delete unneeded temporary VMs/disks/IPs after copying your sample backups off. Use resource group cleanup only after checking it contains nothing you need.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Record starting balance/cost, ending balance/cost, and whether all resource
+
+**DO** Record starting balance/cost, ending balance/cost, and whether all resource group items have been removed.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 AZ-02 / AZURE IS NOT WORKSTATION
+
 
 # Choose a migration tool that supports your source
 
@@ -1359,7 +5198,48 @@ The VMware Workstation lab is not automatically a supported VMware vSphere appli
 
 **PASS CHECK** Given each source (Workstation, vSphere, physical), you choose a method with a stated support assumption.
 
+## Guided walkthrough
+
+**WHERE** Physical host / Workstation Pro inventory and official Azure migration support matrix / planning only.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Given each source (Workstation, vSphere, physical), you choose a method with a stated support assumption.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Name the source hypervisor correctly
+
+**DO** Open Workstation Pro > Help > About and record the product/version. The course source is VMware Workstation Pro, not a vCenter-managed vSphere estate.
+
+**EXPECT** Your inventory explicitly says Workstation Pro and Server 2019.
+
+**IF STUCK** Do not deploy a vCenter agentless appliance and assume it can discover Workstation guests.
+
+**EVIDENCE** Capture your inventory explicitly says Workstation Pro and Server 2019. Record the target computer and date.
+
+### Step 02: Select the supported route
+
+**DO** For this guided assignment use LAB 17 to provision a Server 2019 Azure member VM and move the test workload/data, then AZ-03 to upgrade it to 2022. If the assignment instead requires moving the entire existing VM, stop until the owner approves an applicable replication/import route based on the current support matrix.
+
+**EXPECT** The migration plan distinguishes workload/data migration, VM rehosting, and OS upgrade.
+
+**IF STUCK** Do not label a newly built Azure VM as the original migrated VM. Do not upload a Workstation VMDK directly and assume Azure can boot it.
+
+**EVIDENCE** Capture the migration plan distinguishes workload/data migration, VM rehosting, and OS upgrade. Record the target computer and date.
+
+### Step 03: Document full-VM prerequisites separately
+
+**DO** For a true rehost, record supported source OS/license, disk conversion/boot generation, guest drivers/agent readiness, replication or VHD import method, private connectivity, testing, and rollback. Use the official Azure Migrate physical/agent-based and VMware support references; exact support must be checked for your configuration.
+
+**EXPECT** Any full-VM move has an approved, documented method before resources or replication are created.
+
+**IF STUCK** This course cannot verify your hypervisor or tenant remotely. Keep full rehosting blocked rather than inventing a green support status.
+
+**EVIDENCE** Capture any full-VM move has an approved, documented method before resources or replication are created. Record the target computer and date.
+
 AZ-03 / FULL WAVE CAPSTONE
+
 
 # The pretend enterprise cutover plan
 
@@ -1387,7 +5267,231 @@ Now you can talk like a cloud engineer coming into a migration halfway through. 
 
 **IF IT FAILS** Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Lab worksheet and the source/destination evidence; authorized migration owner.
+
+**BEFORE** The required Windows, SQL, Azure foundation, and migration evidence must pass; UPGRADE-01 is a separate new exercise.
+
+**PASS** Your cutover plan names the owner, source, target, validation, stop trigger, rollback, and cleanup decision.
+
+**ROLLBACK** Keep the source available until acceptance; never change live DNS or remove a rollback copy on an unverified rehearsal.
+
+### Step 01: Rehearse the cutover decision 1
+
+**DO** Fill in the project handoff card: current phase / completed tasks / blockers / what still runs on-prem / identity plan / data plan / next milestone.
+
+**EXPECT** Your written plan answers this decision for the actual named test workload.
+
+**IF STUCK** Return to the first missing dependency or failed evidence; do not guess a success state or switch real users.
+
+**EVIDENCE** Save the completed planning row with its owner and date, excluding secrets.
+
+### Step 02: Rehearse the cutover decision 2
+
+**DO** Perform a staged rehearsal on the fake AgencyHelpdesk user database. If it fails, restore local service and document why.
+
+**EXPECT** Your written plan answers this decision for the actual named test workload.
+
+**IF STUCK** Return to the first missing dependency or failed evidence; do not guess a success state or switch real users.
+
+**EVIDENCE** Save the completed planning row with its owner and date, excluding secrets.
+
+### Step 03: Rehearse the cutover decision 3
+
+**DO** Explain data vs server: Azure Migrate can move a VM in a supported environment; .bak moves a database; AD replication shares a forest; ConfigMgr migration jobs move supported site data.
+
+**EXPECT** Your written plan answers this decision for the actual named test workload.
+
+**IF STUCK** Return to the first missing dependency or failed evidence; do not guess a success state or switch real users.
+
+**EVIDENCE** Save the completed planning row with its owner and date, excluding secrets.
+
+UPGRADE-01 / AZURE OS UPGRADE
+
+# Upgrade APP02 from Server 2019 to Server 2022
+
+Upgrade the already-migrated IIS member server inside Azure, preserving the tested workload and recording guest OS evidence before and after. This is separate from application migration and does not upgrade domain controllers, SQL hosts, or MECM sites.
+
+**PASS CHECK** APP02 reports Server 2022 after its Server 2019 baseline and its application, private access, domain secure channel, and recovery evidence all pass.
+
+## Official reference
+
+Microsoft Azure in-place upgrade: https://learn.microsoft.com/en-us/azure/virtual-machines/windows-in-place-upgrade
+
+Microsoft upgrade restrictions: https://learn.microsoft.com/en-us/windows-server/get-started/install-upgrade-migrate
+
+## Guided walkthrough
+
+**WHERE** Azure portal plus APP02 guest; Az PowerShell on the admin workstation for media creation; elevated Windows PowerShell INSIDE APP02 for Setup.
+
+**BEFORE** LAB 17 must prove the test workload on APP02 while it is still Server 2019. This is a MEMBER server, not AD DS/SQL/MECM. Confirm an eligible licensed 2019-to-2022 path, language/edition, Az PowerShell access, costs, private administration, and a recoverable backup.
+
+**PASS** APP02 was verified as Server 2019 before upgrade, is verified as Server 2022 afterward, and the migrated IIS application, private client access, domain secure channel, and recovery/cleanup record all pass.
+
+**ROLLBACK** Cancel Setup before installation if preservation/edition checks fail. For an established failure after upgrade, recover APP02 from the verified pre-upgrade OS/data disk and application backup plan; retain the unchanged APP01 source. Never apply this member-server rollback to a DC, SQL cluster, or MECM site. Delete temporary media only after acceptance and the rollback window.
+
+### Step 01: Identify the Azure upgrade target
+
+**DO** This lesson upgrades APP02 only: an Azure Windows Server 2019 member server with the migrated test IIS site from LAB 17. Open its Azure Overview and connect through the approved private administration path.
+
+**EXPECT** The target is APP02, not a DC, SQL server, or MECM site server.
+
+**IF STUCK** If the workload migration is not verified, return to LAB 17. Do not treat an OS upgrade as a migration method.
+
+**EVIDENCE** Capture the target is APP02, not a DC, SQL server, or MECM site server. Record the target computer and date.
+
+### Step 02: Record the guest baseline and eligibility
+
+**DO** Inside APP02 open Windows PowerShell as administrator and run the read-only checks. Confirm Server 2019, the installed edition, English (United States) for the documented Azure media route, and sufficient OS disk free space.
+
+**EXPECT** The baseline records actual OS/build, edition, language, free space, IIS service, and site response.
+
+**IF STUCK** Do not use evaluation upgrade media or assume a migrated evaluation guest is eligible. Imported images may need an approved licensing conversion; do not convert an evaluation DC.
+
+**EVIDENCE** Capture the baseline records actual OS/build, edition, language, free space, IIS service, and site response. Record the target computer and date.
+
+**COMMAND**
+> Get-ComputerInfo | Select-Object WindowsProductName, OsBuildNumber
+> DISM /online /Get-CurrentEdition
+> DISM /online /Get-Intl
+> Get-Volume -DriveLetter C
+> Get-Service W3SVC
+> Invoke-WebRequest http://localhost/index.html -UseBasicParsing | Select-Object StatusCode
+
+### Step 03: Read the Azure-specific upgrade constraints
+
+**DO** Open the Microsoft Azure in-place-upgrade reference linked in this lesson. Use its Azure VM OS Upgrade Assessment Tool and resolve any reported incompatibilities for APP02 before continuing. The route is 2019 to 2022 using server2022Upgrade media, not the newer 2025 example default.
+
+**EXPECT** The supported source/target, licensing, language, application compatibility, and disk requirements are recorded.
+
+**IF STUCK** STOP if support is uncertain. Microsoft notes that in-place upgrade leaves Azure source image metadata unchanged; auto guest patching, Auto OS image upgrades, Hotpatching, and Update Manager may be unsupported after this procedure. Obtain an approved alternative if these are required.
+
+**EVIDENCE** Capture the supported source/target, licensing, language, application compatibility, and disk requirements are recorded. Record the target computer and date.
+
+### Step 04: Create a recoverable pre-upgrade checkpoint
+
+**DO** Record a maintenance window and rollback decision. Back up IIS/site data off APP02. In Azure shut down/deallocate APP02 for a consistent disposable-lab snapshot, then snapshot its OS disk and every data disk from each disk resource > Create snapshot. Record the snapshots and a tested recovery path before restarting APP02.
+
+**EXPECT** You have application backups, disk recovery points, and the exact VM/NIC/disk configuration to recover.
+
+**IF STUCK** A snapshot is not a verified full restore plan. For this member VM, restore/recreate the disks/VM from your checkpoint if needed; do not revert a live DC or cluster with this procedure.
+
+**EVIDENCE** Capture you have application backups, disk recovery points, and the exact VM/NIC/disk configuration to recover. Record the target computer and date.
+
+### Step 05: Prepare the Azure PowerShell tool
+
+**DO** On your authorized administration workstation open Windows PowerShell with the Az PowerShell module installed. Run Connect-AzAccount and explicitly set the correct subscription. This is Az PowerShell, not the az CLI and not a command to run on a domain controller.
+
+**EXPECT** Get-AzContext identifies the intended subscription and account.
+
+**IF STUCK** If Get-Command Get-AzVMImage fails, install the approved Az module first. Never paste a token or password into the course.
+
+**EVIDENCE** Capture get-AzContext identifies the intended subscription and account. Record the target computer and date.
+
+**COMMAND**
+> Connect-AzAccount
+> $subscriptionId = Read-Host 'Approved subscription ID'
+> Set-AzContext -Subscription $subscriptionId
+> Get-AzContext
+
+### Step 06: Create the Server 2022 upgrade media disk
+
+**DO** In the same Az PowerShell session, use the command below. Enter the ACTUAL existing VM resource group, region and matching zone; leave zone empty for a regional VM. The script creates a billable managed disk from Microsoft’s hidden upgrade-media image and stops if APP02 or its placement does not match. It does not create a new resource group or guess an image version.
+
+**EXPECT** A managed disk named SONIC-Server2022-Upgrade is returned in APP02’s region and zone.
+
+**IF STUCK** The source must be an eligible Azure VM using managed disks. Stop for missing images, licensing, region, policy, or permission errors. Review the managed-disk cost before running.
+
+**EVIDENCE** Capture a managed disk named SONIC-Server2022-Upgrade is returned in APP02’s region and zone. Record the target computer and date.
+
+**COMMAND**
+> $rg = Read-Host 'APP02 resource group'
+> $vmName = 'APP02'
+> $vm = Get-AzVM -ResourceGroupName $rg -Name $vmName -ErrorAction Stop
+> $location = $vm.Location
+> $zone = if ($vm.Zones) { $vm.Zones[0] } else { '' }
+> $images = @(Get-AzVMImage -Location $location -PublisherName MicrosoftWindowsServer -Offer WindowsServerUpgrade -Skus server2022Upgrade | Sort-Object { [version]$_.Version } -Descending)
+> if ($images.Count -eq 0) { throw 'No Server 2022 upgrade image available here.' }
+> $image = Get-AzVMImage -Location $location -PublisherName MicrosoftWindowsServer -Offer WindowsServerUpgrade -Skus server2022Upgrade -Version $images[0].Version
+> $parameters = @{ Location=$location; SkuName='Standard_LRS'; CreateOption='FromImage' }
+> if ($zone) { $parameters.Zone = $zone }
+> $diskConfig = New-AzDiskConfig @parameters
+> $diskConfig = Set-AzDiskImageReference -Disk $diskConfig -Id $image.Id -Lun 0
+> New-AzDisk -ResourceGroupName $rg -DiskName 'SONIC-Server2022-Upgrade' -Disk $diskConfig
+
+### Step 07: Attach the upgrade media as a DATA disk
+
+**DO** In Azure open APP02 > Disks. Choose Attach existing disks (the label can appear as Attach existing data disk), select SONIC-Server2022-Upgrade as a data disk, set host caching to None where offered, and Save/Apply. Start APP02 if it is stopped.
+
+**EXPECT** The media disk appears in APP02’s data-disk list; its OS disk is unchanged.
+
+**IF STUCK** Do not swap the OS disk with the upgrade media. If the disk is unavailable, compare region/zone and attachment state; never select an unrelated disk.
+
+**EVIDENCE** Capture the media disk appears in APP02’s data-disk list; its OS disk is unchanged. Record the target computer and date.
+
+### Step 08: Find setup inside the guest
+
+**DO** Reconnect to APP02. Open File Explorer > This PC and locate the attached Windows Server upgrade-media volume. Open its only upgrade-media folder and confirm setup.exe exists. Right-click Start > Windows PowerShell (Admin), then change directory to that exact folder.
+
+**EXPECT** You can identify setup.exe on the attached media volume.
+
+**IF STUCK** Do not assume the volume is D:, E:, or F:. Do not format or initialize the upgrade-media disk or boot the VM from it.
+
+**EVIDENCE** Capture you can identify setup.exe on the attached media volume. Record the target computer and date.
+
+### Step 09: Start the in-place upgrade
+
+**DO** From the media folder in elevated Windows PowerShell INSIDE APP02 run the command below. Review and accept licensing only if authorized; select the supported Server 2022 edition matching the installed Desktop Experience configuration when asked.
+
+**EXPECT** Windows Setup starts an upgrade that preserves applications/settings and targets Server 2022.
+
+**IF STUCK** If Setup offers only a destructive clean install, incompatible edition/language, evaluation target, or cannot retain apps/settings, cancel. Do not proceed by choosing Nothing.
+
+**EVIDENCE** Capture windows Setup starts an upgrade that preserves applications/settings and targets Server 2022. Record the target computer and date.
+
+**COMMAND**
+> .\setup.exe /auto upgrade /dynamicupdate disable
+
+### Step 10: Monitor restarts without interrupting them
+
+**DO** RDP disconnection is expected during setup. In Azure open APP02 > Boot diagnostics and inspect the guest screenshot/serial log while it restarts. Reconnect only after the guest is available.
+
+**EXPECT** Setup progresses through restarts and the guest returns to a sign-in screen.
+
+**IF STUCK** Do not force power-off because RDP disappeared. For a confirmed failure capture the setup error and consult C:\Windows\Panther logs; invoke the recorded recovery plan if necessary.
+
+**EVIDENCE** Capture setup progresses through restarts and the guest returns to a sign-in screen. Record the target computer and date.
+
+### Step 11: Verify Server 2022 and the migrated workload
+
+**DO** After reconnecting to APP02 run the same checks as the 2019 baseline. Test the site from the same approved private client, compare its content hash, and verify the domain secure channel and application authentication.
+
+**EXPECT** WindowsProductName says Windows Server 2022; the IIS site and private client test still pass.
+
+**IF STUCK** The Azure portal may still list the original 2019 image metadata; verify the guest OS directly. A successful OS version check without a working application is not a passing migration.
+
+**EVIDENCE** Capture windowsProductName says Windows Server 2022; the IIS site and private client test still pass. Record the target computer and date.
+
+**COMMAND**
+> Get-ComputerInfo | Select-Object WindowsProductName, OsBuildNumber
+> Get-Service W3SVC
+> Test-ComputerSecureChannel -Verbose
+> Invoke-WebRequest http://localhost/index.html -UseBasicParsing | Select-Object StatusCode
+> Get-FileHash C:\inetpub\wwwroot\index.html -Algorithm SHA256
+
+### Step 12: Finish the handoff and control costs
+
+**DO** After the acceptance checks, detach the upgrade-media disk from APP02 > Disks and save. Delete only that verified temporary disk if no longer needed. Keep backups until the rollback window ends, review activation/monitoring/patching implications with the owner, and deallocate the lab when pausing.
+
+**EXPECT** Your evidence contains 2019 before, 2022 after, matching workload checks, recovery references, and cleanup decisions.
+
+**IF STUCK** Do not delete backup disks or the old source just because Setup completed. Deallocation does not stop disk/snapshot/Bastion/VPN costs.
+
+**EVIDENCE** Capture your evidence contains 2019 before, 2022 after, matching workload checks, recovery references, and cleanup decisions. Record the target computer and date.
+
 HA-01 / OPTIONAL SQL HIGH AVAILABILITY
+
 
 # Two SQL servers + one cloud witness: the idea
 
@@ -1418,7 +5522,58 @@ WHAT I SAW \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\
 
 IF IT FAILS Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Lab worksheet / optional SQL high availability design.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Say aloud: SQL01 + SQL02 + Cloud Witness = three possible quorum votes; majo
+
+**DO** Say aloud: SQL01 + SQL02 + Cloud Witness = three possible quorum votes; majority generally allows the cluster to remain online. Dynamic quorum/witness can adjust votes.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Explain: WSFC quorum controls whether the cluster is allowed to run. SQL Alw
+
+**DO** Explain: WSFC quorum controls whether the cluster is allowed to run. SQL Always On Availability Groups (AG) synchronize the user databases and manage which replica is primary.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Remember: the witness does not automatically make SQL02 ready. AG replicas m
+
+**DO** Remember: the witness does not automatically make SQL02 ready. AG replicas must be healthy/synchronized and configured for automatic failover, and app clients must connect through a correctly configured listener.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Our MECM01 application still needs its own HA design. For the MECM SITE DATA
+
+**DO** Our MECM01 application still needs its own HA design. For the MECM SITE DATABASE, confirm ConfigMgr compatibility and SQL Enterprise licensing/requirements before using an AG.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 HA-02 / PLAN + PREPARE
+
 
 # Before you click Create: prepare two SQL nodes
 
@@ -1456,7 +5611,108 @@ WHAT I SAW \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\
 
 IF IT FAILS Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** SQL01 and SQL02 / Windows Failover Clustering preparation / authorized cluster administrator; optional extension.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Confirm SQL01 and SQL02 are separate Windows Server VMs, joined to the SAME
+
+**DO** Confirm SQL01 and SQL02 are separate Windows Server VMs, joined to the SAME destination AD domain, with reliable DNS and correct time synchronization.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: If deploying in Azure, plan two private SQL VMs. Use separate availability z
+
+**DO** If deploying in Azure, plan two private SQL VMs. Use separate availability zones where supported; Microsoft recommends separate subnets for a multi-subnet SQL AG to avoid a load balancer for the listener.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Give each VM its own SQL instance and data storage. AG replicates databases;
+
+**DO** Give each VM its own SQL instance and data storage. AG replicates databases; it is not a shared data disk. Check edition/version support (MECM site DB AG requires a supported SQL Enterprise edition).
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Ensure both VMs can reach the domain controllers and each other over approve
+
+**DO** Ensure both VMs can reach the domain controllers and each other over approved ports. No public RDP, SMB, SQL port 1433 or cluster ports. Use private access/Bastion and least-privilege rules.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: On BOTH Windows SQL VMs: Server Manager / Manage
+
+**DO** On BOTH Windows SQL VMs: Server Manager > Manage > Add Roles and Features > Features > Failover Clustering > Add Features > Install.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: PowerShell alternative on both: run the command below in Windows PowerShell
+
+**DO** PowerShell alternative on both: run the command below in Windows PowerShell as Administrator.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Run a cluster validation in Server Manager / Tools
+
+**DO** Run a cluster validation in Server Manager > Tools > Failover Cluster Manager > Validate Configuration; supply SQL01 and SQL02. Review all failed tests, not just the pass count.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: With the cluster prerequisites and chosen Azure address plan verified, use F
+
+**DO** With the cluster prerequisites and chosen Azure address plan verified, use Failover Cluster Manager > Create Cluster. Add SQL01 and SQL02 and name the cluster; follow the Azure SQL AG tutorial for valid multi-subnet cluster name/IP settings. Do NOT blindly copy on-prem cluster virtual IP instructions.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: Check that Failover Cluster Manager shows BOTH nodes Online. Stop if you see
+
+**DO** Check that Failover Cluster Manager shows BOTH nodes Online. Stop if you see cluster validation errors, AD/DNS name conflicts, or an unsupported network layout.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 HA-03 / AZURE PORTAL
+
 
 # Create the witness storage account (no third VM)
 
@@ -1480,7 +5736,7 @@ Think of the storage account as a tiny locked ballot box in Azure. The cluster s
 
 TEST NETWORK PATH FROM BOTH SQL VMs (commercial Azure example):
 
-Test-NetConnection \<accountname\>.blob.core.windows.net -Port 443  
+Test-NetConnection \<accountname\>.blob.core.windows.net -Port 443
 netsh winhttp show proxy
 
 AZURE GOVERNMENT Storage endpoints differ (typically .core.usgovcloudapi.net). For the real DoD environment, verify the sovereign-cloud endpoint and approved network path before configuring a witness.
@@ -1493,7 +5749,98 @@ WHAT I SAW \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\
 
 IF IT FAILS Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Azure portal / Storage account for cloud witness / approved subscription account; optional extension.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Open https://portal.azure.com / check that you are in the intended tenant an
+
+**DO** Open https://portal.azure.com > check that you are in the intended tenant and subscription > search for Storage accounts > select + Create.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Basics: choose your LAB resource group and preferred Azure region. Enter a g
+
+**DO** Basics: choose your LAB resource group and preferred Azure region. Enter a globally unique lowercase account name, for example labwitness12345 (your actual name will differ).
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Choose Standard performance and General-purpose v2 / StorageV2. For replicat
+
+**DO** Choose Standard performance and General-purpose v2 / StorageV2. For replication choose LRS for a same-zone lab; consider ZRS for a cluster spread across availability zones, when available and appropriate to your design.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Review Advanced / Configuration: Require secure transfer = enabled, minimum
+
+**DO** Review Advanced / Configuration: Require secure transfer = enabled, minimum TLS 1.2 or higher, and Allow storage account key access = enabled IF permitted by your organization, because this witness workflow needs account keys. If policy blocks shared keys, STOP and request an approved alternative or exemption; do not weaken a production policy.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Review Networking: BOTH SQL VMs must be able to reach the Blob service on ou
+
+**DO** Review Networking: BOTH SQL VMs must be able to reach the Blob service on outbound HTTPS TCP 443. Follow your environment’s approved public/private storage connectivity design; never expose the SQL servers publicly. Check network rules before disabling public access.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Select Review + create / Create. Wait for deployment success; open the new S
+
+**DO** Select Review + create > Create. Wait for deployment success; open the new Storage account > Security + networking > Access keys > Show keys.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Copy the storage account NAME and one key into your temporary secure passwor
+
+**DO** Copy the storage account NAME and one key into your temporary secure password manager for setup; do NOT paste it into a ticket, workbook, email, screenshot, script or Git repo.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Do not manually make a witness container. Windows Failover Clustering create
+
+**DO** Do not manually make a witness container. Windows Failover Clustering creates an msft-cloud-witness container/blob automatically after successful setup.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 HA-04 / CLUSTER MANAGER
+
 
 # Tell Windows: use my Azure cloud witness
 
@@ -1513,9 +5860,9 @@ Now that you already have SQL01 + SQL02 in a healthy Windows Failover Cluster AN
 
 \[ \] Run PowerShell as Administrator on SQL01 to confirm. These commands READ status; they do not change the cluster.
 
-Import-Module FailoverClusters  
-Get-ClusterQuorum \| Format-List \*  
-Get-ClusterNode \| Format-Table Name,State,NodeWeight,DynamicWeight  
+Import-Module FailoverClusters
+Get-ClusterQuorum \| Format-List \*
+Get-ClusterNode \| Format-Table Name,State,NodeWeight,DynamicWeight
 Get-ClusterResource \| Where-Object Name -Like "\*Witness\*" \| Format-Table Name,State,ResourceType
 
 \[ \] For your first lab, use the GUI. For reference, the matching PowerShell cmdlet is Set-ClusterQuorum, but it requires the secret account key as a string, so do NOT enter it into command history or scripts.
@@ -1530,7 +5877,108 @@ IF IT FAILS Check TCP 443, Blob DNS, WinHTTP proxy, correct account name/key, st
 
 WRITE IT DOWN Witness resource name / status: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Date: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** One healthy Windows cluster node / Failover Cluster Manager / authorized cluster administrator.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Remote into SQL01 using your private management path. Open Server Manager /
+
+**DO** Remote into SQL01 using your private management path. Open Server Manager > Tools > Failover Cluster Manager.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: On the left, select the cluster you built (for example SQLCLUS01). On the ri
+
+**DO** On the left, select the cluster you built (for example SQLCLUS01). On the right: Actions > More Actions > Configure Cluster Quorum Settings.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Click Next. Under Select Quorum Configuration Option, choose Select the quor
+
+**DO** Click Next. Under Select Quorum Configuration Option, choose Select the quorum witness > Next.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Under Select Quorum Witness, choose Configure a cloud witness / Next.
+
+**DO** Under Select Quorum Witness, choose Configure a cloud witness > Next.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Enter your Azure Storage account name and paste the key into the wizard. For
+
+**DO** Enter your Azure Storage account name and paste the key into the wizard. For a normal commercial Azure account leave the default endpoint; for Azure Government follow its supported endpoint guidance.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Click Next / review the confirmation
+
+**DO** Click Next > review the confirmation > Next > Finish. Look under the cluster core resources for a Cloud Witness resource. It should report Online.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Run PowerShell as Administrator on SQL01 to confirm. These commands READ sta
+
+**DO** Run PowerShell as Administrator on SQL01 to confirm. These commands READ status; they do not change the cluster.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: For your first lab, use the GUI. For reference, the matching PowerShell cmdl
+
+**DO** For your first lab, use the GUI. For reference, the matching PowerShell cmdlet is Set-ClusterQuorum, but it requires the secret account key as a string, so do NOT enter it into command history or scripts.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: If you need to rotate storage keys later, update the cluster witness to the
+
+**DO** If you need to rotate storage keys later, update the cluster witness to the other valid key BEFORE regenerating the original one; follow Microsoft key-rotation instructions.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 HA-05 / VERIFICATION + ROLLBACK
+
 
 # Prove quorum safely, then protect your wallet
 
@@ -1546,8 +5994,8 @@ You have configured CLUSTER QUORUM. That does NOT mean your SQL database is repl
 
 \[ \] If the witness is Offline unexpectedly, do NOT reset SQL IPs or delete the database. Confirm TCP 443 and storage access; review Failover Clustering events before making changes.
 
-Get-ClusterQuorum  
-Get-ClusterNode \| Format-Table Name,State  
+Get-ClusterQuorum
+Get-ClusterNode \| Format-Table Name,State
 Get-ClusterLog -UseLocalTime -Destination C:\ClusterLogs
 
 \[ \] ROLLBACK (lab only): if planned failover does not work, return the AG primary to the last verified healthy node using supported procedures, correct the fault, and rerun validation. Do not casually roll back AD domain controllers or SQL nodes from independent VM snapshots.
@@ -1576,7 +6024,108 @@ WHAT I SAW \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\
 
 IF IT FAILS Error / screenshot: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Fix tried: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Approved SQL lab cluster / Failover Cluster Manager and application checks / authorized cluster administrator.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Before testing: verify both nodes Online, witness Online, backups valid, SQL
+
+**DO** Before testing: verify both nodes Online, witness Online, backups valid, SQL AG replicas healthy, listener working, and a lab application can connect to the intended primary.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: With change approval in a DISPOSABLE LAB, perform a planned AG failover usin
+
+**DO** With change approval in a DISPOSABLE LAB, perform a planned AG failover using SSMS or the approved AG workflow. Do not just unplug the primary first. Watch for temporary client disconnect/reconnect.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Re-run a read/write query against your test database by connecting via AG li
+
+**DO** Re-run a read/write query against your test database by connecting via AG listener, NOT by hard-coding the SQL01 node name. Verify the primary changed and data stayed consistent.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: For quorum experiments, record what happens when the witness loses access ve
+
+**DO** For quorum experiments, record what happens when the witness loses access versus when one node is unavailable. Only simulate a disruptive outage when you have a tested recovery plan.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: If the witness is Offline unexpectedly, do NOT reset SQL IPs or delete the d
+
+**DO** If the witness is Offline unexpectedly, do NOT reset SQL IPs or delete the database. Confirm TCP 443 and storage access; review Failover Clustering events before making changes.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: ROLLBACK (lab only): if planned failover does not work, return the AG primar
+
+**DO** ROLLBACK (lab only): if planned failover does not work, return the AG primary to the last verified healthy node using supported procedures, correct the fault, and rerun validation. Do not casually roll back AD domain controllers or SQL nodes from independent VM snapshots.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: COST: to stop Azure VM compute billing, stop/deallocate SQL01 and SQL02 from
+
+**DO** COST: to stop Azure VM compute billing, stop/deallocate SQL01 and SQL02 from the Azure portal, and verify their states are Stopped (deallocated). This intentionally means your lab cluster is OFF and has no HA until restarted.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Check remaining costs for managed disks, storage account, any gateways, load
+
+**DO** Check remaining costs for managed disks, storage account, any gateways, load balancers, public IPs, monitoring and backups. Azure budgets/alerts do NOT automatically shut resources down.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: Before deleting the witness Storage account, confirm no running or preserved
+
+**DO** Before deleting the witness Storage account, confirm no running or preserved cluster still uses it. Delete test resources only when their dependencies and recovery files are documented.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 FIELD-01 / QUESTIONS ON DAY ONE
+
 
 # Joining a migration mid-project: ten questions to ask
 
@@ -1650,7 +6199,118 @@ Configuration Manager - Availability Group site database - https://learn.microso
 
 LAB END - Remember: fake users and data only; no public RDP, SQL, LDAP or MECM management ports; review Azure charges every session.
 
+## Guided walkthrough
+
+**WHERE** Project handoff worksheet / read-only interview with the authorized project owner.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** You can give a 60-second summary of the above in your own words.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Which agency is moving, which Azure tenant/subscription/cloud is the approve
+
+**DO** Which agency is moving, which Azure tenant/subscription/cloud is the approved target, and what is the target boundary?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: What is the migration wave plan and current phase? Can I review discovery/as
+
+**DO** What is the migration wave plan and current phase? Can I review discovery/assessment reports?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: What is the source hypervisor (vSphere/Hyper-V/physical), Windows/SQL/Config
+
+**DO** What is the source hypervisor (vSphere/Hyper-V/physical), Windows/SQL/ConfigMgr version, server inventory and owner?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Are we extending their AD forest or joining a completely NEW enterprise doma
+
+**DO** Are we extending their AD forest or joining a completely NEW enterprise domain? Who owns identity and DNS?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Which app maps to which SQL database, logins and service accounts? Are there
+
+**DO** Which app maps to which SQL database, logins and service accounts? Are there external dependencies?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Where are runbooks, change tickets, diagrams, GPO exports, maintenance windo
+
+**DO** Where are runbooks, change tickets, diagrams, GPO exports, maintenance windows and rollback plans?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: What tools are approved for migration, backup, monitoring, and infrastructur
+
+**DO** What tools are approved for migration, backup, monitoring, and infrastructure as code?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Has each Azure VNet/subnet, NSG, route table, private DNS, logging and least
+
+**DO** Has each Azure VNet/subnet, NSG, route table, private DNS, logging and least-privilege role been approved?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: How are CM clients, SUP/WSUS, distribution points, content and site database
+
+**DO** How are CM clients, SUP/WSUS, distribution points, content and site databases handled; same site or new hierarchy?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 10: Who signs off on application acceptance, STIG/NIST compliance, evidence and
+
+**DO** Who signs off on application acceptance, STIG/NIST compliance, evidence and decommissioning?
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 LAB 14 / CLOUD PORTAL
+
 
 # Azure: create a safe destination plan
 
@@ -1704,7 +6364,98 @@ Now map the same ideas into the Azure subscription you already own. Do not treat
 
 **Subscription / region / monthly budget** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical host browser / Azure portal / approved subscription account with budget and resource permissions.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Budget alert exists; resource group and VNet exist; no domain controller has a public-facing DNS record.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Open https://portal.azure.com. Confirm the correct directory and subscriptio
+
+**DO** Open https://portal.azure.com. Confirm the correct directory and subscription at the top of the portal.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Search for Cost Management + Billing or open Subscriptions / choose your sub
+
+**DO** Search for Cost Management + Billing or open Subscriptions > choose your subscription > Cost Management > Budgets.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Create a monthly budget aligned to your own limit, and configure email alert
+
+**DO** Create a monthly budget aligned to your own limit, and configure email alerts (for example 50%, 80%, 100%). IMPORTANT: alerts do not shut down resources.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Search for Resource groups / Create. Use a name such as rg-ad-migration-lab,
+
+**DO** Search for Resource groups > Create. Use a name such as rg-ad-migration-lab, choose an available region, and create.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Search for Virtual networks / Create. Resource group: rg-ad-migration-lab. N
+
+**DO** Search for Virtual networks > Create. Resource group: rg-ad-migration-lab. Name: vnet-ad-migration-lab.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Use address space 10.90.0.0/16 and one subnet named snet-identity, 10.90.1.0
+
+**DO** Use address space 10.90.0.0/16 and one subnet named snet-identity, 10.90.1.0/24. Confirm the address range does not overlap your on-premises/home/VPN networks.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Save and review the VNet. Write down which location and subnet you selected.
+
+**DO** Save and review the VNet. Write down which location and subnet you selected.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Search for Azure DNS zones. Observe your existing cloudscene.tech public DNS
+
+**DO** Search for Azure DNS zones. Observe your existing cloudscene.tech public DNS zone, but DO NOT add public DC service records or publish private AD server IPs there.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 LAB 15 / CLOUD VM + AD DS
+
 
 # Azure: create AZ-DC01 carefully
 
@@ -1730,8 +6481,8 @@ This is your optional cloud destination forest: ad.cloudscene.tech. It is not th
 
 **\[ \]** From a VM inside the connected VNet, resolve AD SRV records and confirm AZ-DC01 responds. Keep all AD DNS zones private.
 
-> Get-ADDomain \| Select-Object DNSRoot  
-> ipconfig /all  
+> Get-ADDomain \| Select-Object DNSRoot
+> ipconfig /all
 > nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.ad.cloudscene.tech 10.90.1.10
 
 **PASS CHECK** New cloud AD domain exists, resolves PRIVATELY, and its VM has no direct public RDP/AD exposure.
@@ -1766,7 +6517,133 @@ This is your optional cloud destination forest: ad.cloudscene.tech. It is not th
 
 **AZ-DC01 private IP / image / machine size** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Azure portal, then AZ-DC01 guest / licensed Server 2019 Marketplace image / VM administrator for a separate forest.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** New cloud AD domain exists, resolves PRIVATELY, and its VM has no direct public RDP/AD exposure.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Azure portal / Virtual machines
+
+**DO** Azure portal > Virtual machines > Create > Azure virtual machine. Select rg-ad-migration-lab, an allowed region, and name AZ-DC01.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Image: supported Windows Server Datacenter marketplace image, with Desktop E
+
+**DO** Image: supported Windows Server Datacenter marketplace image, with Desktop Experience if available. Select the smallest practical supported VM size you can afford after reviewing pricing.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Choose a system disk that fits the operating system and budget. Select vnet-
+
+**DO** Choose a system disk that fits the operating system and budget. Select vnet-ad-migration-lab and snet-identity.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: Set Public inbound ports = None. Do not assign a public IP unless you have a
+
+**DO** Set Public inbound ports = None. Do not assign a public IP unless you have a specifically approved secure access design.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Create the VM. Use your approved private administration method (for example,
+
+**DO** Create the VM. Use your approved private administration method (for example, an already-established private VPN) to connect; a public RDP rule is NOT a shortcut for this exercise.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Azure portal / Virtual machines
+
+**DO** Azure portal > Virtual machines > AZ-DC01 > Networking > Network interface > IP configurations. Make the private address static within snet-identity using a permitted unused IP; for example 10.90.1.10.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Inside the Azure Windows VM, leave IP addressing and DNS adapter settings au
+
+**DO** Inside the Azure Windows VM, leave IP addressing and DNS adapter settings automatic. Azure manages NIC settings. After promotion, configure the Azure VNet custom DNS server to use this DC’s Azure private IP (next step).
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Install AD DS with Server Manager / Add Roles and Features and promote as Ad
+
+**DO** Install AD DS with Server Manager > Add Roles and Features and promote as Add a new forest > ad.cloudscene.tech. Enable DNS and reboot.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 09: Azure portal / Virtual networks
+
+**DO** Azure portal > Virtual networks > vnet-ad-migration-lab > DNS servers > Custom. Add AZ-DC01 private IP and Save. Existing VMs may need DHCP lease refresh or reboot to use new DNS settings.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 10: From a VM inside the connected VNet, resolve AD SRV records and confirm AZ-D
+
+**DO** From a VM inside the connected VNet, resolve AD SRV records and confirm AZ-DC01 responds. Keep all AD DNS zones private.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 11: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** New cloud AD domain exists, resolves PRIVATELY, and its VM has no direct public RDP/AD exposure.
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture new cloud AD domain exists, resolves PRIVATELY, and its VM has no direct public RDP/AD exposure. Record the target computer and date.
+
+**COMMAND**
+> Get-ADDomain | Select-Object DNSRoot
+> ipconfig /all
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.ad.cloudscene.tech 10.90.1.10
+
 LAB 16 / VPN / DNS / SECURITY
+
 
 # Azure: the networking gate comes FIRST
 
@@ -1800,7 +6677,7 @@ To actually move an on-premises server into an Azure-hosted domain, the two netw
 
 **\[ \]** Do not attempt an actual cross-cloud domain join until the private connectivity and DNS tests both pass.
 
-> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.ad.cloudscene.tech \<AGENCY-DNS-IP\>  
+> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.ad.cloudscene.tech \<AGENCY-DNS-IP\>
 > Test-NetConnection \<AZ-DC01-PRIVATE-IP\> -Port 53
 
 **PASS CHECK** VPN path and DNS tests pass OR you explicitly record “Azure cutover deferred, local course complete.”
@@ -1835,7 +6712,102 @@ To actually move an on-premises server into an Azure-hosted domain, the two netw
 
 **VPN approach / projected monthly gateway cost** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Physical host, on-prem guests, and Azure networking / approved private connectivity owner; do not run tenant commands in the wrong guest.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** VPN path and DNS tests pass OR you explicitly record “Azure cutover deferred, local course complete.”
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Write down your SOURCE subnet (192.168.77.0/24), DESTINATION VNet subnet (10
+
+**DO** Write down your SOURCE subnet (192.168.77.0/24), DESTINATION VNet subnet (10.90.1.0/24), and expected routing through the VPN device.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Check whether you actually have a compatible on-premises VPN endpoint/router
+
+**DO** Check whether you actually have a compatible on-premises VPN endpoint/router, control of firewall/NAT, and permission to use it.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Review Microsoft’s Site-to-site VPN Gateway docs, gateway sizing, and curren
+
+**DO** Review Microsoft’s Site-to-site VPN Gateway docs, gateway sizing, and current pricing BEFORE creating a VPN gateway.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: If your network setup supports it, in Azure create a GatewaySubnet, Virtual
+
+**DO** If your network setup supports it, in Azure create a GatewaySubnet, Virtual network gateway, Local network gateway (your real VPN public endpoint and internal prefixes), then the IPsec/IKE connection. Configure the peer VPN device using matching values.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Verify routes both ways, permitted AD ports inside the tunnel, and DNS condi
+
+**DO** Verify routes both ways, permitted AD ports inside the tunnel, and DNS conditional forwarding from agency.test to ad.cloudscene.tech and vice versa as required.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: Run nslookup for the AD SRV record across the private path and Test-NetConne
+
+**DO** Run nslookup for the AD SRV record across the private path and Test-NetConnection to approved destination ports. Do not publish AD ports in an Azure NSG to the internet.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Do not attempt an actual cross-cloud domain join until the private connectiv
+
+**DO** Do not attempt an actual cross-cloud domain join until the private connectivity and DNS tests both pass.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 08: Run the reference check 1
+
+**DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
+
+**EXPECT** VPN path and DNS tests pass OR you explicitly record “Azure cutover deferred, local course complete.”
+
+**IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
+
+**EVIDENCE** Capture vPN path and DNS tests pass OR you explicitly record “Azure cutover deferred, local course complete.” Record the target computer and date.
+
+**COMMAND**
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.ad.cloudscene.tech \<AGENCY-DNS-IP>
+> Test-NetConnection \<AZ-DC01-PRIVATE-IP> -Port 53
+
 LAB 17 / OPTIONAL CAPSTONE
+
 
 # Azure: run a real migration wave
 
@@ -1889,7 +6861,127 @@ Only after the networking gate passes: do one member server at a time. Do not tr
 
 **Selected migration method / reason** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** APP01 Server 2019 Workstation guest, Azure portal, then APP02 Server 2019 Azure member VM / authorized source, transfer, and destination administrators.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** APP02 is still Server 2019, serves the migrated test IIS workload over the approved private path, and its file hash/client checks match APP01 before the separate AZ-03 upgrade.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Choose the workload-migration route
+
+**DO** Use the application/data route: APP01 runs Server 2019 in Workstation Pro; APP02 will be a NEW Server 2019 Azure member VM. You will copy the test IIS workload, not claim to have moved the original OS disk.
+
+**EXPECT** Your change note says workload migration, source APP01, destination APP02.
+
+**IF STUCK** If your requirement is to rehost the entire VM, stop here and use AZ-02 to validate a supported replication/import route; Workstation is not vCenter.
+
+**EVIDENCE** Capture your change note says workload migration, source APP01, destination APP02. Record the target computer and date.
+
+### Step 02: Prove the source before copying
+
+**DO** On APP01 confirm the OS, IIS service, test page, domain, IP, and index.html hash. Back up site content and export IIS configuration to your private lab backup folder.
+
+**EXPECT** The baseline identifies Server 2019 and a working test site.
+
+**IF STUCK** A VM screenshot or successful file copy is not proof that the application works. Fix the source before migrating.
+
+**EVIDENCE** Capture the baseline identifies Server 2019 and a working test site. Record the target computer and date.
+
+**COMMAND**
+> Get-ComputerInfo | Select-Object WindowsProductName
+> Get-Service W3SVC
+> Get-FileHash C:\inetpub\wwwroot\index.html -Algorithm SHA256
+> & "$env:windir\system32\inetsrv\appcmd.exe" add backup SONIC-BeforeMigration
+
+### Step 03: Create the Azure member-server target
+
+**DO** In Azure portal search Virtual machines > Create > Azure virtual machine. Choose the approved lab resource group/region, name APP02, and explicitly select a Windows Server 2019 Datacenter Marketplace image. Do not choose Server 2022 yet.
+
+**EXPECT** The review page identifies APP02 and a 2019 image.
+
+**IF STUCK** If your subscription/region has no suitable 2019 image or quota, stop and resolve that choice; selecting 2022 skips the requested upgrade exercise.
+
+**EVIDENCE** Capture the review page identifies APP02 and a 2019 image. Record the target computer and date.
+
+### Step 04: Keep administration private
+
+**DO** On Networking choose the planned VNet/subnet and Public inbound ports None; use no direct public IP for this private route. Review the full cost including your approved private access service before Create.
+
+**EXPECT** APP02 is created without a public inbound RDP rule.
+
+**IF STUCK** A NAT VMnet is not a VPN. Do not click Create until LAB 16 proves the approved private route; do not open 3389 to the internet.
+
+**EVIDENCE** Capture aPP02 is created without a public inbound RDP rule. Record the target computer and date.
+
+### Step 05: Connect and establish the 2019 baseline
+
+**DO** Use your approved VPN/private RDP or budgeted Bastion path to APP02. In the guest open elevated Windows PowerShell and confirm the actual OS. Leave Azure guest NIC IP assignment automatic.
+
+**EXPECT** APP02 reports Windows Server 2019.
+
+**IF STUCK** The portal image label is not enough. The in-guest product name is the baseline you will compare after upgrade.
+
+**EVIDENCE** Capture aPP02 reports Windows Server 2019. Record the target computer and date.
+
+**COMMAND**
+> hostname
+> Get-ComputerInfo | Select-Object WindowsProductName, OsBuildNumber
+> DISM /online /Get-CurrentEdition
+
+### Step 06: Join the destination domain and install IIS
+
+**DO** With private DNS to AZ-DC01 verified, use sysdm.cpl > Computer Name > Change to join ad.cloudscene.tech with authorized credentials. Restart, then install IIS from elevated PowerShell.
+
+**EXPECT** APP02 is a member server, has a healthy domain secure channel, and IIS is running.
+
+**IF STUCK** Do not install AD DS on APP02. If domain DNS or the private route fails, stop rather than changing it to public DNS.
+
+**EVIDENCE** Capture aPP02 is a member server, has a healthy domain secure channel, and IIS is running. Record the target computer and date.
+
+**COMMAND**
+> Install-WindowsFeature Web-Server -IncludeManagementTools
+> Test-ComputerSecureChannel -Verbose
+> Get-Service W3SVC
+
+### Step 07: Transfer the test site over the private path
+
+**DO** On APP01 create a temporary read-only SMB share for the test site, limited to the authorized transfer identity and private APP02 path. From APP02 open the UNC path using an explicitly authorized source account and copy index.html into C:\inetpub\wwwroot. Remove the temporary share and credential mapping afterward. Do not open public SMB 445.
+
+**EXPECT** The site file exists on APP02 and matches the source SHA-256 hash.
+
+**IF STUCK** Separate forests do not automatically trust each other. If the approved network/account design cannot transfer the file, stop and have the lab owner establish a permitted transfer route; do not email credentials or expose SMB.
+
+**EVIDENCE** Capture the site file exists on APP02 and matches the source SHA-256 hash. Record the target computer and date.
+
+**COMMAND**
+> Get-FileHash C:\inetpub\wwwroot\index.html -Algorithm SHA256
+
+### Step 08: Prove the migrated application on Server 2019
+
+**DO** On APP02 browse http://localhost/index.html. From the approved private test client browse APP02’s private URL. Compare page text, hash, authentication, and logs with the APP01 baseline.
+
+**EXPECT** APP02 serves the same test workload while still running Server 2019.
+
+**IF STUCK** Keep APP01 unchanged and available for rollback. Do not switch real user DNS or copy production data.
+
+**EVIDENCE** Capture aPP02 serves the same test workload while still running Server 2019. Record the target computer and date.
+
+### Step 09: Hand off to the OS upgrade lesson
+
+**DO** Record the successful APP02 application baseline and open UPGRADE-01 next. That lesson backs up APP02 and upgrades this Azure member server from 2019 to 2022.
+
+**EXPECT** Your evidence clearly separates application migration from the subsequent OS upgrade.
+
+**IF STUCK** Do not upgrade AG-DC01, AG-DC02, AZ-DC01, SQL01, or MECM01 using the simple member-server procedure.
+
+**EVIDENCE** Capture your evidence clearly separates application migration from the subsequent OS upgrade. Record the target computer and date.
+
 LAB 18 / PROVE THE LEARNING
+
 
 # Interview drill and checklist
 
@@ -1945,7 +7037,88 @@ Practice saying the process out loud. The goal is to describe a safe sequence, n
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** Lab worksheet / completed evidence and interview rehearsal.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: I can explain why cloudscene.tech public DNS does not create an AD forest.
+
+**DO** I can explain why cloudscene.tech public DNS does not create an AD forest.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: I can distinguish extra domain controllers from a second forest.
+
+**DO** I can distinguish extra domain controllers from a second forest.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: I can join APP01 to agency.test, then to destination.test.
+
+**DO** I can join APP01 to agency.test, then to destination.test.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: I can show a GPO backup/import and identify what did NOT transfer.
+
+**DO** I can show a GPO backup/import and identify what did NOT transfer.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: I can explain why DNS must point to the correct domain DNS server.
+
+**DO** I can explain why DNS must point to the correct domain DNS server.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: I can explain why the home Workstation VMs cannot just “talk to Azure.”
+
+**DO** I can explain why the home Workstation VMs cannot just “talk to Azure.”
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: I can describe an Azure test migration and cutover with rollback.
+
+**DO** I can describe an Azure test migration and cutover with rollback.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
 LAB 19 / CHEAT SHEET
+
 
 # Troubleshooting decision tree
 
@@ -1981,7 +7154,28 @@ When you get stuck, follow this order. The order matters more than memorizing al
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Guided walkthrough
+
+**WHERE** The exact failed host or Azure resource / read-only diagnostics before a corrective change.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Record the named outcome
+
+**DO** # Troubleshooting decision tree
+
+**EXPECT** Compare your recorded result with the named lesson evidence before marking verified.
+
+**IF STUCK** Return to the prior pass check and preserve the first failed result before making another change.
+
+**EVIDENCE** Capture compare your recorded result with the named lesson evidence before marking verified. Record the target computer and date.
+
 LAB 20 / FINISH
+
 
 # Shut down safely + official references
 
@@ -2006,7 +7200,7 @@ Clean up your cloud resources deliberately; preserve only the lab files you want
 <thead>
 <tr class="header">
 <th><p><strong>OFFICIAL READING LIST</strong></p>
-<p>Microsoft Evaluation Center: https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2025<br />
+<p>Microsoft Evaluation Center: https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2019<br />
 Install AD DS: https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/install-active-directory-domain-services--level-100-<br />
 GPO backup/import: https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/manage/group-policy/group-policy-backup-restore<br />
 Firewall for AD: https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/config-firewall-for-ad-domains-and-trusts<br />
@@ -2024,3 +7218,73 @@ NOTES: The portal UI and supported migration tools may change. Follow Microsoft 
 **Date completed / what I can now explain** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+## Guided walkthrough
+
+**WHERE** Azure portal and physical Workstation host / approved lab resource owner.
+
+**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+
+**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+
+**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+
+### Step 01: Export your notes and screenshots; keep passwords OUT of your workbook.
+
+**DO** Export your notes and screenshots; keep passwords OUT of your workbook.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 02: Power off local training VMs when idle. Keep one known-good snapshot of memb
+
+**DO** Power off local training VMs when idle. Keep one known-good snapshot of member APP01 and document when it was taken.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 03: Azure: confirm whether any VMs, disks, public IPs, VPN gateways, or backups
+
+**DO** Azure: confirm whether any VMs, disks, public IPs, VPN gateways, or backups remain billed. Stopping a VM may leave disks and networking resources billable.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 04: If you are finished, go to Azure portal / Resource groups
+
+**DO** If you are finished, go to Azure portal > Resource groups > rg-ad-migration-lab > Delete resource group. Verify the resource list and type the requested name. This is destructive.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 05: Return to Cost Management / Cost analysis to monitor any remaining or delaye
+
+**DO** Return to Cost Management > Cost analysis to monitor any remaining or delayed charges.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 06: If a later lab needs Azure, rebuild from your saved worksheet rather than le
+
+**DO** If a later lab needs Azure, rebuild from your saved worksheet rather than leaving a VPN Gateway running around the clock.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.

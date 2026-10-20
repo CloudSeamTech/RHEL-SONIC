@@ -131,6 +131,10 @@ const titles: Record<string, [string, string]> = {
     'Check Migration Tool Support',
     'Check that your migration tool supports the actual source hypervisor.',
   ],
+  'upgrade-01': [
+    'Upgrade Server 2019 to 2022 in Azure',
+    'Upgrade the migrated APP02 member server in Azure and prove its application still works.',
+  ],
   'az-03': [
     'Rehearse the Cutover',
     'Prepare a practice cutover plan with validation and rollback gates.',
@@ -337,7 +341,13 @@ export const learningPathways: LearningPathway[] = [
       },
       {
         title: '03 / Move to Azure',
-        lessons: migration(['az-02', 'az-03', 'lab-17', 'move-02']),
+        lessons: migration([
+          'az-02',
+          'lab-17',
+          'upgrade-01',
+          'az-03',
+          'move-02',
+        ]),
       },
       {
         title: '04 / Verify and Close',

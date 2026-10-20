@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { parseMigrationContent } from '../lib/migration-content.ts';
 import { migrationProgressKey } from '../lib/migration-progress.ts';
+import { migrationStages } from '../app/migration-course.ts';
 
 const catalog = JSON.parse(
   await readFile(
@@ -37,9 +38,9 @@ const migrationCourseSource = await readFile(
   'utf8',
 );
 
-test('all 44 approved migration workbook lessons are published once in contract order', () => {
-  assert.equal(catalog.lessons.length, 44);
-  assert.equal(new Set(catalog.lessons.map((lesson) => lesson.id)).size, 44);
+test('all 44 retained workbook lessons plus the new upgrade lesson are published once in contract order', () => {
+  assert.equal(catalog.lessons.length, 45);
+  assert.equal(new Set(catalog.lessons.map((lesson) => lesson.id)).size, 45);
   assert.deepEqual(
     catalog.lessons.slice(0, 3).map((lesson) => lesson.code),
     ['LAB 00', 'LAB 01', 'LAB 02'],
@@ -117,7 +118,7 @@ test('Learn It and Do the Job use the same lesson IDs without duplicate lesson s
   assert.match(appSource, /migrationTasks/);
   assert.match(appSource, /setMode\('learn'\)/);
   assert.match(appSource, /setMode\('job'\)/);
-  assert.match(appSource, /parseMigrationContent\(lesson\.body\)/);
+  assert.match(appSource, /parseMigrationContent\(referenceBody\(lesson\.body\)\)/);
   assert.doesNotMatch(appSource, /const\s+(learnLessons|jobLessons)\s*=/);
 });
 
@@ -155,9 +156,7 @@ test('every learner task opens an implemented Windows migration project', () => 
 });
 
 test('large migration catalog is grouped into explicit beginner stages', () => {
-  const stageIds = [...migrationCourseSource.matchAll(/^  \['([^']+)',/gm)].map(
-    (match) => match[1],
-  );
+  const stageIds = migrationStages.map(stage => stage.id);
   assert.equal(stageIds.length, 10);
   assert.match(
     migrationCourseSource,

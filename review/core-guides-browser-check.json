@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "checks": [
+    "AD, SQL, Azure and Wazuh guides load correct assets",
+    "Illustrations zoom and close with Escape",
+    "No horizontal overflow at 390px",
+    "No page errors"
+  ],
+  "pageErrors": []
+}
