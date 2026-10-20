@@ -1,3 +1,4 @@
+import almaCourse from '../content/alma/desktop-lessons.json' with { type: 'json' };
 import { lessons, modules } from './course.ts';
 import catalog from '../content/migration/migration-lessons.generated.json' with { type: 'json' };
 const migrationLessons = catalog.lessons;
@@ -7,7 +8,7 @@ export type ConsoleLesson = {
   title: string;
   description: string;
   href: string;
-  source: 'linux' | 'migration';
+  source: 'linux' | 'migration' | 'alma';
   metadata: string;
   steps: string[];
 };
@@ -387,6 +388,27 @@ export const learningPathways: LearningPathway[] = [
         }),
       })),
   },
+  {
+    id: 'alma',
+    title: 'AlmaLinux Desktop Experience',
+    prerequisite: 'Day-to-day operations · AlmaLinux 9 GNOME · VMware-first',
+    sections: [
+      ...new Set(almaCourse.lessons.map((lesson) => lesson.section)),
+    ].map((title) => ({
+      title,
+      lessons: almaCourse.lessons
+        .filter((lesson) => lesson.section === title)
+        .map((lesson) => ({
+          id: lesson.id,
+          title: lesson.title,
+          description: lesson.description,
+          href: `/alma#lesson=${lesson.id}`,
+          source: 'alma' as const,
+          metadata: 'AlmaLinux 9 / GNOME / your own lab',
+          steps: lesson.guide.steps.map((step) => step.title),
+        })),
+    })),
+  },
 ];
 
 export const pathwayLessons = (pathway: LearningPathway) =>
@@ -395,8 +417,10 @@ export const pathwayLessons = (pathway: LearningPathway) =>
 // Core lesson pagination follows the prerequisite route. Optional extensions
 // stay within their own sequence instead of interrupting the core route.
 export function lessonSequenceFor(id: string): ConsoleLesson[] {
+  if (id.startsWith('alma-'))
+    return pathwayLessons(learningPathways.find((path) => path.id === 'alma')!);
   const sections = learningPathways
-    .filter((pathway) => pathway.id !== 'linux')
+    .filter((pathway) => !['linux', 'alma'].includes(pathway.id))
     .flatMap((pathway) => pathway.sections);
   const optional = sections.find(
     (section) =>

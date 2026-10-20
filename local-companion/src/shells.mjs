@@ -55,7 +55,7 @@ export async function shellCapabilities() {
   return [
     { id: 'windows-powershell', label: 'Windows PowerShell', available: Boolean(powershell), detail: powershell ? `Runs ${powershell} as the current Windows user.` : 'PowerShell was not found.', executable: powershell, args: ['-NoLogo'] },
     { id: 'azure-cli', label: 'Azure CLI in Windows PowerShell', available: Boolean(powershell && azure), detail: azure ? 'Runs the installed Azure CLI inside the current-user PowerShell session.' : 'Azure CLI was not found in the PowerShell environment.', executable: powershell, args: ['-NoLogo'] },
-    { id: 'wsl-rocky', label: 'Rocky Linux through WSL', available: distros.length > 0, detail: distros.length ? 'Choose one of the distributions reported by WSL.' : 'No WSL distribution could be enumerated.', executable: 'wsl.exe', args: [], distros },
+    { id: 'wsl-rocky', label: 'Linux through WSL', available: distros.length > 0, detail: distros.length ? 'Choose one of the distributions reported by WSL.' : 'No WSL distribution could be enumerated.', executable: 'wsl.exe', args: [], distros },
   ];
 }
 

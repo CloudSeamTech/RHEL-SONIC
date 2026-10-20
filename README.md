@@ -1,9 +1,13 @@
-# Wazuh Deployment — continuous-workflow pivot
+# RHEL-SONIC Learning Console
+
+## AlmaLinux Desktop Experience
+
+The `/alma` pathway adds 12 guided classes for day-to-day AlmaLinux 9 GNOME use: VMware installation, desktop configuration, terminal/files/permissions, DNF and Flatpak apps, Steam/Proton, peripherals, Western Digital storage, backups, troubleshooting, and real terminal setup. See [the course notes](docs/ALMALINUX-DESKTOP.md). The hosted Lab Terminal includes local setup instructions; live execution still needs the local Windows companion or the guest’s native Terminal.
 
 ## Agency-to-Azure migration pathway and local lab terminal
 
 SONIC now has a separate `/migration` pathway generated from the approved v3
-migration workbook. Its 44 stable lesson IDs do not replace, renumber, or share
+migration workbook. Its 45 lesson IDs do not replace, renumber, or share
 progress with the existing 40 RHEL/Wazuh lessons. Learners can follow the
 ordered **Learn It** route or enter the same modular content through **Do the
 Job** task cards. The complete source workbook and implementation contract are

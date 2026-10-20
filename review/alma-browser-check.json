@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "checks": [
+    "All 12 classes render one correct guide",
+    "Class verification survives reload",
+    "WD illustration loads and zooms",
+    "390px layout has no overflow",
+    "Real terminal setup instructions available",
+    "Dashboard lists new course and actual class count"
+  ],
+  "pageErrors": []
+}

@@ -5,9 +5,10 @@ import { lessons } from '../app/course.ts';
 const read = (p) =>
   JSON.parse(fs.readFileSync(new URL(p, import.meta.url), 'utf8'));
 const guides = read('../content/screenshots/core-guides.json');
+const alma = read('../content/alma/desktop-lessons.json');
 const migration = read('../content/migration/migration-lessons.generated.json');
 test('Every actual class has a relevant, explicitly illustrated core guide', () => {
-  const all = [...lessons, ...migration.lessons];
+  const all = [...lessons, ...migration.lessons, ...alma.lessons];
   assert.equal(guides.lessons.length, all.length);
   assert.equal(new Set(guides.lessons.map((x) => x.lessonId)).size, all.length);
   for (const lesson of all) {

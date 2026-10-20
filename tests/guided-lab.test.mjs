@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import { parseGuidedLab, referenceBody } from '../lib/guided-lab.ts';
 import catalog from '../content/migration/migration-lessons.generated.json' with { type: 'json' };
 import images from '../content/migration/lab-screenshots.json' with { type: 'json' };
+import alma from '../content/alma/desktop-lessons.json' with { type: 'json' };
 import { lessons as linux } from '../app/course.ts';
 
 const guides = catalog.lessons.map((lesson) => ({
@@ -92,6 +93,7 @@ test('coverage includes every class, alternative walkthrough, and help step with
     ),
   );
   const expected =
+    alma.lessons.reduce((sum, lesson) => sum + lesson.guide.steps.length, 0) +
     guides.reduce((sum, item) => sum + item.guide.steps.length, 0) +
     linux.reduce(
       (sum, lesson) =>
@@ -103,7 +105,10 @@ test('coverage includes every class, alternative walkthrough, and help step with
     );
   assert.equal(report.steps.length, expected);
   assert.equal(new Set(report.steps.map((step) => step.stepId)).size, expected);
-  assert.equal(report.summary.lessons, catalog.lessons.length + linux.length);
+  assert.equal(
+    report.summary.lessons,
+    catalog.lessons.length + linux.length + alma.lessons.length,
+  );
   for (const step of report.steps) {
     assert.match(step.instructionHash, /^[a-f0-9]{64}$/);
     assert.ok(
