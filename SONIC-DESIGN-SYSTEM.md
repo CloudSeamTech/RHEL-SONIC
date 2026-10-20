@@ -1,23 +1,25 @@
-# SONIC design system — locked baseline
+# RHEL-SONIC engineering console
 
-Preserve the approved dashboard structure and the existing completion/navigation model. The command center is expressive; the lesson workspace is calm. The representative lesson is `network-plan-v2`; the user approved the design and continuation into Wazuh. The ten deployment lessons reuse this workspace treatment without changing the dashboard layout.
+The supplied DevOps dashboard screenshot controls layout, colors, typography, and segmentation. `review/comparison.html` displays that reference beside the implemented homepage. No scenic imagery, decorative illustration, green surfaces, glass, glow, or promotional hero is part of this system.
 
-The authoritative final palette overrides are in `app/sonic-design-system.css`; SVG globe gradients and geometry colors are in `app/sonic-core.tsx`. Existing component styles retain layout and responsive behavior.
-
-| Role | Treatment |
+| Role | Color |
 | --- | --- |
-| Environment | Black `#08090b`, graphite `#101114`, dark glass |
-| Information | White `#f2f3f5`, silver `#bfc2ca` |
-| Instrumentation / security / rollback | Tactical red `#ca4c59` |
-| Failure | Brighter red `#ff5366` plus explicit failure text or symbol; decorative red never implies an incident |
-| Interaction / SSH / connectivity | Electric cyan; keep primary start/continue action obvious |
-| Verification / completion | Green; derived from learner verification |
-| Caution / review | Amber with descriptive text |
+| Main background | `#000000` |
+| Sidebar | `#080808` |
+| Panel surfaces | `#050505`–`#101010` |
+| Selected navigation | `#1C1C1C` |
+| Panel borders | `#242424` |
+| Main / muted text | `#EAEAEA` / `#898989` |
+| Current course / information | `#21C5DB` |
+| Available / verified status | `#35D778` |
+| Next task / caution | `#DFB656` |
+| Workspace / metadata | `#D184AC` |
+| Critical errors | `#E36878` |
 
-Approximate guidance: 60–65% black/graphite, 20% white/silver, 10% red, 5–10% cyan. Do not enforce percentages mechanically or invent telemetry.
+Space Grotesk is the primary UI family. IBM Plex Mono is reserved for commands, logs, timestamps, and technical metadata. Colors identify individual statuses and information types; headings and panel backgrounds remain neutral.
 
-NOTE and CHECK use quiet cyan/white; VERIFY uses green; WHY THIS MATTERS uses silver; CAUTION/TROUBLESHOOT use amber (red with explicit failure context); ROLLBACK uses red/white; vSphere uses silver/cyan; YOUR TURN uses white/cyan. Terminal headers identify the actual execution context. Never imply that rexuser is the Windows or Azure identity.
+At 1600px, the sidebar is approximately 14.4% wide. The main workspace starts with a 45px command bar, four 125px status panels, two adjacent 394px content panels, and a bottom terminal panel. Borders are 1px charcoal; corners are square. Tablet metrics form two columns and middle panels stack below 900px. Phone navigation opens as an expandable menu. Course and module lists scroll independently when needed.
 
-The globe uses silver continents and grid, graphite oceans/rings, red instrumentation and scanning, and selected cyan connections. It is conceptual topology, not live geographic deployment data. Preserve pause and reduced-motion support.
+`app/learning-console.tsx` and `app/learning-console.css` define the dashboard. `app/console-reader-shell.tsx` and `app/engineering-system.css` apply the same system to existing lesson readers, pathway directories, and hands-on terminals. The earlier component styles retain their structural rules, with neutral console overrides; the obsolete scenic asset and all stylesheet references to it are removed.
 
-Course timing is editorial guidance, not measured telemetry. `app/course-timing.ts` is the single source for 30 lesson estimates, stage totals and remaining active time. Preparation totals 120–180 minutes hands-on with a functioning environment; optional reading and 11–25 minutes passive Azure waits are separate. No duration is fabricated for planned stages.
+Counts and next tasks come from the existing curriculum and browser progress stores. Accent rules in metric panels are decorative separators, not invented progress bars. Dashboard command examples are explicitly simulations. The actual local terminal keeps its existing connection controls, authentication, and command confirmation behavior.

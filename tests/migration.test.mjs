@@ -4,27 +4,55 @@ import test from 'node:test';
 import { parseMigrationContent } from '../lib/migration-content.ts';
 import { migrationProgressKey } from '../lib/migration-progress.ts';
 
-const catalog = JSON.parse(await readFile(new URL('../content/migration/migration-lessons.generated.json', import.meta.url), 'utf8'));
-const appSource = await readFile(new URL('../app/migration/migration-academy.tsx', import.meta.url), 'utf8');
-const terminalSource = await readFile(new URL('../app/lab-terminal/lab-terminal.tsx', import.meta.url), 'utf8');
-const existingCourse = await readFile(new URL('../app/course.ts', import.meta.url), 'utf8');
-const sourceWorkbook = await readFile(new URL('../docs/sources/SONIC_MIGRATION_WORKBOOK_FULL_SOURCE_v3.md', import.meta.url), 'utf8');
-const migrationCourseSource = await readFile(new URL('../app/migration-course.ts', import.meta.url), 'utf8');
-const migrationCss = await readFile(new URL('../app/migration/migration.css', import.meta.url), 'utf8');
-const coreSource = await readFile(new URL('../app/sonic-core.tsx', import.meta.url), 'utf8');
-const dashboardSource = await readFile(new URL('../app/sonic-dashboard.tsx', import.meta.url), 'utf8');
-const sonicCss = await readFile(new URL('../app/sonic.css', import.meta.url), 'utf8');
-const dashboardCss = await readFile(new URL('../app/sonic-dashboard.css', import.meta.url), 'utf8');
-const terminalCss = await readFile(new URL('../app/lab-terminal/lab-terminal.css', import.meta.url), 'utf8');
-const cyberpunkBackground = await readFile(new URL('../public/assets/sonic-cyberpunk-downtown-v1.webp', import.meta.url));
+const catalog = JSON.parse(
+  await readFile(
+    new URL(
+      '../content/migration/migration-lessons.generated.json',
+      import.meta.url,
+    ),
+    'utf8',
+  ),
+);
+const appSource = await readFile(
+  new URL('../app/migration/migration-academy.tsx', import.meta.url),
+  'utf8',
+);
+const terminalSource = await readFile(
+  new URL('../app/lab-terminal/lab-terminal.tsx', import.meta.url),
+  'utf8',
+);
+const existingCourse = await readFile(
+  new URL('../app/course.ts', import.meta.url),
+  'utf8',
+);
+const sourceWorkbook = await readFile(
+  new URL(
+    '../docs/sources/SONIC_MIGRATION_WORKBOOK_FULL_SOURCE_v3.md',
+    import.meta.url,
+  ),
+  'utf8',
+);
+const migrationCourseSource = await readFile(
+  new URL('../app/migration-course.ts', import.meta.url),
+  'utf8',
+);
 
 test('all 44 approved migration workbook lessons are published once in contract order', () => {
   assert.equal(catalog.lessons.length, 44);
   assert.equal(new Set(catalog.lessons.map((lesson) => lesson.id)).size, 44);
-  assert.deepEqual(catalog.lessons.slice(0, 3).map((lesson) => lesson.code), ['LAB 00', 'LAB 01', 'LAB 02']);
-  assert.deepEqual(catalog.lessons.slice(-4).map((lesson) => lesson.code), ['LAB 18', 'LAB 19', 'LAB 20', 'FIELD-01']);
+  assert.deepEqual(
+    catalog.lessons.slice(0, 3).map((lesson) => lesson.code),
+    ['LAB 00', 'LAB 01', 'LAB 02'],
+  );
+  assert.deepEqual(
+    catalog.lessons.slice(-4).map((lesson) => lesson.code),
+    ['LAB 18', 'LAB 19', 'LAB 20', 'FIELD-01'],
+  );
   for (const prefix of ['SQL-', 'MECM-', 'MOVE-', 'AZ-', 'HA-']) {
-    assert.ok(catalog.lessons.some((lesson) => lesson.code.startsWith(prefix)), `${prefix} content missing`);
+    assert.ok(
+      catalog.lessons.some((lesson) => lesson.code.startsWith(prefix)),
+      `${prefix} content missing`,
+    );
   }
 });
 
@@ -36,7 +64,9 @@ test('every migration lesson retains source mapping, route, stage, surface and s
     assert.ok(lesson.sourceStartLine > 0);
     assert.ok(lesson.sourceEndLine >= lesson.sourceStartLine);
     assert.ok(lesson.body.length > 250, `${lesson.code} is unexpectedly short`);
-    assert.ok(sourceWorkbook.includes(`${lesson.code} / ${lesson.sourceLabel}`));
+    assert.ok(
+      sourceWorkbook.includes(`${lesson.code} / ${lesson.sourceLabel}`),
+    );
     assert.ok(sourceWorkbook.includes(`# ${lesson.title}`));
   }
 });
@@ -44,18 +74,42 @@ test('every migration lesson retains source mapping, route, stage, surface and s
 test('the renderer preserves exact commands, pass/fail teaching panes, checklists and tables', () => {
   const sql = catalog.lessons.find((lesson) => lesson.code === 'SQL-03');
   const blocks = parseMigrationContent(sql.body);
-  assert.ok(blocks.some((block) => block.type === 'command' && block.lines.some((line) => line.includes('Get-Service MSSQLSERVER'))));
+  assert.ok(
+    blocks.some(
+      (block) =>
+        block.type === 'command' &&
+        block.lines.some((line) => line.includes('Get-Service MSSQLSERVER')),
+    ),
+  );
   assert.ok(blocks.some((block) => block.type === 'checklist'));
-  assert.ok(blocks.some((block) => block.type === 'callout' && block.label === 'PASS CHECK'));
+  assert.ok(
+    blocks.some(
+      (block) => block.type === 'callout' && block.label === 'PASS CHECK',
+    ),
+  );
   const map = catalog.lessons.find((lesson) => lesson.code === 'LAB 01');
-  assert.ok(parseMigrationContent(map.body).some((block) => block.type === 'table'));
+  assert.ok(
+    parseMigrationContent(map.body).some((block) => block.type === 'table'),
+  );
 });
 
 test('migration progress is independent from the unchanged RHEL/Wazuh progress key and IDs', async () => {
   assert.equal(migrationProgressKey, 'sonic-agency-azure-migration-v1');
   assert.match(existingCourse, /rexuser/);
-  assert.match(await readFile(new URL('../lib/progress-store.ts', import.meta.url), 'utf8'), /wazuh-foundations-v2/);
-  assert.doesNotMatch(await readFile(new URL('../lib/progress-store.ts', import.meta.url), 'utf8'), /sonic-agency-azure-migration-v1/);
+  assert.match(
+    await readFile(
+      new URL('../lib/progress-store.ts', import.meta.url),
+      'utf8',
+    ),
+    /wazuh-foundations-v2/,
+  );
+  assert.doesNotMatch(
+    await readFile(
+      new URL('../lib/progress-store.ts', import.meta.url),
+      'utf8',
+    ),
+    /sonic-agency-azure-migration-v1/,
+  );
 });
 
 test('Learn It and Do the Job use the same lesson IDs without duplicate lesson sources', () => {
@@ -70,7 +124,10 @@ test('Learn It and Do the Job use the same lesson IDs without duplicate lesson s
 test('hosted terminal says copy/help and cannot construct a non-loopback companion connection', () => {
   assert.match(terminalSource, /Hosted SONIC cannot execute commands/);
   assert.match(terminalSource, /Nothing shown below is fake terminal output/);
-  assert.match(terminalSource, /companionWebSocketUrl\(window\.location\.hostname\)/);
+  assert.match(
+    terminalSource,
+    /companionWebSocketUrl\(window\.location\.hostname\)/,
+  );
 });
 
 test('original curriculum naming and rexuser defaults remain present', () => {
@@ -79,72 +136,50 @@ test('original curriculum naming and rexuser defaults remain present', () => {
 });
 
 test('every learner task opens an implemented Windows migration project', () => {
-  const taskLessonIds = [...migrationCourseSource.matchAll(/lessonId: '([^']+)'/g)].map((match) => match[1]);
+  const taskLessonIds = [
+    ...migrationCourseSource.matchAll(/lessonId: '([^']+)'/g),
+  ].map((match) => match[1]);
   const lessonIds = new Set(catalog.lessons.map((lesson) => lesson.id));
   assert.equal(taskLessonIds.length, 10);
   for (const lessonId of taskLessonIds) {
-    assert.ok(lessonIds.has(lessonId), `${lessonId} points to a missing lesson`);
+    assert.ok(
+      lessonIds.has(lessonId),
+      `${lessonId} points to a missing lesson`,
+    );
   }
-  assert.equal((migrationCourseSource.match(/state: 'available'/g) ?? []).length, 10);
+  assert.equal(
+    (migrationCourseSource.match(/state: 'available'/g) ?? []).length,
+    10,
+  );
   assert.equal((migrationCourseSource.match(/machine: '/g) ?? []).length, 10);
 });
 
 test('large migration catalog is grouped into explicit beginner stages', () => {
-  const stageIds = [...migrationCourseSource.matchAll(/^  \['([^']+)',/gm)].map((match) => match[1]);
+  const stageIds = [...migrationCourseSource.matchAll(/^  \['([^']+)',/gm)].map(
+    (match) => match[1],
+  );
   assert.equal(stageIds.length, 10);
-  assert.match(migrationCourseSource, /Start Here: See the Windows Migration Lab/);
+  assert.match(
+    migrationCourseSource,
+    /Start Here: See the Windows Migration Lab/,
+  );
   assert.match(migrationCourseSource, /Build the Agency Windows Domain/);
   assert.match(migrationCourseSource, /Build SQL01/);
-  assert.match(migrationCourseSource, /Build the MECM Configuration Manager Lab/);
+  assert.match(
+    migrationCourseSource,
+    /Build the MECM Configuration Manager Lab/,
+  );
 });
 
-test('migration learner view provides one obvious start and exact project navigation', () => {
-  assert.match(appSource, /START HERE/);
-  assert.match(appSource, /Begin with LAB 00/);
-  assert.match(appSource, /Open the exact project you need/);
+test('migration readers share the pathway console and keep direct lesson navigation', async () => {
+  const shell = await readFile(
+    new URL('../app/console-reader-shell.tsx', import.meta.url),
+    'utf8',
+  );
+  assert.match(shell, /href="\/migration#lesson=lab-00"/);
+  assert.match(shell, /aria-label="Course pathways"/);
+  assert.match(appSource, /ConsoleReaderShell/);
   assert.match(appSource, /ProjectDirectory/);
-  assert.match(appSource, /Open this exact workflow/);
-  assert.match(appSource, /setModeState\('home'\)/);
-});
-
-test('globe offers a direct Windows migration entry', () => {
-  assert.match(coreSource, /migrationEntry: true/);
-  assert.match(coreSource, /Open Windows migration/);
-  assert.match(coreSource, /useState\('windows'\)/);
-  assert.match(dashboardSource, /Enter Windows migration/);
-  assert.match(coreSource, /<a href="\/migration" className="core-migration-action">/);
-  assert.match(dashboardSource, /<a href="\/migration">/);
-  assert.doesNotMatch(coreSource, /onOpenMigration/);
-  assert.doesNotMatch(dashboardSource, /next\/link/);
+  assert.match(appSource, /lessonSequenceFor\(lesson.id\)/);
   assert.doesNotMatch(appSource, /next\/link/);
-});
-
-test('learner panels use reusable transparent glass treatments', () => {
-  assert.match(migrationCss, /--migration-glass:/);
-  assert.match(migrationCss, /backdrop-filter: blur/);
-  assert.match(migrationCss, /\.migration-start-panel/);
-  assert.match(migrationCss, /\.migration-task-card/);
-  assert.match(migrationCss, /\.project-stage/);
-});
-
-test('learner surfaces use the approved cyberpunk yellow cyan magenta glass palette', () => {
-  for (const source of [sonicCss, dashboardCss, migrationCss, terminalCss]) {
-    assert.match(source, /backdrop-filter:\s*blur/);
-    assert.match(source, /rgba\(/);
-  }
-  assert.match(sonicCss, /--cyber-yellow:\s*#fcee0a/);
-  assert.match(sonicCss, /--cyber-cyan:\s*#00f0ff/);
-  assert.match(sonicCss, /--cyber-magenta:\s*#ff2a6d/);
-  assert.match(migrationCss, /--migration-amber:\s*#fcee0a/);
-});
-
-test('cyberpunk presentation uses the generated downtown street image and blurred neon atmosphere', () => {
-  assert.ok(cyberpunkBackground.length > 100_000);
-  assert.match(sonicCss, /sonic-cyberpunk-downtown-v1\.webp/);
-  assert.match(migrationCss, /sonic-cyberpunk-downtown-v1\.webp/);
-  assert.match(sonicCss, /@keyframes sonic-neon-drift/);
-  assert.match(sonicCss, /backdrop-filter:\s*blur\(34px\)/);
-  assert.match(migrationCss, /@keyframes migration-city-drift/);
-  assert.match(migrationCss, /filter:\s*blur\(4px\)/);
-  assert.match(migrationCss, /prefers-reduced-motion:\s*reduce/);
 });

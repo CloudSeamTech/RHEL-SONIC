@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "checks": [
+    "Four exact accent colors",
+    "Desktop sidebar and panel geometry",
+    "No imagery",
+    "SQL lesson route and overview",
+    "Verification persists across reload",
+    "Pagination follows SQL → Azure",
+    "Dashboard reads saved progress",
+    "Linux legacy deep link",
+    "Return to new dashboard",
+    "Tablet and mobile overflow",
+    "Mobile expandable navigation"
+  ],
+  "pageErrors": []
+}
