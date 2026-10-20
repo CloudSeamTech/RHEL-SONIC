@@ -19,3 +19,7 @@ Files `illustrated-*.png` are AI-generated schematic teaching references, explic
 `illustrated-ad.png` is an AI-adapted version of the Microsoft `ad-forest.png` reference cited above, with AG-DC01 and agency.test labels and instructional callouts. Microsoft retains ownership of the underlying interface/reference. The original reference remains available unchanged.
 
 The other eight illustrated sheets were generated from text descriptions for this curriculum. No iFixit screenshots were used as inputs for them. See `content/screenshots/core-guides.json` for per-asset provenance and the explicit class mapping.
+
+## AlmaLinux desktop illustrations
+
+`illustrated-alma-desktop.png`, `illustrated-alma-apps.png`, `illustrated-alma-storage.png`, and `illustrated-alma-cli.png` were generated specifically for the AlmaLinux 9 desktop pathway. They are schematic, watermarked teaching guides with representative layouts and command examples, not captures of an installed AlmaLinux system or the user's WD drive. No live hardware, game compatibility, telemetry, or successful execution is represented. AlmaLinux, GNOME, VMware and Steam interface names remain their respective owners' trademarks.

@@ -5,6 +5,7 @@ import {
   pathwayLessons,
   lessonSequenceFor,
 } from '../app/learning-pathways.ts';
+import alma from '../content/alma/desktop-lessons.json' with { type: 'json' };
 import { lessons } from '../app/course.ts';
 import catalog from '../content/migration/migration-lessons.generated.json' with { type: 'json' };
 
@@ -14,12 +15,16 @@ test('pathways retain every existing lesson exactly once with its original reade
   assert.equal(new Set(ids).size, ids.length);
   assert.deepEqual(
     new Set(ids),
-    new Set([...lessons, ...catalog.lessons].map((lesson) => lesson.id)),
+    new Set(
+      [...lessons, ...catalog.lessons, ...alma.lessons].map(
+        (lesson) => lesson.id,
+      ),
+    ),
   );
   for (const lesson of entries) {
     assert.equal(
       lesson.href,
-      `${lesson.source === 'linux' ? '/' : '/migration'}#lesson=${lesson.id}`,
+      `${lesson.source === 'alma' ? '/alma' : lesson.source === 'linux' ? '/' : '/migration'}#lesson=${lesson.id}`,
     );
     assert.ok(lesson.title && lesson.description && lesson.steps.length);
   }
@@ -28,7 +33,7 @@ test('pathways retain every existing lesson exactly once with its original reade
 test('core route builds the domain controllers before SQL, then Azure and migration', () => {
   assert.deepEqual(
     learningPathways.map((pathway) => pathway.id),
-    ['windows', 'sql', 'azure', 'migrations', 'linux'],
+    ['windows', 'sql', 'azure', 'migrations', 'linux', 'alma'],
   );
   const core = learningPathways
     .flatMap((pathway) =>

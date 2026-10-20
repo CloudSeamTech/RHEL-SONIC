@@ -197,3 +197,9 @@
   border-color: #fcee0a;
   background: linear-gradient(135deg, #fff65a, #f3d600);
 }
+
+.terminal-setup { margin: 16px 0; padding: 16px; background: #080808; border: 1px solid #242424; color: #eaeaea; }
+.terminal-setup summary { cursor: pointer; font-weight: 500; }
+.terminal-setup li { margin: 16px 0; line-height: 1.7; }
+.terminal-setup pre { max-width: 100%; overflow: auto; padding: 12px; background: #000; font-family: var(--font-ibm-plex-mono), monospace; }
+.terminal-setup a { color: #21c5db; }

@@ -1,0 +1,9 @@
+# AlmaLinux desktop and real-terminal setup
+
+Added 12 standalone AlmaLinux 9 GNOME classes under /alma, with 72 guided steps, four new illustrated reference sheets, independent browser verification, and sidebar/dashboard integration. Existing routes and the Windows/SQL/Azure sequence are preserved. The total curriculum now has 97 classes; the exact-capture inventory has 803 actions and does not count illustrations as authentic captures.
+
+Validated npm test (12 app test files plus 3 companion test files), TypeScript, focused lint for new files, production build, and browser flows. Browser checks visit every new class, persist verification through reload, test illustration zoom, check 390px overflow, validate terminal setup guidance, and confirm the dashboard's actual 12-class count. Artifacts are adjacent. Existing repository-wide lint issues are outside this change.
+
+Hosted terminal behavior stays copy/help. Real output requires the existing local SONIC app plus the Windows companion, or a native GNOME/OpenSSH terminal. No public remote shell, tunnel, hardware changes, app installs, disk formatting, or new live Windows/AlmaLinux runtime execution was performed by this implementation. The companion's existing automated tests remain passing; this environment does not verify the user's ConPTY, WSL, VMware or WD hardware.
+
+Flathub's AlmaLinux setup and Steam listing were fetched for reference; AlmaLinux wiki requests returned HTTP 403 in this environment. The course retains official installation/repository links and explicitly scopes version-dependent details. GNOME software pages and game support vary. Illustrations are generated representative teaching references, not exact product captures. The WD route preserves existing volumes; optional GUI formatting is restricted to a separately identified empty practice disk, with no generic destructive disk commands or root-resize recipe.

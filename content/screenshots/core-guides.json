@@ -73,6 +73,38 @@
       "kind": "illustrated",
       "note": "Fill in the worksheet using your own environment. Empty fields are intentional. Save actual observations and a recovery plan before making the next change.",
       "provenance": "AI-generated schematic training illustration; software layouts are representative, not exact captures."
+    },
+    {
+      "id": "alma-desktop",
+      "title": "Set up AlmaLinux 9 with GNOME",
+      "src": "/lab-screenshots/illustrated-alma-desktop.png",
+      "kind": "illustrated",
+      "note": "AlmaLinux 9 GNOME reference. Panels combine representative screens; follow the written steps and actual device identifiers. No screenshot authorizes formatting an existing drive.",
+      "provenance": "AI-generated schematic training illustration; not an actual AlmaLinux or hardware capture."
+    },
+    {
+      "id": "alma-apps",
+      "title": "Install everyday apps and test Steam",
+      "src": "/lab-screenshots/illustrated-alma-apps.png",
+      "kind": "illustrated",
+      "note": "AlmaLinux 9 GNOME reference. Panels combine representative screens; follow the written steps and actual device identifiers. No screenshot authorizes formatting an existing drive.",
+      "provenance": "AI-generated schematic training illustration; not an actual AlmaLinux or hardware capture."
+    },
+    {
+      "id": "alma-storage",
+      "title": "Identify and mount a Western Digital data drive",
+      "src": "/lab-screenshots/illustrated-alma-storage.png",
+      "kind": "illustrated",
+      "note": "AlmaLinux 9 GNOME reference. Panels combine representative screens; follow the written steps and actual device identifiers. No screenshot authorizes formatting an existing drive.",
+      "provenance": "AI-generated schematic training illustration; not an actual AlmaLinux or hardware capture."
+    },
+    {
+      "id": "alma-cli",
+      "title": "Everyday AlmaLinux terminal skills",
+      "src": "/lab-screenshots/illustrated-alma-cli.png",
+      "kind": "illustrated",
+      "note": "Command examples only. Run commands in the named shell and inspect your own results. Shortcut labels are keyboard instructions, not commands to type.",
+      "provenance": "AI-generated schematic command reference, not an actual terminal capture."
     }
   ],
   "lessons": [
@@ -755,6 +787,102 @@
         "wazuh"
       ],
       "focus": "Save the results and stop both VMs when you are finished."
+    },
+    {
+      "lessonId": "alma-plan",
+      "title": "Plan Your Everyday Linux Desktop",
+      "guideIds": [
+        "alma-desktop"
+      ],
+      "focus": "Check hardware, backups, application needs, and a VM-first route before replacing your daily OS."
+    },
+    {
+      "lessonId": "alma-install",
+      "title": "Install AlmaLinux with GNOME",
+      "guideIds": [
+        "alma-desktop"
+      ],
+      "focus": "Create a new Workstation VM and install AlmaLinux 9 Server with GUI."
+    },
+    {
+      "lessonId": "alma-first-login",
+      "title": "Configure Your Desktop",
+      "guideIds": [
+        "alma-desktop"
+      ],
+      "focus": "Set display, keyboard, audio, privacy, updates, and VMware desktop integration."
+    },
+    {
+      "lessonId": "alma-terminal",
+      "title": "Learn the Commands You Use Every Day",
+      "guideIds": [
+        "alma-cli"
+      ],
+      "focus": "Practice navigation, files, help, search, pipes, and safe command habits in a disposable folder."
+    },
+    {
+      "lessonId": "alma-files",
+      "title": "Manage Files and Permissions",
+      "guideIds": [
+        "alma-desktop"
+      ],
+      "focus": "Use Files, archives, removable media, permissions, and everyday keyboard shortcuts."
+    },
+    {
+      "lessonId": "alma-apps",
+      "title": "Install and Maintain Everyday Apps",
+      "guideIds": [
+        "alma-apps"
+      ],
+      "focus": "Use DNF and user-scoped Flatpak to install trusted desktop apps and keep them updated."
+    },
+    {
+      "lessonId": "alma-games",
+      "title": "Install Steam and Understand Proton",
+      "guideIds": [
+        "alma-apps"
+      ],
+      "focus": "Install Steam, test one supported game, and understand GPU, Proton, and anti-cheat limits."
+    },
+    {
+      "lessonId": "alma-network",
+      "title": "Configure Network, Printing and Sharing",
+      "guideIds": [
+        "alma-desktop"
+      ],
+      "focus": "Check Wi-Fi or Ethernet, DNS, printers, Bluetooth, and file-sharing access."
+    },
+    {
+      "lessonId": "alma-wd-drive",
+      "title": "Add Storage from a Western Digital Drive",
+      "guideIds": [
+        "alma-storage"
+      ],
+      "focus": "Identify a WD drive, mount existing files safely, and prepare a separate empty practice disk."
+    },
+    {
+      "lessonId": "alma-backup",
+      "title": "Back Up Your Desktop and Restore a File",
+      "guideIds": [
+        "planning"
+      ],
+      "focus": "Create an independent backup of everyday files and prove recovery by restoring a sample."
+    },
+    {
+      "lessonId": "alma-troubleshoot",
+      "title": "Troubleshoot Everyday Linux Problems",
+      "guideIds": [
+        "alma-cli"
+      ],
+      "focus": "Diagnose slow apps, full storage, service errors, and SELinux denials without disabling protections."
+    },
+    {
+      "lessonId": "alma-real-terminal",
+      "title": "Connect to Real AlmaLinux Terminal Output",
+      "guideIds": [
+        "alma-cli"
+      ],
+      "focus": "Run the local SONIC companion and verify real PowerShell output, then reach AlmaLinux with SSH or its native Terminal."
     }
   ]
 }

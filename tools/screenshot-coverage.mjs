@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
+import alma from '../content/alma/desktop-lessons.json' with { type: 'json' };
 import { lessons } from '../app/course.ts';
 import { parseGuidedLab } from '../lib/guided-lab.ts';
 
@@ -91,6 +92,12 @@ for (const lesson of lessons) {
       'workplace',
     );
 }
+for (const lesson of alma.lessons)
+  add(
+    { ...lesson, where: lesson.guide.where },
+    lesson.guide.steps,
+    'AlmaLinux desktop',
+  );
 for (const capture of approved) {
   if (!rows.some((row) => row.stepId === capture.stepId))
     throw new Error(`Orphan capture ${capture.stepId}`);

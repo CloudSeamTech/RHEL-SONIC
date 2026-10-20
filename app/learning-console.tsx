@@ -2,6 +2,11 @@
 
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { lessons as linuxLessons } from './course';
+import {
+  almaSnapshot,
+  almaServerSnapshot,
+  subscribeAlma,
+} from '@/lib/alma-progress';
 import { migrationLessons } from './migration-course';
 import { readMigrationProgress } from '@/lib/migration-progress';
 import { snapshot, serverSnapshot, subscribe } from '@/lib/progress-store';
@@ -31,6 +36,9 @@ export function LearningConsole({
   const [menuOpen, setMenuOpen] = useState(false);
   const [migrationCompleted, setMigrationCompleted] = useState<string[]>([]);
   const [tool, setTool] = useState<'terminal' | 'progress'>('terminal');
+  const almaCompleted = JSON.parse(
+    useSyncExternalStore(subscribeAlma, almaSnapshot, almaServerSnapshot),
+  ) as string[];
   const linuxProgress = JSON.parse(
     useSyncExternalStore(subscribe, snapshot, serverSnapshot),
   ) as { completed: string[] };
@@ -53,7 +61,11 @@ export function LearningConsole({
   const selected =
     available.find((lesson) => lesson.id === selectedId) ?? available[0];
   const completed =
-    selected.source === 'linux' ? linuxProgress.completed : migrationCompleted;
+    selected.source === 'alma'
+      ? almaCompleted
+      : selected.source === 'linux'
+        ? linuxProgress.completed
+        : migrationCompleted;
   const next = available.find((lesson) => !completed.includes(lesson.id));
   const section = pathway.sections.find((item) =>
     item.lessons.some((lesson) => lesson.id === selected.id),
@@ -80,15 +92,17 @@ export function LearningConsole({
   }
   const linux = linuxLessons.find((lesson) => lesson.id === selected.id);
   const command =
-    selected.id === 'lab-04'
-      ? 'Get-ADDomain -Identity agency.test'
-      : selected.id === 'lab-07'
-        ? 'repadmin /replsummary'
-        : selected.id.startsWith('sql-')
-          ? "RESTORE VERIFYONLY FROM DISK = N'C:\\LabBackups\\Practice.bak';"
-          : selected.source === 'linux'
-            ? (linux?.command.split('\n')[0] ?? 'systemctl status sshd')
-            : 'Get-ComputerInfo | Select-Object CsName, WindowsProductName';
+    selected.source === 'alma'
+      ? 'cat /etc/os-release'
+      : selected.id === 'lab-04'
+        ? 'Get-ADDomain -Identity agency.test'
+        : selected.id === 'lab-07'
+          ? 'repadmin /replsummary'
+          : selected.id.startsWith('sql-')
+            ? "RESTORE VERIFYONLY FROM DISK = N'C:\\LabBackups\\Practice.bak';"
+            : selected.source === 'linux'
+              ? (linux?.command.split('\n')[0] ?? 'systemctl status sshd')
+              : 'Get-ComputerInfo | Select-Object CsName, WindowsProductName';
   return (
     <div className="learning-console">
       <a className="console-skip" href="#console-main">

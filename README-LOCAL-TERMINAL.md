@@ -49,7 +49,7 @@ from `localhost`, `127.0.0.1`, or IPv6 loopback before the UI offers live mode.
 - **Azure CLI in Windows PowerShell** starts the same PowerShell environment
   only when `az version` proves Azure CLI is installed. The learner still must
   authenticate and verify cloud/subscription context.
-- **Rocky Linux / WSL** starts only a selected distro returned by WSL discovery.
+- **Linux / WSL** starts only a selected distro returned by WSL discovery.
   SONIC does not install, unregister, or rename WSL distributions.
 
 ## What was tested in this development environment
@@ -76,3 +76,9 @@ must remain unavailable; it must never display canned success output.
 
 Press `Ctrl+C` in the companion PowerShell window. Active child terminals are
 terminated. Closing the browser socket also terminates its PTY session.
+
+## AlmaLinux in VMware
+
+The WSL selector does not attach to VMware. Use GNOME Terminal inside the AlmaLinux guest for its actual Bash results. For remote access, enable sshd intentionally in the guest, allow SSH only on the required private firewall zone, verify the ED25519 host-key fingerprint from the VM console, then connect with Windows OpenSSH using the actual username and guest IP. NAT does not require a public port forward for host-to-guest access.
+
+The SONIC text panel can relay simple prompts; it is not a full-screen terminal emulator. Native PowerShell/OpenSSH is recommended for full interactive SSH, editors, and terminal games. The AlmaLinux desktop pathway includes a guided real-terminal class. The hosted URL stays copy/help mode; do not weaken origin/token checks to connect it directly to a local shell.

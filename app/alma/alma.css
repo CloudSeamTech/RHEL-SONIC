@@ -1,0 +1,73 @@
+.alma-reader {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  min-width: 0;
+}
+.alma-header {
+  padding: 20px 0;
+  border-bottom: 1px solid #242424;
+}
+.alma-header h1 {
+  font-size: clamp(24px, 3vw, 36px);
+  margin: 12px 0;
+}
+.alma-reader p {
+  line-height: 1.65;
+}
+.alma-header small,
+.alma-header p {
+  color: #898989;
+}
+.alma-course-index,
+.alma-sources,
+.alma-verify {
+  border: 1px solid #242424;
+  background: #080808;
+  margin: 16px 0;
+  padding: 16px;
+}
+.alma-reader summary {
+  cursor: pointer;
+}
+.alma-course-index a,
+.alma-sources a {
+  display: block;
+  padding: 8px;
+  color: #21c5db;
+}
+.alma-course-index h2 {
+  font-size: 15px;
+  margin: 20px 0 8px;
+}
+.alma-course-index a[aria-current='page'] {
+  background: #1c1c1c;
+  border-left: 2px solid #21c5db;
+}
+.alma-verify button {
+  margin: 14px 0;
+  padding: 10px 16px;
+  background: #1c1c1c;
+  color: #eaeaea;
+  border: 1px solid #242424;
+  cursor: pointer;
+}
+.alma-verify button[aria-pressed='true'] {
+  color: #35d778;
+}
+.alma-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+}
+.alma-pagination a {
+  color: #21c5db;
+  max-width: 100%;
+}
+@media (max-width: 650px) {
+  .alma-reader {
+    padding: 12px;
+  }
+}
