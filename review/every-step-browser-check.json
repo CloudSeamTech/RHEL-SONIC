@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "almaStepPicturesChecked": 72,
+  "checks": [
+    "Every Alma step loads its matching picture",
+    "390px layout without page overflow",
+    "Large picture pans inside its dialog",
+    "Next/select remain synchronized",
+    "Windows and RHEL readers render step pictures"
+  ],
+  "pageErrors": []
+}

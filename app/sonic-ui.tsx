@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react';
 import { SessionGuide } from './session-guide';
+import { smallActions } from '@/lib/beginner-directions';
 import { InstructionScreenshots } from './instruction-screenshots';
 import type { WalkthroughStep } from './wazuh-walkthroughs';
 import {
@@ -265,8 +266,8 @@ export function SonicWalkthrough({
             <p className="walkthrough-location">WHERE: {step.where}</p>
             <SessionGuide location={step.where} />
             <ol>
-              {step.actions.map((action) => (
-                <li key={action}>{action}</li>
+              {step.actions.flatMap(smallActions).map((action, actionIndex) => (
+                <li key={`${actionIndex}-${action}`}>{action}</li>
               ))}
             </ol>
             {lessonId && (

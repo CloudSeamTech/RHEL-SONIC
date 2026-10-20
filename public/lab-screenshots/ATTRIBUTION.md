@@ -23,3 +23,7 @@ The other eight illustrated sheets were generated from text descriptions for thi
 ## AlmaLinux desktop illustrations
 
 `illustrated-alma-desktop.png`, `illustrated-alma-apps.png`, `illustrated-alma-storage.png`, and `illustrated-alma-cli.png` were generated specifically for the AlmaLinux 9 desktop pathway. They are schematic, watermarked teaching guides with representative layouts and command examples, not captures of an installed AlmaLinux system or the user's WD drive. No live hardware, game compatibility, telemetry, or successful execution is represented. AlmaLinux, GNOME, VMware and Steam interface names remain their respective owners' trademarks.
+
+## Per-step illustrated maps
+
+Files under `/step-pictures/` are deterministic SVG teaching diagrams generated from the actual authored instruction data, not AI product screenshots or modified vendor images. Each contains a visible illustration label. Their context, action text, command examples and expected observations come from the curriculum; they do not show successful execution. See `docs/STEP-PICTURES.md` for generation and coverage checks.
