@@ -1659,7 +1659,7 @@ body {
   background:
     linear-gradient(105deg, rgba(2, 3, 8, 0.92) 0%, rgba(3, 4, 10, 0.75) 38%, rgba(5, 2, 12, 0.56) 72%, rgba(2, 2, 5, 0.74) 100%),
     linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.72)),
-    url('/assets/sonic-cyberpunk-downtown-v1.webp') center center / cover fixed no-repeat;
+    #000;
 }
 
 body::before {

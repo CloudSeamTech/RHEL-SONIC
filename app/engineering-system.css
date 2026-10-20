@@ -1,0 +1,440 @@
+/* Neutral console system for existing course readers and working labs. */
+.console-reader {
+  color-scheme: dark;
+  --background: #000;
+  --foreground: #eaeaea;
+  --primary: #21c5db;
+  --border: #242424;
+  --edge: #242424;
+  --card: #050505;
+  --surface: #050505;
+  --surface-raised: #101010;
+  --ink-soft: #c6c6c6;
+  --ink-muted: #898989;
+  --muted-foreground: #898989;
+  --success: #35d778;
+  --warning: #dfb656;
+  --danger: #e36878;
+  --sonic-red: #21c5db;
+  background: #000 !important;
+}
+.console-reader * {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  text-shadow: none !important;
+  scrollbar-color: #343434 #080808;
+}
+.reader-workspace {
+  min-width: 0;
+  padding: 28px 29px 24px;
+  background: #000;
+}
+.reader-workspace > .console-commandbar {
+  margin-bottom: 17px;
+}
+.reader-workspace > main {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  min-width: 0;
+}
+.reader-workspace :is(section, article, aside, details) {
+  background-color: #050505 !important;
+  border-color: #242424 !important;
+}
+.reader-workspace :is(h1, h2, h3, h4) {
+  font-family: var(--font-space-grotesk), Arial, sans-serif !important;
+  color: #eaeaea !important;
+  font-weight: 600;
+  letter-spacing: -0.015em !important;
+  text-transform: none;
+}
+.reader-workspace h1 {
+  font-size: 28px !important;
+  line-height: 1.25 !important;
+  margin: 10px 0 !important;
+}
+.reader-workspace h2 {
+  font-size: 19px !important;
+  line-height: 1.4 !important;
+}
+.reader-workspace h3 {
+  font-size: 16px !important;
+}
+.reader-workspace :is(p, li) {
+  color: #b7b7b7;
+  font-size: 14px;
+  line-height: 1.75;
+}
+.reader-workspace :is(button, .primary, .secondary) {
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  background: #181818 !important;
+  color: #eaeaea !important;
+  border-color: #3d3d3d !important;
+}
+.reader-workspace :is(button, .primary, .secondary):hover {
+  background: #242424 !important;
+}
+.reader-workspace :is(a) {
+  color: #21c5db;
+}
+.reader-workspace
+  :is(
+    code,
+    pre,
+    .terminal,
+    .sonic-terminal,
+    .migration-command,
+    .lab-terminal
+  ) {
+  font-family: var(--font-ibm-plex-mono), monospace !important;
+}
+.reader-workspace
+  :is(pre, .terminal, .sonic-terminal, .migration-command, .lab-terminal) {
+  background: #050505 !important;
+  border-color: #242424 !important;
+  color: #eaeaea !important;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.reader-workspace
+  :is(.eyebrow, .pane-label, .chip, .version, .sonic-readout-label) {
+  font-family: var(--font-ibm-plex-mono), monospace !important;
+  font-size: 10px !important;
+  color: #dfb656 !important;
+  letter-spacing: 0.04em !important;
+}
+.reader-workspace :is(.lesson-hero, .page-title, .lesson-heading) {
+  padding: 16px !important;
+  background: #050505 !important;
+  border: 1px solid #242424 !important;
+  margin-bottom: 17px !important;
+}
+.reader-workspace
+  :is(
+    .sonic-readout,
+    .sonic-callout,
+    .migration-pane,
+    .your-turn,
+    .session-guide,
+    .explanation,
+    .followup-block,
+    .lesson-content,
+    .lesson-complete,
+    .lesson-navigation,
+    .lesson-pagination,
+    .project-rhythm
+  ) {
+  background: #050505 !important;
+  border-color: #242424 !important;
+}
+.reader-workspace :is(.pane-warning, .pane-danger) {
+  border-left-color: #dfb656 !important;
+}
+.reader-workspace .pane-danger {
+  border-left-color: #e36878 !important;
+}
+.reader-workspace :is(.pane-good, .sonic-readout--verify) {
+  border-left-color: #35d778 !important;
+}
+.reader-workspace :is(.pane-info, .sonic-readout--check) {
+  border-left-color: #21c5db !important;
+}
+.reader-workspace
+  :is(
+    .stage-progress,
+    .stage-progress-card,
+    .migration-project-card,
+    .migration-task-card
+  ) {
+  background: #101010 !important;
+  border-color: #242424 !important;
+  color: #eaeaea !important;
+}
+.reader-workspace :is(.stage-meter, .progress-track, [data-slot='progress']) {
+  background: #242424 !important;
+}
+.reader-workspace :is(.stage-meter > span, [data-slot='progress-indicator']) {
+  background: #21c5db !important;
+}
+.reader-workspace
+  :is(.console-architecture, .console-network, .console-node, .diagram) {
+  background: #101010 !important;
+  border-color: #242424 !important;
+}
+.reader-workspace .migration-index > header {
+  padding: 16px;
+  margin-bottom: 17px;
+  border: 1px solid #242424;
+  background: #050505;
+}
+.reader-workspace .lesson-content {
+  padding: 20px !important;
+}
+.reader-workspace .you-are-here {
+  padding: 10px 0;
+  flex-wrap: wrap;
+}
+.reader-workspace .migration-footer {
+  background: #050505;
+  border: 1px solid #242424;
+  padding: 12px;
+  margin-top: 17px;
+  color: #898989;
+}
+.reader-workspace .edition-note {
+  background: #050505 !important;
+  color: #898989 !important;
+  border-color: #242424 !important;
+}
+.reader-workspace .lesson-hero:before,
+.reader-workspace .lesson-hero:after {
+  display: none !important;
+}
+.reader-course > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  list-style: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #aaa;
+  line-height: 1.4;
+}
+.reader-course > summary:before {
+  content: '›';
+  color: #898989;
+}
+.reader-course[open] > summary {
+  background: #101010;
+  color: #eaeaea;
+  border-left: 2px solid #21c5db;
+}
+.reader-course[open] > summary:before {
+  content: '⌄';
+  color: #21c5db;
+}
+.reader-course > summary small {
+  font:
+    10px var(--font-ibm-plex-mono),
+    monospace;
+  color: #898989;
+  margin-left: auto;
+}
+.learning-console .reader-lesson-link {
+  display: block;
+  padding: 7px 10px 7px 30px;
+  font-size: 11px;
+  color: #aaa;
+  line-height: 1.5;
+}
+.learning-console .reader-lesson-link.active {
+  color: #21c5db;
+  background: #101010;
+  border-left: 1px solid #21c5db;
+}
+.reader-lesson-link:hover {
+  background: #1c1c1c;
+}
+.reader-tools {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.reader-tools button {
+  padding: 3px 8px;
+  background: #101010;
+  border: 1px solid #242424;
+  font-size: 10px;
+}
+.reader-tools button[aria-current='page'] {
+  border-color: #21c5db;
+  color: #21c5db;
+}
+.reader-workspace .console-commandbar > a {
+  color: #bdbdbd;
+}
+@media (max-width: 1250px) {
+  .reader-workspace {
+    padding: 20px 18px;
+  }
+  .reader-tools {
+    flex-wrap: wrap;
+  }
+  .reader-workspace > .console-commandbar {
+    height: auto;
+    min-height: 45px;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+}
+@media (max-width: 900px) {
+  .reader-workspace {
+    padding: 18px 15px;
+  }
+  .reader-workspace h1 {
+    font-size: 25px !important;
+  }
+  .reader-tools {
+    width: 100%;
+  }
+  .reader-workspace .lesson-content {
+    padding: 15px !important;
+  }
+}
+@media (max-width: 600px) {
+  .reader-workspace {
+    padding: 12px;
+  }
+  .reader-workspace h1 {
+    font-size: 23px !important;
+  }
+  .reader-workspace :is(.lesson-hero, .page-title) {
+    display: block !important;
+  }
+  .reader-workspace .lesson-content {
+    padding: 12px !important;
+  }
+  .reader-workspace :is(p, li) {
+    font-size: 13px;
+  }
+  .reader-workspace > .console-commandbar {
+    position: relative;
+  }
+  .reader-workspace .console-commandbar > a {
+    font-size: 9px;
+  }
+  .reader-workspace .lesson-pagination {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+body:has(.learning-console) {
+  background: #000 !important;
+}
+body:has(.learning-console):before {
+  display: none !important;
+}
+.reader-section-title {
+  padding: 14px 18px 8px;
+}
+.reader-prerequisite {
+  padding: 0 18px 12px;
+  color: #dfb656 !important;
+}
+.reader-workspace .project-stage li button {
+  grid-template-columns: 65px minmax(0, 1fr) minmax(160px, 1fr) auto;
+  min-height: 60px;
+}
+.reader-workspace .you-are-here {
+  position: relative;
+  top: auto;
+  background: #050505;
+  border-color: #242424;
+}
+.reader-workspace .project-stage small {
+  color: #898989;
+}
+.reader-workspace
+  :is(
+    .lab-terminal-workspace,
+    .lab-terminal-screen,
+    .lab-terminal-output,
+    .terminal-screen
+  ) {
+  background: #050505 !important;
+  color: #eaeaea !important;
+  border-color: #242424 !important;
+}
+@media (max-width: 900px) {
+  .reader-workspace .project-stage li button {
+    grid-template-columns: 60px minmax(0, 1fr) auto;
+  }
+  .reader-workspace .project-stage li button > small {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .reader-workspace .project-stage li button > svg {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+.console-reader *::before,
+.console-reader *::after {
+  background-image: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.reader-workspace .migration-lesson {
+  max-width: none !important;
+  width: 100%;
+  margin: 0 !important;
+}
+.reader-workspace .lesson-hero {
+  min-height: 0 !important;
+  height: auto !important;
+  align-items: start !important;
+  padding: 16px !important;
+  gap: 20px !important;
+}
+.reader-workspace .lesson-hero .stage-progress {
+  padding: 12px !important;
+  min-width: 160px;
+}
+.reader-workspace
+  :is(
+    .lesson-context,
+    .scenario,
+    .sonic-walkthrough > ol > li,
+    .project-rhythm,
+    .mission-question
+  ) {
+  background: #050505 !important;
+  border-color: #242424 !important;
+}
+.reader-workspace
+  :is(.lesson-phase, .index-title, .task-phase, .lesson-context dt) {
+  color: #898989 !important;
+}
+.reader-workspace .lesson-index button {
+  font-size: 12px !important;
+  line-height: 1.5;
+  padding: 10px !important;
+  background: #050505 !important;
+}
+.reader-workspace .lesson-index button.current {
+  background: #1c1c1c !important;
+  border-left: 2px solid #21c5db !important;
+}
+.reader-workspace .project-rhythm {
+  margin: 12px 0 !important;
+  padding: 12px !important;
+  min-height: 0 !important;
+}
+.reader-workspace .migration-pane {
+  margin: 12px 0 !important;
+  padding: 14px 16px !important;
+  min-height: 0 !important;
+}
+.reader-workspace
+  :is(.terminal-console > header, .terminal-input-row, .terminal-layout) {
+  background: #101010 !important;
+  border-color: #242424 !important;
+}
+.reader-workspace
+  :is(.terminal-input-row input, .connect-panel input, .connect-panel select) {
+  background: #080808 !important;
+  border-color: #242424 !important;
+  color: #eaeaea !important;
+}
+.reader-workspace .terminal-tabs button.selected {
+  background: #1c1c1c !important;
+  border-color: #21c5db !important;
+}
+.reader-workspace .risk-destructive {
+  color: #e36878 !important;
+}

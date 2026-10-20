@@ -1,23 +1,24 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Space_Grotesk, IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import './sonic.css';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
+const geistSans = Space_Grotesk({
+  variable: '--font-space-grotesk',
   subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const geistMono = IBM_Plex_Mono({
+  variable: '--font-ibm-plex-mono',
   subsets: ['latin'],
+  weight: ['400', '500'],
 });
 
 export const metadata: Metadata = {
-  title: 'SONIC | RHEL Operations Lab',
+  title: 'RHEL-SONIC | Learning Console',
   icons: { icon: '/favicon.svg' },
   description:
-    'Learn RHEL 9 administration by doing: Windows, Azure, SSH, and Wazuh deployment.',
+    'Practical Windows Server, Active Directory, SQL Server, Azure, migration, and Linux learning pathways.',
 };
 
 export default function RootLayout({
