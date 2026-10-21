@@ -5,6 +5,7 @@ import { SessionGuide } from './session-guide';
 import { smallActions } from '@/lib/beginner-directions';
 import { InstructionScreenshots } from './instruction-screenshots';
 import { StepTeachingNotes } from './step-teaching-notes';
+import { readableStepTitle } from '@/lib/lesson-headings';
 import type { WalkthroughStep } from './wazuh-walkthroughs';
 import {
   Activity,
@@ -263,7 +264,7 @@ export function SonicWalkthrough({
             <details className="sonic-action-panel" open={index === 0}>
               <summary>
                 <span>STEP {String(index + 1).padStart(2, '0')}</span>
-                <strong>{step.title}</strong>
+                <strong>{readableStepTitle(step.title, step.actions, step.command)}</strong>
               </summary>
               <div className="sonic-action-body">
                 <p className="walkthrough-location">WHERE TO WORK: {step.where}</p>
