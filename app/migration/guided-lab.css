@@ -587,7 +587,7 @@
 .guided-visuals > summary { cursor: pointer; color: #21c5db; font-size: 13px; }
 .guided-visuals .guided-screenshot { margin: 14px 0 2px; }
 .guided-visuals .step-screen-reference { padding: 10px; }
-.guided-visuals img { max-height: 350px !important; }
+.guided-visuals img { max-height: none !important; }
 .reader-workspace .guided-trouble, .reader-workspace .guided-evidence { margin: 9px 0; padding: 10px 12px; }
 .guided-trouble summary, .guided-evidence summary { cursor: pointer; color: #b5b5b5; }
 .guided-check { margin-top: 18px; }
@@ -641,3 +641,10 @@
 .coaching-command summary { color: #21c5db; cursor: pointer; font-size: 12px; }
 .coaching-command ul { margin: 10px 0 0; padding-left: 22px; }
 .coaching-command li { margin-bottom: 8px; color: #bcc2c5; font-size: 12px; line-height: 1.65; }
+
+/* Keep each screen readable in the inline walkthrough. */
+.guided-visuals-heading { margin: 0 0 12px; color: #21c5db; font-size: 15px; }
+.reader-workspace .guided-visuals .guided-image-button { padding: 6px; }
+.guided-visuals .guided-image-button img,
+.guided-visuals .step-screen-reference img { width: 100%; max-width: 100%; max-height: none !important; height: auto; object-fit: contain; }
+.guided-visuals .guided-screenshot { margin: 20px 0; }
