@@ -1,3 +1,13 @@
+# SONIC-Academy screenshot references
+
+The current runtime maps all **803 original instructional steps** to sourced, real-interface references from **148 reviewed image assets**, including all 72 AlmaLinux desktop steps. Images are reused when steps use the same interface. These are partial interface references, not exact screenshots of every click or successful output. No dedicated training lab was available; no reviewed target-lab captures have been claimed.
+
+Each image includes its source, platform, credit, and version/value differences. Commands and course values remain authoritative. Diagrams are optional and labeled separately; they do not count as screenshots. `npm run screenshots:interfaces-check` validates sources, file hashes, instruction hashes and per-step associations. `npm run screenshots:targets-check` separately requires exact target-lab captures and remains incomplete.
+
+VMware/server builds now have three separate reader pages: VMware VM creation, Windows Server 2019 installation, and the server-role/domain lab. Their screenshot IDs continue to refer to the unchanged original instructional inventory. Shared combined class illustrations are excluded from these split pages. Existing role lesson URLs are retained; added setup pages use `-vmware` and `-windows` suffixes.
+
+The remaining inventory below describes the original capture plan and earlier illustration stage, for provenance. Its historical image counts do not describe the current sourced reference coverage.
+
 # Curriculum visual guides and capture inventory
 
 ## Pictures inside every step

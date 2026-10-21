@@ -1,0 +1,873 @@
+[
+  {
+    "id": "sql-backup-menu",
+    "src": "/interface-screenshots/sql-backup-menu.png",
+    "title": "SSMS \u00b7 database Tasks \u2192 Back Up",
+    "platform": "SQL Server Management Studio",
+    "source": "https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/quickstart-backup-restore-database",
+    "original": "https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/media/quickstart-backup-restore-database/backup-db-ssms.png?view=sql-server-ver17",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Original Microsoft SSMS screenshot. Source database names, disk paths and results are examples; use AgencyHelpdesk and your lesson\u2019s backup/restore paths. SSMS version and example database differ from the course. The Back Up menu reference includes AdventureWorks2025 but does not require SQL Server 2025.",
+    "sha256": "c9d16ee51ebaac2050c98f466c24b128a996a4acbbbd9c552708395ad58dd79c",
+    "keywords": [
+      "sql",
+      "backup",
+      "ssms"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-restore-menu",
+    "src": "/interface-screenshots/sql-restore-menu.png",
+    "title": "SSMS \u00b7 Databases \u2192 Restore Database",
+    "platform": "SQL Server Management Studio",
+    "source": "https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/quickstart-backup-restore-database",
+    "original": "https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/media/quickstart-backup-restore-database/restore-db-ssms1.png?view=sql-server-ver17",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Original Microsoft SSMS screenshot. Source database names, disk paths and results are examples; use AgencyHelpdesk and your lesson\u2019s backup/restore paths. SSMS version and example database differ from the course. The Back Up menu reference includes AdventureWorks2025 but does not require SQL Server 2025.",
+    "sha256": "10a9847ec34d601744bb35f5154d8632e3d35078736d0306807fbe586e693963",
+    "keywords": [
+      "sql",
+      "restore",
+      "ssms"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-restore-dialog",
+    "src": "/interface-screenshots/sql-restore-dialog.png",
+    "title": "SSMS \u00b7 Restore Database device and destination",
+    "platform": "SQL Server Management Studio",
+    "source": "https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/quickstart-backup-restore-database",
+    "original": "https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/media/quickstart-backup-restore-database/restore-db-ssms2.png?view=sql-server-ver17",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Original Microsoft SSMS screenshot. Source database names, disk paths and results are examples; use AgencyHelpdesk and your lesson\u2019s backup/restore paths. SSMS version and example database differ from the course. The Back Up menu reference includes AdventureWorks2025 but does not require SQL Server 2025.",
+    "sha256": "b05de09b4f56f3ff5ab63bffecc3fc7399c401ba2ab7ca2f4cd6ac229b370ecb",
+    "keywords": [
+      "sql",
+      "restore",
+      "database",
+      "ssms"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-connect",
+    "src": "/interface-screenshots/sql-connect.png",
+    "title": "SSMS 20 \u00b7 classic Connect to Server dialog",
+    "platform": "SQL Server Management Studio",
+    "source": "https://learn.microsoft.com/en-us/ssms/quickstarts/ssms-connect-query-sql-server",
+    "original": "https://learn.microsoft.com/en-us/ssms/quickstarts/media/ssms-connect-query-sql-server/connect-to-sql-server-object-explorer-ssms20.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Original Microsoft SSMS interface reference. Source account, server name, SQL text, sample data and results belong to the source example, not this lab. Run the course commands against your own target. SSMS release labels can differ.",
+    "sha256": "68eb888c37d3e56fc9ec089fda175faf0d468efa7934a9793cb9a2834d9ea114",
+    "keywords": [
+      "sql",
+      "connect",
+      "ssms",
+      "authentication"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-new-query",
+    "src": "/interface-screenshots/sql-new-query.png",
+    "title": "SSMS \u00b7 New Query menu",
+    "platform": "SQL Server Management Studio",
+    "source": "https://learn.microsoft.com/en-us/ssms/quickstarts/ssms-connect-query-sql-server",
+    "original": "https://learn.microsoft.com/en-us/ssms/quickstarts/media/ssms-connect-query-sql-server/new-query.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Original Microsoft SSMS interface reference. Source account, server name, SQL text, sample data and results belong to the source example, not this lab. Run the course commands against your own target. SSMS release labels can differ.",
+    "sha256": "bf08ca8120f217c896b886f00c1d58d8a811ab102e6e4bd4162462758a0a2087",
+    "keywords": [
+      "sql",
+      "query",
+      "ssms"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-execute",
+    "src": "/interface-screenshots/sql-execute.png",
+    "title": "SSMS \u00b7 Execute a query",
+    "platform": "SQL Server Management Studio",
+    "source": "https://learn.microsoft.com/en-us/ssms/quickstarts/ssms-connect-query-sql-server",
+    "original": "https://learn.microsoft.com/en-us/ssms/quickstarts/media/ssms-connect-query-sql-server/execute.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Original Microsoft SSMS interface reference. Source account, server name, SQL text, sample data and results belong to the source example, not this lab. Run the course commands against your own target. SSMS release labels can differ.",
+    "sha256": "dea44b7a51df84d601108fa2b5385f31af8a93fd006f317dc6d243423a1a66e3",
+    "keywords": [
+      "sql",
+      "execute",
+      "query",
+      "ssms"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-query-results",
+    "src": "/interface-screenshots/sql-query-results.png",
+    "title": "SSMS \u00b7 query editor and Results pane",
+    "platform": "SQL Server Management Studio",
+    "source": "https://learn.microsoft.com/en-us/ssms/quickstarts/ssms-connect-query-sql-server",
+    "original": "https://learn.microsoft.com/en-us/ssms/quickstarts/media/ssms-connect-query-sql-server/query-results.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Original Microsoft SSMS interface reference. Source account, server name, SQL text, sample data and results belong to the source example, not this lab. Run the course commands against your own target. SSMS release labels can differ.",
+    "sha256": "38611ad5a45fdd9c0a65dd5b54cceeabb819c188e6b0b13ff5d55d1c27658b76",
+    "keywords": [
+      "sql",
+      "results",
+      "database",
+      "ssms"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-domain-join",
+    "src": "/interface-screenshots/win-domain-join.png",
+    "title": "Windows \u00b7 System Properties and Computer Name/Domain Changes",
+    "platform": "Windows Server 2016-era UI / Server Manager",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/upgrade-domain-controllers",
+    "original": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/media/upgrade-domain-controllers-to-windows-server-2016/upgrade2.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Windows Server 2016-era interface reference; the classic Server Manager, domain-join and AD DS controls are similar on Server 2019. The source uses contoso and DC-W2K16; follow your course\u2019s domain/server names. Its displayed completion or command output is not your result. Do not copy source functional levels or role ownership.",
+    "sha256": "8f8077057edfe4328bc6a313a8fc05894f5377f04e12541e590a9ccf5779744c",
+    "keywords": [
+      "windows",
+      "domain",
+      "join",
+      "sysdm"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-server-roles",
+    "src": "/interface-screenshots/win-server-roles.png",
+    "title": "Server Manager \u00b7 Add Roles and Features \u00b7 AD DS role",
+    "platform": "Windows Server 2016-era UI / Server Manager",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/upgrade-domain-controllers",
+    "original": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/media/upgrade-domain-controllers-to-windows-server-2016/upgrade3.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Windows Server 2016-era interface reference; the classic Server Manager, domain-join and AD DS controls are similar on Server 2019. The source uses contoso and DC-W2K16; follow your course\u2019s domain/server names. Its displayed completion or command output is not your result. Do not copy source functional levels or role ownership.",
+    "sha256": "45360ee73d5507923f052590487a6c115d877ddaeb1cb054831bf78b6fef8304",
+    "keywords": [
+      "windows",
+      "servermanager",
+      "roles",
+      "ad-ds"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-dc-promote",
+    "src": "/interface-screenshots/win-dc-promote.png",
+    "title": "Server Manager \u00b7 Promote this server to a domain controller",
+    "platform": "Windows Server 2016-era UI / Server Manager",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/upgrade-domain-controllers",
+    "original": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/media/upgrade-domain-controllers-to-windows-server-2016/upgrade4.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Windows Server 2016-era interface reference; the classic Server Manager, domain-join and AD DS controls are similar on Server 2019. The source uses contoso and DC-W2K16; follow your course\u2019s domain/server names. Its displayed completion or command output is not your result. Do not copy source functional levels or role ownership.",
+    "sha256": "0d41a12784262cdfc6ff4723db45bef99079b3a2d3ced915632fc912fbb64076",
+    "keywords": [
+      "windows",
+      "servermanager",
+      "promote",
+      "ad-ds"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-dc-replica",
+    "src": "/interface-screenshots/win-dc-replica.png",
+    "title": "AD DS \u00b7 add a domain controller to an existing domain",
+    "platform": "Windows Server 2016-era UI / Server Manager",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/upgrade-domain-controllers",
+    "original": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/media/upgrade-domain-controllers-to-windows-server-2016/upgrade5.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Windows Server 2016-era interface reference; the classic Server Manager, domain-join and AD DS controls are similar on Server 2019. The source uses contoso and DC-W2K16; follow your course\u2019s domain/server names. Its displayed completion or command output is not your result. Do not copy source functional levels or role ownership.",
+    "sha256": "6211dc2054f26d7834979f3d9edea8b720d5dce7d86dc4e125b114f192b79757",
+    "keywords": [
+      "windows",
+      "replica",
+      "ad-ds"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-ad-powershell",
+    "src": "/interface-screenshots/win-ad-powershell.png",
+    "title": "Windows PowerShell \u00b7 Get-ADDomain result layout",
+    "platform": "Windows Server 2016-era UI / Server Manager",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/upgrade-domain-controllers",
+    "original": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/deploy/media/upgrade-domain-controllers-to-windows-server-2016/upgrade8.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Windows Server 2016-era interface reference; the classic Server Manager, domain-join and AD DS controls are similar on Server 2019. The source uses contoso and DC-W2K16; follow your course\u2019s domain/server names. Its displayed completion or command output is not your result. Do not copy source functional levels or role ownership.",
+    "sha256": "e51044cd4a44891414e8e4c1757eed5d881025e7687dc9dbe23534d04fe6083d",
+    "keywords": [
+      "windows",
+      "powershell",
+      "Get-ADDomain",
+      "command"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "cluster-quorum-menu",
+    "src": "/interface-screenshots/cluster-quorum-menu.png",
+    "title": "Failover Cluster Manager \u00b7 Configure Cluster Quorum Settings",
+    "platform": "Windows Failover Cluster Manager",
+    "source": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/hadr-cluster-quorum-configure-how-to",
+    "original": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/media/hadr-create-quorum-windows-failover-cluster-how-to/cloud-witness-7.png?view=azuresql",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Failover Cluster Manager reference. UI styling is from an older wizard build; controls correspond to the cloud-witness workflow. Use your own approved cluster and storage settings. Empty account/key fields are intentional; never publish credentials or treat a picture as proof of quorum health.",
+    "sha256": "2c0add2258f9570aad2cc960f9ef914c93b67c80843366fe922caf840446d251",
+    "keywords": [
+      "cluster",
+      "quorum",
+      "menu"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "cluster-witness-select",
+    "src": "/interface-screenshots/cluster-witness-select.png",
+    "title": "Configure Cluster Quorum Wizard \u00b7 Select the quorum witness",
+    "platform": "Windows Failover Cluster Manager",
+    "source": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/hadr-cluster-quorum-configure-how-to",
+    "original": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/media/hadr-create-quorum-windows-failover-cluster-how-to/cloud-witness-8.png?view=azuresql",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Failover Cluster Manager reference. UI styling is from an older wizard build; controls correspond to the cloud-witness workflow. Use your own approved cluster and storage settings. Empty account/key fields are intentional; never publish credentials or treat a picture as proof of quorum health.",
+    "sha256": "74ac8bdedf00943b2c4f9b390d83c05df94819fe0170d92f4ab426e4368cb69d",
+    "keywords": [
+      "cluster",
+      "quorum",
+      "witness"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "cluster-cloud-select",
+    "src": "/interface-screenshots/cluster-cloud-select.png",
+    "title": "Configure Cluster Quorum Wizard \u00b7 Configure a cloud witness",
+    "platform": "Windows Failover Cluster Manager",
+    "source": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/hadr-cluster-quorum-configure-how-to",
+    "original": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/media/hadr-create-quorum-windows-failover-cluster-how-to/cloud-witness-9.png?view=azuresql",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Failover Cluster Manager reference. UI styling is from an older wizard build; controls correspond to the cloud-witness workflow. Use your own approved cluster and storage settings. Empty account/key fields are intentional; never publish credentials or treat a picture as proof of quorum health.",
+    "sha256": "12afb8c280f329fea87dc9c22d0dfacefea8de6ded1f041ceb459619bfe4fe0b",
+    "keywords": [
+      "cluster",
+      "cloud",
+      "witness"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "cluster-cloud-config",
+    "src": "/interface-screenshots/cluster-cloud-config.png",
+    "title": "Configure cloud witness \u00b7 storage account and key fields",
+    "platform": "Windows Failover Cluster Manager",
+    "source": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/hadr-cluster-quorum-configure-how-to",
+    "original": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/media/hadr-create-quorum-windows-failover-cluster-how-to/cloud-witness-10.png?view=azuresql",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Failover Cluster Manager reference. UI styling is from an older wizard build; controls correspond to the cloud-witness workflow. Use your own approved cluster and storage settings. Empty account/key fields are intentional; never publish credentials or treat a picture as proof of quorum health.",
+    "sha256": "c37522f63e904621dff01568e581b8be8372d4e94c44d59c7317cb6bb26e85ad",
+    "keywords": [
+      "cluster",
+      "cloud",
+      "witness",
+      "key"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "mecm-workspaces",
+    "src": "/interface-screenshots/mecm-workspaces.png",
+    "title": "Configuration Manager \u00b7 console workspace navigation",
+    "platform": "Microsoft Configuration Manager console",
+    "source": "https://learn.microsoft.com/en-us/intune/configmgr/core/servers/manage/admin-console",
+    "original": "https://learn.microsoft.com/en-us/intune/configmgr/core/servers/manage/media/configuration-manager-workspaces.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Configuration Manager console reference. Workspace names and styling can differ by release. Source server names and update compliance values are examples, not your lab\u2019s state. The update details pane is for software updates, not a client installation result.",
+    "sha256": "6e83a5b19cb9875260c6f553c34c1c3f4e4be1336ea71685ff21b55a9fc9e3d2",
+    "keywords": [
+      "mecm",
+      "configurationmanager",
+      "console"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "mecm-site-connect",
+    "src": "/interface-screenshots/mecm-site-connect.png",
+    "title": "Configuration Manager \u00b7 connect console to a site server",
+    "platform": "Microsoft Configuration Manager console",
+    "source": "https://learn.microsoft.com/en-us/intune/configmgr/core/servers/manage/admin-console",
+    "original": "https://learn.microsoft.com/en-us/intune/configmgr/core/servers/manage/media/site-server-fqdn.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Configuration Manager console reference. Workspace names and styling can differ by release. Source server names and update compliance values are examples, not your lab\u2019s state. The update details pane is for software updates, not a client installation result.",
+    "sha256": "81eb60a3d10afea3729e782d6e4feed3fc56912e9f02e7a170adaaafdc45709b",
+    "keywords": [
+      "mecm",
+      "site",
+      "connect"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "mecm-update-details",
+    "src": "/interface-screenshots/mecm-update-details.png",
+    "title": "Configuration Manager \u00b7 software update details pane",
+    "platform": "Microsoft Configuration Manager console",
+    "source": "https://learn.microsoft.com/en-us/intune/configmgr/core/servers/manage/admin-console",
+    "original": "https://learn.microsoft.com/en-us/intune/configmgr/core/servers/manage/media/details-pane.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Configuration Manager console reference. Workspace names and styling can differ by release. Source server names and update compliance values are examples, not your lab\u2019s state. The update details pane is for software updates, not a client installation result.",
+    "sha256": "c413c1dc4fee3a26ed929e8133c472395a9e34f9420c18f46edceff128e135c2",
+    "keywords": [
+      "mecm",
+      "software",
+      "updates",
+      "details"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-powershell-tabs",
+    "src": "/interface-screenshots/win-powershell-tabs.png",
+    "title": "Windows Terminal \u00b7 PowerShell profile and prompt",
+    "platform": "Windows Terminal / PowerShell 7.0.2",
+    "source": "https://learn.microsoft.com/en-us/windows/terminal/tips-and-tricks",
+    "original": "https://learn.microsoft.com/en-us/windows/terminal/images/tab-color.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Windows Terminal reference with PowerShell 7.0.2 and a customized prompt. Windows PowerShell 5.1 and your account can look different. Use the current lesson\u2019s command; the source startup text is not your output.",
+    "sha256": "60e362ea4b1396734039eed3c798c0d7bb81e92568adeb0c1f65695ccacc6c2d",
+    "keywords": [
+      "windows",
+      "powershell",
+      "terminal",
+      "tabs"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-file-explorer",
+    "src": "/interface-screenshots/win-file-explorer.png",
+    "title": "Windows File Explorer \u00b7 folders and context menu",
+    "platform": "Windows 11 File Explorer",
+    "source": "https://support.microsoft.com/en-us/windows/find-and-open-file-explorer-in-windows-10-ef370130-1cca-9dc5-e0df-2f7416fe1cb1",
+    "original": "https://support.microsoft.com/en-us/windows/media/quick-access-option-in-file-explorer.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Windows 11 host File Explorer reference. Source folders, files and OneDrive account are examples; create/use your own SONIC-Lab evidence folder. Server 2019 guest File Explorer has different styling. This image supports locating or selecting host folders, not proof a copy completed.",
+    "sha256": "ddd7c10e1d3179ed1452a3b760c9e5bf8a36e3cf80a7b4d4047e8a160db9b844",
+    "keywords": [
+      "windows",
+      "explorer",
+      "files",
+      "folder",
+      "copy",
+      "evidence"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-known-folders",
+    "src": "/interface-screenshots/win-known-folders.png",
+    "title": "Windows File Explorer \u00b7 Home and known folders",
+    "platform": "Windows 11 File Explorer",
+    "source": "https://support.microsoft.com/en-us/windows/find-and-open-file-explorer-in-windows-10-ef370130-1cca-9dc5-e0df-2f7416fe1cb1",
+    "original": "https://support.microsoft.com/en-us/windows/media/file-explorer-known-folders-png.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft Windows 11 host File Explorer reference. Source folders, files and OneDrive account are examples; create/use your own SONIC-Lab evidence folder. Server 2019 guest File Explorer has different styling. This image supports locating or selecting host folders, not proof a copy completed.",
+    "sha256": "83cea5ccc14fed7b8f484f1952a433af87968ae17606e474331bca7c64be10db",
+    "keywords": [
+      "windows",
+      "explorer",
+      "home",
+      "folder"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-dns-forwarder",
+    "src": "/interface-screenshots/win-dns-forwarder.png",
+    "title": "DNS Manager \u00b7 Conditional Forwarders node and destination address",
+    "platform": "Windows DNS Manager",
+    "source": "https://learn.microsoft.com/en-us/power-bi/enterprise/service-security-private-links-on-premises",
+    "original": "https://learn.microsoft.com/en-us/fabric/enterprise/powerbi/media/service-security-private-links-on-premises/service-security-private-links-on-premises-09.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft DNS Manager reference. The source configures Power BI private endpoints; do not copy its zones or 10.7.2.4 address. Use only the pictured Conditional Forwarders node/address layout with your course\u2019s domains and DNS servers.",
+    "sha256": "db1ff54df0493d5d36fcacee4fcafa3c57b86131186a053516730686ad376551",
+    "keywords": [
+      "windows",
+      "dns",
+      "conditional",
+      "forwarder"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-gpo-report",
+    "src": "/interface-screenshots/win-gpo-report.png",
+    "title": "Group Policy Management \u00b7 Save Report menu",
+    "platform": "Windows Group Policy Management Console",
+    "source": "https://learn.microsoft.com/en-us/intune/intune-service/configuration/group-policy-analytics",
+    "original": "https://learn.microsoft.com/en-us/intune/device-configuration/media/import-group-policy-analytics/sample-group-policy-object-save-report.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft GPMC menu reference. Save Report exports an XML/HTML report and is different from backing up a restorable GPO. Use this only for report/evidence actions, not as a substitute for Back Up or Import Settings.",
+    "sha256": "52f55aadfc09867e4999eb9be8ae450b23b6faaa196b0509ae88d23f93f90a27",
+    "keywords": [
+      "windows",
+      "gpo",
+      "report",
+      "save"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-gpo-new",
+    "src": "/interface-screenshots/win-gpo-new.gif",
+    "title": "Group Policy Management \u00b7 Group Policy Objects menu",
+    "platform": "Windows Group Policy Management Console \u00b7 older UI reference",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-e--securing-enterprise-admins-groups-in-active-directory",
+    "original": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/media/appendix-e--securing-enterprise-admins-groups-in-active-directory/sad_46.gif",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft GPMC reference. The source is an older security-policy tutorial; do not apply its Enterprise Admins restrictions for this lab. Use the course\u2019s harmless test GPO name and settings. The Group Policy Objects menu also shows Back Up All and Manage Backups; select the exact action named in the written step.",
+    "sha256": "b2a9642bfe38350e137d31b2f378993478d22c9bcdc5c5c33f68e1d01ff19232",
+    "keywords": [
+      "windows",
+      "gpo",
+      "new",
+      "policy",
+      "backup"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-gpo-name",
+    "src": "/interface-screenshots/win-gpo-name.gif",
+    "title": "Group Policy Management \u00b7 New GPO name",
+    "platform": "Windows Group Policy Management Console \u00b7 older UI reference",
+    "source": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/appendix-e--securing-enterprise-admins-groups-in-active-directory",
+    "original": "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/security-best-practices/media/appendix-e--securing-enterprise-admins-groups-in-active-directory/sad_47.gif",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft GPMC reference. The source is an older security-policy tutorial; do not apply its Enterprise Admins restrictions for this lab. Use the course\u2019s harmless test GPO name and settings. The Group Policy Objects menu also shows Back Up All and Manage Backups; select the exact action named in the written step.",
+    "sha256": "3a49570890c93e3bb5c179349dea653a2e76e8919065086aec87b87512bebee3",
+    "keywords": [
+      "windows",
+      "gpo",
+      "name",
+      "policy"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "mecm-wsus-connect",
+    "src": "/interface-screenshots/mecm-wsus-connect.png",
+    "title": "WSUS \u00b7 Connect To Server dialog",
+    "platform": "WSUS console / Configuration Manager software update point",
+    "source": "https://learn.microsoft.com/en-us/intune/configmgr/sum/get-started/software-update-point-ssl",
+    "original": "https://learn.microsoft.com/en-us/intune/configmgr/sum/get-started/media/connect-wsus-console.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft WSUS/SUP interface reference. The source demonstrates HTTPS/SSL with 8531 and a certificate. Do not copy those selections unless your lab has configured the corresponding certificate and endpoint; follow the lesson\u2019s actual WSUS design and server name.",
+    "sha256": "99b4b9d63f3dec3b841c1dca25485d41778a5740b90b1fd9d51f10a7ccc5384f",
+    "keywords": [
+      "wsus",
+      "console",
+      "connect"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "mecm-sup-properties",
+    "src": "/interface-screenshots/mecm-sup-properties.png",
+    "title": "Configuration Manager \u00b7 Software update point Properties",
+    "platform": "WSUS console / Configuration Manager software update point",
+    "source": "https://learn.microsoft.com/en-us/intune/configmgr/sum/get-started/software-update-point-ssl",
+    "original": "https://learn.microsoft.com/en-us/intune/configmgr/sum/get-started/media/sup-properties.png",
+    "credit": "Microsoft Learn \u00b7 Copyright Microsoft",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft WSUS/SUP interface reference. The source demonstrates HTTPS/SSL with 8531 and a certificate. Do not copy those selections unless your lab has configured the corresponding certificate and endpoint; follow the lesson\u2019s actual WSUS design and server name.",
+    "sha256": "ed26d6194ab9718b5d96cc65b67e4a97a2b2ee5122ef7b6fa333222eef4657cb",
+    "keywords": [
+      "mecm",
+      "sup",
+      "wsus",
+      "ssl"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-notepad",
+    "src": "/interface-screenshots/win-notepad.png",
+    "title": "Windows Notepad \u00b7 text document and tabs",
+    "platform": "Windows 11 Notepad",
+    "source": "https://apps.microsoft.com/detail/9MSMLRH6LZF3",
+    "original": "https://store-images.s-microsoft.com/image/apps.20607.13825011251621706.592ad705-6651-4135-b83b-88e4e522e1f4.2700b029-4170-470b-9b2b-55c9f9fdf418",
+    "credit": "Microsoft Store / Microsoft Corporation \u00b7 original publisher screenshot",
+    "license": "https://www.microsoft.com/en-us/legal/intellectualproperty/permissions",
+    "note": "Actual Microsoft publisher screenshot of Windows 11 Notepad. The publisher image includes its tabs headline and unrelated sample text. Use Notepad to write your own lab plan/evidence; do not copy that sample. Classic Server 2019 Notepad has no modern tab bar. Save your own file deliberately.",
+    "sha256": "7f50d2736d82a8ca4af27eea89e4e00e77bda4f1cf6b6d4ce900053c0dc16be8",
+    "keywords": [
+      "windows",
+      "notepad",
+      "notes",
+      "plan",
+      "worksheet",
+      "evidence",
+      "text",
+      "save"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win2019-install-1",
+    "src": "/interface-screenshots/win2019-install-1.png",
+    "title": "Windows Server 2019 Setup \u00b7 language, time and keyboard",
+    "platform": "Windows Server 2019 Setup / Desktop Experience",
+    "source": "https://petri.com/guide-how-to-install-windows-server-2019/",
+    "original": "https://petri.com/wp-content/uploads/petri-imported-images/1725500755-Figure1.png",
+    "credit": "Russell Smith / Petri IT Knowledgebase \u00b7 original screenshot; Microsoft interface",
+    "license": "https://petri.com/terms-and-conditions/",
+    "note": "Actual Windows Server 2019 reference from Petri. Copyright retained; no image modifications. The source uses Datacenter Evaluation Desktop Experience and a 127 GB disk. Choose your course-authorized 2019 edition/media and only the new empty VM disk sized in your lesson. Evaluation limitations still apply.",
+    "sha256": "a49ee4670bf4b5415e2c0632a73a94d9a3addc54a6490a75f31d2150d82fc1dd",
+    "keywords": [
+      "windows",
+      "2019",
+      "setup",
+      "language",
+      "keyboard"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win2019-install-2",
+    "src": "/interface-screenshots/win2019-install-2.png",
+    "title": "Windows Server 2019 Setup \u00b7 new installation disk",
+    "platform": "Windows Server 2019 Setup / Desktop Experience",
+    "source": "https://petri.com/guide-how-to-install-windows-server-2019/",
+    "original": "https://petri.com/wp-content/uploads/petri-imported-images/1725500755-Figure2.png",
+    "credit": "Russell Smith / Petri IT Knowledgebase \u00b7 original screenshot; Microsoft interface",
+    "license": "https://petri.com/terms-and-conditions/",
+    "note": "Actual Windows Server 2019 reference from Petri. Copyright retained; no image modifications. The source uses Datacenter Evaluation Desktop Experience and a 127 GB disk. Choose your course-authorized 2019 edition/media and only the new empty VM disk sized in your lesson. Evaluation limitations still apply.",
+    "sha256": "1d083734231db9eaa6f1c0921a5bad8956ff0bb9f524fb4af71c6b8a7e7bfa7d",
+    "keywords": [
+      "windows",
+      "2019",
+      "setup",
+      "disk",
+      "unallocated"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win2019-install-3",
+    "src": "/interface-screenshots/win2019-install-3.png",
+    "title": "Windows Server 2019 \u00b7 Server Manager after installation",
+    "platform": "Windows Server 2019 Setup / Desktop Experience",
+    "source": "https://petri.com/guide-how-to-install-windows-server-2019/",
+    "original": "https://petri.com/wp-content/uploads/petri-imported-images/1725500756-Figure3.png",
+    "credit": "Russell Smith / Petri IT Knowledgebase \u00b7 original screenshot; Microsoft interface",
+    "license": "https://petri.com/terms-and-conditions/",
+    "note": "Actual Windows Server 2019 reference from Petri. Copyright retained; no image modifications. The source uses Datacenter Evaluation Desktop Experience and a 127 GB disk. Choose your course-authorized 2019 edition/media and only the new empty VM disk sized in your lesson. Evaluation limitations still apply.",
+    "sha256": "c7b872c5f2ccfd964ff8a29c622398f5ea9e75bff0155f2d627848046b93c1cc",
+    "keywords": [
+      "windows",
+      "2019",
+      "servermanager",
+      "desktop"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-setup-center",
+    "src": "/interface-screenshots/sql-setup-center.png",
+    "title": "SQL Server 2022 Installation Center \u00b7 Installation",
+    "platform": "SQL Server 2022 Developer Setup",
+    "source": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/",
+    "original": "https://pressbooks.bccampus.ca/nelson/wp-content/uploads/sites/2211/2025/01/image13-1.png",
+    "credit": "Fred Strickland \u00b7 Database Design, 3rd Edition \u00b7 original software screenshot; Microsoft interface",
+    "license": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/#license",
+    "note": "Actual SQL Server 2022 Setup reference from the published tutorial. Author copyright is retained; no image modifications. Instance names, accounts, selected features and directories are source examples. Follow the course\u2019s supported SQL/MECM version, Windows authentication, SQL_Latin1_General_CP1_CI_AS collation and lab paths; do not copy every source selection.",
+    "sha256": "06945b0bc9d05e54ede6b26222ef2c19ea3e23a0042549a1b73d8988eed12404",
+    "keywords": [
+      "sql",
+      "setup",
+      "installation",
+      "center"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-setup-features",
+    "src": "/interface-screenshots/sql-setup-features.png",
+    "title": "SQL Server 2022 Setup \u00b7 Feature Selection",
+    "platform": "SQL Server 2022 Developer Setup",
+    "source": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/",
+    "original": "https://pressbooks.bccampus.ca/nelson/wp-content/uploads/sites/2211/2025/01/image18-1.png",
+    "credit": "Fred Strickland \u00b7 Database Design, 3rd Edition \u00b7 original software screenshot; Microsoft interface",
+    "license": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/#license",
+    "note": "Actual SQL Server 2022 Setup reference from the published tutorial. Author copyright is retained; no image modifications. Instance names, accounts, selected features and directories are source examples. Follow the course\u2019s supported SQL/MECM version, Windows authentication, SQL_Latin1_General_CP1_CI_AS collation and lab paths; do not copy every source selection.",
+    "sha256": "2c55ef36e43dee3ea26b25be5a9ff55db989ba5da90bdd04f1182837e4655a8c",
+    "keywords": [
+      "sql",
+      "setup",
+      "database",
+      "features"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-setup-instance",
+    "src": "/interface-screenshots/sql-setup-instance.png",
+    "title": "SQL Server 2022 Setup \u00b7 Instance Configuration",
+    "platform": "SQL Server 2022 Developer Setup",
+    "source": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/",
+    "original": "https://pressbooks.bccampus.ca/nelson/wp-content/uploads/sites/2211/2025/01/image19-1.png",
+    "credit": "Fred Strickland \u00b7 Database Design, 3rd Edition \u00b7 original software screenshot; Microsoft interface",
+    "license": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/#license",
+    "note": "Actual SQL Server 2022 Setup reference from the published tutorial. Author copyright is retained; no image modifications. Instance names, accounts, selected features and directories are source examples. Follow the course\u2019s supported SQL/MECM version, Windows authentication, SQL_Latin1_General_CP1_CI_AS collation and lab paths; do not copy every source selection.",
+    "sha256": "6cb44a9ec53447e404ac5457e4d7e21aa45d13390c5aa26908363a2121177a12",
+    "keywords": [
+      "sql",
+      "setup",
+      "instance",
+      "MSSQLSERVER"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-setup-service",
+    "src": "/interface-screenshots/sql-setup-service.png",
+    "title": "SQL Server 2022 Setup \u00b7 Server Configuration and Collation tab",
+    "platform": "SQL Server 2022 Developer Setup",
+    "source": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/",
+    "original": "https://pressbooks.bccampus.ca/nelson/wp-content/uploads/sites/2211/2025/01/image20-1.png",
+    "credit": "Fred Strickland \u00b7 Database Design, 3rd Edition \u00b7 original software screenshot; Microsoft interface",
+    "license": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/#license",
+    "note": "Actual SQL Server 2022 Setup reference from the published tutorial. Author copyright is retained; no image modifications. Instance names, accounts, selected features and directories are source examples. Follow the course\u2019s supported SQL/MECM version, Windows authentication, SQL_Latin1_General_CP1_CI_AS collation and lab paths; do not copy every source selection.",
+    "sha256": "98a7670c27220cecc0f4df1b723fe6d577a08234f8e4ecade636ea92791045e1",
+    "keywords": [
+      "sql",
+      "setup",
+      "service",
+      "collation"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-setup-engine",
+    "src": "/interface-screenshots/sql-setup-engine.png",
+    "title": "SQL Server 2022 Setup \u00b7 Windows authentication and Add Current User",
+    "platform": "SQL Server 2022 Developer Setup",
+    "source": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/",
+    "original": "https://pressbooks.bccampus.ca/nelson/wp-content/uploads/sites/2211/2025/01/image21-1.png",
+    "credit": "Fred Strickland \u00b7 Database Design, 3rd Edition \u00b7 original software screenshot; Microsoft interface",
+    "license": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/#license",
+    "note": "Actual SQL Server 2022 Setup reference from the published tutorial. Author copyright is retained; no image modifications. Instance names, accounts, selected features and directories are source examples. Follow the course\u2019s supported SQL/MECM version, Windows authentication, SQL_Latin1_General_CP1_CI_AS collation and lab paths; do not copy every source selection.",
+    "sha256": "885816094f34b2b71f9fdae2d33e801411701c5f0b64ea3151d60ffa3ab55bc1",
+    "keywords": [
+      "sql",
+      "setup",
+      "authentication",
+      "administrator"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-setup-directories",
+    "src": "/interface-screenshots/sql-setup-directories.png",
+    "title": "SQL Server 2022 Setup \u00b7 Data Directories",
+    "platform": "SQL Server 2022 Developer Setup",
+    "source": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/",
+    "original": "https://pressbooks.bccampus.ca/nelson/wp-content/uploads/sites/2211/2025/01/image22-1.png",
+    "credit": "Fred Strickland \u00b7 Database Design, 3rd Edition \u00b7 original software screenshot; Microsoft interface",
+    "license": "https://pressbooks.bccampus.ca/nelson/chapter/chapter08thirdedition/#license",
+    "note": "Actual SQL Server 2022 Setup reference from the published tutorial. Author copyright is retained; no image modifications. Instance names, accounts, selected features and directories are source examples. Follow the course\u2019s supported SQL/MECM version, Windows authentication, SQL_Latin1_General_CP1_CI_AS collation and lab paths; do not copy every source selection.",
+    "sha256": "643457aeead9e2f9a2843f8dfc1596ceda01fd0c3d3f43d3f7922e7355b71c79",
+    "keywords": [
+      "sql",
+      "setup",
+      "directories",
+      "paths"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-config-tcp",
+    "src": "/interface-screenshots/sql-config-tcp.png",
+    "title": "SQL Server Configuration Manager \u00b7 TCP/IP properties",
+    "platform": "SQL Server Configuration Manager (legacy Windows UI)",
+    "source": "https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-a-server-to-listen-on-a-specific-tcp-port",
+    "original": "https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/media/configure-a-server-to-listen-on-a-specific-tcp-port/tcp-ports.png",
+    "credit": "Microsoft Learn \u00b7 Microsoft software interface",
+    "license": "https://learn.microsoft.com/en-us/legal/termsofuse",
+    "note": "Actual Microsoft reference showing TCP/IP and the IP Addresses tab. Legacy SQL Native Client/Windows styling differs from current SQL 2022. Source image annotations and masked addresses are retained. Follow the lab fixed port1433, not the source dynamic-port example.",
+    "sha256": "a5cb3b78b4ef10aaa6f68edd2a4dca14317ffb9c1c34c2592aead930d3386fdb",
+    "keywords": [
+      "sql",
+      "configuration",
+      "tcp"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "sql-memory",
+    "src": "/interface-screenshots/sql-memory.png",
+    "title": "SQL Server Properties \u00b7 Memory",
+    "platform": "SQL Server Management Studio",
+    "source": "https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/server-memory-server-configuration-options",
+    "original": "https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/media/server-memory-server-configuration-options/configure-memory-in-ssms.png",
+    "credit": "Microsoft Learn \u00b7 Microsoft software interface",
+    "license": "https://learn.microsoft.com/en-us/legal/termsofuse",
+    "note": "Actual SSMS Memory properties. Source SQLVM2/CONTOSO account and unlimited default maximum are examples, not lab values. Set the memory limit required by the lab and available VM RAM.",
+    "sha256": "42c884dff1baf5c3e213f238c3cdeb7399255933cb09cc1d22267b30e21e6df8",
+    "keywords": [
+      "sql",
+      "configuration",
+      "memory"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-firewall-port",
+    "src": "/interface-screenshots/win-firewall-port.png",
+    "title": "Windows Firewall \u00b7 New Inbound Rule \u00b7 Protocol and Ports",
+    "platform": "Windows Firewall with Advanced Security",
+    "source": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/availability-group-manually-configure-prerequisites-tutorial-single-subnet",
+    "original": "https://learn.microsoft.com/en-us/azure/azure-sql/virtual-machines/windows/media/availability-group-manually-configure-prerequisites-tutorial-single-subnet/35-tcp-ports.png",
+    "credit": "Microsoft Learn \u00b7 Microsoft software interface",
+    "license": "https://learn.microsoft.com/en-us/legal/termsofuse",
+    "note": "Actual New Inbound Rule Wizard. Source SQL availability-group example includes1433,59999,58888,5022. For this single SQL VM lab enter only the ports specified by the course, ordinarily1433; do not copy the unrelated cluster probe and mirroring ports. Preserve source annotation; not a learner result.",
+    "sha256": "8d044513b1d67a493ffa4c8d16fce9e47274a9dd61601d6ad1a2a9da25a448b1",
+    "keywords": [
+      "windows",
+      "firewall",
+      "rule",
+      "tcp",
+      "port"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-update-settings",
+    "src": "/interface-screenshots/win-update-settings.png",
+    "title": "Windows Server 2019 \u00b7 Windows Update Settings",
+    "platform": "Windows Server 2019 Desktop Experience",
+    "source": "https://msftwebcast.com/2019/03/post-installation-configuration-of.html",
+    "original": "https://2.bp.blogspot.com/-ONzJt8jT6RY/XIvvsE8SNPI/AAAAAAAAAcc/Nh6-HcXkIncruUbDmiGlvtZpVCTEXsmPACEwYBhgL/s1600/1.png",
+    "credit": "MSFT WebCast \u00b7 original Windows Server2019 tutorial screenshot; Microsoft interface",
+    "license": "https://msftwebcast.com/2019/03/post-installation-configuration-of.html",
+    "note": "Actual Server2019 Check for updates screen. Source VM runs in VirtualBox; VMware course guest uses the same Windows Settings interface. Source date, device state and up-to-date message are tutorial examples, not current learner results. Watermark and source green callout are retained. Author copyright retained; no edits and no open-license claim.",
+    "sha256": "8d1af77ef410c7a405de1c191379a5fbddbe41a36c57ebaaa803c6d1db28deba",
+    "keywords": [
+      "windows",
+      "update",
+      "server2019"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-ipv4-properties",
+    "src": "/interface-screenshots/win-ipv4-properties.png",
+    "title": "Windows Server 2019 \u00b7 IPv4 address and DNS properties",
+    "platform": "Windows Server 2019 Desktop Experience",
+    "source": "https://msftwebcast.com/2019/03/post-installation-configuration-of.html",
+    "original": "https://3.bp.blogspot.com/-s4NMZlB3IfY/XIvvxN8elaI/AAAAAAAAAcc/afiF-tEvhmoGlQQHlN7KxrllHngmxCV8QCEwYBhgL/s1600/8.png",
+    "credit": "MSFT WebCast \u00b7 original Windows Server2019 tutorial screenshot; Microsoft interface",
+    "license": "https://msftwebcast.com/2019/03/post-installation-configuration-of.html",
+    "note": "Actual Server2019 IPv4 Properties. Source VirtualBox VM,172.18.72.5 network and8.8.8.8 DNS are examples; use course VMnet subnet, gateway and internal DC DNS instead. Do not copy source alternate public DNS for domain clients or disable IPv6 because the linked article does. Source watermark/callouts retained. Author copyright retained; no edits and no open-license claim.",
+    "sha256": "d10d77d118f4e25e19e3b31f10c50c3b3afa7ae0abc1f2c4d05da616f05efe26",
+    "keywords": [
+      "windows",
+      "ipv4",
+      "server2019"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-ad-user-logon",
+    "src": "/interface-screenshots/win-ad-user-logon.png",
+    "title": "Active Directory Users and Computers \u00b7 New Object \u00b7 User names",
+    "platform": "Windows Active Directory Users and Computers",
+    "source": "https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/datawiza-sso-mfa-to-owa",
+    "original": "https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/media/datawiza-access-proxy/user-logon.png",
+    "credit": "Microsoft Learn \u00b7 Datawiza integration reference \u00b7 Microsoft software interface",
+    "license": "https://learn.microsoft.com/en-us/legal/termsofuse",
+    "note": "Actual ADUC New Object User wizard. Datawiza source service account/domain and password settings are examples for a different application. Use the course user names/domain and its password-expiry requirements; do not blindly copy Password never expires or User cannot change password. Not a course account capture.",
+    "sha256": "2c6bd27edf8e4176830e93d474c5d456b67bb768c260dfc968cd3694fa48406d",
+    "keywords": [
+      "windows",
+      "aduc",
+      "user",
+      "user-logon"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-ad-password",
+    "src": "/interface-screenshots/win-ad-password.png",
+    "title": "Active Directory Users and Computers \u00b7 New Object \u00b7 User password options",
+    "platform": "Windows Active Directory Users and Computers",
+    "source": "https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/datawiza-sso-mfa-to-owa",
+    "original": "https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/media/datawiza-access-proxy/password.png",
+    "credit": "Microsoft Learn \u00b7 Datawiza integration reference \u00b7 Microsoft software interface",
+    "license": "https://learn.microsoft.com/en-us/legal/termsofuse",
+    "note": "Actual ADUC New Object User wizard. Datawiza source service account/domain and password settings are examples for a different application. Use the course user names/domain and its password-expiry requirements; do not blindly copy Password never expires or User cannot change password. Not a course account capture.",
+    "sha256": "4cbdd029ddc5d16fe76f5e0c063afbfd799df0932f851d1796e485db11813ddc",
+    "keywords": [
+      "windows",
+      "aduc",
+      "user",
+      "password"
+    ],
+    "reviewed": true
+  },
+  {
+    "id": "win-adsi-edit",
+    "src": "/interface-screenshots/win-adsi-edit.png",
+    "title": "ADSI Edit \u00b7 naming-context directory tree",
+    "platform": "Windows ADSI Edit",
+    "source": "https://learn.microsoft.com/en-us/defender-for-identity/deploy/event-collection-overview",
+    "original": "https://learn.microsoft.com/en-us/defender-for-identity/media/cn-configuration.png",
+    "credit": "Microsoft Learn \u00b7 Microsoft software interface",
+    "license": "https://learn.microsoft.com/en-us/legal/termsofuse",
+    "note": "Actual ADSI Edit interface reference showing default naming context, Configuration tree, New submenu and Properties. Source DC6/domain1.test.local and Configuration context are examples from Defender auditing. For MECM System Management creation, connect to the course domain default naming context and navigate CN=System; do not edit Configuration objects or apply the source auditing procedure. Not a lab completion capture.",
+    "sha256": "0abcaf86a18efe379ce9941c113b18582bafb6fe74bb2b90c8d4bb1ef3183c7b",
+    "keywords": [
+      "windows",
+      "adsi",
+      "directory",
+      "naming-context",
+      "system-management"
+    ],
+    "reviewed": true
+  }
+]

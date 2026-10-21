@@ -1,6 +1,6 @@
-import catalog from '../content/migration/migration-lessons.generated.json' with { type: 'json' };
+import { migrationCurriculum, type CurriculumLesson } from './migration-curriculum.ts';
 
-export type MigrationLesson = (typeof catalog.lessons)[number];
+export type MigrationLesson = CurriculumLesson;
 
 export type MigrationStage = {
   id: string;
@@ -62,7 +62,7 @@ const stageDefinitions = [
   ],
 ] as const;
 
-export const migrationLessons: MigrationLesson[] = catalog.lessons;
+export const migrationLessons: MigrationLesson[] = migrationCurriculum;
 
 export const migrationStages: MigrationStage[] = stageDefinitions.map(
   ([id, title, plainEnglish]) => ({
