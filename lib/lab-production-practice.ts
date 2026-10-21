@@ -89,6 +89,7 @@ const practices: Record<string, string> = {
   'wazuh-fault-v4': 'Use an isolated fault-injection test, capture evidence and revert the configuration immediately. Do not intentionally break an active production security agent.',
   'wazuh-recover-v4': 'Recover to a documented baseline and independently verify connectivity, logs, agent state and policy; avoid hiding errors by disabling controls.',
   'wazuh-close-v4': 'Close changes only after service/alert validation, evidence capture, incident handoff, audit notes, credential protection and resource/cost cleanup.',
+  'upgrade-01': 'Treat an in-place Windows Server upgrade as an application change: verify supported upgrade paths and licensing, capture application and VM-level backups, rehearse in a nonproduction clone, secure approved media, schedule the downtime, and validate IIS/domain services before closing the change. Never use this member-server exercise as instructions for upgrading a production domain controller.',
   'alma-plan': 'For managed endpoints, verify application compatibility, inventory, encryption, EDR, backups, and support before changing the installed operating system.',
   'alma-install': 'Validate signed installation media and device compatibility. Use a test VM or approved build workflow before provisioning a corporate workstation.',
   'alma-first-login': 'Apply your organization’s workstation baseline for updates, encryption, accessibility, privacy, approved accounts, and endpoint security.',
