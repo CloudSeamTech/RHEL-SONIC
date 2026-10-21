@@ -499,3 +499,119 @@
   cursor: zoom-in;
   background: #000;
 }
+
+
+/* Focused lab reader: instructional action and pass check are the primary UI. */
+.reader-workspace .guided-lab { max-width: 980px; margin: 18px 0 28px; }
+.guided-heading { align-items: center; }
+.guided-heading h2 { font-size: 19px; }
+.guided-start-hint { color: #acb4b7; font-size: 13px; }
+.guided-purpose, .guided-production {
+  margin: 12px 16px;
+  padding: 12px 16px;
+  background: #0b0c0d;
+  border: 1px solid #292c30;
+  border-left: 2px solid #21c5db;
+}
+.guided-production { border-left-color: #dfb656; }
+.guided-purpose > b, .guided-production > b {
+  display: block;
+  color: #21c5db;
+  font-size: 11px;
+  letter-spacing: .045em;
+  margin-bottom: 7px;
+}
+.guided-production > b { color: #dfb656; }
+.reader-workspace .guided-purpose p,
+.reader-workspace .guided-production p {
+  margin: 0;
+  font-size: 14px;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+.guided-production small {
+  display: block;
+  margin-top: 8px;
+  color: #929292;
+  font-size: 11px;
+}
+.guided-context { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.guided-context > div { min-width: 0; }
+.guided-context dd { line-height: 1.55; }
+.guided-workspace { display: flex; flex-direction: column; }
+.guided-step-navigation { border-bottom: 1px solid #242424; padding: 10px 16px; }
+.guided-step-navigation > summary {
+  cursor: pointer;
+  color: #a1b9c0;
+  font-size: 12px;
+  padding: 6px 0;
+}
+.guided-step-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  max-height: 230px;
+  gap: 5px;
+  border-right: 0;
+  padding: 9px 0;
+}
+.guided-step-picker { display: none; }
+.reader-workspace .guided-step-list button { margin: 0; min-height: 39px; padding: 8px; }
+.guided-step {
+  padding: 24px;
+  width: 100%;
+  min-width: 0;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.reader-workspace .guided-step h3 { font-size: clamp(21px, 2.4vw, 28px) !important; margin: 8px 0 20px; }
+.guided-step-number { font-size: 12px; color: #21c5db; }
+.guided-action {
+  background: #090a0b;
+  border: 1px solid #32383a;
+  padding: 17px 20px;
+}
+.guided-action > b, .guided-expected > b {
+  font-size: 11px;
+  letter-spacing: .06em;
+  color: #eaeaea;
+}
+.reader-workspace .guided-action .beginner-actions { margin: 8px 0 0; padding-left: 22px; }
+.reader-workspace .guided-action .beginner-actions li { font-size: 15px; line-height: 1.65; margin: 8px 0; }
+.reader-workspace .guided-expected { margin: 14px 0; background: #0a120d; padding: 15px 18px; }
+.reader-workspace .guided-expected p { color: #dbe8df; line-height: 1.6; }
+.reader-workspace .guided-visuals {
+  margin: 15px 0;
+  border: 1px solid #272727;
+  padding: 12px;
+}
+.guided-visuals > summary { cursor: pointer; color: #21c5db; font-size: 13px; }
+.guided-visuals .guided-screenshot { margin: 14px 0 2px; }
+.guided-visuals .step-screen-reference { padding: 10px; }
+.guided-visuals img { max-height: 350px !important; }
+.reader-workspace .guided-trouble, .reader-workspace .guided-evidence { margin: 9px 0; padding: 10px 12px; }
+.guided-trouble summary, .guided-evidence summary { cursor: pointer; color: #b5b5b5; }
+.guided-check { margin-top: 18px; }
+.guided-pagination button:last-child:not(:disabled) {
+  background: #13323b !important;
+  color: #e8fdff !important;
+  border-color: #21c5db;
+  font-weight: 600;
+}
+.guided-pagination button { min-height: 44px; }
+.guided-extra-help { margin: 0 16px 14px; padding: 12px; border: 1px solid #242424; }
+.guided-extra-help > summary { cursor: pointer; color: #9aa6aa; }
+.guided-extra-help .beginner-words { border: 0; margin: 0; padding: 8px 0; }
+@media (max-width: 900px) {
+  .guided-context { grid-template-columns: 1fr; gap: 0; }
+  .guided-step-picker { display: flex; }
+  .guided-step-navigation { display: none; }
+  .guided-step { padding: 14px; }
+  .guided-action { padding: 14px; }
+  .guided-purpose, .guided-production { margin: 10px 12px; }
+  .guided-pagination { flex-wrap: nowrap; }
+  .guided-pagination button { flex: 1; }
+}
+@media (max-width: 480px) {
+  .guided-pagination { flex-direction: column; }
+  .reader-workspace .guided-action .beginner-actions li { font-size: 14px; }
+}
