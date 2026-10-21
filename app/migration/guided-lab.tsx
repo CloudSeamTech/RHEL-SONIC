@@ -81,15 +81,15 @@ export function GuidedLab({
       <header className="guided-heading">
         <div>
           <span className="eyebrow">GUIDED LAB / ONE STEP AT A TIME</span>
-          <h2>Follow one clear step at a time</h2>
+          <h2>Follow one step at a time</h2>
         </div>
         <span>
-          {checked.length} / {guide.steps.length} steps checked
+          {checked.length} of {guide.steps.length} steps checked
         </span>
       </header>
       <p className="guided-start-hint">
-        Follow the action below on your practice system. Check the actual result
-        before continuing. These instructions do not run commands for you.
+        Read the action, compare the picture with your screen, and check the result.
+        Use Previous and Next to move at your own pace. Nothing runs automatically.
       </p>
       {purpose && (
         <section className="guided-purpose">
@@ -188,17 +188,8 @@ export function GuidedLab({
               )}
             </section>
           )}
-          <section className="guided-expected">
-            <b>CHECK THE RESULT · DID IT WORK?</b>
-            <p>{step.expect}</p>
-          </section>
-          <section className="guided-production" aria-label="How this differs in production">
-            <b>HOW THIS WORKS IN PRODUCTION</b>
-            <p>{productionPracticeFor(lessonId)}</p>
-            <small>Compare with real-world practice; do not run lab commands against company systems without approval.</small>
-          </section>
           <section className="guided-visuals" aria-label="Pictures and screen references for this step">
-            <h4 className="guided-visuals-heading">Pictures and screen references for this step</h4>
+            <h4 className="guided-visuals-heading">See it on screen</h4>
           {step.screenshots.map((id) => {
             const shot = screenshotCatalog.find((item) => item.id === id);
             return shot ? (
@@ -225,6 +216,15 @@ export function GuidedLab({
           })}
             <InstructionScreenshots stepId={`${lessonId}:guided:${index + 1}`} />
           </section>
+          <section className="guided-expected">
+            <b>CHECK THE RESULT · DID IT WORK?</b>
+            <p>{step.expect}</p>
+          </section>
+          <details className="guided-production" aria-label="How this differs in production">
+            <summary>How this works in production · optional</summary>
+            <p>{productionPracticeFor(lessonId)}</p>
+            <small>Compare with real-world practice; do not run lab commands against company systems without approval.</small>
+          </details>
           <details className="guided-trouble">
             <summary>My screen is different / it did not work</summary>
             <p>{step.trouble}</p>
@@ -244,7 +244,7 @@ export function GuidedLab({
               checked={checked.includes(index)}
               onChange={toggle}
             />{' '}
-            I verified this result on my practice system
+            I checked this result on my practice system
           </label>
           <nav
             className="guided-pagination"
@@ -257,7 +257,7 @@ export function GuidedLab({
               disabled={index === guide.steps.length - 1}
               onClick={() => select(index + 1)}
             >
-              Continue to next step →
+              Next step →
             </button>
           </nav>
         </article>
