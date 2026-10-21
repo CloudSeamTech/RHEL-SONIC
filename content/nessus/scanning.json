@@ -1,0 +1,1869 @@
+{
+  "id": "nessus-scanning",
+  "title": "Nessus Scan Policies & Vulnerability Scanning",
+  "description": "Plan an authorized scan, check Linux and Windows targets, explain findings, fix one issue, and prove the fix with a rescan.",
+  "baseline": "Nessus 10.12.5 · separate scanner, AlmaLinux 9 target, Windows Server 2022 target",
+  "prerequisite": "Finish either Nessus installation course. Use a separate scanner and two disposable targets on an approved private VMware network. Complete DC01/domain membership if using the domain-account Windows credential route. Have written target permission and an appropriate license.",
+  "sources": [
+    {
+      "title": "Getting",
+      "url": "https://docs.tenable.com/nessus/Content/GettingStarted.htm"
+    },
+    {
+      "title": "Release",
+      "url": "https://docs.tenable.com/release-notes/Content/nessus/2026.htm"
+    },
+    {
+      "title": "Create",
+      "url": "https://docs.tenable.com/nessus/Content/CreateAScan.htm"
+    },
+    {
+      "title": "Policy",
+      "url": "https://docs.tenable.com/nessus/Content/manage-policies.htm"
+    },
+    {
+      "title": "Templates",
+      "url": "https://docs.tenable.com/nessus/Content/ScanAndPolicyTemplates.htm"
+    },
+    {
+      "title": "Basic",
+      "url": "https://docs.tenable.com/nessus/Content/BasicSettings.htm"
+    },
+    {
+      "title": "Targets",
+      "url": "https://docs.tenable.com/nessus/Content/ScanTargets.htm"
+    },
+    {
+      "title": "Discovery",
+      "url": "https://docs.tenable.com/nessus/Content/DiscoverySettings.htm"
+    },
+    {
+      "title": "Advanced",
+      "url": "https://docs.tenable.com/nessus/Content/AdvancedScanSettings.htm"
+    },
+    {
+      "title": "Credentials",
+      "url": "https://docs.tenable.com/nessus/Content/Credentials.htm"
+    },
+    {
+      "title": "Linux",
+      "url": "https://docs.tenable.com/nessus/Content/CredentialedChecksOnLinux.htm"
+    },
+    {
+      "title": "Least",
+      "url": "https://docs.tenable.com/nessus/Content/configure-least-privilege-ssh-scan.htm"
+    },
+    {
+      "title": "Windows",
+      "url": "https://docs.tenable.com/nessus/Content/CredentialedChecksOnWindows.htm"
+    },
+    {
+      "title": "Plugins",
+      "url": "https://docs.tenable.com/nessus/Content/Plugins.htm"
+    },
+    {
+      "title": "Risk",
+      "url": "https://docs.tenable.com/nessus/Content/RiskMetrics.htm"
+    },
+    {
+      "title": "Report",
+      "url": "https://docs.tenable.com/nessus/Content/ScanReportFormats.htm"
+    },
+    {
+      "title": "Createreport",
+      "url": "https://docs.tenable.com/nessus/Content/CreateAScanReport.htm"
+    },
+    {
+      "title": "Launch",
+      "url": "https://docs.tenable.com/nessus/Content/LaunchAScan.htm"
+    },
+    {
+      "title": "Health",
+      "url": "https://docs.tenable.com/nessus/Content/MonitorScannerHealth.htm"
+    },
+    {
+      "title": "Update",
+      "url": "https://docs.tenable.com/nessus/Content/UpdateNessusSoftware.htm"
+    },
+    {
+      "title": "About",
+      "url": "https://docs.tenable.com/nessus/Content/SettingsAbout.htm"
+    },
+    {
+      "title": "Compliance",
+      "url": "https://docs.tenable.com/nessus/Content/Compliance.htm"
+    },
+    {
+      "title": "Settings",
+      "url": "https://docs.tenable.com/nessus/Content/Settings.htm"
+    },
+    {
+      "title": "Support",
+      "url": "https://connect.tenable.com/kb/tenable-connect-support/useful-plugins-to-troubleshoot-credentialed-scans/110113"
+    },
+    {
+      "title": "Rules",
+      "url": "https://docs.tenable.com/nessus/command-line-reference/Content/NetworkAndPortRules.htm"
+    },
+    {
+      "title": "Acas",
+      "url": "https://www.tenable.com/solution-briefs/tenable-for-dod-cybersecurity-beyond-acas"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "nessus-scanning-initial",
+      "title": "Prepare Your First Scan",
+      "description": "Identify the scanner, the two targets, and the license before sending any scan traffic.",
+      "what": "A scanner is like an inspector. It asks questions of other computers and writes down possible problems. It cannot promise that a computer is safe.",
+      "why": "Using the right machines and permission keeps a practice inspection from reaching your home router or someone else’s server.",
+      "bestPractices": [
+        "Keep the management console on the private lab network.",
+        "Count authorized targets against the actual license."
+      ],
+      "commonMistakes": [
+        "Treating port 8834 as the port needed for every target check.",
+        "Assuming an empty results page means no vulnerabilities."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Nessus is compiling plugins",
+          "fix": "Wait and inspect service, free space and update status if progress stalls; do not repeatedly restart it."
+        }
+      ],
+      "pass": "You can point to the scanner and both separate targets, and explain what is allowed.",
+      "exercise": "Show an instructor your three-machine plan with private values redacted.",
+      "quiz": [
+        {
+          "question": "Which machines belong in this lab’s target list?",
+          "options": [
+            "Every device on the subnet",
+            "Only the two authorized target IPs",
+            "The scanner’s own IP only"
+          ],
+          "answer": 1,
+          "explanation": "A short allowlist keeps the scan within the agreed scope."
+        },
+        {
+          "question": "Does a Nessus install automatically include every template?",
+          "options": [
+            "Yes",
+            "Only on Windows",
+            "No; edition and permissions matter"
+          ],
+          "answer": 2,
+          "explanation": "Check what your real license enables before planning a feature-dependent task."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Name three separate machines",
+          "where": "Private lab notes · no scan launched",
+          "actions": [
+            "Write the scanner hostname and private IP. Write the AlmaLinux 9 target and Windows Server 2022 target private IPs in separate rows.",
+            "Check each address at that machine’s console. Do not use the Nessus scanner itself as a vulnerability target; Tenable does not support self-scanning.",
+            "Record the owner, allowed time, allowed checks, stop contact and recovery plan. Only these two target IPs may be scanned."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A three-machine list with two exact authorized target IPs and a stop plan.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Name three separate machines",
+            "instructions": "Capture the actual Name three separate machines screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/ScanTargets.htm",
+            "https://docs.tenable.com/nessus/Content/DiscoverySettings.htm"
+          ]
+        },
+        {
+          "title": "Check readiness and license",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Sign in at your scanner’s verified https://hostname:8834 address. Select Settings → About → Overview.",
+            "Record version, product edition and plugin-set date in private notes; exclude the activation code. Wait for plugin compilation to finish before creating or launching scans.",
+            "Check the license’s current target limit and features. The 10.12 guide describes Essentials as five IPs with a delayed plugin feed; do not assume older license limits still apply."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The actual edition, version and plugin status are recorded; no private license values are shared.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Check readiness and license",
+            "instructions": "Capture the actual Check readiness and license screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/GettingStarted.htm",
+            "https://docs.tenable.com/nessus/Content/SettingsAbout.htm",
+            "https://docs.tenable.com/nessus/Content/CreateAScan.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-settings",
+      "title": "Check Accounts and Plugin Updates",
+      "description": "Review the administrator account and the checks Nessus will use.",
+      "what": "An administrator controls the scanner. Plugins are its checklists. Fresh checklists can recognize newer problems.",
+      "why": "A protected scanner and reviewed update plan make its results more useful and prevent surprise software changes.",
+      "bestPractices": [
+        "Use organization-approved credentials and update windows.",
+        "Record the plugin date on each baseline scan."
+      ],
+      "commonMistakes": [
+        "Changing the update plan without noticing it can change the software version.",
+        "Uploading a private license file as if it were a plugin archive."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Software Update is absent",
+          "fix": "Check your role, edition and whether another Tenable platform manages the scanner."
+        }
+      ],
+      "pass": "You have documented the account owner, update method and plugin date.",
+      "exercise": "Write a two-line update checklist with an online and an offline branch.",
+      "quiz": [
+        {
+          "question": "What are plugins?",
+          "options": [
+            "Checks the scanner runs",
+            "VMware virtual disks",
+            "Windows user accounts"
+          ],
+          "answer": 0,
+          "explanation": "Plugins tell Nessus what to inspect and how to report it."
+        },
+        {
+          "question": "What changed for manual plugin updates in 10.12.5?",
+          "options": [
+            "Signatures are no longer checked",
+            "A matching Tenable signature file is required",
+            "Any tar.gz can be uploaded"
+          ],
+          "answer": 1,
+          "explanation": "Use trusted, matching archive and signature files; never bypass signature checks."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Review the administrator account",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Open Settings. Under Accounts, open My Account and review your own account settings. Use a unique password stored in your approved password manager.",
+            "Do not enter the scanner password in SONIC-Academy. If your product is Nessus Manager and Users is available, review named accounts and roles there; standalone editions do not share Manager’s multi-user workflow.",
+            "Record who owns scanner access and account recovery. Do not create a shared administrator account for classmates."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A named owner and protected login; available account controls match the installed edition.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Review the administrator account",
+            "instructions": "Capture the actual Review the administrator account screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/Settings.htm",
+            "https://docs.tenable.com/nessus/Content/GettingStarted.htm"
+          ]
+        },
+        {
+          "title": "Inspect the update plan",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Open Settings → About → Software Update. Record the current software and plugin update choices.",
+            "With owner approval on an online standalone scanner, use Manual Software Update → Update plugins → Continue if that option is available. Wait for completion and compilation.",
+            "For offline or centrally managed scanners, use their dedicated update workflow instead. Version 10.12.5 manual plugin updates require the matching Tenable signature; a tar.gz filename alone does not prove it is a plugin bundle."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can explain the update source and distinguish plugins from a software upgrade.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Inspect the update plan",
+            "instructions": "Capture the actual Inspect the update plan screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/UpdateNessusSoftware.htm",
+            "https://docs.tenable.com/release-notes/Content/nessus/2026.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-templates",
+      "title": "Understand Templates and Policies",
+      "description": "Compare a ready-made scan template with a reusable policy.",
+      "what": "A template is a recipe supplied by Tenable. A policy is a recipe you save with choices for your lab. A scan adds targets and a time to run.",
+      "why": "Picking a matching recipe is easier than changing many advanced settings without knowing what they do.",
+      "bestPractices": [
+        "Start with Basic Network Scan for the first controlled baseline."
+      ],
+      "commonMistakes": [
+        "Mistaking a host-discovery result for a full vulnerability assessment.",
+        "Trying to edit every Advanced setting in a limited template."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "A setting is missing",
+          "fix": "Check the selected template, edition and role. Do not copy screenshots from another product as an instruction."
+        }
+      ],
+      "pass": "You can describe a template, policy and scan in your own words.",
+      "exercise": "Explain the recipe analogy to a classmate and identify the three parts in the UI.",
+      "quiz": [
+        {
+          "question": "Which template checks whether approved credentials work?",
+          "options": [
+            "Host Discovery",
+            "Credential Validation",
+            "Attack Surface Discovery"
+          ],
+          "answer": 1,
+          "explanation": "Credential Validation is a focused login-checking template when available."
+        },
+        {
+          "question": "What does a saved policy need before it becomes a specific scan?",
+          "options": [
+            "An authorized target and run settings",
+            "A public IP range",
+            "An IIS site"
+          ],
+          "answer": 0,
+          "explanation": "The scan supplies its targets and schedule; the policy supplies reusable settings."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Find the built-in templates",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Click Scans → New Scan. Locate Basic Network Scan, Host Discovery and Credential Validation if available.",
+            "Read their descriptions. Basic Network Scan checks vulnerabilities; Host Discovery finds live systems and ports; Credential Validation checks whether approved logins work.",
+            "Do not click Launch. Note unavailable or locked templates as license differences. Agent and web-app workflows are separate from this network-scanning lab."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can tell discovery, credential checking and vulnerability checking apart.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Find the built-in templates",
+            "instructions": "Capture the actual Find the built-in templates screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/ScanAndPolicyTemplates.htm"
+          ]
+        },
+        {
+          "title": "Find saved policies",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Return to Scans. Click Policies in the left navigation.",
+            "Look for saved policies without changing them. When a policy is created, it appears under User Defined when you make a new scan.",
+            "Write one example: “Lab server baseline policy + Alma target IP + approved time = a scan.”"
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can identify the policy list and explain how a policy is reused.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Find saved policies",
+            "instructions": "Capture the actual Find saved policies screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/manage-policies.htm",
+            "https://docs.tenable.com/nessus/Content/ScanAndPolicyTemplates.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-basic",
+      "title": "Create a Basic Network Scan",
+      "description": "Save a first scan for one authorized practice target without launching it yet.",
+      "what": "We will make a small inspection job for one computer, like writing an address on a delivery label.",
+      "why": "One target makes it easier to catch a wrong address or setting before a larger exercise.",
+      "bestPractices": [
+        "Use a descriptive name and an exact IP.",
+        "Keep the first scan manual."
+      ],
+      "commonMistakes": [
+        "Entering 192.168.x.0/24 when only one host is authorized.",
+        "Clicking the Launch dropdown too early."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Save is unavailable",
+          "fix": "Check the required name and targets fields and wait until plugin compilation is complete."
+        }
+      ],
+      "pass": "Your baseline is saved with one approved target and no automatic schedule.",
+      "exercise": "Have a partner compare the saved target with your console’s actual IP.",
+      "quiz": [
+        {
+          "question": "What should the first target field contain?",
+          "options": [
+            "Your entire home network",
+            "The first IP found online",
+            "One verified authorized target IP"
+          ],
+          "answer": 2,
+          "explanation": "Use the address you checked at the practice target’s console."
+        },
+        {
+          "question": "Why save before launching?",
+          "options": [
+            "To review settings and permissions",
+            "To skip activation",
+            "To disable plugins"
+          ],
+          "answer": 0,
+          "explanation": "Saving gives you a chance to inspect the job before it sends traffic."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Create and name the job",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Click Scans → New Scan → Basic Network Scan.",
+            "Under Settings → Basic → General, enter a name such as SONIC-Alma-Baseline and a description containing the lab owner and purpose.",
+            "In Targets, enter only the Alma target’s verified private IP from your plan. Use its actual address, not a course example or the scanner IP."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The saved job will refer to one named, authorized Alma target.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Create and name the job",
+            "instructions": "Capture the actual Create and name the job screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/CreateAScan.htm",
+            "https://docs.tenable.com/nessus/Content/BasicSettings.htm",
+            "https://docs.tenable.com/nessus/Content/ScanTargets.htm"
+          ]
+        },
+        {
+          "title": "Save without scheduling",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Under Basic → Schedule, leave Enable Schedule Off for this first job.",
+            "Review the target and template again. Select Save, not Launch.",
+            "Return to My Scans and confirm the job is listed. Later lessons add credentials and review safety before launch."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A saved, unlaunched baseline job is visible in My Scans.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Save without scheduling",
+            "instructions": "Capture the actual Save without scheduling screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/CreateAScan.htm",
+            "https://docs.tenable.com/nessus/Content/BasicSettings.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-policy",
+      "title": "Build a Custom Scan Policy",
+      "description": "Save a reusable Advanced Scan policy and create a scan from it.",
+      "what": "We will save our own recipe, named clearly so it cannot be mistaken for a default.",
+      "why": "A reusable policy makes later comparisons fair because the important settings stay consistent.",
+      "bestPractices": [
+        "Record a policy revision in the description after each approved settings change."
+      ],
+      "commonMistakes": [
+        "Changing the baseline policy halfway through a before-and-after comparison.",
+        "Assuming every scan setting can override a linked policy."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "User Defined is empty",
+          "fix": "Confirm that the policy was saved under this account and that plugin compilation has finished."
+        }
+      ],
+      "pass": "You can find the saved policy and identify the scan that uses it.",
+      "exercise": "Create a policy revision note containing its purpose, owner and allowed scope.",
+      "quiz": [
+        {
+          "question": "Where do saved custom policies appear when making a scan?",
+          "options": ["User Defined", "Windows Services", "VMware snapshots"],
+          "answer": 0,
+          "explanation": "User Defined contains available saved policies."
+        },
+        {
+          "question": "Where should inherited Discovery settings be changed?",
+          "options": [
+            "Only in the report",
+            "In the related policy",
+            "By changing the target password"
+          ],
+          "answer": 1,
+          "explanation": "Policy-based scans inherit these controls from the policy."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Create the policy",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Click Scans → Policies → New Policy. Select Advanced Scan if your edition provides it.",
+            "In Basic settings, name it SONIC-Approved-Server-Policy and describe its two-target private-lab purpose.",
+            "Keep the initial defaults. The next lesson reviews discovery, ports, safe checks and plugin choices. Save the policy. If unavailable, document the license limit and continue with your saved Basic Network Scan."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A clearly named saved policy, or an honest record that the current edition lacks the workflow.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Create the policy",
+            "instructions": "Capture the actual Create the policy screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/manage-policies.htm",
+            "https://docs.tenable.com/nessus/Content/ScanAndPolicyTemplates.htm"
+          ]
+        },
+        {
+          "title": "Make a job from your policy",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Click Scans → New Scan → User Defined. Select SONIC-Approved-Server-Policy.",
+            "Name the new job SONIC-Policy-Alma and enter the authorized Alma target IP. Keep scheduling Off; Save.",
+            "To change Discovery or Advanced settings for a policy-based scan, return to the policy. Those settings are inherited, not changed independently inside this scan."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A saved job references the selected custom policy.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Make a job from your policy",
+            "instructions": "Capture the actual Make a job from your policy screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/ScanAndPolicyTemplates.htm",
+            "https://docs.tenable.com/nessus/Content/BasicSettings.htm",
+            "https://docs.tenable.com/nessus/Content/DiscoverySettings.htm",
+            "https://docs.tenable.com/nessus/Content/AdvancedScanSettings.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-safe-settings",
+      "title": "Set Discovery, Ports, Safe Checks and Exclusions",
+      "description": "Review traffic limits and leave unauthorized systems outside the target list.",
+      "what": "We choose which doors to check and how gently to knock. Safe checks reduce risky tests but do not make scanning harmless.",
+      "why": "A careful policy avoids unnecessary traffic and helps protect fragile services.",
+      "bestPractices": [
+        "Get application-owner agreement before scanning production systems.",
+        "Use low concurrency approved by your instructor if resources are constrained."
+      ],
+      "commonMistakes": [
+        "Turning off safety because a scan is slow.",
+        "Using a web-app URL exclusion as if it excluded an IP.",
+        "Treating a short port list as a full assessment."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "A guest is reported down",
+          "fix": "Confirm its console IP and route; review the VMware guest discovery setting before expanding scope."
+        }
+      ],
+      "pass": "You can show the safe-checks control, port range, plugin decisions and exact target allowlist.",
+      "exercise": "Explain which systems are excluded and point to the target field that enforces the lab scope.",
+      "quiz": [
+        {
+          "question": "Do safe checks promise that scanning cannot cause disruption?",
+          "options": [
+            "Yes, always",
+            "Only on Linux",
+            "No; permission and monitoring still matter"
+          ],
+          "answer": 2,
+          "explanation": "Safe checks reduce harmful plugin behavior but cannot remove every risk."
+        },
+        {
+          "question": "Does a web-app URL exclusion exclude an entire network host?",
+          "options": [
+            "Yes",
+            "No; they are different settings",
+            "Only for Windows"
+          ],
+          "answer": 1,
+          "explanation": "Host scope must be controlled by valid network target/rule settings."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Review discovery and ports",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "If your edition does not provide custom policies, edit the saved Basic Network Scan and use only the settings it actually exposes. Mark unavailable controls as a license limitation; do not pretend you changed a locked setting.",
+            "Open your saved policy for configuration. Under Settings → Discovery → Host Discovery, review ping methods. For these exact VMware guest lab targets, follow Tenable’s documented guidance to set Ping the remote host Off.",
+            "Under Discovery → Port Scanning, inspect Port Scan Range. Keep the documented default for the broad baseline rather than guessing a short list and missing services.",
+            "For an instructor-approved focused follow-up, a comma list such as 22,80,443,445 is valid, but it only tests those ports. Record the reduced coverage. Local authenticated port enumeration can alter effective port coverage."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The discovery choice and port range are documented, including coverage limits.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Review discovery and ports",
+            "instructions": "Capture the actual Review discovery and ports screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/DiscoverySettings.htm"
+          ]
+        },
+        {
+          "title": "Keep safe checks and review plugins",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Under Settings → Advanced → General Settings, keep Enable Safe Checks enabled. Leave denial-of-service, brute-force and fragile-device testing out of this introductory lab.",
+            "For Advanced Scan policies, open Plugins and review enabled families. Keep the baseline’s normal coverage instead of enabling a dangerous family or disabling checks just to lower a score.",
+            "Save the policy and record the revision. Safe checks reduce harmful tests; they do not guarantee zero impact. Stop if the target becomes unstable."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Safe Checks is enabled and plugin changes have a written reason.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Keep safe checks and review plugins",
+            "instructions": "Capture the actual Keep safe checks and review plugins screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/AdvancedScanSettings.htm",
+            "https://docs.tenable.com/nessus/Content/Plugins.htm"
+          ]
+        },
+        {
+          "title": "Define and enforce exclusions",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Write an excluded-assets list: scanner, physical host, router, domain controllers and every system outside the two approved targets.",
+            "Review each scan’s Basic → Targets and remove every excluded address. This course uses exact positive target lists rather than a broad subnet with guessed exclusion syntax.",
+            "If an enterprise scanner-wide network-rule exclusion is required, have its owner apply Tenable’s documented reject address/netmask:ports rules through the approved administration process. Web-app URL exclusions and Linux file-search exclusions are different controls; they do not exclude a network host."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Only exact approved targets remain; exclusions and the responsible owner are documented.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Define and enforce exclusions",
+            "instructions": "Capture the actual Define and enforce exclusions screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/ScanTargets.htm",
+            "https://docs.tenable.com/nessus/command-line-reference/Content/NetworkAndPortRules.htm",
+            "https://docs.tenable.com/nessus/Content/AdvancedScanSettings.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-linux-credentials",
+      "title": "Configure an Authenticated AlmaLinux Scan",
+      "description": "Use a dedicated SSH account and verify that local checks actually ran.",
+      "what": "A network scan looks from outside. An authenticated scan uses an approved visitor pass to inspect installed software and settings inside the computer.",
+      "why": "Valid SSH credentials can reveal missing patches that an outside-only scan cannot see.",
+      "bestPractices": [
+        "Prefer dedicated SSH keys when practical and protect the private key.",
+        "Match the privilege level to the checks and record incomplete coverage."
+      ],
+      "commonMistakes": [
+        "Placing the private key on the target instead of only its public key.",
+        "Assuming a normal-user login supplies all root-only audit evidence."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "SSH login fails",
+          "fix": "Check the exact username, SSH port, host-key verification, firewall source rule and target auth logs."
+        },
+        {
+          "problem": "SSH works but checks are incomplete",
+          "fix": "Review plugin output and owner-approved sudo commands; do not disable SELinux or give blanket root access."
+        }
+      ],
+      "pass": "You can show redacted proof of SSH authentication and explain any privilege-related coverage gap.",
+      "exercise": "Use the least-privilege plugin evidence to request one justified permission change from the target owner.",
+      "quiz": [
+        {
+          "question": "Where should scan passwords be entered?",
+          "options": [
+            "In GitHub",
+            "In the real protected Nessus credential form",
+            "In SONIC-Academy notes"
+          ],
+          "answer": 1,
+          "explanation": "This learning platform does not need or store your target secrets."
+        },
+        {
+          "question": "Does successful SSH login prove every audit ran?",
+          "options": [
+            "Yes",
+            "Only with a long password",
+            "No; permissions and plugin evidence matter"
+          ],
+          "answer": 2,
+          "explanation": "Authentication and sufficient authorization are separate checks."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Prepare the target’s approved account",
+          "where": "AlmaLinux 9 target console · administrator terminal",
+          "actions": [
+            "Confirm you are on the separate target using hostname and the console IP, not on the scanner.",
+            "Use an existing approved dedicated scan account, or have the target owner create nessusscan with the commands shown. Set its password interactively and keep it in the approved secret store.",
+            "Confirm sshd is active. Permit TCP 22 only from the scanner through the lab’s firewall plan. Never enable direct root SSH login for this exercise."
+          ],
+          "command": "hostname\nsudo useradd --create-home --shell /bin/bash nessusscan\nsudo passwd nessusscan\nsudo systemctl status sshd --no-pager",
+          "breakdown": [
+            {
+              "term": "hostname",
+              "meaning": "Shows which computer you are administering."
+            },
+            {
+              "term": "sudo",
+              "meaning": "Runs the following administration command with approved elevated rights."
+            },
+            {
+              "term": "useradd --create-home --shell /bin/bash nessusscan",
+              "meaning": "Creates the named local account, its home folder and Bash shell; skip if the approved account already exists."
+            },
+            {
+              "term": "passwd nessusscan",
+              "meaning": "Asks privately for that account’s password; do not type it into a command or website field here."
+            },
+            {
+              "term": "systemctl status sshd --no-pager",
+              "meaning": "Inspects the SSH service without a scrolling pager; this does not start a stopped service."
+            }
+          ],
+          "expected": "The target owner identifies a dedicated account and a reachable SSH service.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Prepare the target’s approved account",
+            "instructions": "Capture the actual Prepare the target’s approved account screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/CredentialedChecksOnLinux.htm"
+          ]
+        },
+        {
+          "title": "Add SSH credentials to the scan",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Edit the saved Alma scan or its policy. Open Credentials → Host → SSH (the interface may present SSH directly).",
+            "Select Password or SSH public key authentication as approved. Enter the dedicated username and secret only in the real Nessus HTTPS console. For key authentication, supply the private key and passphrase; the matching public key belongs on the target.",
+            "For elevated checks, select the approved sudo escalation method. When available, enable Attempt Least Privilege. Have the owner use visudo and Tenable’s command-logging process to grant only the needed commands. Do not paste an unrestricted NOPASSWD: ALL rule from the internet. Save."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Nessus stores the approved credential configuration privately; root-equivalent privileges have not been granted casually.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Add SSH credentials to the scan",
+            "instructions": "Capture the actual Add SSH credentials to the scan screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/Credentials.htm",
+            "https://docs.tenable.com/nessus/Content/CredentialedChecksOnLinux.htm",
+            "https://docs.tenable.com/nessus/Content/configure-least-privilege-ssh-scan.htm"
+          ]
+        },
+        {
+          "title": "Check credentials before a full scan",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "If Credential Validation is available, create a one-target job with the same approved SSH credentials, save and launch it only in the approved window. Otherwise proceed with the controlled baseline in the launch lesson.",
+            "After completion, open the host’s informational results and Nessus Scan Information, plugin 19506. Read credentialed-check status and related local-check or permission messages.",
+            "A login alone does not prove that all required checks ran. Limited accounts may miss configuration checks. Review least-privilege diagnostics and adjust only owner-approved permissions."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Evidence distinguishes successful authentication from full local-check coverage.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Check credentials before a full scan",
+            "instructions": "Capture the actual Check credentials before a full scan screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/ScanAndPolicyTemplates.htm",
+            "https://connect.tenable.com/kb/tenable-connect-support/useful-plugins-to-troubleshoot-credentialed-scans/110113",
+            "https://docs.tenable.com/nessus/Content/configure-least-privilege-ssh-scan.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-windows-credentials",
+      "title": "Configure an Authenticated Windows Scan",
+      "description": "Use approved Windows credentials on a Server 2022 member target.",
+      "what": "We will give the scanner an approved Windows visitor pass. Windows local checks need access to files, registry information and management services.",
+      "why": "A scan that cannot read the target’s local information can miss patches even when the server answers a network request.",
+      "bestPractices": [
+        "Use named accounts scoped to specific member servers.",
+        "Revoke temporary access after the exercise."
+      ],
+      "commonMistakes": [
+        "Using Domain Admin to avoid understanding permissions.",
+        "Opening SMB/RPC to every address.",
+        "Confusing Nessus browser port 8834 with Windows scan protocols."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The host is reachable but authentication fails",
+          "fix": "Check identity/domain format, account status, network-logon policy and target event logs."
+        },
+        {
+          "problem": "Credentials validate but local checks fail",
+          "fix": "Review administrative shares, registry permissions, required WMI/RPC routes and endpoint-policy logs with the owner."
+        }
+      ],
+      "pass": "You have a redacted credential-check result and a documented target-scoped access plan.",
+      "exercise": "Explain the difference between scanner UI access and Windows target-management access.",
+      "quiz": [
+        {
+          "question": "Which account fits this member-server lab best?",
+          "options": [
+            "Domain Admin for everything",
+            "Guest with extra permissions",
+            "A dedicated approved account scoped to this target"
+          ],
+          "answer": 2,
+          "explanation": "Grant only the access needed on the approved systems."
+        },
+        {
+          "question": "Does TCP 8834 replace SMB/WMI requirements?",
+          "options": ["No", "Yes", "Only on Server 2022"],
+          "answer": 0,
+          "explanation": "8834 serves the scanner’s HTTPS UI; target checks use their own protocols."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Approve the Windows access route",
+          "where": "Windows Server 2022 member target · Computer Management and elevated PowerShell",
+          "actions": [
+            "Use a disposable Server 2022 member server, not a domain controller. For this course, use a dedicated approved domain account that is an administrator only on this target. Do not use Domain Admin. Use the existing Windows/AD lessons to prepare the domain and join this separate Server 2022 member target before continuing.",
+            "On the target, open Computer Management → Local Users and Groups → Groups → Administrators → Add. Select the approved domain under Locations, enter the dedicated scan username, select Check Names, and confirm the exact account before OK. Give it rights only on this disposable target. If the account does not exist, create it with the domain owner using the earlier Create Users & Policy lesson.",
+            "Confirm the owner’s credentialed-scan prerequisites: network logon policy, administrative shares, Remote Registry behavior, and SMB/WMI access. Use the official Tenable Windows guide with the owner.",
+            "If using a standalone local account instead, stop and follow Tenable’s separate local-account/UAC procedure with the owner; do not broadly disable UAC or add a registry workaround without review."
+          ],
+          "command": "Get-LocalGroupMember -SID 'S-1-5-32-544'\nGet-Service -Name RemoteRegistry\nGet-SmbShare -Name 'ADMIN$','C$'",
+          "breakdown": [
+            {
+              "term": "Get-LocalGroupMember",
+              "meaning": "Lists members of the local group so you can check the intended scan account without printing its password."
+            },
+            {
+              "term": "-SID 'S-1-5-32-544'",
+              "meaning": "Identifies the built-in local Administrators group by its well-known ID, even when its displayed name is translated."
+            },
+            {
+              "term": "Get-Service -Name RemoteRegistry",
+              "meaning": "Reads the Remote Registry service status; it does not start it or change its startup policy."
+            },
+            {
+              "term": "Get-SmbShare -Name 'ADMIN$','C$'",
+              "meaning": "Checks for the named administrative SMB shares on this target. Run elevated; do not create or expose shares blindly if policy disables them."
+            }
+          ],
+          "expected": "The target’s credential route and limited administrative scope are approved.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Target local Administrators membership, Remote Registry status and administrative share checks",
+            "instructions": "Capture the target identity and these verification screens with the dedicated approved account recognizable to the instructor. Hide credentials and unrelated membership details. This is a capture checklist, not an existing screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/CredentialedChecksOnWindows.htm",
+            "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.localaccounts/get-localgroupmember",
+            "https://learn.microsoft.com/en-us/powershell/module/smbshare/get-smbshare"
+          ]
+        },
+        {
+          "title": "Review source-scoped firewall rules",
+          "where": "Windows Server 2022 target · Windows Defender Firewall with Advanced Security",
+          "actions": [
+            "Open Start → Windows Defender Firewall with Advanced Security. In Inbound Rules, review the applicable File and Printer Sharing (SMB-In) and Windows Management Instrumentation rules.",
+            "For each owner-approved rule, right-click → Properties → Scope → Remote IP address → These IP addresses → Add. Enter the scanner’s exact address and save. On Advanced, select only the active approved Private/Domain profile. Enable only the required rule after reviewing its protocol/ports. SMB TCP 445 and the documented WMI/RPC paths may be required; TCP8834 is the scanner UI, not target authentication.",
+            "Check Remote Registry and administrative-share requirements with the owner. Make one documented change at a time; do not turn off Windows Defender Firewall or endpoint protection. For an approved Remote Registry change, use Windows+R → services.msc → Remote Registry → Properties, record the existing startup mode, apply only the owner-approved mode and select Start. Record how to restore the prior state after testing."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Only approved management paths from the scanner are allowed; protections remain enabled.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Review source-scoped firewall rules",
+            "instructions": "Capture the actual Review source-scoped firewall rules screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/CredentialedChecksOnWindows.htm"
+          ]
+        },
+        {
+          "title": "Enter and test Windows credentials",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Edit the Windows-target scan or its policy. Open Credentials → Host → Windows (or Windows directly). Enter the approved username, domain and secret in the Nessus console only.",
+            "Use the actual domain field and username format expected by the selected authentication method; do not mix local and domain identities. Save.",
+            "Run Credential Validation if available, then inspect host/plugin output for authentication and local-check failures. A reachable host or an open 445 port does not prove authenticated scanning worked."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The credential validation evidence identifies the target and whether Windows local checks succeeded.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Enter and test Windows credentials",
+            "instructions": "Capture the actual Enter and test Windows credentials screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/Credentials.htm",
+            "https://docs.tenable.com/nessus/Content/ScanAndPolicyTemplates.htm",
+            "https://connect.tenable.com/kb/tenable-connect-support/useful-plugins-to-troubleshoot-credentialed-scans/110113"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-credential-security",
+      "title": "Protect Scan Credentials",
+      "description": "Keep credentials out of class notes and remove temporary access after use.",
+      "what": "Credentials are keys. We will decide who holds them, where they are kept and when they must stop working.",
+      "why": "A scanner often holds powerful access. Protecting it also protects every target it can inspect.",
+      "bestPractices": [
+        "Use approved secret management and short-lived access when available.",
+        "Protect exported results as sensitive information even when passwords are stripped."
+      ],
+      "commonMistakes": [
+        "Sharing a screenshot containing a password or license code.",
+        "Using one personal admin password across every target."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "A secret was exposed",
+          "fix": "Stop sharing the file, notify its owner, revoke/rotate the secret and replace the evidence with a sanitized copy."
+        }
+      ],
+      "pass": "No secrets are present in class notes or screenshots, and access cleanup is assigned.",
+      "exercise": "Inspect your planned evidence folder and remove any private credential material before sharing.",
+      "quiz": [
+        {
+          "question": "What belongs in your lab evidence?",
+          "options": [
+            "A private key",
+            "The scanner’s activation code",
+            "A redacted status and account-owner reference"
+          ],
+          "answer": 2,
+          "explanation": "Evidence should prove the task without disclosing secrets."
+        },
+        {
+          "question": "When should temporary scan access be removed?",
+          "options": [
+            "After the approved exercise or access window",
+            "Never",
+            "Only if a scan finds nothing"
+          ],
+          "answer": 0,
+          "explanation": "Access should not outlive its approved purpose."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Write a secret-handling plan",
+          "where": "Private lab notes · no scan launched",
+          "actions": [
+            "Record the account owner and purpose, approved target list, vault location label, rotation date and removal date. Do not record the secret itself.",
+            "Use different scanner-console and target-scan credentials. Restrict who can edit policies containing credentials.",
+            "Plan redaction before screenshots: hide credential forms, activation codes and private keys. Use the real scanner’s trusted HTTPS connection."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The plan refers to a protected store without copying any passwords.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Write a secret-handling plan",
+            "instructions": "Capture the actual Write a secret-handling plan screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/Credentials.htm",
+            "https://docs.tenable.com/nessus/Content/CredentialedChecksOnWindows.htm",
+            "https://docs.tenable.com/nessus/Content/CredentialedChecksOnLinux.htm"
+          ]
+        },
+        {
+          "title": "Review least privilege and cleanup",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Review each scan’s Credentials tab without revealing its values. Confirm it contains only the approved account and authentication method.",
+            "Ask the owner to confirm target-scope permissions. For SSH, review the least-privilege diagnostic plugins rather than granting all commands.",
+            "After the lab, remove temporary credentials from scans and revoke or rotate temporary target access with the owner. Keep only sanitized evidence."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Each stored credential has an owner, purpose and cleanup action.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Review least privilege and cleanup",
+            "instructions": "Capture the actual Review least privilege and cleanup screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/Credentials.htm",
+            "https://docs.tenable.com/nessus/Content/configure-least-privilege-ssh-scan.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-targets",
+      "title": "Add Only Authorized Targets",
+      "description": "Check each target’s identity before the scan starts.",
+      "what": "We will compare the address on our scan job with the computer we are allowed to inspect.",
+      "why": "An old DNS record or mistyped subnet can point the scanner at the wrong place.",
+      "bestPractices": ["Recheck targets after DHCP, DNS or network changes."],
+      "commonMistakes": [
+        "Treating a hostname plus /24 as a single host.",
+        "Reusing last week’s address without checking it."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "DNS points to a different host",
+          "fix": "Pause, inspect DNS and target-console identity with the owner, and correct the record before scanning."
+        }
+      ],
+      "pass": "Two exact target IPs match the current consoles and scope record.",
+      "exercise": "Have a partner compare your UI target fields with the approved two-host list.",
+      "quiz": [
+        {
+          "question": "What does adding /24 usually do to an IPv4 target?",
+          "options": [
+            "Scans a subnet",
+            "Makes the single-host scan safer",
+            "Adds a password"
+          ],
+          "answer": 0,
+          "explanation": "CIDR notation expands scope; it is not a single-host label."
+        },
+        {
+          "question": "What if the target IP no longer matches your record?",
+          "options": [
+            "Scan the whole subnet to find it",
+            "Stop and verify identity",
+            "Use the scanner IP"
+          ],
+          "answer": 1,
+          "explanation": "Resolve the identity mismatch before sending scan traffic."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Confirm each target at its console",
+          "where": "Alma and Windows target consoles",
+          "actions": [
+            "On the Alma target, inspect hostname and ip -brief address. On Windows, use hostname and ipconfig. Record their actual private addresses.",
+            "Compare those two addresses with the approved scope record. Confirm they are different from the scanner and host computer.",
+            "If a target changed its address, update approval and DNS as required before editing a scan. Never guess an unused address and start scanning it."
+          ],
+          "command": "hostname\n# AlmaLinux target only:\nip -brief address\n# Windows target uses: ipconfig",
+          "breakdown": [
+            {
+              "term": "hostname",
+              "meaning": "Prints the name of the current machine."
+            },
+            {
+              "term": "ip -brief address",
+              "meaning": "On AlmaLinux, shows a compact list of interface addresses; -brief changes the display, not networking."
+            },
+            {
+              "term": "ipconfig",
+              "meaning": "On Windows, displays network adapter addressing. Run it in Windows, not in the Linux terminal."
+            }
+          ],
+          "expected": "The two targets’ current identities match the scope record.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Confirm each target at its console",
+            "instructions": "Capture the actual Confirm each target at its console screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": ["https://docs.tenable.com/nessus/Content/ScanTargets.htm"]
+        },
+        {
+          "title": "Review both saved target fields",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Open the Alma scan’s Settings → Basic → Targets and compare the exact IP with your record. Repeat for the Windows scan.",
+            "Do not add /24 or another CIDR suffix: that expands to a subnet. Do not enter a public website, router, scanner IP or a domain controller.",
+            "Save and have a partner or instructor read back the two allowed target IPs before launch."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Both saved jobs contain only their exact approved target.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Review both saved target fields",
+            "instructions": "Capture the actual Review both saved target fields screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/BasicSettings.htm",
+            "https://docs.tenable.com/nessus/Content/ScanTargets.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-run-monitor",
+      "title": "Run and Troubleshoot a Scan",
+      "description": "Launch an approved job, watch it, and investigate incomplete results.",
+      "what": "We will start the inspection and stay nearby, like watching a supervised experiment.",
+      "why": "Completion status is only one clue. We also need the right hosts, successful checks and stable targets.",
+      "bestPractices": [
+        "Monitor the target and scanner during the first run.",
+        "Keep the baseline’s settings and raw evidence."
+      ],
+      "commonMistakes": [
+        "Interpreting Completed as proof of full coverage.",
+        "Rerunning many failed copies at once."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The scan stays pending",
+          "fix": "Check plugin compilation, scanner load and edition concurrency limits."
+        },
+        {
+          "problem": "Zero vulnerabilities are listed",
+          "fix": "First verify the expected host and credentialed-check coverage; zero findings can mean missing checks."
+        }
+      ],
+      "pass": "You can show a completed target result with coverage status, or accurately document why the attempt is incomplete.",
+      "exercise": "Explain one actual warning and the smallest approved diagnostic action to investigate it.",
+      "quiz": [
+        {
+          "question": "Does Completed mean every planned credentialed check succeeded?",
+          "options": [
+            "Yes",
+            "No; inspect the evidence",
+            "Only for Basic Network Scan"
+          ],
+          "answer": 1,
+          "explanation": "Job status does not guarantee authentication or full coverage."
+        },
+        {
+          "question": "What should you do if the target becomes unstable?",
+          "options": [
+            "Increase concurrency",
+            "Hide the warning",
+            "Stop the scan and follow the agreed recovery plan"
+          ],
+          "answer": 2,
+          "explanation": "The target’s availability and the owner’s stop decision matter."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Launch one approved job",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Recheck the exact target, scope window, credentials, policy revision, safe checks and plugin readiness.",
+            "Click Scans → My Scans. In the correct job’s row, click the launch/play icon. Run one target job first; do not launch several copies.",
+            "Watch the status and the target’s health. If the target becomes unstable or the stop contact asks, use the scan’s stop control and follow the recorded recovery plan."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The intended job is running inside the approved window; monitoring is active.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Launch one approved job",
+            "instructions": "Capture the actual Launch one approved job screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/LaunchAScan.htm",
+            "https://docs.tenable.com/nessus/Content/AdvancedScanSettings.htm"
+          ]
+        },
+        {
+          "title": "Read the completed host result",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "When the job finishes, click it and open Hosts. Confirm the expected target appears.",
+            "Open its results and inspect Nessus Scan Information and authentication/permission findings. Check scan time, plugin information and credentialed-check status.",
+            "A completed scan with missing hosts, failed credentials, stale plugins or blocked checks is incomplete evidence. Fix the cause and rerun rather than declaring the host safe."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can state which host was assessed and whether the planned checks actually ran.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Read the completed host result",
+            "instructions": "Capture the actual Read the completed host result screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://connect.tenable.com/kb/tenable-connect-support/useful-plugins-to-troubleshoot-credentialed-scans/110113",
+            "https://docs.tenable.com/nessus/Content/RiskMetrics.htm"
+          ]
+        },
+        {
+          "title": "Use a small troubleshooting ladder",
+          "where": "Scanner console and target console · approved diagnostics",
+          "actions": [
+            "No host: verify power, target IP, route and VMware discovery choice. A failed ping alone does not prove a host is down.",
+            "No credentials: inspect account format, key/password, allowed logon, SSH/SMB routes and target logs. No local checks: inspect permissions and required services.",
+            "Long or failed job: inspect scanner health, storage, plugin compilation and concurrency. Change one approved setting and record why; do not turn off firewalls or SELinux."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The next diagnostic follows the observed failure instead of a random security bypass.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Use a small troubleshooting ladder",
+            "instructions": "Capture the actual Use a small troubleshooting ladder screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/DiscoverySettings.htm",
+            "https://connect.tenable.com/kb/tenable-connect-support/useful-plugins-to-troubleshoot-credentialed-scans/110113",
+            "https://docs.tenable.com/nessus/Content/MonitorScannerHealth.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-findings",
+      "title": "Read CVEs, CVSS and Plugin Evidence",
+      "description": "Open one finding and explain what Nessus actually observed.",
+      "what": "A finding is a warning label with evidence. A CVE names a publicly tracked vulnerability; a plugin is Tenable’s test. They are not the same identifier.",
+      "why": "Understanding the evidence helps you avoid treating a guess, missing permission or old version string as proof of an exploitable problem.",
+      "bestPractices": [
+        "Keep plugin output and assessment time with the finding.",
+        "Have the asset owner validate questionable evidence."
+      ],
+      "commonMistakes": [
+        "Treating every plugin ID as a CVE.",
+        "Assuming severity is the same as immediate business priority.",
+        "Inventing a sample critical result to complete the class."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "A finding seems wrong",
+          "fix": "Compare plugin output, actual package/build version and vendor advisory with the owner; retain the original scan and document the disposition."
+        }
+      ],
+      "pass": "You can explain one real finding, or document that no applicable finding was observed without fabricating results.",
+      "exercise": "Write three sentences: what was detected, what evidence supports it, and what still needs checking.",
+      "quiz": [
+        {
+          "question": "Must every informational finding have a CVE?",
+          "options": ["Yes", "No", "Only on Windows"],
+          "answer": 1,
+          "explanation": "Information and configuration findings can exist without a CVE."
+        },
+        {
+          "question": "What should you read before choosing a fix?",
+          "options": [
+            "Only the severity color",
+            "Only the scan name",
+            "Plugin output, affected target and solution"
+          ],
+          "answer": 2,
+          "explanation": "The actual evidence and vendor context guide the remediation."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Open one finding",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Open a completed scan → Vulnerabilities. Select a finding that applies to your target.",
+            "Read the plugin ID/name, description, affected host and port, solution and Plugin Output. Record the detected product/version or configuration evidence, not just the colored severity.",
+            "Record CVE identifiers when present. Some configuration or informational findings have no CVE. Do not invent one."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A finding record distinguishes the plugin, any CVE, target and actual evidence.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Open one finding",
+            "instructions": "Capture the actual Open one finding screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/Plugins.htm",
+            "https://docs.tenable.com/nessus/Content/RiskMetrics.htm"
+          ]
+        },
+        {
+          "title": "Explain the score and its limits",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Identify the CVSS version, score and vector if present. Record which severity base the scan uses; a number without its scoring version is incomplete context.",
+            "If VPR is shown, distinguish it from CVSS. CVSS describes technical severity; VPR changes with Tenable’s threat-priority inputs. Neither alone tells you business impact.",
+            "Check whether detection relied on self-reported version information. For Alma packages, confirm vendor backport/advisory status before assuming an upstream version string proves a missing fix. Mark uncertainty for owner review."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your explanation includes evidence quality and scoring context instead of only a risk color.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Explain the score and its limits",
+            "instructions": "Capture the actual Explain the score and its limits screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/RiskMetrics.htm",
+            "https://docs.tenable.com/nessus/Content/Plugins.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-reports",
+      "title": "Export a Useful Vulnerability Report",
+      "description": "Create a licensed report and explain what it includes.",
+      "what": "We will turn the inspection notes into a document an owner can act on.",
+      "why": "A useful report names the target, evidence and next action without exposing secrets or pretending to cover systems that were not checked.",
+      "bestPractices": [
+        "Review a report before sharing it.",
+        "Use the minimum necessary details for the recipient."
+      ],
+      "commonMistakes": [
+        "Expecting free Essentials to export because an older tutorial did.",
+        "Forgetting a filter hides hosts or findings."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "PDF generation fails",
+          "fix": "Check the official requirements, including supported Java/OpenJDK where applicable, or use another licensed format with the owner."
+        }
+      ],
+      "pass": "Your handoff identifies its format, scope, date, coverage limits and storage location.",
+      "exercise": "Ask a partner to find the affected host, plugin evidence and recommended action in your report.",
+      "quiz": [
+        {
+          "question": "Can current Nessus Essentials export reports according to the 10.12 guide?",
+          "options": ["Yes, every format", "No", "Only SQL reports"],
+          "answer": 1,
+          "explanation": "The current guide explicitly limits exports/reports; check your edition."
+        },
+        {
+          "question": "Can report filters change what appears in a report?",
+          "options": ["Yes", "No", "Only if the firewall is off"],
+          "answer": 0,
+          "explanation": "Check the visible results and selections before generating the report."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Check the report entitlement",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Open Settings → About and confirm the actual edition. The 10.12 guide says Essentials cannot create scan exports or reports; Essentials Plus offers PDF/HTML reports.",
+            "If your edition lacks the needed export, record the limitation and keep a sanitized manual finding worksheet. Do not claim that this worksheet is a Nessus export.",
+            "For an edition with reports, open the completed scan. Review active filters and selected Hosts or Vulnerabilities; they affect the report’s contents."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The report route matches the real license, and coverage/filter limits are known.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Check the report entitlement",
+            "instructions": "Capture the actual Check the report entitlement screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/ScanReportFormats.htm",
+            "https://docs.tenable.com/nessus/Content/CreateAScanReport.htm"
+          ]
+        },
+        {
+          "title": "Generate and inspect the report",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "If licensed, click Report in the completed scan. Choose an available format and template; for CSV, choose the needed columns. Click Generate Report.",
+            "Open the downloaded file privately and check target, assessment time, plugin IDs, severity, evidence and solution. Include scanner/plugin date and authentication-coverage limitations in the handoff.",
+            "Store results in the approved private evidence location. Do not commit scan reports, target inventory, license files or credential material to GitHub. If CSV/PDF is unavailable, use only the licensed alternative or the clearly marked worksheet."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A readable licensed report or an explicit license-limited worksheet, with no false export claim.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Generate and inspect the report",
+            "instructions": "Capture the actual Generate and inspect the report screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/CreateAScanReport.htm",
+            "https://docs.tenable.com/nessus/Content/ScanReportFormats.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-remediation",
+      "title": "Prioritize and Fix One Finding",
+      "description": "Choose a justified fix with the asset owner and a recovery plan.",
+      "what": "We will choose one real problem to repair, like fixing the most important leak before repainting the wall.",
+      "why": "Priority depends on exposure, exploitation, system importance and evidence, not only the largest score.",
+      "bestPractices": [
+        "Make one change at a time and keep a recovery path.",
+        "Follow vendor advisories for patched package/build versions."
+      ],
+      "commonMistakes": [
+        "Hiding a finding instead of fixing its cause.",
+        "Patching a different host because its console was already open."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The application fails after the change",
+          "fix": "Stop, preserve logs, contact the owner and execute the approved recovery branch; do not stack unrelated changes."
+        }
+      ],
+      "pass": "The owner approves the chosen fix and the actual change evidence is recorded.",
+      "exercise": "Explain why this finding had priority over another, including business context.",
+      "quiz": [
+        {
+          "question": "Which action is real remediation?",
+          "options": [
+            "Disabling the reporting plugin",
+            "Applying the approved fix to the affected target",
+            "Renaming the report"
+          ],
+          "answer": 1,
+          "explanation": "Remediation changes the cause of the finding, not its visibility."
+        },
+        {
+          "question": "What if no suitable real finding exists?",
+          "options": [
+            "Invent one",
+            "Disable security to create one",
+            "Record the result and request an approved exercise"
+          ],
+          "answer": 2,
+          "explanation": "An honest result is better than fabricated evidence or unnecessary exposure."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Choose and plan a real fix",
+          "where": "Private finding worksheet · target owner review",
+          "actions": [
+            "Choose one actual finding with a vendor-supported remedy. Record plugin/CVE, affected target, evidence, owner, proposed action and due date.",
+            "Discuss exposure, available exploitation evidence, asset importance and existing protections. Explain why this finding comes first.",
+            "Record backup/rebuild or rollback plan, maintenance approval and application checks. If no suitable finding exists, record that result and ask the instructor for an approved exercise; do not deliberately weaken a system or fabricate a vulnerability."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A justified and approved change plan for one real finding, or an honest no-finding disposition.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Choose and plan a real fix",
+            "instructions": "Capture the actual Choose and plan a real fix screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/RiskMetrics.htm",
+            "https://docs.tenable.com/nessus/Content/Plugins.htm"
+          ]
+        },
+        {
+          "title": "Apply the approved vendor remedy",
+          "where": "Only the affected target console · approved maintenance window",
+          "actions": [
+            "Verify the target name before making the change. Follow the exact vendor solution and the owner-approved change plan.",
+            "For an Alma update, identify the affected package from actual plugin/advisory evidence before selecting a package update. For Windows, use the required supported update or configuration procedure; reboot only when approved.",
+            "Record the real command/clicks, observed result and application health. Removing a plugin or changing severity is not remediation. Do not claim the vulnerability is gone before rescanning."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The real change and target-health evidence are recorded; verification is still pending.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Apply the approved vendor remedy",
+            "instructions": "Capture the actual Apply the approved vendor remedy screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/Plugins.htm",
+            "https://docs.tenable.com/nessus/Content/RiskMetrics.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-rescan",
+      "title": "Rescan and Prove the Fix",
+      "description": "Compare equivalent before-and-after evidence after an approved change.",
+      "what": "We will ask the inspector to check again using the same recipe.",
+      "why": "A missing warning is meaningful only if the same host and relevant checks were actually assessed.",
+      "bestPractices": [
+        "Retain before/after evidence and record policy/plugin changes."
+      ],
+      "commonMistakes": [
+        "Claiming fixed because an uncredentialed rescan reported fewer findings.",
+        "Comparing different hosts or templates."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The finding remains",
+          "fix": "Check that the correct host was changed, a needed reboot completed and the installed version/configuration matches the vendor remedy."
+        }
+      ],
+      "pass": "You can explain why the verification supports a fix or why it is inconclusive.",
+      "exercise": "Write a one-paragraph before/after comparison without inventing numbers.",
+      "quiz": [
+        {
+          "question": "The finding disappeared, but SSH authentication failed. What is the result?",
+          "options": [
+            "Definitely fixed",
+            "Inconclusive",
+            "Permanently accepted risk"
+          ],
+          "answer": 1,
+          "explanation": "Missing local-check coverage cannot prove a local vulnerability was fixed."
+        },
+        {
+          "question": "Should you keep the original baseline?",
+          "options": ["Yes", "No", "Only if the scan failed"],
+          "answer": 0,
+          "explanation": "It shows what was observed before the change and supports comparison."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Run the verification job",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Confirm the same target, equivalent policy/port coverage, successful credentials and a ready plugin set. Record any plugin-date or setting change that affects comparison.",
+            "Launch a rescan in the approved window. Keep the original scan history/report; do not delete the baseline.",
+            "Wait for completion and inspect host identity, credentialed checks and relevant plugin evidence before comparing the finding."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A second valid assessment exists with documented differences from the baseline.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Run the verification job",
+            "instructions": "Capture the actual Run the verification job screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/LaunchAScan.htm",
+            "https://connect.tenable.com/kb/tenable-connect-support/useful-plugins-to-troubleshoot-credentialed-scans/110113",
+            "https://docs.tenable.com/nessus/Content/Plugins.htm"
+          ]
+        },
+        {
+          "title": "Record the verification decision",
+          "where": "Nessus results and private remediation worksheet",
+          "actions": [
+            "Compare the original affected host/plugin with the new result. Verify the installed package/build or configuration matches the vendor remedy as well.",
+            "If the finding is absent but credentials failed or coverage changed, mark verification inconclusive. If it remains, inspect the evidence, reboot requirement and patch applicability with the owner.",
+            "Close the item only with adequate evidence and owner approval. Record fix date, verification date, rescan ID and residual risk."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The decision is fixed, still present or inconclusive, supported by actual evidence.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Record the verification decision",
+            "instructions": "Capture the actual Record the verification decision screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/Plugins.htm",
+            "https://docs.tenable.com/nessus/Content/RiskMetrics.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-schedule-health",
+      "title": "Schedule Scans and Watch Scanner Health",
+      "description": "Set an approved schedule and check scanner resources.",
+      "what": "We will put inspections on a calendar and check whether the inspector has enough resources to work.",
+      "why": "Overlapping jobs, stale plugins and full storage can make a regular scan incomplete even when the schedule looks correct.",
+      "bestPractices": [
+        "Use a declared time zone and maintenance window.",
+        "Review failed or skipped scheduled jobs instead of assuming the calendar guarantees results."
+      ],
+      "commonMistakes": [
+        "Leaving recurring lab scans enabled after the lab is over.",
+        "Increasing concurrency while the scanner is already overloaded."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "A scheduled job did not run",
+          "fix": "Check the scanner service, schedule/time zone, license, plugin readiness and competing jobs; do not immediately recreate many schedules."
+        }
+      ],
+      "pass": "You can explain the next run time and demonstrate how you would spot an unhealthy scanner.",
+      "exercise": "Write a five-item weekly scanner checklist and a stop date for the lab schedule.",
+      "quiz": [
+        {
+          "question": "What must a schedule include to avoid time confusion?",
+          "options": [
+            "Only a day name",
+            "A declared time zone and approved window",
+            "A public target"
+          ],
+          "answer": 1,
+          "explanation": "The displayed time must be interpreted in the intended time zone."
+        },
+        {
+          "question": "What should happen to a practice schedule after the lab?",
+          "options": [
+            "Leave it forever",
+            "Add all subnets",
+            "Disable it or transfer it to an approved owner"
+          ],
+          "answer": 2,
+          "explanation": "Scanning must not continue beyond the agreed scope and ownership."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Set an approved schedule",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "With the owner, choose a maintenance window and confirm targets will be powered on. Open the saved scan → Settings → Basic → Schedule.",
+            "If your edition provides scheduling, enable it, select the approved frequency, start date/time and time zone, then Save. This course does not schedule automatically from SONIC-Academy.",
+            "Read back the next run and confirm it does not overlap other lab scans. If scheduling is unavailable, record a manual calendar/checklist alternative. Disable any practice schedule before abandoning the lab."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "An approved schedule or honest manual alternative, with time zone and cleanup plan.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Set an approved schedule",
+            "instructions": "Capture the actual Set an approved schedule screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/BasicSettings.htm"
+          ]
+        },
+        {
+          "title": "Inspect scanner health and updates",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Open Settings → Scanner Health if your edition/role exposes it. Review Overview, Network and Alerts for resource pressure and active scans.",
+            "Review Settings → About for plugin readiness and update status. Relate a slow run to observed load, disk space or concurrent jobs before changing performance settings.",
+            "Record a routine checklist: service running, adequate free storage, healthy updates, expected targets, successful credentialed checks, completed jobs and protected report storage."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A health checklist describes real observations and a response owner.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Inspect scanner health and updates",
+            "instructions": "Capture the actual Inspect scanner health and updates screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/MonitorScannerHealth.htm",
+            "https://docs.tenable.com/nessus/Content/SettingsAbout.htm",
+            "https://docs.tenable.com/nessus/Content/UpdateNessusSoftware.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-governance",
+      "title": "Connect Findings to ACAS, STIGs, RMF and POA&Ms",
+      "description": "Explain how scan evidence supports vulnerability management without claiming certification.",
+      "what": "Nessus is a scanner. Tenable Security Center is a separate management platform. ACAS-style work adds controlled scope, review, ownership and tracked remediation around scan evidence.",
+      "why": "A report can support a decision, but it is not itself an authorization to operate or proof that every STIG requirement was checked.",
+      "bestPractices": [
+        "Keep vulnerability, compliance and risk-acceptance decisions distinct.",
+        "Use current applicable requirements and approved agency processes."
+      ],
+      "commonMistakes": [
+        "Calling standalone Nessus “Security Center.”",
+        "Claiming STIG compliant because no CVEs were found.",
+        "Inventing official remediation deadlines for every organization."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The report and compliance checklist disagree",
+          "fix": "Review scope, credentials, audit version and requirement applicability with the assessor; retain both evidence types."
+        }
+      ],
+      "pass": "You can explain what this lab’s evidence supports and what it cannot authorize.",
+      "exercise": "Show a training POA&M-style row and name the real role that would approve risk acceptance.",
+      "quiz": [
+        {
+          "question": "Does a clean vulnerability scan prove STIG compliance?",
+          "options": ["Yes", "No", "Only on Server 2022"],
+          "answer": 1,
+          "explanation": "Configuration audits and manual requirements are separate evidence."
+        },
+        {
+          "question": "Who grants risk acceptance or an authorization decision?",
+          "options": [
+            "The scanner automatically",
+            "A report filename",
+            "The designated authority under the organization’s process"
+          ],
+          "answer": 2,
+          "explanation": "The tool informs a decision; it does not replace accountable approval."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Separate the products and evidence types",
+          "where": "Private lab notes · no scan launched",
+          "actions": [
+            "Write three labels: Nessus = scanning engine/tool; Security Center = separate centralized management and analysis platform; ACAS = the DoD program context, not a license name for this standalone class.",
+            "Explain a vulnerability scan versus a configuration-compliance audit. An absence of vulnerability findings does not prove STIG compliance.",
+            "If a licensed compliance exercise is approved, select the exact OS/version audit from current authorized Tenable/DISA guidance. Essentials and Essentials Plus do not include compliance templates. Do not assume a RHEL STIG automatically applies to AlmaLinux without the responsible authority’s applicability decision."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your notes distinguish product, vulnerability evidence and compliance evidence.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Separate the products and evidence types",
+            "instructions": "Capture the actual Separate the products and evidence types screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://www.tenable.com/solution-briefs/tenable-for-dod-cybersecurity-beyond-acas",
+            "https://docs.tenable.com/nessus/Content/Compliance.htm",
+            "https://docs.tenable.com/nessus/Content/ScanAndPolicyTemplates.htm"
+          ]
+        },
+        {
+          "title": "Create a practice POA&M-style record",
+          "where": "Private lab notes · no scan launched",
+          "actions": [
+            "For one reviewed real finding, record asset identifier, plugin/CVE when applicable, weakness description, evidence date, risk rationale, accountable owner, milestones, due date and planned validation.",
+            "Label this a training worksheet, not an official agency POA&M. Use the organization’s required format, deadlines and approval process for real work.",
+            "Explain RMF: scan evidence can inform assessment and ongoing monitoring; risk acceptance and authorization belong to the designated officials. A “clean” scan or a color change does not grant an authorization to operate."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A training record shows ownership and verification without asserting official acceptance or compliance.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Create a practice POA&M-style record",
+            "instructions": "Capture the actual Create a practice POA&M-style record screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://www.tenable.com/solution-briefs/tenable-for-dod-cybersecurity-beyond-acas",
+            "https://docs.tenable.com/nessus/Content/Compliance.htm"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nessus-scanning-final",
+      "title": "Final Lab: Scan, Fix and Verify Two Targets",
+      "description": "Complete a supervised two-target assessment and defend your evidence.",
+      "what": "We will put the whole workflow together: ask permission, inspect, understand, fix and check again.",
+      "why": "The goal is a repeatable, honest workflow that another administrator can review and reproduce.",
+      "bestPractices": [
+        "Use an instructor sign-off for the final evidence pack.",
+        "Keep all private reports and secrets out of the repository."
+      ],
+      "commonMistakes": [
+        "Counting a simulated screenshot as a real scan.",
+        "Claiming remediation without an equivalent successful rescan."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "A lab dependency is unavailable",
+          "fix": "Mark the practical validation pending, preserve the plan and completed evidence, and resume when authorized systems/license are available."
+        }
+      ],
+      "pass": "An instructor can trace permission → target identity → valid scan coverage → finding → approved change → valid rescan → cleanup. If no actual scan or fix was possible, the practical remains pending.",
+      "exercise": "Deliver a redacted evidence pack and explain one limitation or remaining uncertainty aloud.",
+      "quiz": [
+        {
+          "question": "How many machines does the final lab require?",
+          "options": [
+            "One scanner that scans itself",
+            "Three: scanner plus two separate targets",
+            "Every device in the home"
+          ],
+          "answer": 1,
+          "explanation": "Nessus self-scanning is unsupported for this vulnerability exercise."
+        },
+        {
+          "question": "When can the final practical be called verified?",
+          "options": [
+            "When the quiz is passed",
+            "When a screenshot placeholder exists",
+            "When real authorized scan/change/rescan evidence passes review"
+          ],
+          "answer": 2,
+          "explanation": "Learning-page progress is not proof that a real-world scan or remediation succeeded."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Approve and inspect the two-target plan",
+          "where": "Private lab notes · no scan launched",
+          "actions": [
+            "Use one Nessus scanner plus a separate AlmaLinux 9 target and separate Windows Server 2022 member target. Recheck all three consoles and the exact two target IPs.",
+            "Record scope approval, private network, license, credentials owner, safe settings, recovery plan, scan window and stop contact. Never include the scanner itself or unrelated network devices.",
+            "Create two named saved jobs, one per target, using the same reviewed baseline policy where supported. Add the appropriate approved SSH or Windows credentials and complete credential validation."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A reviewed plan and two correctly scoped, ready jobs.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Approve and inspect the two-target plan",
+            "instructions": "Capture the actual Approve and inspect the two-target plan screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/ScanTargets.htm",
+            "https://docs.tenable.com/nessus/Content/DiscoverySettings.htm",
+            "https://docs.tenable.com/nessus/Content/Credentials.htm"
+          ]
+        },
+        {
+          "title": "Run and explain the actual baseline",
+          "where": "Your workstation browser · verified Nessus HTTPS console",
+          "actions": [
+            "Launch the Alma job, monitor it and verify host/credentialed-check coverage. Repeat for Windows when resources and license allow.",
+            "For each target, record actual scan date, plugin set, coverage status and one meaningful result. This may be an informational result; do not invent a vulnerability or expected count.",
+            "For a real finding chosen with the instructor, explain plugin evidence, CVE/CVSS context if present, target exposure and why the chosen fix has priority. Create a licensed report or a clearly labeled manual worksheet."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Two real target assessments with honest coverage and finding descriptions.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Run and explain the actual baseline",
+            "instructions": "Capture the actual Run and explain the actual baseline screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/LaunchAScan.htm",
+            "https://connect.tenable.com/kb/tenable-connect-support/useful-plugins-to-troubleshoot-credentialed-scans/110113",
+            "https://docs.tenable.com/nessus/Content/Plugins.htm",
+            "https://docs.tenable.com/nessus/Content/RiskMetrics.htm",
+            "https://docs.tenable.com/nessus/Content/ScanReportFormats.htm"
+          ]
+        },
+        {
+          "title": "Remediate one issue and prove the result",
+          "where": "Affected target console, then Nessus results",
+          "actions": [
+            "With owner approval, apply one supported fix to a real issue and record recovery/application-health evidence. If there is no suitable issue, document that and ask for an approved exercise rather than weakening a target.",
+            "Rescan the affected target with equivalent coverage and valid credentials. Compare actual before/after evidence and mark fixed, still present or inconclusive.",
+            "Present the scope record, redacted scan evidence, remediation worksheet and verification decision. Remove temporary access and disable practice schedules when the exercise ends."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A reviewable evidence pack, no fabricated results, and completed cleanup or an explicitly documented outstanding validation.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Remediate one issue and prove the result",
+            "instructions": "Capture the actual Remediate one issue and prove the result screen in an authorized Nessus 10.12.5 lab. Show the relevant controls and target context; hide credentials, activation details and private data. This is a capture placeholder, not a software screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/Content/LaunchAScan.htm",
+            "https://connect.tenable.com/kb/tenable-connect-support/useful-plugins-to-troubleshoot-credentialed-scans/110113",
+            "https://docs.tenable.com/nessus/Content/Plugins.htm",
+            "https://docs.tenable.com/nessus/Content/BasicSettings.htm"
+          ]
+        }
+      ]
+    }
+  ]
+}

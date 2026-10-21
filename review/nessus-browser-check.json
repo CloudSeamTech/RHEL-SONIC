@@ -1,0 +1,9 @@
+{
+  "lessonsInspected": 43,
+  "pageErrors": [],
+  "quizProgressPersistence": true,
+  "verificationInvalidation": true,
+  "clipboard": true,
+  "mobileOverflow": false,
+  "legacyRoutes": true
+}

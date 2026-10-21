@@ -21,7 +21,7 @@ test('lesson readers put the action before optional pictures, and retain real ch
   assert.ok(guided.indexOf('className="guided-action"') < guided.indexOf('className="guided-visuals"'));
   assert.match(guided, /CHECK THE RESULT/);
   assert.match(guided, /productionPracticeFor\(lessonId\)/);
-  assert.match(guided, /<details className="guided-visuals">/);
+  assert.match(guided, /<section className="guided-visuals"[^>]*>/);
   const linux = readFileSync('app/sonic-ui.tsx', 'utf8');
   assert.match(linux, /className="sonic-action-panel"/);
   assert.match(linux, /See the picture for this step/);
