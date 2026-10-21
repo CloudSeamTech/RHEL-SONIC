@@ -224,6 +224,7 @@ const commandNames: ReadonlyArray<[RegExp, string]> = [
   [/\bgit clone\b/i, 'git clone copies a repository locally; --branch selects a named branch instead of the default. Confirm the current owner/repository before using historical examples.'],
   [/\bnpm (ci|run)\b/i, 'npm ci installs packages matching the lockfile; npm run executes the named local script. Review a repository and its scripts before running them.'],
   [/\bGet-Date\b/i, 'Get-Date shows the time from the Windows machine executing PowerShell; check hostname to know which machine produced it.'],
+  [/\bsudo bash\b/i, 'sudo bash runs a local shell script with elevated rights. In the approved Wazuh installer, -a installs central components on the manager. Review and verify the exact downloaded script before executing.'],
   [/\bStart-VBRJob\b/i, 'Start-VBRJob triggers the selected Veeam backup job; confirm the job, repository, policy and capacity with the backup owner first.'],
 
 ];
