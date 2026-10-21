@@ -1,13 +1,17 @@
+import { nessusCourses, nessusCourseHref } from '../lib/nessus-curriculum.ts';
 import almaCourse from '../content/alma/desktop-lessons.json' with { type: 'json' };
 import { lessons, modules } from './course.ts';
-import { migrationCurriculum as migrationLessons, migrationParts } from './migration-curriculum.ts';
+import {
+  migrationCurriculum as migrationLessons,
+  migrationParts,
+} from './migration-curriculum.ts';
 
 export type ConsoleLesson = {
   id: string;
   title: string;
   description: string;
   href: string;
-  source: 'linux' | 'migration' | 'alma';
+  source: 'linux' | 'migration' | 'alma' | 'nessus';
   metadata: string;
   steps: string[];
 };
@@ -248,7 +252,9 @@ function migration(ids: string[]): ConsoleLesson[] {
   return ids.flatMap(migrationParts).map((id) => {
     const lesson = migrationLessons.find((item) => item.id === id);
     if (!lesson) throw new Error(`Unknown pathway lesson: ${id}`);
-    const [title, description] = (lesson.separated ? [lesson.title, lesson.description!] : titles[id]) ?? [
+    const [title, description] = (lesson.separated
+      ? [lesson.title, lesson.description!]
+      : titles[id]) ?? [
       lesson.title,
       lesson.body
         .split('\n')
@@ -408,6 +414,25 @@ export const learningPathways: LearningPathway[] = [
         })),
     })),
   },
+  ...nessusCourses.map((course) => ({
+    id: course.id,
+    title: course.title,
+    prerequisite: course.prerequisite,
+    sections: [
+      {
+        title: 'Guided lessons / in order',
+        lessons: course.lessons.map((lesson) => ({
+          id: lesson.id,
+          title: lesson.title,
+          description: lesson.description,
+          href: `${nessusCourseHref(course.id)}#lesson=${lesson.id}`,
+          source: 'nessus' as const,
+          metadata: course.baseline,
+          steps: lesson.steps.map((step) => step.title),
+        })),
+      },
+    ],
+  })),
 ];
 
 export const pathwayLessons = (pathway: LearningPathway) =>
@@ -416,10 +441,22 @@ export const pathwayLessons = (pathway: LearningPathway) =>
 // Core lesson pagination follows the prerequisite route. Optional extensions
 // stay within their own sequence instead of interrupting the core route.
 export function lessonSequenceFor(id: string): ConsoleLesson[] {
+  if (id.startsWith('nessus-')) {
+    const pathway = learningPathways.find((path) =>
+      path.sections.some((section) =>
+        section.lessons.some((lesson) => lesson.id === id),
+      ),
+    );
+    return pathway ? pathwayLessons(pathway) : [];
+  }
   if (id.startsWith('alma-'))
     return pathwayLessons(learningPathways.find((path) => path.id === 'alma')!);
   const sections = learningPathways
-    .filter((pathway) => !['linux', 'alma'].includes(pathway.id))
+    .filter(
+      (pathway) =>
+        !['linux', 'alma'].includes(pathway.id) &&
+        !pathway.id.startsWith('nessus-'),
+    )
     .flatMap((pathway) => pathway.sections);
   const optional = sections.find(
     (section) =>

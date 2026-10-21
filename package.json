@@ -21,7 +21,8 @@
     "pictures:check": "node --experimental-strip-types --test tests/step-pictures.test.mjs",
     "screenshots:interfaces": "node tools/audit-interface-screenshots.mjs",
     "screenshots:interfaces-check": "node tools/audit-interface-screenshots.mjs --require-references",
-    "screenshots:targets-check": "node tools/audit-interface-screenshots.mjs --require-complete"
+    "screenshots:targets-check": "node tools/audit-interface-screenshots.mjs --require-complete",
+    "nessus:captures": "node tools/nessus-capture-inventory.mjs"
   },
   "dependencies": {
     "react": "19.2.6",

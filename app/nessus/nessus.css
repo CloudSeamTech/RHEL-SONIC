@@ -1,0 +1,237 @@
+.nessus-reader {
+  color: #eaeaea;
+}
+.nessus-reader button {
+  cursor: pointer;
+}
+.nessus-reader button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.nessus-reader button:focus-visible,
+.nessus-reader a:focus-visible,
+.nessus-reader input:focus-visible,
+.nessus-reader summary:focus-visible {
+  outline: 2px solid #21c5db;
+  outline-offset: 3px;
+}
+.nessus-course-switcher {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid #242424;
+  background: #050505;
+}
+.nessus-course-switcher a {
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  border-right: 1px solid #242424;
+  color: #898989;
+}
+.nessus-course-switcher a:last-child {
+  border-right: 0;
+}
+.nessus-course-switcher a[aria-current] {
+  background: #1c1c1c;
+  color: #eaeaea;
+  border-bottom: 2px solid #21c5db;
+}
+.nessus-course-switcher small {
+  display: block;
+  color: #d184ac;
+  font-family: var(--font-mono), monospace;
+  margin-bottom: 5px;
+}
+.nessus-prerequisite,
+.nessus-purpose section,
+.nessus-exercise,
+.nessus-quiz {
+  border: 1px solid #242424;
+  padding: 16px;
+  margin: 16px 0;
+  background: #080808;
+}
+.nessus-prerequisite b,
+.nessus-capture .eyebrow {
+  color: #dfb656;
+}
+.nessus-purpose {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+}
+.nessus-purpose section {
+  margin: 0;
+}
+.nessus-purpose section + section {
+  border-left: 0;
+}
+.nessus-purpose .eyebrow {
+  color: #21c5db;
+}
+.nessus-location {
+  padding: 12px;
+  border: 1px solid #242424;
+  margin: 12px 0;
+}
+.nessus-location b {
+  font-size: 11px;
+  color: #d184ac;
+}
+.nessus-location p {
+  margin: 6px 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+}
+.nessus-reader .guided-action li {
+  margin: 10px 0;
+  line-height: 1.7;
+}
+.nessus-capture {
+  border: 1px dashed #898989;
+  background: #101010;
+  margin: 16px 0;
+  padding: 16px;
+}
+.nessus-capture h4 {
+  margin: 12px 0;
+}
+.nessus-capture small,
+.nessus-reader .guided-expected small {
+  color: #898989;
+  line-height: 1.6;
+  display: block;
+}
+.nessus-explanation {
+  border: 1px solid #242424;
+  margin: 12px 0;
+  padding: 14px;
+}
+.nessus-explanation summary {
+  cursor: pointer;
+  color: #21c5db;
+  font-size: 13px;
+}
+.nessus-explanation a {
+  display: block;
+  margin: 12px 0;
+  color: #21c5db;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+.nessus-explanation li {
+  margin: 10px 0;
+  line-height: 1.65;
+}
+.nessus-explanation h3 {
+  font-size: 15px;
+  margin-top: 20px;
+  color: #dfb656;
+}
+.nessus-breakdown {
+  margin: 14px 0 0;
+}
+.nessus-breakdown div {
+  padding: 12px 0;
+  border-bottom: 1px solid #242424;
+}
+.nessus-breakdown dt {
+  color: #d184ac;
+  overflow-wrap: anywhere;
+}
+.nessus-breakdown dd {
+  margin: 6px 0;
+  color: #eaeaea;
+  line-height: 1.6;
+}
+.nessus-exercise .eyebrow {
+  color: #d184ac;
+}
+.nessus-exercise h2,
+.nessus-quiz h2,
+.nessus-reader .alma-verify h2 {
+  font-size: 20px;
+}
+.nessus-exercise h3 {
+  font-size: 15px;
+  color: #35d778;
+}
+.nessus-quiz fieldset {
+  min-width: 0;
+  border: 1px solid #242424;
+  margin: 20px 0;
+  padding: 14px;
+}
+.nessus-quiz legend {
+  font-weight: 500;
+  line-height: 1.6;
+  padding: 0 6px;
+}
+.nessus-quiz label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.nessus-reader input {
+  accent-color: #21c5db;
+  flex-shrink: 0;
+}
+.nessus-quiz input {
+  margin-top: 6px;
+}
+.nessus-quiz button {
+  background: #1c1c1c;
+  border: 1px solid #242424;
+  color: #eaeaea;
+  padding: 10px 16px;
+}
+.nessus-reader .guided-command output {
+  display: block;
+  padding: 8px;
+  color: #35d778;
+  font-size: 12px;
+}
+.nessus-reader .guided-command header {
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.nessus-storage-notice {
+  display: block;
+  color: #dfb656;
+}
+.nessus-storage-notice:empty {
+  display: none;
+}
+.nessus-reader h1,
+.nessus-reader h2,
+.nessus-reader h3,
+.nessus-reader p {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 750px) {
+  .nessus-course-switcher,
+  .nessus-purpose {
+    grid-template-columns: 1fr;
+  }
+  .nessus-course-switcher a {
+    border-right: 0;
+    border-bottom: 1px solid #242424;
+  }
+  .nessus-purpose section + section {
+    border-left: 1px solid #242424;
+    border-top: 0;
+  }
+  .nessus-reader .guided-lab {
+    padding: 12px;
+  }
+  .nessus-reader .guided-step {
+    min-width: 0;
+  }
+  .nessus-reader .guided-pagination {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+}

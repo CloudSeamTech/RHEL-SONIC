@@ -1,0 +1,1236 @@
+{
+  "id": "nessus-windows",
+  "title": "Install Nessus on Windows Server 2022",
+  "description": "Build and verify a Nessus 10.12.5 Windows scanner, one small action at a time.",
+  "baseline": "Tenable Nessus 10.12.5 · Windows Server 2022 x64 Desktop Experience · dedicated private lab VM",
+  "prerequisite": "A supported Windows Server 2022 Desktop Experience lab VM, authorized Nessus 10.12.5 Windows x64 scanner MSI, appropriate entitlement and a private network plan. Do not use a production domain controller. This is a separate scanner build, not the Server 2019 migration source.",
+  "sources": [
+    {
+      "title": "Software",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/SoftwareRequirements.htm"
+    },
+    {
+      "title": "Hardware",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/HardwareRequirements.htm"
+    },
+    {
+      "title": "Install",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/InstallNessusWindows.htm"
+    },
+    {
+      "title": "Service",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm"
+    },
+    {
+      "title": "Ports",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm"
+    },
+    {
+      "title": "Configure",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
+    },
+    {
+      "title": "Offline",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/InstallNessusOffline.htm"
+    },
+    {
+      "title": "Cert",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/UploadACustomServerAndCACertificate.htm"
+    },
+    {
+      "title": "Logs",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/ManageLogs.htm"
+    },
+    {
+      "title": "Updates",
+      "url": "https://docs.tenable.com/nessus/10_12/Content/PluginAndSoftwareUpdates.htm"
+    },
+    {
+      "title": "Release",
+      "url": "https://docs.tenable.com/release-notes/Content/nessus/2026.htm"
+    },
+    {
+      "title": "Firewall",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2022-ps"
+    },
+    {
+      "title": "Signature",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-authenticodesignature"
+    },
+    {
+      "title": "Connection",
+      "url": "https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "nessus-windows-prepare",
+      "title": "Prepare the Windows Server 2022 Scanner",
+      "description": "Check that your server can run Nessus before installing it.",
+      "what": "We are choosing the computer that will act like our safety inspector. This computer runs Nessus; the computers it checks are called targets.",
+      "why": "A scanner needs room for its program, plugins, reports and logs. The wrong Windows edition can stop the whole lab.",
+      "steps": [
+        {
+          "title": "Check the supported Windows edition",
+          "where": "Windows Server 2022 guest · Start menu and System Information",
+          "actions": [
+            "Use a separate Windows Server 2022 x64 lab VM with Desktop Experience, not Server Core. Do not reuse a production domain controller.",
+            "Open Start, type System Information, and open it. Read OS Name, Version and System Type. Record the version privately.",
+            "If you need a VM first, use Workstation Pro > File > New Virtual Machine; attach your authorized Server 2022 ISO; install Desktop Experience on a new blank disk. Finish Windows setup before this course."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "System Information identifies Windows Server 2022 and an x64-based PC; a desktop and Start menu are available.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Windows Server 2022 System Information: OS Name and System Type",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/SoftwareRequirements.htm"
+          ]
+        },
+        {
+          "title": "Reserve scanner resources",
+          "where": "Windows host · VMware Workstation Pro > VM Settings",
+          "actions": [
+            "Shut down the guest normally before changing its virtual hardware. Open this scanner VM > Edit virtual machine settings.",
+            "For this small lab, plan four virtual CPU cores, 8 GB RAM and an 80 GB or larger new virtual disk. Leave enough resources for the Windows host and scan targets. These are lab allocations, not a performance guarantee.",
+            "Start the guest. In File Explorer > This PC, check free space on C:. Allow at least 30 GB for Nessus beyond the operating system, plus room for results/logs and 5 GB temporary space."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The recorded hardware plan fits the host and includes spare disk capacity; you have not modified another VM.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Workstation scanner VM hardware and Windows free disk space",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/HardwareRequirements.htm"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Keep this scanner separate from the two target VMs.",
+        "Use current supported Windows updates and an authorized installer."
+      ],
+      "commonMistakes": [
+        "Choosing Server Core because it is smaller.",
+        "Assigning all physical RAM to one VM and starving the host."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "No desktop appears",
+          "fix": "Check the installed edition. Rebuild this disposable lab VM with Desktop Experience; do not try to turn Server Core into a desktop by installing IIS."
+        },
+        {
+          "problem": "Host is very slow",
+          "fix": "Close other VMs or reduce concurrency while preserving the scanner requirements. Do not continue with an exhausted host."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which server edition is suitable here?",
+          "options": [
+            "Server 2022 Desktop Experience x64",
+            "Server 2022 Core",
+            "Any version as long as it has a web browser"
+          ],
+          "answer": 0,
+          "explanation": "Nessus supports Server 2022 x64 but not Server Core."
+        },
+        {
+          "question": "What belongs in your disk plan?",
+          "options": [
+            "Only the MSI file",
+            "The OS, Nessus, plugins, results, logs and temporary space",
+            "Only Windows updates"
+          ],
+          "answer": 1,
+          "explanation": "The installer is just one part of the storage need."
+        }
+      ],
+      "exercise": "Make a short hardware and OS checklist for the scanner. Record the host, VM name, edition, CPU, RAM and free disk space.",
+      "pass": "The supported OS and resource checklist is complete and the scanner is a dedicated lab VM."
+    },
+    {
+      "id": "nessus-windows-network",
+      "title": "Prepare Networking and the Installer",
+      "description": "Give the scanner a stable identity and verify the MSI before running it.",
+      "what": "We are putting a name tag on the scanner and checking its installation box before opening it.",
+      "why": "Stable addressing helps you reach the right server; a verified installer helps you avoid the wrong product or a changed file.",
+      "steps": [
+        {
+          "title": "Check the private scan path",
+          "where": "Windows Server 2022 guest · PowerShell",
+          "actions": [
+            "Connect the scanner and authorized targets to the same isolated private lab VMnet. Keep a written list of their actual addresses. Do not scan networks beyond that list.",
+            "Open PowerShell. Run the inspection commands below. Compare the address, DNS servers and hostname with your lab plan.",
+            "If you need to change the name/address, use Server Manager > Local Server > Computer name or Ethernet. Use your own approved unused address, subnet, gateway and DNS. Restart after a rename and recheck.",
+            "A NAT VMnet may provide Internet updates, but scanning targets through a NAT translation can distort checks. Use direct private-IP traffic between the lab VMs."
+          ],
+          "command": "hostname\nGet-NetIPConfiguration\nGet-DnsClientServerAddress -AddressFamily IPv4",
+          "breakdown": [
+            {
+              "term": "hostname",
+              "meaning": "Prints the local computer name."
+            },
+            {
+              "term": "Get-NetIPConfiguration",
+              "meaning": "Shows network adapters, addresses and gateways without changing them."
+            },
+            {
+              "term": "Get-DnsClientServerAddress",
+              "meaning": "Lists configured DNS servers."
+            },
+            {
+              "term": "-AddressFamily IPv4",
+              "meaning": "Limits the DNS display to IPv4 settings."
+            }
+          ],
+          "expected": "The scanner has the planned name/address and the intended DNS servers. Do not expect these commands to print the course author’s values.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "PowerShell actual hostname, IPv4 address and DNS configuration",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/HardwareRequirements.htm"
+          ]
+        },
+        {
+          "title": "Verify the Windows x64 Nessus MSI",
+          "where": "Windows Server 2022 guest · File Explorer and PowerShell",
+          "actions": [
+            "Obtain the Nessus 10.12.5 Windows x64 scanner installer from Tenable or your approved software custodian. The Nessus Agent is a different product. Keep the installer outside the Git repository.",
+            "In File Explorer, turn on View > File name extensions. Right-click the MSI > Properties. Check Details and Digital Signatures. Verify Tenable’s signer and the version; stop if the file is untrusted or is the wrong product.",
+            "Run the command below, supplying the real full path when asked. Compare the SHA256 hash with an independently obtained official hash if one is published. A hash alone does not prove who created a file."
+          ],
+          "command": "$MsiPath = Read-Host 'Full path to your verified Nessus 10.12.5 x64 MSI'\nGet-AuthenticodeSignature -FilePath $MsiPath | Format-List Status,SignerCertificate\nGet-FileHash -Path $MsiPath -Algorithm SHA256",
+          "breakdown": [
+            {
+              "term": "$MsiPath",
+              "meaning": "Stores the path you type; it is not a password."
+            },
+            {
+              "term": "Read-Host",
+              "meaning": "Asks you for a value instead of assuming a filename."
+            },
+            {
+              "term": "Get-AuthenticodeSignature",
+              "meaning": "Checks the Windows digital signature. Investigate any status other than Valid."
+            },
+            {
+              "term": "Format-List",
+              "meaning": "Displays the named properties in a readable list."
+            },
+            {
+              "term": "Get-FileHash -Algorithm SHA256",
+              "meaning": "Computes a file fingerprint for comparison with a trusted source."
+            }
+          ],
+          "expected": "The actual downloaded filename, verified signature, version and hash are recorded. No activation code or private license text is in the notes.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "MSI Properties and signature status; no license keys visible",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/InstallNessusWindows.htm",
+            "https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-authenticodesignature"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Use the actual filename; do not rename another MSI to look correct.",
+        "Avoid overlapping home/VPN subnets and never expose the scanner UI to the public Internet."
+      ],
+      "commonMistakes": [
+        "Installing Nessus Agent instead of the Nessus scanner.",
+        "Treating a downloaded filename as proof of authenticity."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Signature is not Valid",
+          "fix": "Check source, system time and certificate trust. Obtain a new approved copy; do not click through an unexplained signature problem."
+        },
+        {
+          "problem": "Private addresses overlap a VPN",
+          "fix": "Stop and change the isolated lab plan with the owner before scanning."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Does a SHA256 value by itself prove the file came from Tenable?",
+          "options": [
+            "Yes",
+            "No; compare it with a trusted official value and verify the signer",
+            "Only if the filename includes Nessus"
+          ],
+          "answer": 1,
+          "explanation": "A hash identifies bytes. A trusted reference and signature establish more useful provenance."
+        },
+        {
+          "question": "Which traffic should use the private lab path?",
+          "options": [
+            "Scanning your two authorized target VMs",
+            "Scanning every address your host can reach",
+            "Only browser traffic"
+          ],
+          "answer": 0,
+          "explanation": "Scope and direct private connectivity make this a controlled exercise."
+        }
+      ],
+      "exercise": "Record the verified MSI name/version and a diagram of the scanner-to-target private path.",
+      "pass": "The scanner network plan and trusted Windows x64 scanner installer are ready."
+    },
+    {
+      "id": "nessus-windows-install",
+      "title": "Install Nessus with the MSI",
+      "description": "Use the Windows installer without adding IIS.",
+      "what": "We are installing Nessus, like putting the inspector’s toolbox on the server.",
+      "why": "Nessus brings its own HTTPS web interface. IIS is not needed to run Nessus and belongs in a separate application-hosting class.",
+      "steps": [
+        {
+          "title": "Run the approved installer",
+          "where": "Windows Server 2022 guest · File Explorer",
+          "actions": [
+            "Sign in using an approved account that can install software. Close other installers and confirm there are no running scans or another Nessus/Agent instance to disturb.",
+            "Double-click the verified 10.12.5 x64 Nessus scanner MSI. If User Account Control asks, verify the signer and approve only the intended installer.",
+            "At the InstallShield Welcome page, select Next. Read the software license and accept only if you are authorized to accept it. Select Next."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The installer reaches the destination-folder page for Tenable Nessus.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Nessus InstallShield Welcome and approved destination folder",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/InstallNessusWindows.htm"
+          ]
+        },
+        {
+          "title": "Complete the installation",
+          "where": "Windows Server 2022 guest · Nessus InstallShield Wizard",
+          "actions": [
+            "Keep the default destination unless your organization has an approved alternative. Select Next, then Install.",
+            "Wait for the installer to finish. Do not start a second copy while it is busy. If it requests a restart, save your work and restart before continuing. When the completion page appears, click Finish.",
+            "Record whether installation completed. Do not install the IIS Web Server role: Nessus uses its own web server. Continue to the service lesson even if the browser opens automatically."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "InstallShield reports completion or a documented error. The next lesson checks the installed service; we do not assume success from a disappearing window.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Nessus InstallShield completion page; omit any private data",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/InstallNessusWindows.htm"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Use a change window on managed systems; this course uses a disposable lab VM.",
+        "Keep the approved installer available for controlled repair."
+      ],
+      "commonMistakes": [
+        "Adding IIS because the application opens in a browser.",
+        "Installing another product on top of a running scanner and losing scan data."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Installation requests a restart",
+          "fix": "Restart the lab guest normally, then check Services."
+        },
+        {
+          "problem": "Installation fails",
+          "fix": "Record the exact message and inspect Windows Event Viewer > Windows Logs > Application for Windows Installer events. Correct the cause before retrying."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Does Nessus need IIS for its web interface?",
+          "options": [
+            "Yes, install Web-Server first",
+            "No, Nessus provides its own web server",
+            "Only when using port 8834"
+          ],
+          "answer": 1,
+          "explanation": "IIS application hosting is separate from Nessus installation."
+        },
+        {
+          "question": "What do you do after a requested restart?",
+          "options": [
+            "Ignore it and activate immediately",
+            "Restart safely and then verify the Nessus service",
+            "Install the MSI again first"
+          ],
+          "answer": 1,
+          "explanation": "Complete the operating-system change before checking the service."
+        }
+      ],
+      "exercise": "Complete the MSI wizard and record its result without exposing license information.",
+      "pass": "The MSI completes and any required restart is finished."
+    },
+    {
+      "id": "nessus-windows-service",
+      "title": "Manage the Nessus Windows Service",
+      "description": "Find, start and safely inspect the Tenable Nessus service.",
+      "what": "A service is a helper that can work even when its window is closed. This helper runs the scanner.",
+      "why": "If the service is stopped, opening the browser cannot make Nessus work.",
+      "steps": [
+        {
+          "title": "Find the installed service",
+          "where": "Windows Server 2022 guest · Services",
+          "actions": [
+            "Press Windows+R, type services.msc and press Enter. Find the display name Tenable Nessus.",
+            "Open its Properties. Read the status and configured startup type. Record what you actually see; do not guess the internal service name.",
+            "If it is stopped, right-click Tenable Nessus > Start using an approved administrator account. Refresh the list."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Tenable Nessus appears and shows Running, or you have captured the exact start error.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Services row and Properties for Tenable Nessus",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm"
+          ]
+        },
+        {
+          "title": "Use the documented service commands",
+          "where": "Windows Server 2022 guest · elevated PowerShell",
+          "actions": [
+            "Right-click PowerShell > Run as administrator. Query the service with the first command.",
+            "Only if it is stopped, use the documented net start command below. Stopping the service affects active scans; do not stop it just to test a button.",
+            "For an approved maintenance stop, use net stop \"Tenable Nessus\"; when maintenance is done, start it again and check status. A service restart and a scan restart are different actions."
+          ],
+          "command": "Get-Service -DisplayName 'Tenable Nessus'\nnet start \"Tenable Nessus\"",
+          "breakdown": [
+            {
+              "term": "Get-Service",
+              "meaning": "Reads Windows service status."
+            },
+            {
+              "term": "-DisplayName",
+              "meaning": "Looks up the friendly name shown in Services."
+            },
+            {
+              "term": "net start",
+              "meaning": "Starts a Windows service; it does not install the product."
+            },
+            {
+              "term": "\"Tenable Nessus\"",
+              "meaning": "Quotes preserve the spaces in this service’s display name."
+            }
+          ],
+          "expected": "The service status reflects your action. Expected state after installation work is Running; no invented console output is provided.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Elevated PowerShell service query and actual result",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Check for running scans before maintenance.",
+        "Use the minimum elevation needed; viewing a page does not require a Windows admin session."
+      ],
+      "commonMistakes": [
+        "Starting the browser repeatedly when the service is stopped.",
+        "Using a guessed service name or confusing Nessus with Nessus Agent."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Service is missing",
+          "fix": "Confirm the correct scanner MSI completed and any restart finished."
+        },
+        {
+          "problem": "Service stops immediately",
+          "fix": "Read the service error, Windows events and Nessus logs; inspect disk capacity before repeated restarts."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which friendly service name should you find?",
+          "options": [
+            "World Wide Web Publishing Service",
+            "Tenable Nessus",
+            "SQL Server"
+          ],
+          "answer": 1,
+          "explanation": "The Nessus scanner has its own Windows service."
+        },
+        {
+          "question": "What should you check before stopping it?",
+          "options": [
+            "Whether scans are active and maintenance is approved",
+            "Only whether the browser is closed",
+            "Whether IIS is installed"
+          ],
+          "answer": 0,
+          "explanation": "Stopping the scanner can interrupt work and affect results."
+        }
+      ],
+      "exercise": "Find Tenable Nessus in Services and show the matching PowerShell status query.",
+      "pass": "The intended service is present and running with any errors investigated."
+    },
+    {
+      "id": "nessus-windows-firewall",
+      "title": "Allow Only Approved Access on Port 8834",
+      "description": "Create a narrow Windows Defender Firewall rule for the management page.",
+      "what": "The firewall is a door guard. We are giving one approved administrator a pass to the Nessus door.",
+      "why": "A scanner holds sensitive reports and credentials. Its management page should not be open to everyone.",
+      "steps": [
+        {
+          "title": "Identify the active profile and administrator address",
+          "where": "Windows Server 2022 guest · PowerShell and Windows Defender Firewall",
+          "actions": [
+            "Ask your lab plan for the exact administrator workstation IPv4 address. This is the address that will browse Nessus, not the target VM address.",
+            "Run the inspection command below. Open Windows Defender Firewall with Advanced Security (wf.msc) and read the active profile.",
+            "Use the profile approved for this isolated lab. If the network is unexpectedly Public or domain policy controls the firewall, stop and ask the owner to correct the plan rather than disabling protection."
+          ],
+          "command": "Get-NetConnectionProfile",
+          "breakdown": [
+            {
+              "term": "Get-NetConnectionProfile",
+              "meaning": "Shows each connected network and its category; it does not change the network."
+            }
+          ],
+          "expected": "You have recorded the correct active profile and one approved source address.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Firewall overview active profile and PowerShell connection profile",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm",
+            "https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2022-ps"
+          ]
+        },
+        {
+          "title": "Create and inspect the restricted rule",
+          "where": "Windows Server 2022 guest · elevated PowerShell",
+          "actions": [
+            "The command below applies to an approved Private or Domain profile. If your plan uses another profile, have the owner approve an appropriate rule before continuing.",
+            "Enter the real approved administrator IPv4 address when prompted. Run the rule-creation command once. Do not use Any for RemoteAddress.",
+            "In wf.msc > Inbound Rules, open SONIC Nessus UI from admin. Check Protocols and Ports, Scope > Remote IP addresses, and Advanced > Profiles. Restrict or remove any pre-existing broad Nessus UI allowance according to the approved lab plan; Windows allow rules can overlap."
+          ],
+          "command": "$AdminIP = Read-Host 'Approved administrator IPv4 address'\nNew-NetFirewallRule -DisplayName 'SONIC Nessus UI from admin' -Direction Inbound -Action Allow -Protocol TCP -LocalPort 8834 -RemoteAddress $AdminIP -Profile Private,Domain",
+          "breakdown": [
+            {
+              "term": "$AdminIP",
+              "meaning": "Stores the approved source address you enter."
+            },
+            {
+              "term": "New-NetFirewallRule",
+              "meaning": "Creates one Windows firewall rule; inspect existing rules too."
+            },
+            {
+              "term": "-Direction Inbound -Action Allow",
+              "meaning": "Allows matching traffic arriving at the scanner."
+            },
+            {
+              "term": "-Protocol TCP -LocalPort 8834",
+              "meaning": "Matches the Nessus HTTPS management port."
+            },
+            {
+              "term": "-RemoteAddress $AdminIP",
+              "meaning": "Restricts the source to your administrator computer."
+            },
+            {
+              "term": "-Profile Private,Domain",
+              "meaning": "Makes the rule apply only to the listed approved network categories."
+            }
+          ],
+          "expected": "The approved source address can reach TCP8834 and the inspected rule uses the intended profile. A second broad allow rule must not silently defeat the restriction.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Firewall rule Protocols and Ports, Scope and Profile tabs",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm",
+            "https://learn.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2022-ps"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Keep Windows Defender Firewall enabled.",
+        "TCP8834 is the scanner management port; authenticated target scans need their own approved access rules."
+      ],
+      "commonMistakes": [
+        "Opening 8834 on every target instead of on the scanner.",
+        "Choosing Any source address or leaving a second broad rule active."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Rule exists but access fails",
+          "fix": "Compare active profile, source IP, destination IP and service listener. Domain policy may override local rules."
+        },
+        {
+          "problem": "Duplicate rules appear",
+          "fix": "Inspect each matching rule before removing anything. Disable only the course-created duplicate after confirming its purpose."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Who should be allowed to browse TCP8834 in this exercise?",
+          "options": [
+            "The approved administrator workstation",
+            "Every Internet address",
+            "Every unknown device on the LAN"
+          ],
+          "answer": 0,
+          "explanation": "Management access is restricted to the approved source."
+        },
+        {
+          "question": "Does creating a narrow rule automatically cancel every broad allow rule?",
+          "options": [
+            "Yes",
+            "No; inspect overlapping existing rules",
+            "Only if it has SONIC in its name"
+          ],
+          "answer": 1,
+          "explanation": "Other matching allow rules may still permit access."
+        }
+      ],
+      "exercise": "Show the Nessus rule’s local port, source scope and active profile without turning off the firewall.",
+      "pass": "The management allowance is scoped and existing broad allowances have been reviewed."
+    },
+    {
+      "id": "nessus-windows-web",
+      "title": "Open the Nessus HTTPS Console",
+      "description": "Reach the correct private Nessus server and inspect its certificate.",
+      "what": "We are opening the scanner’s control panel in a browser. HTTPS protects that conversation.",
+      "why": "Knowing the correct address prevents you from entering a license or password into the wrong page.",
+      "steps": [
+        {
+          "title": "Test the local web listener first",
+          "where": "Windows Server 2022 guest · browser",
+          "actions": [
+            "On the scanner itself, open a browser and type https://localhost:8834. Include https and the :8834 port.",
+            "Nessus initially uses a self-signed certificate. Inspect the certificate warning and confirm you are on the intended local scanner. A self-signed warning is not permission to trust an unrelated website.",
+            "For this isolated first-time lab only, follow the browser’s advanced/continue option if your policy permits it. If it is blocked by policy, use the approved trust/certificate process; do not disable browser validation."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The Nessus welcome page appears locally, or the exact browser/TLS error is recorded.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Browser address bar and Nessus welcome page; no private fields entered",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/InstallNessusWindows.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
+          ]
+        },
+        {
+          "title": "Test from the administrator workstation",
+          "where": "Approved Windows administrator workstation · PowerShell and browser",
+          "actions": [
+            "Run the test below and enter the scanner’s actual private IPv4 address. This checks TCP, not the license or plugin status.",
+            "Open https://YOUR-SCANNER-PRIVATE-IP:8834 in the browser, replacing the words with the actual private address.",
+            "Inspect the certificate and expected server identity before a permitted lab exception. If local access worked but remote access fails, check the firewall and private path first."
+          ],
+          "command": "$ScannerIP = Read-Host 'Scanner private IPv4 address'\nTest-NetConnection -ComputerName $ScannerIP -Port 8834",
+          "breakdown": [
+            {
+              "term": "Test-NetConnection",
+              "meaning": "Tests a connection from this Windows computer."
+            },
+            {
+              "term": "-ComputerName $ScannerIP",
+              "meaning": "Uses the scanner destination you entered."
+            },
+            {
+              "term": "-Port 8834",
+              "meaning": "Tests the scanner management TCP port."
+            },
+            {
+              "term": "TcpTestSucceeded",
+              "meaning": "True means TCP connected; it does not prove TLS trust, licensing or plugin readiness."
+            }
+          ],
+          "expected": "TcpTestSucceeded reflects actual connectivity, and the browser reaches the same intended scanner. TCP success alone is not complete installation validation.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Administrator workstation private scanner URL and connectivity test",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm",
+            "https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Use the correct private hostname/IP; protect management access.",
+        "Replace the temporary self-signed setup experience with approved trust before enterprise use."
+      ],
+      "commonMistakes": [
+        "Using http, omitting :8834, or browsing the target instead of the scanner.",
+        "Assuming a green TCP test proves a certificate is trusted."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Localhost fails",
+          "fix": "Check Tenable Nessus service and the local 8834 listener."
+        },
+        {
+          "problem": "Only remote access fails",
+          "fix": "Check source-scoped firewall rules, VMnet, current IP and routing before changing application settings."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which URL format reaches local Nessus?",
+          "options": [
+            "http://localhost",
+            "https://localhost:8834",
+            "https://localhost:4433"
+          ],
+          "answer": 1,
+          "explanation": "The default web interface uses HTTPS on TCP8834."
+        },
+        {
+          "question": "What does a successful TCP test prove?",
+          "options": [
+            "Only that a TCP connection could be made",
+            "That your license is valid",
+            "That all scan plugins are current"
+          ],
+          "answer": 0,
+          "explanation": "Licensing and application readiness require separate checks."
+        }
+      ],
+      "exercise": "Open the intended Nessus welcome page locally and from the approved administrator workstation.",
+      "pass": "Both access tests are understood, and any certificate exception is lab-only and policy-approved."
+    },
+    {
+      "id": "nessus-windows-activate",
+      "title": "Activate Nessus and Initialize Plugins",
+      "description": "Choose the entitled product and wait for the scanner’s checks to load.",
+      "what": "Plugins are the inspector’s checklists. Activation chooses which toolbox your license allows.",
+      "why": "A running service with no ready plugins is not a usable scanner. Different licenses provide different features.",
+      "steps": [
+        {
+          "title": "Choose the approved activation route",
+          "where": "Nessus browser console · Welcome/setup pages",
+          "actions": [
+            "At Welcome, choose the product and registration route that matches your actual entitlement. Nessus Professional, Expert, Essentials and Security Center-managed scanners are not interchangeable.",
+            "For an online standalone license, follow the entitled product wizard and enter the private activation information directly in Nessus. Create a unique Nessus administrator account; it is not the Windows Administrator account.",
+            "Keep the code and password in your approved password manager. Do not put either into course notes, screenshots, terminal history or GitHub. Stop if the entitlement is unknown."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The selected product matches the license and the dedicated Nessus administrator can complete setup.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Product selection/setup screen with all activation and password fields hidden",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
+          ]
+        },
+        {
+          "title": "Wait for and verify plugin initialization",
+          "where": "Nessus browser console · initialization and Settings/About",
+          "actions": [
+            "Allow the initial plugin download and compilation to finish. Keep the VM powered on and check adequate disk space; elapsed time varies.",
+            "When sign-in becomes available, sign in and inspect Settings > About (or the current equivalent). Record actual Nessus version, licensed product and plugin-set date/status without copying the activation code.",
+            "Offline route: use Register Offline only with a supported license and the official two-computer procedure. Keep the private license file outside this repository. Essentials does not support offline installation. A supplied archive name does not establish its contents; Nessus 10.12.5 manual plugin updates require the matching signature file."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The actual installed version is 10.12.5, the intended entitlement is active and plugin initialization is finished. Otherwise this gate remains incomplete.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Ready console and version/plugin information with license identifiers redacted",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/InstallNessusOffline.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/PluginAndSoftwareUpdates.htm",
+            "https://docs.tenable.com/release-notes/Content/nessus/2026.htm"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Treat plugin and application updates as different jobs.",
+        "Use current official offline instructions and signatures; do not bypass verification to force an archive to load."
+      ],
+      "commonMistakes": [
+        "Picking a product just because its name looks familiar.",
+        "Closing the VM during plugin compilation or assuming all templates are licensed."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Download cannot connect",
+          "fix": "Check DNS, clock, approved proxy and outbound feed access; preserve the exact error."
+        },
+        {
+          "problem": "Offline license or archive fails",
+          "fix": "Verify license binding, entitlement, provenance and the required matching signature with the software custodian. Do not rename arbitrary files to make them pass."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Is your Nessus administrator automatically your Windows Administrator?",
+          "options": [
+            "Yes",
+            "No; it is a separate application account",
+            "Only on port 8834"
+          ],
+          "answer": 1,
+          "explanation": "The accounts belong to different security systems."
+        },
+        {
+          "question": "Can a 10.12.5 manual plugin import rely on an unsigned archive alone?",
+          "options": [
+            "Yes, if its filename includes 10.12.5",
+            "No; the supported signed update package/workflow is required",
+            "Yes, if you disable certificate checks"
+          ],
+          "answer": 1,
+          "explanation": "The 10.12.5 release requires a signature file for manual scanner plugin updates."
+        }
+      ],
+      "exercise": "Record the actual product, version and plugin readiness. Keep activation secrets out of your evidence.",
+      "pass": "Entitlement and initialization are verified without exposing secrets."
+    },
+    {
+      "id": "nessus-windows-certificates",
+      "title": "Configure Trusted HTTPS Access",
+      "description": "Plan and install a certificate that matches the scanner’s real name.",
+      "what": "A certificate is the server’s ID card. A trusted issuer helps your browser confirm who it is talking to.",
+      "why": "An untrusted setup certificate may be tolerable in an isolated lab, but repeated blind exceptions are not an enterprise access plan.",
+      "steps": [
+        {
+          "title": "Plan the certificate and rollback",
+          "where": "Windows Server 2022 guest · secure administrator workspace",
+          "actions": [
+            "Choose the approved DNS name that administrators will use. Ask the certificate owner for a server certificate whose Subject Alternative Name matches that name (and the IP only if it will be used).",
+            "Obtain the matching server key, server certificate and CA chain through the approved process. Store them in a protected local folder, not a shared course folder or Git checkout.",
+            "Before changing anything, arrange a maintenance window, verify no scans are running, and back up the current Nessus certificate/key privately. Record the restore plan. If you lack a valid certificate or approval, complete this as a documented preparation exercise, not a fake installation."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The names, files, permissions, maintenance plan and private rollback copy are ready; no private key is in a screenshot.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Certificate public Details tab showing SAN; never show private key contents",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/UploadACustomServerAndCACertificate.htm"
+          ]
+        },
+        {
+          "title": "Import and verify only approved matching files",
+          "where": "Windows Server 2022 guest · elevated PowerShell",
+          "actions": [
+            "Use the official import-certs procedure only after preparing the approved files. Enter local paths below; do not paste key contents. Paths must identify the matching unencrypted PEM server key, server certificate and CA certificate.",
+            "Use an approved maintenance stop before replacement and start the service afterward. If import validation fails, stop and read the message rather than overwriting files by hand.",
+            "Browse Nessus using the approved matching DNS name. Inspect chain, name and expiry. If validation fails, follow the recorded rollback and restore service. A new self-signed certificate by itself does not create browser trust."
+          ],
+          "command": "$KeyPath = Read-Host 'Protected server key PEM path'\n$CertPath = Read-Host 'Server certificate PEM path'\n$CaPath = Read-Host 'CA certificate PEM path'\nnet stop \"Tenable Nessus\"\n& 'C:\\Program Files\\Tenable\\Nessus\\nessuscli.exe' import-certs \"--serverkey=$KeyPath\" \"--servercert=$CertPath\" \"--cacert=$CaPath\"\nnet start \"Tenable Nessus\"",
+          "breakdown": [
+            {
+              "term": "Read-Host",
+              "meaning": "Asks for local file paths, not certificate or key contents."
+            },
+            {
+              "term": "&",
+              "meaning": "PowerShell call operator: runs the quoted executable path."
+            },
+            {
+              "term": "C:\\Program Files\\Tenable\\Nessus\\nessuscli.exe",
+              "meaning": "Default Nessus administration tool location; use the real installation path if approved custom setup differs."
+            },
+            {
+              "term": "import-certs",
+              "meaning": "Validates and installs the matching certificate material."
+            },
+            {
+              "term": "--serverkey / --servercert / --cacert",
+              "meaning": "Identify the private key, public server certificate and CA certificate files."
+            },
+            {
+              "term": "net stop / net start",
+              "meaning": "Creates a maintenance interruption; only run during the approved window."
+            }
+          ],
+          "expected": "The approved name loads with the expected certificate chain, or a recorded failure and rollback. This is not complete without a real lab test.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Browser certificate chain, SAN and expiry after approved import",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/UploadACustomServerAndCACertificate.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Follow certificate-owner policy, including chain and private-key ACL requirements.",
+        "This lab does not ask you to export a production private key or upload certificates to SONIC-Academy."
+      ],
+      "commonMistakes": [
+        "Using a certificate for another name or missing its SAN.",
+        "Thinking mkcert automatically creates public trust."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Name mismatch remains",
+          "fix": "Use the SAN-matching DNS name and correct DNS record, or obtain a corrected certificate."
+        },
+        {
+          "problem": "Service or TLS breaks",
+          "fix": "Use the private backup and documented rollback, then recheck service and browser access."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which certificate field must match the browser name?",
+          "options": [
+            "Only the file name",
+            "Subject Alternative Name (SAN)",
+            "The course title"
+          ],
+          "answer": 1,
+          "explanation": "Modern browser checks depend on the SAN matching the access name/IP."
+        },
+        {
+          "question": "Where does the server private key belong?",
+          "options": [
+            "In a public GitHub issue",
+            "In an approved protected local location",
+            "In a learner screenshot"
+          ],
+          "answer": 1,
+          "explanation": "Private keys are secrets and need restricted access."
+        }
+      ],
+      "exercise": "Either complete and verify an approved lab certificate import, or submit a clearly marked blocked preparation plan listing missing certificate prerequisites.",
+      "pass": "Trusted access is verified, or the missing certificate/approval is honestly documented and not marked as a successful import."
+    },
+    {
+      "id": "nessus-windows-troubleshoot",
+      "title": "Troubleshoot Service and Connection Problems",
+      "description": "Test one layer at a time instead of disabling security controls.",
+      "what": "We are following the path from the scanner’s engine to the browser, like checking a lamp, its cord and its outlet.",
+      "why": "Changing several settings at once hides the real problem and can make the server less secure.",
+      "steps": [
+        {
+          "title": "Inspect service, listener and application events",
+          "where": "Windows Server 2022 guest · elevated PowerShell and Event Viewer",
+          "actions": [
+            "Run the commands below. Compare the service status with the local TCP8834 listener. A running service can still be initializing; inspect the actual messages.",
+            "Open Event Viewer > Windows Logs > Application and System. Look near the failure time for Nessus/service/Windows Installer events.",
+            "Open File Explorer and enter C:\\ProgramData\\Tenable\\Nessus\\nessus\\logs in the address bar (ProgramData may be hidden). Read nessusd.messages and www_server.log near the error time. Consult the official Manage Logs page if a custom installation changes the location. Keep disk usage and timestamps in notes; redact credentials and sensitive target details before sharing logs."
+          ],
+          "command": "Get-Service -DisplayName 'Tenable Nessus'\nGet-NetTCPConnection -LocalPort 8834 -State Listen -ErrorAction SilentlyContinue\nGet-Volume -DriveLetter C",
+          "breakdown": [
+            {
+              "term": "Get-NetTCPConnection",
+              "meaning": "Lists actual TCP endpoints on this computer."
+            },
+            {
+              "term": "-LocalPort 8834 -State Listen",
+              "meaning": "Filters to listeners on the Nessus management port."
+            },
+            {
+              "term": "-ErrorAction SilentlyContinue",
+              "meaning": "Suppresses the no-match error display; an empty list still means no matching listener was found."
+            },
+            {
+              "term": "Get-Volume -DriveLetter C",
+              "meaning": "Shows capacity and free space on the C volume."
+            }
+          ],
+          "expected": "You can say whether the failure is service start, local listener or an application/setup issue, supported by actual evidence.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Service/listener query and a relevant redacted event",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/ManageLogs.htm"
+          ]
+        },
+        {
+          "title": "Separate remote TCP failure from HTTPS trust failure",
+          "where": "Approved administrator workstation · PowerShell and browser",
+          "actions": [
+            "Repeat Test-NetConnection to the scanner’s private IP on port 8834. If it fails while local access works, inspect VMnet, address, firewall source scope and profile.",
+            "If TCP succeeds but the browser rejects the page, inspect the HTTPS scheme, certificate name/chain/expiry and the workstation clock.",
+            "If the page opens but plugins are unavailable, inspect the update/initialization status and approved outbound feed/proxy path. Correct one evidenced cause, retest, and record the result. Do not disable the firewall, UAC, antivirus or TLS validation as a blanket fix."
+          ],
+          "command": "$ScannerIP = Read-Host 'Scanner private IPv4 address'\nTest-NetConnection -ComputerName $ScannerIP -Port 8834",
+          "breakdown": [
+            {
+              "term": "Test-NetConnection -Port 8834",
+              "meaning": "Checks network reachability from the actual administrator workstation; it does not validate browser trust."
+            }
+          ],
+          "expected": "Your notes identify the failed layer, the single correction and the retest result. A scan or console error is not mislabeled as success.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Browser exact error and matching TCP test with private details redacted",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/powershell/module/nettcpip/test-netconnection",
+            "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Change one thing at a time and keep a rollback path.",
+        "Restore the approved baseline after a troubleshooting experiment."
+      ],
+      "commonMistakes": [
+        "Assuming Ping failure means HTTPS must fail.",
+        "Reinstalling before checking the service, listener and correct destination."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "No service or listener",
+          "fix": "Return to installation/service evidence. Repeated browser reloads will not create the service."
+        },
+        {
+          "problem": "Only certificate error",
+          "fix": "Verify identity, time and chain; do not widen firewall rules for a TLS error."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Local Nessus works but remote TCP8834 fails. What is a sensible next check?",
+          "options": [
+            "VMnet, address and source-scoped firewall rules",
+            "Install IIS",
+            "Delete all plugins"
+          ],
+          "answer": 0,
+          "explanation": "The local application works; inspect the remote network path."
+        },
+        {
+          "question": "TCP8834 connects but the browser reports a name mismatch. Which layer needs attention?",
+          "options": [
+            "Certificate and access name",
+            "CPU count only",
+            "SQL Server"
+          ],
+          "answer": 0,
+          "explanation": "A certificate-name problem is different from a blocked TCP port."
+        }
+      ],
+      "exercise": "Practice the diagnostic sequence without deliberately weakening the server. Record a real issue or clearly mark a hypothetical one as an exercise.",
+      "pass": "A service/network/TLS/update issue can be isolated using evidence and an approved correction."
+    },
+    {
+      "id": "nessus-windows-validate",
+      "title": "Validate the Completed Windows Installation",
+      "description": "Prove the scanner is ready without claiming a completed scan.",
+      "what": "We are checking our work before handing the scanner to the next class.",
+      "why": "A successful install needs more proof than a desktop icon or an open browser tab.",
+      "steps": [
+        {
+          "title": "Complete the installation evidence checklist",
+          "where": "Windows Server 2022 guest and approved administrator browser",
+          "actions": [
+            "Record OS edition, actual installed Nessus version 10.12.5, correct licensed product, service Running and finished plugin initialization.",
+            "Prove approved local and remote HTTPS access, inspect TLS identity and management firewall source scope. Verify the configured update route and plugin-set status.",
+            "Open the available scan templates only to inspect entitlement. Do not run a scan from this installation class or assume compliance/reporting features are licensed. Hide license identifiers in every capture."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The checklist distinguishes proven items, failed items and items still awaiting manual validation.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Nessus About/version and ready console with license identifiers hidden",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/PluginAndSoftwareUpdates.htm"
+          ]
+        },
+        {
+          "title": "Record the handoff and secure stored materials",
+          "where": "Secure lab notes · no secrets in SONIC-Academy",
+          "actions": [
+            "Write the scanner’s private name/address, owner, support contact, approved update method, maintenance window and rollback location. Store credentials and license files separately in the approved vault.",
+            "Attach redacted lab screenshots to your private evidence record. A capture placeholder in this course is not proof that you completed the action.",
+            "Continue to the scanning course only after failed readiness gates are resolved. Nessus is a scanner; Tenable Security Center is a separate management platform. Do not claim a standalone license includes Security Center."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Another authorized lab administrator can understand the scanner’s readiness and limitations without receiving a secret in this course.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Redacted readiness/handoff checklist; no license or password contents",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Use real observed values and timestamps.",
+        "Keep application readiness separate from the future scan’s credentialed-check success."
+      ],
+      "commonMistakes": [
+        "Marking the whole installation complete because the MSI finished.",
+        "Publishing an About screen that reveals an activation code."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "An evidence item is unavailable",
+          "fix": "Leave that item incomplete and record the blocker. Do not invent a screenshot or result."
+        },
+        {
+          "problem": "License exposes fewer features than expected",
+          "fix": "Use the entitled feature set or obtain appropriate authorization; do not label a missing template as an installation failure."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "Which result is sufficient by itself to prove full readiness?",
+          "options": [
+            "The MSI completed",
+            "A browser tab opened",
+            "Neither; check service, version, entitlement, plugins and access"
+          ],
+          "answer": 2,
+          "explanation": "The installation checklist covers several independent layers."
+        },
+        {
+          "question": "Is Tenable Security Center automatically included with standalone Nessus?",
+          "options": [
+            "Yes",
+            "No; it is a separate management product/entitlement",
+            "Only on Windows"
+          ],
+          "answer": 1,
+          "explanation": "Scanner installation does not grant a separate management-platform license."
+        }
+      ],
+      "exercise": "Submit a redacted readiness checklist with each item marked passed, failed or blocked.",
+      "pass": "Every required installation gate is backed by real evidence, with blocked work explicitly identified."
+    },
+    {
+      "id": "nessus-windows-practical",
+      "title": "Final Practical: Build and Hand Off a Windows Scanner",
+      "description": "Repeat the installation workflow and explain your evidence.",
+      "what": "You will set up a Windows scanner using the checklist, then teach someone how you know it is ready.",
+      "why": "Doing the work and explaining the checks is stronger than remembering button names.",
+      "steps": [
+        {
+          "title": "Perform the installation using your own lab values",
+          "where": "Dedicated Windows Server 2022 Desktop Experience lab VM",
+          "actions": [
+            "Starting from an approved prepared VM, verify the Nessus10.12.5 x64 scanner MSI and complete the install. Use your own approved network plan.",
+            "Check the Tenable Nessus service, restrict management access to your approved administrator source and open the intended private HTTPS console.",
+            "Activate with the entitled route privately and wait for plugin readiness. If using offline registration, verify entitlement and the 10.12.5 signed manual-update workflow before importing anything. Never substitute a guessed file."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The real installation reaches readiness, or you have a truthful failed/blocked gate with the exact reason.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Final Windows scanner service and ready Nessus console, redacted",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/InstallNessusWindows.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm",
+            "https://docs.tenable.com/release-notes/Content/nessus/2026.htm"
+          ]
+        },
+        {
+          "title": "Demonstrate, explain and hand off",
+          "where": "Approved administrator workstation · secure evidence notes",
+          "actions": [
+            "Demonstrate the correct version, licensed product, ready plugins, service status, scoped management access and TLS identity. Describe the certificate state honestly: approved lab exception or verified trusted chain.",
+            "Explain why IIS was not installed, why 8834 is restricted and why a supplied plugin archive needs verification. Show one diagnostic command and explain its result.",
+            "Record remaining blocked work and the approved maintenance/rollback plan. Do not start scanning until the next course establishes authorized targets and scan credentials."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your final evidence supports the actual result. A complete worksheet with missing service/plugin tests is not a successful practical.",
+          "screenshot": {
+            "status": "capture-needed",
+            "title": "Final redacted practical checklist and handoff summary",
+            "instructions": "Capture this exact screen in your own authorized lab after completing the action. Show the named app and useful controls. Hide passwords, activation codes, license text, private keys and personal information. This is a capture placeholder, not a screenshot."
+          },
+          "sources": [
+            "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm",
+            "https://docs.tenable.com/nessus/10_12/Content/UploadACustomServerAndCACertificate.htm"
+          ]
+        }
+      ],
+      "bestPractices": [
+        "Have the learner explain each check in plain language.",
+        "Protect the license, Windows/Nessus passwords and any future scan credentials."
+      ],
+      "commonMistakes": [
+        "Using a fake screenshot or guessed version as evidence.",
+        "Launching a scan outside the authorized target plan just to prove the scanner works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Practical is blocked",
+          "fix": "List the exact missing resource, approval or certificate and finish only the independently verifiable items."
+        },
+        {
+          "problem": "A check fails during demonstration",
+          "fix": "Keep it failed, diagnose the correct layer, retest and record the new result."
+        }
+      ],
+      "quiz": [
+        {
+          "question": "What should your final evidence show?",
+          "options": [
+            "Actual observed readiness with secrets removed",
+            "A copied success message from another lab",
+            "A screenshot placeholder marked complete"
+          ],
+          "answer": 0,
+          "explanation": "Only your real lab evidence can support your completion claim."
+        },
+        {
+          "question": "What comes before the first vulnerability scan?",
+          "options": [
+            "A written authorized target scope and approved scan configuration",
+            "Scanning your whole subnet to discover what is there",
+            "Disabling every target firewall"
+          ],
+          "answer": 0,
+          "explanation": "The next class establishes the exact permitted scan before it runs."
+        }
+      ],
+      "exercise": "Deliver a working Windows scanner plus a redacted evidence pack, or an honest blocked report. Explain the network, service, TLS, entitlement and plugin gates to another learner.",
+      "pass": "An authorized reviewer can reproduce your evidence and see any remaining manual-validation gaps."
+    }
+  ]
+}

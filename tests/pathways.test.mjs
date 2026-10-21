@@ -1,3 +1,4 @@
+import { nessusLessons } from '../lib/nessus-curriculum.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
@@ -16,15 +17,18 @@ test('pathways retain every existing lesson exactly once with its original reade
   assert.deepEqual(
     new Set(ids),
     new Set(
-      [...lessons, ...migrationCurriculum, ...alma.lessons].map(
-        (lesson) => lesson.id,
-      ),
+      [
+        ...lessons,
+        ...migrationCurriculum,
+        ...alma.lessons,
+        ...nessusLessons,
+      ].map((lesson) => lesson.id),
     ),
   );
   for (const lesson of entries) {
     assert.equal(
       lesson.href,
-      `${lesson.source === 'alma' ? '/alma' : lesson.source === 'linux' ? '/' : '/migration'}#lesson=${lesson.id}`,
+      `${lesson.source === 'nessus' ? lesson.href.split('#')[0] : lesson.source === 'alma' ? '/alma' : lesson.source === 'linux' ? '/' : '/migration'}#lesson=${lesson.id}`,
     );
     assert.ok(lesson.title && lesson.description && lesson.steps.length);
   }
@@ -33,7 +37,17 @@ test('pathways retain every existing lesson exactly once with its original reade
 test('core route builds the domain controllers before SQL, then Azure and migration', () => {
   assert.deepEqual(
     learningPathways.map((pathway) => pathway.id),
-    ['windows', 'sql', 'azure', 'migrations', 'linux', 'alma'],
+    [
+      'windows',
+      'sql',
+      'azure',
+      'migrations',
+      'linux',
+      'alma',
+      'nessus-linux',
+      'nessus-windows',
+      'nessus-scanning',
+    ],
   );
   const core = learningPathways
     .flatMap((pathway) =>
