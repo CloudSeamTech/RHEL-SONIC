@@ -414,43 +414,51 @@ function LessonView({
           </span>
         </div>
       </header>
-      <section className="migration-pane pane-mission">
-        <span className="pane-label">YOUR ONE JOB IN THIS PROJECT</span>
-        <p>
-          <b>{lesson.title}.</b> Work only on <b>{lesson.surface}</b>, capture
-          real evidence, and stop rather than guess when the expected result
-          does not match.
-        </p>
-      </section>
-      <section className="migration-pane pane-info">
-        <span className="pane-label">IN PLAIN ENGLISH</span>
-        <p>
-          {stage.plainEnglish} This project teaches the next necessary piece and
-          keeps the recovery path visible.
-        </p>
-      </section>
-      <section
-        className="project-rhythm"
-        aria-label="How to complete this project"
-      >
-        <span>
-          <b>1</b> Understand the question
-        </span>
-        <span>
-          <b>2</b> Follow one action at a time
-        </span>
-        <span>
-          <b>3</b> Compare actual evidence
-        </span>
-        <span>
-          <b>4</b> Mark verified only when it passes
-        </span>
-      </section>
+      <details className="guided-reference lesson-project-background">
+        <summary>More background about the project (optional)</summary>
+        <section className="migration-pane pane-mission">
+          <span className="pane-label">YOUR ONE JOB IN THIS PROJECT</span>
+          <p>
+            <b>{lesson.title}.</b> Work only on <b>{lesson.surface}</b>, capture
+            real evidence, and stop rather than guess when the expected result
+            does not match.
+          </p>
+        </section>
+        <section className="migration-pane pane-info">
+          <span className="pane-label">IN PLAIN ENGLISH</span>
+          <p>
+            {stage.plainEnglish} This project teaches the next necessary piece and
+            keeps the recovery path visible.
+          </p>
+        </section>
+        <section
+          className="project-rhythm"
+          aria-label="How to complete this project"
+        >
+          <span>
+            <b>1</b> Understand the question
+          </span>
+          <span>
+            <b>2</b> Follow one action at a time
+          </span>
+          <span>
+            <b>3</b> Compare actual evidence
+          </span>
+          <span>
+            <b>4</b> Mark verified only when it passes
+          </span>
+        </section>
+      </details>
       <div className="lesson-content">
-        <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />
         {guide && (
-          <GuidedLab key={lesson.id} lessonId={lesson.id} guide={guide} />
+          <GuidedLab
+            key={lesson.id}
+            lessonId={lesson.id}
+            guide={guide}
+            purpose={display.description}
+          />
         )}
+        <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />
         <details className="guided-reference" open={!guide}>
           <summary>Full lesson reference, commands, and background</summary>
           {blocks.map((block, index) => (

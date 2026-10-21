@@ -562,54 +562,52 @@ export default function Home() {
                 </p>
                 <h2>{display.title}</h2>
                 <p className="task-phase">{lesson.phase}</p>
-                <div className="scenario">
-                  <span className="eyebrow">
-                    {visualSample ? 'MISSION' : 'THE SCENARIO'}
-                  </span>
-                  <p>{lesson.scenario}</p>
-                </div>
-                {visualSample && (
-                  <SonicCallout kind="note">{lesson.change}</SonicCallout>
-                )}
-                {lesson.vsphere && (
-                  <details className="vsphere-callout">
-                    <summary>
-                      Optional: how this compares with vSphere at work
-                    </summary>
-                    <p>{lesson.vsphere}</p>
-                  </details>
-                )}
-                <div className="concept-grid">
-                  <section>
-                    <h3>What you will learn</h3>
+                <section className="lab-brief" aria-label="What, why, and production context">
+                  <div>
+                    <b>WHAT YOU ARE DOING</b>
                     <p>{lesson.objective}</p>
-                  </section>
-                  <section>
-                    <h3>Why this matters at work</h3>
+                  </div>
+                  <div>
+                    <b>WHY THIS MATTERS AT WORK</b>
                     <p>{lesson.why}</p>
-                  </section>
-                </div>
-                <section className="planned-change">
-                  <h3>What we are about to change</h3>
-                  <p>{lesson.change}</p>
+                  </div>
+                  <div>
+                    <b>LAB CHANGE · WHAT WILL BE DIFFERENT</b>
+                    <p>{lesson.change}</p>
+                  </div>
+                  <p className="lab-production-boundary">
+                    PRODUCTION PRACTICE: Confirm approval, a known-good baseline,
+                    least privilege, monitoring, and a tested rollback before an
+                    equivalent change on company infrastructure.
+                  </p>
                 </section>
-                <details className="explanation" key={'words' + lesson.id} open>
-                  <summary>Words used in this lesson</summary>
-                  <dl>
-                    {beginnerTerms(lesson).map(({ term, meaning }) => (
-                      <Fragment key={term}>
-                        <dt>
-                          <strong>{term}</strong>
-                        </dt>
-                        <dd>{meaning}</dd>
-                      </Fragment>
-                    ))}
-                  </dl>
+                <details className="explanation lab-additional-context">
+                  <summary>More context: scenario, definitions, and workplace comparisons</summary>
+                  <p>{lesson.scenario}</p>
+                  {lesson.vsphere && <p>{lesson.vsphere}</p>}
+                  <details className="explanation" key={'words' + lesson.id}>
+                    <summary>Words used in this lesson</summary>
+                    <dl>
+                      {beginnerTerms(lesson).map(({ term, meaning }) => (
+                        <Fragment key={term}>
+                          <dt><strong>{term}</strong></dt>
+                          <dd>{meaning}</dd>
+                        </Fragment>
+                      ))}
+                    </dl>
+                  </details>
                 </details>
                 <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />
-                {lesson.visual === 'keys' && <KeyDiagram key={lesson.id} />}
-                {lesson.visual === 'architecture' && <ArchitectureDiagram />}
-                {lesson.visual === 'protocols' && <ProtocolDiagram />}
+                {(lesson.visual === 'keys' ||
+                  lesson.visual === 'architecture' ||
+                  lesson.visual === 'protocols') && (
+                  <details className="explanation lab-additional-context">
+                    <summary>Optional architecture or command diagram</summary>
+                    {lesson.visual === 'keys' && <KeyDiagram key={lesson.id} />}
+                    {lesson.visual === 'architecture' && <ArchitectureDiagram />}
+                    {lesson.visual === 'protocols' && <ProtocolDiagram />}
+                  </details>
+                )}
                 {lesson.walkthrough ? (
                   <SonicWalkthrough
                     steps={lesson.walkthrough}
@@ -670,7 +668,7 @@ export default function Home() {
                     {visualSample ? (
                       <CommandBreakdown arguments={lesson.args} />
                     ) : (
-                      <details className="explanation" open key={'args' + step}>
+                      <details className="explanation" key={'args' + step}>
                         <summary>
                           Understand every argument{' '}
                           <span>{lesson.args.length} explanations</span>

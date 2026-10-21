@@ -81,8 +81,12 @@ export function AlmaDesktop() {
           )}
         </details>
         <article key={id}>
+          <GuidedLab
+            lessonId={id}
+            guide={lesson.guide}
+            purpose={lesson.description}
+          />
           <LessonVisualGuide lessonId={id} />
-          <GuidedLab lessonId={id} guide={lesson.guide} />
           <section className="alma-verify">
             <h2>Finished? Check your work</h2>
             <p>{lesson.guide.pass}</p>

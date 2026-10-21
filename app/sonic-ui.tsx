@@ -250,30 +250,39 @@ export function SonicWalkthrough({
       className="sonic-walkthrough"
       aria-label="Step-by-step walkthrough"
     >
-      <h3>DO THIS IN ORDER</h3>
+      <h3>DO THIS IN ORDER · ONE STEP AT A TIME</h3>
       <p>
-        Complete each action and check its result before moving on. Commands are
-        examples for your lab; this site does not execute them. Conditional
-        branches are marked explicitly.
+        Open the first step, do the action in your own lab, and check the outcome.
+        Expand the next step only when ready. Commands are examples and do not
+        run on this website.
       </p>
       <ol>
         {steps.map((step, index) => (
-          <li key={step.title}>
-            <header>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <h4>{step.title}</h4>
-            </header>
-            <p className="walkthrough-location">WHERE: {step.where}</p>
-            <SessionGuide location={step.where} />
+          <li key={`${variant}-${index}-${step.title}`}>
+            <details className="sonic-action-panel" open={index === 0}>
+              <summary>
+                <span>STEP {String(index + 1).padStart(2, '0')}</span>
+                <strong>{step.title}</strong>
+              </summary>
+              <div className="sonic-action-body">
+                <p className="walkthrough-location">WHERE TO WORK: {step.where}</p>
+                <details className="sonic-action-assist">
+                  <summary>How to open the correct terminal or application</summary>
+                  <SessionGuide location={step.where} />
+                </details>
+                <b className="sonic-action-label">DO THIS NOW · IN YOUR LAB</b>
             <ol>
               {step.actions.flatMap(smallActions).map((action, actionIndex) => (
                 <li key={`${actionIndex}-${action}`}>{action}</li>
               ))}
             </ol>
             {lessonId && (
-              <InstructionScreenshots
-                stepId={`${lessonId}:${variant}:${index + 1}`}
-              />
+              <details className="sonic-action-assist sonic-action-visual">
+                <summary>See the picture for this step</summary>
+                <InstructionScreenshots
+                  stepId={`${lessonId}:${variant}:${index + 1}`}
+                />
+              </details>
             )}
             {step.command && (
               <SonicTerminal
@@ -284,11 +293,13 @@ export function SonicWalkthrough({
             )}
             {!step.command && (
               <p className="walkthrough-check">
-                <strong>BEFORE YOU CONTINUE</strong>
+                <strong>CHECK THE RESULT BEFORE CONTINUING</strong>
                 <br />
                 {step.expected}
               </p>
             )}
+              </div>
+            </details>
           </li>
         ))}
       </ol>
