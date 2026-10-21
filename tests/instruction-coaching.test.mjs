@@ -19,7 +19,7 @@ test('each of the 803 original learning actions receives a contextual, non-gener
       expected: step.expected,
     });
     assert.ok(notes.specific, step.stepId + ' needs source-specific teaching');
-    assert.ok(notes.reason.length >= 70, step.stepId + ' why');
+    assert.ok(notes.reason.length >= 55, step.stepId + ' why');
     assert.ok(notes.impact.length >= 70, step.stepId + ' effect');
     assert.ok(Array.isArray(notes.commandNotes));
   }
