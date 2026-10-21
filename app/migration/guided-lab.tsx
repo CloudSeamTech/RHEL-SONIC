@@ -199,7 +199,6 @@ export function GuidedLab({
           </section>
           <section className="guided-visuals" aria-label="Pictures and screen references for this step">
             <h4 className="guided-visuals-heading">Pictures and screen references for this step</h4>
-            <InstructionScreenshots stepId={`${lessonId}:guided:${index + 1}`} />
           {step.screenshots.map((id) => {
             const shot = screenshotCatalog.find((item) => item.id === id);
             return shot ? (
@@ -224,6 +223,7 @@ export function GuidedLab({
               </figure>
             ) : null;
           })}
+            <InstructionScreenshots stepId={`${lessonId}:guided:${index + 1}`} />
           </section>
           <details className="guided-trouble">
             <summary>My screen is different / it did not work</summary>
