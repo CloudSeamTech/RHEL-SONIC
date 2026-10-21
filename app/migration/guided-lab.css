@@ -618,3 +618,26 @@
 
 /* Keep production practice directly after the action's result check. */
 .guided-step > .guided-production { margin: 12px 0; }
+
+/* Teach the meaning of the action without adding another large dashboard card. */
+.reader-workspace .coaching-why,
+.reader-workspace .coaching-effect {
+  margin: 11px 0 14px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #c1c8ca;
+}
+.reader-workspace .coaching-why strong,
+.reader-workspace .coaching-effect strong {
+  color: #dfb656;
+  font-size: 11px;
+  letter-spacing: .025em;
+}
+.reader-workspace .coaching-effect { margin: 10px 0; }
+.coaching-command {
+  border-top: 1px solid #272727;
+  padding: 11px 13px;
+}
+.coaching-command summary { color: #21c5db; cursor: pointer; font-size: 12px; }
+.coaching-command ul { margin: 10px 0 0; padding-left: 22px; }
+.coaching-command li { margin-bottom: 8px; color: #bcc2c5; font-size: 12px; line-height: 1.65; }
