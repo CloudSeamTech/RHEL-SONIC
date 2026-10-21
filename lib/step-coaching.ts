@@ -1,0 +1,135 @@
+/**
+ * Contextual teaching notes for SONIC Academy's existing lab instructions.
+ *
+ * These notes explain the intention and effects of an authored step. They do
+ * not replace the authored action, original command, expected outcome,
+ * prerequisite, screenshot, evidence or rollback, and do not claim execution.
+ */
+export type StepCoaching = {
+  reason: string;
+  impact: string;
+  commandNotes: string[];
+  specific: boolean;
+};
+
+type Topic = {
+  find: RegExp;
+  reason: string;
+  impact: string;
+};
+
+// Order is intentional: a specific check takes priority over broad concepts.
+const topics: Topic[] = [
+  { find: /restore verifyonly|verify.*\.bak/i, reason: 'Check that SQL Server can read the structure of the backup before treating it as a recovery candidate.', impact: 'RESTORE VERIFYONLY performs a backup-media check; it does not restore the database and does not prove application recovery.' },
+  { find: /restore.*(database|backup)|restore.test|restored tickets|restore the backup/i, reason: 'A backup is only useful if the data can be restored and validated on a separate target.', impact: 'A restore creates or overwrites the selected target database. Check its name, data, logins and integrity before any production cutover.' },
+  { find: /backup.*(database|sql|\.bak)|sql.*backup|back up.*database/i, reason: 'Keep a recoverable copy of the database before making changes or moving it to another server.', impact: 'A SQL backup writes a backup set to the named destination. It does not automatically migrate SQL logins, jobs or server configuration.' },
+  { find: /repadmin|dcdiag|replication|sysvol/i, reason: 'Active Directory needs healthy replication so users, computers and policies are consistent across domain controllers.', impact: 'These health checks report replication and directory status; a successful role installation by itself does not prove replication works.' },
+  { find: /group policy|\bgpo\b|gpupdate|gpresult/i, reason: 'Group Policy delivers managed configuration to computers or users within its linked and filtered scope.', impact: 'Creating or linking a GPO can affect multiple identities. gpupdate requests policy processing; gpresult reads the effective policy on a client.' },
+  { find: /domain controller|promot.*\bdc\b|active directory domain services|\badd.*domain services\b/i, reason: 'A domain controller provides directory authentication and publishes services other computers locate through DNS.', impact: 'Promotion changes the server into identity infrastructure; plan DNS, replication, time, backup and recovery before doing this beyond a lab.' },
+  { find: /domain join|join the domain|join.*agency\.test|computer.*domain|securechannel/i, reason: 'Domain membership allows the machine to use centrally managed identities and policies.', impact: 'Joining changes computer identity and its trust relationship. Verify DNS, the computer account and secure channel after the reboot.' },
+  { find: /dns|resolve-dnsname|nslookup|srv record|conditional forwarder/i, reason: 'DNS must return the intended addresses and service records before domain joins, replication or migrations can work.', impact: 'Lookup commands are observational. Changing a resolver, zone or forwarder changes where hosts find services; validate both directions.' },
+  { find: /create.*\bou\b|organizational unit|create.*user|active directory user|get-aduser|get-adgroupmember/i, reason: 'Directory organization and group membership control which identities exist and which access or policies they receive.', impact: 'Creating or moving directory objects affects identity scope; read-only Get-AD commands show existing state without changing it.' },
+  { find: /\bcluster\b|quorum|cloud witness|failover/i, reason: 'High availability needs a tested decision about which nodes stay online after a failure.', impact: 'Cluster and witness changes affect quorum decisions, not the existence of independent database backups. Test failure scenarios safely.' },
+  { find: /sql server.*(install|setup)|install.*sql server|\bmssqlserver\b|sql instance/i, reason: 'SQL Server runs as managed services; the instance, service identity, network settings and storage must match application requirements.', impact: 'Installation creates SQL services and files. Get-Service only checks service state and does not prove database connectivity.' },
+  { find: /create database|create table|select .*from|use agencyhelpdesk|\bssms\b|tickets table/i, reason: 'Using a disposable database makes schema and query behavior visible without risking production data.', impact: 'CREATE changes schema; SELECT reads matching rows. Confirm the active database context before executing any statement.' },
+  { find: /\biis\b|web-server|w3svc|web site|webpage/i, reason: 'The web server role hosts the test workload whose availability and identity must be confirmed before and after migration.', impact: 'Installing IIS enables Windows web-server components; Get-Service W3SVC reads service state, which is not the same as a successful HTTP request.' },
+  { find: /\bwsus\b|update ring|software update point/i, reason: 'Update services distribute approved patches in controlled waves rather than updating all managed systems at once.', impact: 'Configuration can affect update sourcing and deployment scope; always pilot before organization-wide rollout.' },
+  { find: /\bmecm\b|configmgr|sccm|ccmexec/i, reason: 'Endpoint management depends on healthy identity, site services, SQL, clients and software distribution paths.', impact: 'Installing or configuring site roles changes management infrastructure; service checks alone do not confirm client policy delivery.' },
+  { find: /\bupgrade\b|setup\.exe.*auto upgrade|server 2022/i, reason: 'A supported upgrade moves an existing workload to a newer OS while preserving the dependencies it still needs.', impact: 'An in-place upgrade changes the guest OS and may require restarts. Verify vendor support, backups, application health and rollback before touching production.' },
+  { find: /\bazure\b.*(budget|cost)|cost worksheet|estimated cost|billing/i, reason: 'A cloud lab needs cost boundaries because running and allocated resources can incur charges even when work is unfinished.', impact: 'Budgets and alerts improve visibility; they do not automatically stop every charge. Check billing and delete approved disposable resources.' },
+  { find: /network security group|\bnsg\b|inbound rule|firewall rule|port 22|port 3389/i, reason: 'Network rules decide which sources can reach a service and are part of the system security boundary.', impact: 'Adding an allow rule can expose a port. Limit source scope, document the owner and verify connectivity without opening broad public access.' },
+  { find: /vnet|virtual network|subnet|private ip|vpn|bastion|hybrid connect/i, reason: 'A migration must have predictable private address space, routing and name resolution between its source and destination.', impact: 'Creating network resources or routes changes connectivity. Verify reachability and policy from both sides before migrating services.' },
+  { find: /storage account|azure blob|file share|cloud witness/i, reason: 'Cloud storage settings affect data location, access and reliability across the deployment.', impact: 'A new storage account may incur cost or expose data if improperly configured; enforce private access, least privilege and retention controls.' },
+  { find: /azure.*virtual machine|create.*\bvm\b|create.*instance|compute size|vm size/i, reason: 'A virtual machine is a managed computer with explicit compute, disk, network, image and identity choices.', impact: 'Creating a cloud VM allocates billable resources. Validate image support, security, tags and shutdown/backup policies.' },
+  { find: /snapshot|backup|rollback|recovery point/i, reason: 'A baseline and recovery path make it possible to compare or reverse a risky change.', impact: 'A snapshot captures selected VM state, but it is not a replacement for a supported application-aware or independent backup.' },
+  { find: /verify.*(checksum|sha-?256)|get-filehash|hash.*compare/i, reason: 'Checking a trusted checksum helps detect an accidental or malicious change to installation media or files.', impact: 'A hash command reads file bytes to calculate a fingerprint; it does not repair the file or verify publisher identity by itself.' },
+  { find: /vmware|workstation|virtual machine|virtual disk|nat network|virtual switch/i, reason: 'A dedicated practice VM allows repeatable exercises while keeping the primary computer and business systems separate.', impact: 'VM settings change the guest hardware or network attachment; double-check which disk or network is selected.' },
+  { find: /partition|format|mkfs|fdisk|wipefs|diskpart/i, reason: 'Storage setup assigns space and filesystems to the correct target disk.', impact: 'Formatting and partition changes can destroy existing data; confirm device identity, backups and destination before writing anything.' },
+  { find: /mount|fstab|lsblk|blkid|findmnt|wd drive/i, reason: 'Mounts expose an existing filesystem at a chosen path and help establish durable access to data.', impact: 'A mount usually leaves data intact, but formatting does not. Confirm UUID, filesystem type and existing contents before editing mount settings.' },
+  { find: /\bselinux\b|getenforce|ausearch|semanage|restorecon/i, reason: 'SELinux controls what a process may access even when traditional file permissions appear to allow it.', impact: 'Inspection commands read policy state; changing contexts or booleans changes access. Diagnose denials rather than disabling enforcement.' },
+  { find: /systemctl|journalctl|\bservice\b|logs? /i, reason: 'Services must be running and healthy, and their logs help explain why an operation did or did not work.', impact: 'Status and journal queries inspect state; start, stop, restart or enable requests change runtime or boot behavior.' },
+  { find: /dnf|yum|rpm|flatpak|install.*package|repository/i, reason: 'Package managers resolve software versions and dependencies from configured sources.', impact: 'Package installs and updates change installed software; verify repository provenance, compatibility and a patch window.' },
+  { find: /ssh|authorized_keys|public key|private key|host key/i, reason: 'SSH authenticates administrative access while allowing you to verify the server you are actually connecting to.', impact: 'Authorized-key and sshd configuration changes affect access. Preserve recovery access and do not expose private keys.' },
+  { find: /useradd|groupadd|usermod|chmod|chown|\bpermissions\b|\bsudo\b/i, reason: 'Users, groups and file privileges determine who can administer or access a system.', impact: 'Account and permission changes modify security boundaries; scope privileges narrowly and verify with a nonprivileged test account.' },
+  { find: /networkmanager|nmcli|ip route|ip addr|ping|traceroute|connectivity/i, reason: 'Network inventory establishes addressing, routes and the path a connection must follow.', impact: 'Inspection commands only report state; changing interface or route settings can disconnect a remote session.' },
+  { find: /wazuh|agent enrollment|endpoint detection|siem/i, reason: 'An endpoint agent sends security telemetry to a manager, making visibility and alerting possible.', impact: 'Agent configuration changes log collection and network communication; check enrollment, TLS trust and events before declaring success.' },
+  { find: /steam|proton|gaming|anti-cheat/i, reason: 'Compatibility checks prevent installing software that the GPU, drivers or operating system cannot support.', impact: 'Game and compatibility layers install software locally; gaming tools are normally excluded from managed enterprise endpoints.' },
+  { find: /printer|bluetooth|wi-fi|wifi|desktop settings|gnome/i, reason: 'Desktop settings and peripherals must be functional before users can rely on the operating system day to day.', impact: 'The change applies to the guest or user profile; hardware passthrough and corporate policy may limit available devices.' },
+  { find: /\bhostname\b|whoami|\bpwd\b|ipconfig|get-computerinfo|osbuildnumber/i, reason: 'Confirm the machine, operating-system version and signed-in identity before making any system change.', impact: 'These inventory commands read current state. They do not rename, patch or configure the machine.' },
+  { find: /plan|inventory|checklist|document|record evidence|scope/i, reason: 'A reliable engineer records the current environment and intended outcome before making changes.', impact: 'Planning and inventory should not modify systems; they establish what to verify and what a rollback must recover.' },
+];
+
+const commandNames: ReadonlyArray<[RegExp, string]> = [
+  [/\bGet-FileHash\b/i, 'Get-FileHash calculates a file digest; -Algorithm SHA256 selects the hash algorithm. Compare against a trustworthy reference.'],
+  [/\bResolve-DnsName\b/i, 'Resolve-DnsName queries DNS; -Type SRV requests service-discovery records rather than host addresses.'],
+  [/\bTest-NetConnection\b/i, 'Test-NetConnection checks reachability; -Port specifies the TCP port to probe and does not authorize access.'],
+  [/\bGet-AD(?:User|Domain|GroupMember|DomainController)\b/i, 'Get-AD* reads selected directory objects. -Filter * means all objects of that type; it does not grant access.'],
+  [/\brepadmin\b/i, 'repadmin reports or manages Active Directory replication; /replsummary summarizes errors. Verify selected subcommands before using them.'],
+  [/\bdcdiag\b/i, 'dcdiag tests domain-controller health; /test:replications narrows checks to replication health.'],
+  [/\bipconfig\b/i, 'ipconfig /all displays interface addresses, DNS servers and other network details; it does not set a static IP.'],
+  [/\bGet-ComputerInfo\b/i, 'Get-ComputerInfo reads Windows OS details; Select-Object limits the fields displayed.'],
+  [/\bDISM\b/i, 'DISM /online targets the running OS; /Get-CurrentEdition reads the installed Windows edition.'],
+  [/\bGet-CimInstance\b/i, 'Get-CimInstance reads Windows management data; Win32_ComputerSystem includes current domain membership.'],
+  [/\bGet-Service\b/i, 'Get-Service reads Windows service state; use the exact service name and check the related application separately.'],
+  [/\bInstall-WindowsFeature\b/i, 'Install-WindowsFeature adds the named Windows role; -IncludeManagementTools also installs its administration tools.'],
+  [/\bTest-ComputerSecureChannel\b/i, 'Test-ComputerSecureChannel checks the member-computer domain trust; -Verbose supplies additional diagnostics.'],
+  [/\bGet-GPO\b/i, 'Get-GPO reads a Group Policy Object; -Name identifies it and -Domain scopes the lookup.'],
+  [/\bgpresult\b/i, 'gpresult reads Resultant Set of Policy; /r summarizes applied policy and /scope limits the computer or user context.'],
+  [/\bgpupdate\b/i, 'gpupdate /force reprocesses Group Policy; it does not guarantee every policy takes effect without a restart or sign-out.'],
+  [/\bnslookup\b/i, 'nslookup queries DNS; -type=SRV selects service records and the last address can select a specific DNS server.'],
+  [/\bRESTORE VERIFYONLY\b/i, 'RESTORE VERIFYONLY checks readability of the backup set; FROM DISK names the server-side backup path. It is not a restore test.'],
+  [/\bRESTORE DATABASE\b/i, 'RESTORE DATABASE writes a target database from a backup. Confirm target name, file mapping and recovery options first.'],
+  [/\bBACKUP DATABASE\b/i, 'BACKUP DATABASE creates a backup set; TO DISK points to storage accessible to the SQL Server service account.'],
+  [/\bSELECT\b/i, 'SELECT reads data; FROM identifies its source; WHERE (if present) filters rows. Check the active database before querying.'],
+  [/\bCREATE TABLE\b/i, 'CREATE TABLE changes the schema; column types, NOT NULL and PRIMARY KEY define how records must be stored.'],
+  [/\bCREATE DATABASE\b/i, 'CREATE DATABASE creates a database on the current SQL instance; USE selects the following query context.'],
+  [/\bGet-Item\b/i, 'Get-Item returns information about the specified file or object; it does not modify it.'],
+  [/\b(Get-FileHash|Get-Service)\b/i, 'These Get-* PowerShell cmdlets query existing information and normally do not modify configuration.'],
+  [/\bGet-?AD\b/i, 'Get-AD commands read Active Directory state; scope the server/domain and object before trusting the output.'],
+  [/\bwhoami\b/i, 'whoami prints the current account; it does not change identity.'],
+  [/\bhostname\b/i, 'hostname prints the machine name; it does not rename the computer.'],
+  [/\bpwd\b/i, 'pwd prints the current directory. It does not move you elsewhere.'],
+  [/\bls\b/i, 'ls lists files; -l gives details, -a includes hidden entries and -h uses readable sizes.'],
+  [/\bsystemctl\b/i, 'systemctl manages or reads systemd units: status inspects, restart changes the running service, enable changes boot behavior.'],
+  [/\bjournalctl\b/i, 'journalctl reads the system journal; -u scopes a service, -n limits lines and -f follows incoming records.'],
+  [/\bdnf\b/i, 'DNF manages RPM software: repolist reads enabled sources, info/search inspect, install/update change packages. -y accepts prompts automatically.'],
+  [/\bfirewall-cmd\b/i, 'firewall-cmd inspects or changes firewall rules; --permanent edits persistent configuration and --reload applies it.'],
+  [/\bgetenforce\b/i, 'getenforce reads the SELinux mode; it does not change policy.'],
+  [/\bausearch\b/i, 'ausearch searches audit records; -m limits message type and -ts limits the time range.'],
+  [/\blsblk\b/i, 'lsblk shows block devices and mount points; it does not erase or repartition disks.'],
+  [/\bblkid\b/i, 'blkid reads filesystem identifiers so a stable UUID can be used instead of a changing device name.'],
+  [/\bfindmnt\b/i, 'findmnt reports mounted filesystems and their sources; it is observational.'],
+  [/\bmount\b/i, 'mount attaches a filesystem at a target path; ensure device, type and existing data are correct first.'],
+  [/\bmkfs\b/i, 'mkfs creates a filesystem and can destroy previous data on its target device. Never guess the target disk.'],
+  [/\bchmod\b/i, 'chmod changes filesystem permissions; numeric modes control read/write/execute for owner, group and others.'],
+  [/\bchown\b/i, 'chown changes file ownership; scope the path and -R recursion carefully.'],
+  [/\bssh\b/i, 'ssh connects to a host; -i selects an identity-file path, -p selects a nondefault port. Check host identity before accepting keys.'],
+  [/\bGet-Process\b/i, 'Get-Process reads current processes and is not itself a stop or restart operation.'],
+  [/\bGet-Help\b/i, 'Get-Help documents PowerShell commands; -Examples displays usage examples.'],
+  [/\bGet-?Net\b/i, 'Network inspection cmdlets show status and connectivity; confirm target name and port before making configuration changes.'],
+];
+
+export function explainStep(input: {
+  lessonId: string;
+  title: string;
+  action: string;
+  command?: string;
+  expected: string;
+}): StepCoaching {
+  // A command reference can clarify a vague autogenerated 'reference check'
+  // without replacing the original words or supplying invented results.
+  const source = [input.title, input.action, input.command || ''].join(' ');
+  const matched = topics.find((topic) => topic.find.test(source));
+  const readOnly = !/(install|create|update|set-|remove|restart|stop|start|restore database|backup database|grant|delete|mkfs|format|chmod|chown|gpupdate)/i.test(input.command || '');
+  const notes = commandNames.filter(([pattern]) => pattern.test(input.command || ''))
+    .map(([, note]) => note);
+  const commandNotes = [...new Set(notes)].slice(0, 8);
+  return {
+    reason: matched?.reason || 'This step supports the lesson objective by establishing or checking the specific state described in the action and expected result. Read that target before proceeding.',
+    impact: matched?.impact || (input.command && readOnly
+      ? 'Treat this command as an observation first. Compare the actual output with the required result; do not assume the command repaired anything.'
+      : 'The effect depends on the selected control and target. Work only in the specified practice system and do not assume a change was successful until it is verified.'),
+    commandNotes,
+    specific: Boolean(matched),
+  };
+}
