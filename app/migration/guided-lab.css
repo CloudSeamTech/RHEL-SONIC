@@ -648,3 +648,15 @@
 .guided-visuals .guided-image-button img,
 .guided-visuals .step-screen-reference img { width: 100%; max-width: 100%; max-height: none !important; height: auto; object-fit: contain; }
 .guided-visuals .guided-screenshot { margin: 20px 0; }
+
+/* A clear learner path: do the action, view the screen, verify, continue. */
+.reader-workspace .guided-visuals { margin: 16px 0 20px; padding: 16px; border: 1px solid #28616b; border-radius: 10px; background: #0b181b; }
+.guided-visuals-heading { font-size: 16px; margin: 0 0 14px; color: #8fe8f0; }
+.guided-visuals .guided-screenshot { background: #0b0e10; border-radius: 8px; overflow: hidden; }
+.reader-workspace .guided-production { margin: 14px 0; padding: 12px 14px; border: 1px solid #2c3235; border-radius: 8px; background: #121618; }
+.reader-workspace .guided-production > summary { color: #b7c5ca; cursor: pointer; font-size: 13px; font-weight: 650; }
+.reader-workspace .guided-production[open] > summary { margin-bottom: 12px; }
+.reader-workspace .guided-check { display: flex; align-items: center; gap: 10px; border: 1px solid #315847; border-radius: 8px; padding: 14px; background: #102018; font-size: 14px; }
+.reader-workspace .guided-check input { min-width: 18px; min-height: 18px; }
+.reader-workspace .guided-pagination { margin-top: 14px; }
+@media (max-width: 600px) { .reader-workspace .guided-visuals { padding: 10px; } .reader-workspace .guided-check { align-items: flex-start; } }
