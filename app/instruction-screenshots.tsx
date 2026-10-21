@@ -4,7 +4,6 @@
 import { useRef } from 'react';
 import captureRegistry from '@/content/screenshots/captures.json';
 import pictureRegistry from '@/content/screenshots/step-pictures.json';
-import screenGuides from '@/content/screenshots/core-guides.json';
 import './migration/guided-lab.css';
 
 type ReviewedCapture = {
@@ -25,12 +24,6 @@ export function InstructionScreenshots({ stepId }: { stepId: string }) {
   );
   const picture = picturesByStep.get(stepId);
   if (!capture && !picture) return null;
-  const classGuide = screenGuides.lessons.find(
-    (lesson) => lesson.lessonId === stepId.split(':')[0],
-  );
-  const screen = screenGuides.assets.find(
-    (asset) => asset.id === classGuide?.guideIds[0],
-  );
   const src = capture?.src ?? picture!.src;
   const title = capture
     ? `Lab screenshot · ${capture.platform}`
@@ -48,29 +41,6 @@ export function InstructionScreenshots({ stepId }: { stepId: string }) {
           {capture ? 'Reviewed capture' : 'Illustrated guide'}
         </span>
       </div>
-      {!capture && screen && (
-        <div className="step-screen-reference">
-          <p>
-            <strong>Screen reference for this class</strong> · illustrated
-            example
-          </p>
-          <button
-            className="step-screen-button"
-            aria-label={`Enlarge screen reference for ${stepId}`}
-            onClick={() => dialog.current?.showModal()}
-          >
-            <img
-              src={screen.src}
-              alt={`${screen.title} — class screen reference; use the step map below for this action`}
-              loading="lazy"
-            />
-          </button>
-          <small>
-            Related steps share this screen reference. Your exact actions are
-            pictured below.
-          </small>
-        </div>
-      )}
       <button
         className="guided-image-button"
         aria-label={`Enlarge picture for ${stepId}`}
@@ -90,12 +60,6 @@ export function InstructionScreenshots({ stepId }: { stepId: string }) {
           On a small screen, swipe the picture sideways to read it.
         </p>
         <div className="picture-pan-canvas">
-          {!capture && screen && (
-            <img
-              src={screen.src}
-              alt={`${screen.title} — illustrated screen reference`}
-            />
-          )}
           <img src={src} alt={title} />
         </div>
         <p>{note}</p>
