@@ -615,3 +615,6 @@
   .guided-pagination { flex-direction: column; }
   .reader-workspace .guided-action .beginner-actions li { font-size: 14px; }
 }
+
+/* Keep production practice directly after the action's result check. */
+.guided-step > .guided-production { margin: 12px 0; }
