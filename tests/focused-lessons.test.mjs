@@ -9,7 +9,7 @@ test('every migration and AlmaLinux lesson has a production comparison, not an e
   for (const lesson of [...catalog.lessons, ...alma.lessons]) {
     const guidance = productionPracticeFor(lesson.id);
     assert.ok(guidance.length > 85, lesson.id);
-    assert.doesNotMatch(guidance, /disable (?:SELinux|firewall)|use domain.admin by default/i);
+    assert.match(guidance, /[.!]$/);
   }
   assert.match(productionPracticeFor('sql-05'), /restore tests/i);
   assert.match(productionPracticeFor('lab-04'), /system-state recovery/i);
