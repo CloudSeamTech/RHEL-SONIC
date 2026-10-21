@@ -1,3 +1,4 @@
+import { maintenanceCourse } from '../lib/guided-courses.ts';
 import { nessusLessons } from '../lib/nessus-curriculum.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -17,15 +18,19 @@ test('pathways retain every existing lesson exactly once with its original reade
   assert.deepEqual(
     new Set(ids),
     new Set(
-      [...lessons, ...catalog.lessons, ...alma.lessons, ...nessusLessons].map(
-        (lesson) => lesson.id,
-      ),
+      [
+        ...lessons,
+        ...catalog.lessons,
+        ...alma.lessons,
+        ...nessusLessons,
+        ...maintenanceCourse.lessons,
+      ].map((lesson) => lesson.id),
     ),
   );
   for (const lesson of entries) {
     assert.equal(
       lesson.href,
-      `${lesson.source === 'nessus' ? lesson.href.split('#')[0] : lesson.source === 'alma' ? '/alma' : lesson.source === 'linux' ? '/' : '/migration'}#lesson=${lesson.id}`,
+      `${['nessus', 'azure-lab'].includes(lesson.source) ? lesson.href.split('#')[0] : lesson.source === 'alma' ? '/alma' : lesson.source === 'linux' ? '/' : '/migration'}#lesson=${lesson.id}`,
     );
     assert.ok(lesson.title && lesson.description && lesson.steps.length);
   }

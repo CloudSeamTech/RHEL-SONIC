@@ -1,0 +1,10 @@
+{
+  "classesReviewed": 150,
+  "azureSteps": 30,
+  "realReferenceSteps": 14,
+  "captureGaps": 16,
+  "pageErrors": [],
+  "simulationStopAndRecovery": true,
+  "serialGates": true,
+  "mobileOverflow": false
+}

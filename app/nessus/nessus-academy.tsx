@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { LessonWelcome } from '../lesson-welcome';
+import { MaintenanceRehearsal } from '../azure-operations/maintenance-rehearsal';
+import { CourseScreenshot } from '../course-screenshot';
+import { guidedCourses, guidedCourseHref } from '@/lib/guided-courses';
 import { ConsoleReaderShell } from '../console-reader-shell';
 import {
   nessusCourses,
-  nessusCourseHref,
   type NessusLesson,
   type NessusStep,
 } from '@/lib/nessus-curriculum';
@@ -27,7 +30,7 @@ function CommandExample({ step }: { step: NessusStep }) {
       {step.command && (
         <section className="guided-command">
           <header>
-            <span>COMMAND EXAMPLE · RUN IN YOUR OWN LAB</span>
+            <span>YOUR COMMAND · COPY IT WHEN YOU’RE READY</span>
             <button
               type="button"
               onClick={async () => {
@@ -150,9 +153,9 @@ function KnowledgeCheck({
       <p role="status">
         {showFeedback
           ? allCorrect
-            ? 'Knowledge check passed. Complete the lab checks below to verify this lesson.'
-            : 'Review the explanations and try again.'
-          : 'Choose one answer for every question.'}
+            ? 'You’ve got it. When your lab checks are finished too, you can mark this lesson complete.'
+            : 'You’re close. Have another look at the explanation, then try again.'
+          : 'Pick an answer for each question. It’s fine to look back at the lesson.'}
       </p>
     </section>
   );
@@ -197,7 +200,7 @@ function LessonReader({
           <p>{lesson.why}</p>
         </section>
       </div>
-      <section className="guided-lab" aria-label="Nessus guided walkthrough">
+      <section className="guided-lab" aria-label="Guided walkthrough">
         <header className="guided-heading">
           <h2>Let’s do this together</h2>
           <span>
@@ -210,8 +213,8 @@ function LessonReader({
           </span>
         </header>
         <p>
-          Read one step, try it on the named computer, and compare your own
-          result. This website does not run Nessus commands or scans.
+          Let’s take one small step at a time. Try it on the computer named
+          below, then check what happened. You can go back whenever you need to.
         </p>
         <label className="guided-step-picker">
           Choose a step
@@ -259,7 +262,7 @@ function LessonReader({
               <p>{step.where}</p>
             </div>
             <section className="guided-action">
-              <h4>How to do it</h4>
+              <h4>Let’s try it</h4>
               <ol>
                 {step.actions.map((action, i) => (
                   <li key={i}>{action}</li>
@@ -268,28 +271,13 @@ function LessonReader({
             </section>
             <CommandExample key={`${lesson.id}:${index}`} step={step} />
             <section className="guided-expected">
-              <h4>What you should see</h4>
+              <h4>Here’s what you should see</h4>
               <p>{step.expected}</p>
               <small>
                 Expected observation, not recorded output from your environment.
               </small>
             </section>
-            <section
-              className="nessus-capture"
-              aria-label="Screenshot capture needed"
-              data-capture-status="capture-needed"
-            >
-              <span className="eyebrow">
-                SCREENSHOT CAPTURE NEEDED · NO IMAGE AVAILABLE
-              </span>
-              <h4>{step.screenshot.title}</h4>
-              <p>{step.screenshot.instructions}</p>
-              <small>
-                This is a capture checklist, not a screenshot. No Nessus
-                interface image has been fabricated. Keep passwords, activation
-                codes and private keys out of captures.
-              </small>
-            </section>
+            <CourseScreenshot screenshot={step.screenshot} />
             <details className="nessus-explanation">
               <summary>Official reference for this step</summary>
               {step.sources.map((url) => (
@@ -397,7 +385,9 @@ function LessonReader({
 }
 
 export function NessusAcademy({ courseId }: { courseId: string }) {
-  const course = nessusCourses.find((item) => item.id === courseId)!;
+  const course = guidedCourses.find((item) => item.id === courseId)!;
+  const isMaintenance = course.id === 'azure-maintenance';
+  const relatedCourses = isMaintenance ? [course] : nessusCourses;
   const [id, setId] = useState(course.lessons[0].id);
   const [notice, setNotice] = useState('');
   const progress = JSON.parse(
@@ -440,11 +430,18 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
       tools={<a href="/migration#view=terminal">Lab terminal</a>}
     >
       <main className="alma-reader nessus-reader">
-        <nav className="nessus-course-switcher" aria-label="Nessus courses">
-          {nessusCourses.map((item, i) => (
+        <nav
+          className={
+            'nessus-course-switcher' + (isMaintenance ? ' single-course' : '')
+          }
+          aria-label={
+            isMaintenance ? 'Azure maintenance course' : 'Nessus courses'
+          }
+        >
+          {relatedCourses.map((item, i) => (
             <a
               key={item.id}
-              href={nessusCourseHref(item.id)}
+              href={guidedCourseHref(item.id)}
               aria-current={item.id === course.id ? 'page' : undefined}
             >
               <small>CLASS {String(i + 1).padStart(2, '0')}</small>
@@ -454,7 +451,8 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
         </nav>
         <header className="alma-header">
           <span className="eyebrow">
-            NESSUS 10.12.5 / LESSON {index + 1} OF {course.lessons.length}
+            {isMaintenance ? 'AZURE SERVER MAINTENANCE' : 'NESSUS 10.12.5'} /
+            LESSON {index + 1} OF {course.lessons.length}
           </span>
           <p>{course.title}</p>
           <h1>{lesson.title}</h1>
@@ -464,14 +462,19 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
             self-verified
           </small>
         </header>
-        <section className="nessus-prerequisite">
-          <b>Before you start</b>
-          <p>{course.prerequisite}</p>
-          <p>
-            Use only your approved practice machines. No installers, licenses or
-            credentials are uploaded to SONIC-Academy.
-          </p>
-        </section>
+        <LessonWelcome
+          content={{
+            welcome: index === 0 ? course.prerequisite : lesson.what,
+            why: lesson.why,
+            needs: (index === 0 ? course.supplies : lesson.needs) ??
+              course.supplies ?? [
+                'Keep your practice computers and the previous lesson’s notes nearby.',
+              ],
+            firstMove: lesson.steps[0].actions[0],
+            reassurance:
+              'You don’t have to remember every setting. Keep the instructions beside your screen, and take one small action at a time.',
+          }}
+        />
         <details className="guided-reference alma-course-index">
           <summary>Choose a lesson · follow this order</summary>
           {course.lessons.map((item, i) => (
@@ -490,6 +493,14 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
         <output className="nessus-storage-notice" aria-live="polite">
           {notice}
         </output>
+        {isMaintenance &&
+          [
+            'azure-maint-plan',
+            'azure-maint-rolling',
+            'azure-maint-rollback',
+          ].includes(lesson.id) && (
+            <MaintenanceRehearsal key={`practice-${lesson.id}`} />
+          )}
         <LessonReader
           key={lesson.id}
           lesson={lesson}
@@ -509,14 +520,15 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
           )}
         </nav>
         <details className="guided-reference alma-sources">
-          <summary>Official documentation and validation limits</summary>
+          <summary>References and a note for instructors</summary>
           <p>
-            Reviewed against Tenable’s 10.12 documentation and 10.12.5 release
-            notes. These lessons have not been executed on your machines or with
-            your license. Templates, limits and controls depend on your edition
-            and installed version. Every numbered step has a specific
-            screenshot-capture placeholder until a genuine image is available
-            and its reuse is approved.
+            We’ve checked the written steps against the official references
+            below. Real interfaces can change, so compare your version and
+            subscription or license with the lesson before making a change.
+            Reference pictures show real controls; missing pictures are labeled
+            as capture checklists. These pages have been tested, but an
+            instructor still needs to test installation, updates, scans and
+            recovery in a real practice lab.
           </p>
           {course.sources.map((source) => (
             <a

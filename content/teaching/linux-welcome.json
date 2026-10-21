@@ -1,0 +1,442 @@
+{
+  "assignment-v2": {
+    "welcome": "Let’s get your lab organized before we build anything. We’ll make a small notebook and choose names for the Linux computer you’ll use throughout the course.",
+    "why": "Think of the notebook as our map. It helps you find the right computer later and remember what worked before a change.",
+    "needs": [
+      "You’ll need your own Windows computer and a place to save a plain-text notes file.",
+      "Have Windows Terminal or Windows PowerShell available; we’ll check the rest of the tools next.",
+      "Use the name rexuser for the Linux administrator in this lab. We are only writing down that name for now."
+    ],
+    "firstMove": "On Windows, open Notepad and save a new file as your lab notes. Then open Windows Terminal and choose PowerShell.",
+    "reassurance": "You don’t need a Linux computer yet. If Azure account details are still unknown, leave them blank rather than guessing."
+  },
+  "windows-tools-v2": {
+    "welcome": "Before we connect to Linux, let’s check the tools on your Windows computer. We’ll meet the sign-in tool, two file-copy tools, and the tool that makes our sign-in keys.",
+    "why": "Using the right tool makes the job easier: SSH opens a remote command window, while SCP and SFTP move files.",
+    "needs": [
+      "You’ll need the same Windows computer you used for your lab notes.",
+      "Open Windows Terminal and select PowerShell, or open Windows PowerShell from Start.",
+      "Keep your notes nearby so you can record which tools are present."
+    ],
+    "firstMove": "Click Start, type Windows Terminal, open it, and choose the PowerShell tab. We’ll run the tool check there.",
+    "reassurance": "A missing tool is something we can fix. Read its name in the result; you don’t need to rebuild your computer."
+  },
+  "azure-scope-v2": {
+    "welcome": "Let’s make sure Azure is using the right account before we spend any money. We’ll find your subscription, choose a region, and write down a small lab budget.",
+    "why": "An Azure subscription is the account that pays for the lab. Picking it carefully prevents surprises on somebody else’s bill.",
+    "needs": [
+      "You’ll need an Azure account and a subscription you are allowed to use for practice.",
+      "Keep a browser and your Windows PowerShell tab open.",
+      "Have your lab notes ready for the subscription name, region, spending limit, and person to contact about charges."
+    ],
+    "firstMove": "Open portal.azure.com in your browser. Sign in, then search for Subscriptions and check the account shown.",
+    "reassurance": "If you can’t tell which subscription to use, pause here and check with its owner. There is nothing to create yet."
+  },
+  "two-host-plan-v3": {
+    "welcome": "Our lab will have two Linux computers with different jobs. We’ll keep rhel9-lab-01 as the endpoint and plan rhel9-manager-01 as the computer that receives its security information.",
+    "why": "The manager stores and displays information, so it needs more resources than the small program on the endpoint. Giving both the same small size can make the manager struggle.",
+    "needs": [
+      "You’ll need your existing endpoint plan and the Azure subscription and region you checked earlier.",
+      "For the Wazuh manager, plan at least 4 virtual CPU cores, 8 GiB of memory, and 50 GB of storage, or more if the selected image requires it.",
+      "Keep one row per computer in your notes, with its name, job, addresses, size, and expected cost."
+    ],
+    "firstMove": "Open your lab notebook and add two rows: rhel9-lab-01 for the endpoint and rhel9-manager-01 for the manager.",
+    "reassurance": "If your budget can’t support the manager’s required size, stop and adjust the plan before creating it. A smaller machine is not automatically a working substitute."
+  },
+  "resource-group-v2": {
+    "welcome": "Now let’s give our Azure lab a home. We’ll create rg-rhel9-lab, a resource group that keeps the lab’s related items together.",
+    "why": "A resource group is like a labeled project folder. It makes things easier to find, but deleting it can also delete the resources inside.",
+    "needs": [
+      "You’ll need the Azure subscription and region you selected in the previous lesson.",
+      "Keep your browser signed in to portal.azure.com.",
+      "Have your lab notes open so you can record the resource group’s actual name and location."
+    ],
+    "firstMove": "In Azure, search for Resource groups, open it, and select Create.",
+    "reassurance": "If the name already belongs to another project, don’t reuse it blindly. Check what it contains and confirm your own lab’s name first."
+  },
+  "network-plan-v2": {
+    "welcome": "Let’s build the private network our two Linux computers will share. We’ll create vnet-rhel9-lab and a smaller address section inside it called snet-rhel9-lab.",
+    "why": "A virtual network, or VNet, lets our Azure computers talk to each other. A subnet gives us a smaller address range to organize them.",
+    "needs": [
+      "You’ll need the empty rg-rhel9-lab resource group from the previous lesson.",
+      "Use the same Azure subscription and region recorded in your notes.",
+      "Check that the example address ranges do not overlap another network you need to connect to."
+    ],
+    "firstMove": "In the Azure search bar, type Virtual networks, open the service, and select Create.",
+    "reassurance": "If an address range overlaps another network, stop and ask for a suitable range. Changing random numbers can create a harder problem later."
+  },
+  "build-storage-v3": {
+    "welcome": "Before clicking Create on a VM, let’s look at where its files will live. We’ll choose the operating-system disks and learn what Linux means by a mount point.",
+    "why": "Disk space can fill up. Knowing which disk holds which files helps us size the lab and understand storage problems later.",
+    "needs": [
+      "You’ll need the endpoint and manager size plans you already wrote down.",
+      "Keep the Azure VM creation form and your lab notebook open.",
+      "Remember that the Wazuh manager needs at least the supported storage capacity; the chosen image may require a larger operating-system disk."
+    ],
+    "firstMove": "Open the VM creation form’s Disks tab and read the operating-system disk size before changing any option.",
+    "reassurance": "This is a planning step. You don’t need to partition an existing disk or add a data disk just to finish it."
+  },
+  "nsg-v2": {
+    "welcome": "Let’s open the right network door for your home computer. We’ll allow its current internet address to reach SSH, the secure sign-in connection on port 22.",
+    "why": "The Azure network rule controls who can reach the sign-in door. Your username and key will still decide who can actually sign in.",
+    "needs": [
+      "You’ll need your Windows computer, a browser signed in to the correct Azure account, and your network plan.",
+      "Find the public IPv4 address your home connection is using today; it can change.",
+      "Have the endpoint’s network security group, or NSG, ready. An NSG is Azure’s list of allowed and blocked network traffic."
+    ],
+    "firstMove": "On your own Windows computer, open portal.azure.com and find the network security group for your endpoint lab network.",
+    "reassurance": "If SSH still fails later, that doesn’t mean the rule is wrong. We’ll check the network connection and the sign-in key separately."
+  },
+  "key-concept-v2": {
+    "welcome": "Before we make a key, let’s understand its two parts. The private key stays on your Windows computer; its public partner goes to Linux.",
+    "why": "The pair helps prove it is you signing in. The private key should never be pasted into Azure, a screenshot, or a class note.",
+    "needs": [
+      "You’ll need Windows PowerShell and your lab notes.",
+      "We’ll use a folder named .ssh inside your own Windows user folder.",
+      "Keep existing keys safe. This lesson chooses file paths; it does not create or replace a key."
+    ],
+    "firstMove": "Open your Windows PowerShell tab and read the three example key paths before setting their values.",
+    "reassurance": "The similar filenames can be confusing at first. Look for .pub: that is the public file, not the private one."
+  },
+  "key-create-v2": {
+    "welcome": "Let’s create your sign-in key pair carefully. We’ll check for existing files first, then protect the new private key with a passphrase.",
+    "why": "Overwriting a working private key can lock you out of a computer. Our checks help keep the keys you already use safe.",
+    "needs": [
+      "You’ll need the .ssh folder and key paths planned in the previous lesson.",
+      "Use your own Windows PowerShell tab and normal Windows account.",
+      "Have a password manager or other approved private place ready for your key’s passphrase."
+    ],
+    "firstMove": "In PowerShell, check the planned private and public filenames with Test-Path before running ssh-keygen.",
+    "reassurance": "If either file already exists, stop. We can inspect the existing key or choose a new filename; we don’t have to replace it."
+  },
+  "vm-provision-v2": {
+    "welcome": "You’re ready to create the endpoint Linux computer. We’ll build rhel9-lab-01 in Azure and give the rexuser account your public key.",
+    "why": "The public key tells the new VM which sign-in proof to accept. Keeping the private partner on Windows protects your access.",
+    "needs": [
+      "You’ll need your checked Azure subscription, resource group, network, region, and endpoint size plan.",
+      "Have your rexuser public key file ending in .pub ready; keep the private file on Windows.",
+      "Choose a supported x64 RHEL 9 image and check the cost shown before creating the VM."
+    ],
+    "firstMove": "In Azure, search for Virtual machines and choose Create → Azure virtual machine.",
+    "reassurance": "If the form asks for a key, use only the .pub file’s text. If you can’t tell which file is which, return to the key lesson before continuing."
+  },
+  "manager-vm-v3": {
+    "welcome": "Now we’ll add the manager without losing the endpoint you already built. Its name is rhel9-manager-01, and we’ll keep separate notes for both computers.",
+    "why": "Two similar VM screens are easy to mix up. Clear names and separate address rows help us install the central tools on the right machine.",
+    "needs": [
+      "You’ll need the working rhel9-lab-01 endpoint and your existing network and key notes.",
+      "Choose a supported RHEL 9 x64 manager VM with at least 4 virtual CPU cores, 8 GiB of memory, and 50 GB of storage, or the image’s larger minimum.",
+      "Leave room in your budget for both VMs and their retained disks and addresses."
+    ],
+    "firstMove": "Open Virtual machines in Azure, confirm that rhel9-lab-01 is still present, then start a new VM creation form for rhel9-manager-01.",
+    "reassurance": "If both machines appear with similar addresses, slow down and label each row. A public address is for this lab’s Windows sign-in; the private address is for traffic between the VMs."
+  },
+  "reachability-v2": {
+    "welcome": "Before trying a password or key, let’s see whether Windows can reach the VM’s SSH connection. This is a small network check, not a sign-in attempt.",
+    "why": "Separating the two jobs makes troubleshooting easier. A network failure needs a different fix from a rejected key.",
+    "needs": [
+      "You’ll need a running endpoint VM and its actual public IPv4 address from Azure.",
+      "Keep Windows PowerShell open on the computer allowed by your SSH network rule.",
+      "Check your current home public address if you changed networks since creating that rule."
+    ],
+    "firstMove": "Open the endpoint’s Overview page in Azure and copy its current public IPv4 address into your notes.",
+    "reassurance": "If the port test fails, keep the result. We’ll check the VM, network rule, and route before changing any sign-in files."
+  },
+  "host-trust-v2": {
+    "welcome": "Let’s check the Linux computer’s identity before we trust a new connection. We’ll read its SSH fingerprint through Azure and save the exact value.",
+    "why": "A fingerprint is a short identifying value for a key. Comparing it helps us avoid signing in to the wrong computer.",
+    "needs": [
+      "You’ll need the running rhel9-lab-01 endpoint and permission to use its Azure Run Command page.",
+      "Have your lab notebook ready to save the exact SHA256 fingerprint.",
+      "Remember that this is the server’s host key, not the rexuser key you created on Windows."
+    ],
+    "firstMove": "Open rhel9-lab-01 in Azure, choose Run command, then select RunShellScript.",
+    "reassurance": "If the offered key type later differs from the one you recorded, don’t accept it by habit. Obtain the matching host-key fingerprint first."
+  },
+  "first-ssh-v2": {
+    "welcome": "Let’s make your first secure sign-in to the endpoint. We’ll connect from Windows as rexuser and compare the computer’s fingerprint before accepting it.",
+    "why": "SSH protects the connection, but we still need to check both sides: which server we reached and which account we’re using.",
+    "needs": [
+      "You’ll need the endpoint’s actual public address and a successful port 22 connection test.",
+      "Have your existing private-key path and its passphrase ready on Windows.",
+      "Keep the independently recorded server fingerprint beside you for comparison."
+    ],
+    "firstMove": "Return to your Windows PowerShell tab and check that $VmAddress and $KeyPath match your saved endpoint notes.",
+    "reassurance": "A passphrase prompt may show no typed characters. That is normal. If the fingerprint differs, stop and investigate instead of typing yes."
+  },
+  "identity-v2": {
+    "welcome": "You’re inside Linux. Before changing anything, let’s check your username and the extra permissions you’re allowed to use.",
+    "why": "A command can affect the wrong account or computer if we skip this check. sudo gives an allowed user extra rights for a particular command.",
+    "needs": [
+      "You’ll need the verified SSH session to rhel9-lab-01, signed in as rexuser.",
+      "Keep the Linux prompt visible; the commands in this lesson are not for your local PowerShell tab.",
+      "Have the account’s configured password available privately if sudo asks for it."
+    ],
+    "firstMove": "Select the endpoint’s connected SSH tab and run whoami to read the current username.",
+    "reassurance": "If the name isn’t rexuser, pause and check which session you opened. You can correct the connection before making changes."
+  },
+  "host-os-v2": {
+    "welcome": "Let’s get to know this Linux computer. We’ll read its name, RHEL release, and the kernel it is running.",
+    "why": "The kernel is the core part of Linux. Knowing the actual version helps us choose instructions and updates that fit this computer.",
+    "needs": [
+      "You’ll need your verified rexuser SSH session on rhel9-lab-01.",
+      "Keep your endpoint row in the notebook open so you can add its release and kernel.",
+      "Use the Linux terminal for these checks; no software installation is needed."
+    ],
+    "firstMove": "In the endpoint SSH tab, run hostnamectl and compare the computer name with your notes.",
+    "reassurance": "Different release numbers are useful clues. Record what you actually see and check compatibility before following version-specific instructions."
+  },
+  "guest-network-v2": {
+    "welcome": "Now let’s look at the network from inside Linux. We’ll find the endpoint’s private address and the path it uses to reach other networks.",
+    "why": "Azure shows a public sign-in address, but Linux usually sees its private interface address. They have different jobs and do not need to match.",
+    "needs": [
+      "You’ll need your working endpoint SSH session as rexuser.",
+      "Have the endpoint’s private and public Azure addresses recorded separately.",
+      "Keep the Azure network page available for comparison; this lesson only reads settings."
+    ],
+    "firstMove": "In the endpoint’s Linux terminal, run the address check and find the interface with the lab’s private IPv4 address.",
+    "reassurance": "Don’t copy the public Azure address into Linux’s interface settings. If the addresses are confusing, compare each one with its labeled row first."
+  },
+  "home-files-v2": {
+    "welcome": "Let’s find your Linux home folder and see the public key that allows you to sign in. We’ll look before we change any files.",
+    "why": "Your home folder stores your own files. Knowing where you are makes later copying and permission changes much easier.",
+    "needs": [
+      "You’ll need the endpoint SSH session, signed in as rexuser.",
+      "Keep the public-key lesson’s notes available so the filenames look familiar.",
+      "We are inspecting the account’s files, not opening or copying your Windows private key."
+    ],
+    "firstMove": "In the endpoint terminal, run pwd to see your current folder, then use the lesson’s home-folder checks.",
+    "reassurance": "A filename starting with a dot is usually hidden in normal listings. That is why we use the option that shows hidden files too."
+  },
+  "storage-verify-v3": {
+    "welcome": "Let’s check the storage we actually built instead of relying on the plan. We’ll read the disks, their mount points, and the free space on each VM.",
+    "why": "A mount point is the folder where Linux makes a disk’s files available. This check helps us notice a nearly full disk before an installation fails.",
+    "needs": [
+      "You’ll need verified rexuser access to both the endpoint and manager.",
+      "Have each VM’s disk plan in your notebook.",
+      "Keep the terminal tabs clearly labeled; record one computer’s results before moving to the other."
+    ],
+    "firstMove": "Select one VM’s SSH tab and run hostname before reading its disk information.",
+    "reassurance": "Disk names and sizes can differ from examples. Write down your real results; do not format or resize anything to make the screen look the same."
+  },
+  "paired-access-v3": {
+    "welcome": "Let’s prove you can reach both Linux computers and tell them apart. We’ll sign in to the manager, then compare the names in our two terminal tabs.",
+    "why": "Once installation begins, running a correct command on the wrong VM can still cause trouble. Clear session labels prevent that mix-up.",
+    "needs": [
+      "You’ll need both Azure VMs running and both public sign-in addresses in your notes.",
+      "Have the existing rexuser private key and its passphrase ready on Windows.",
+      "Verify each server’s host fingerprint through its own Azure page before accepting a new SSH connection."
+    ],
+    "firstMove": "In Windows Terminal, open a second PowerShell tab and label it for rhel9-manager-01 before connecting.",
+    "reassurance": "If you lose track of a tab, run hostname and whoami inside it. Those two quick checks tell you where you are."
+  },
+  "test-file-v3": {
+    "welcome": "Let’s make a tiny text file we can safely copy between computers. We’ll also calculate a checksum, a value that helps us check the file’s contents later.",
+    "why": "A harmless practice file lets us learn file transfer without risking personal documents or software installers.",
+    "needs": [
+      "You’ll need your own Windows PowerShell tab and user folder.",
+      "Keep the notebook ready for the practice filename and its SHA-256 checksum.",
+      "Choose the new practice filename from the lesson; don’t replace a file containing work you need."
+    ],
+    "firstMove": "On Windows, open your user folder in PowerShell and check whether rexuser-transfer-v3.txt already exists.",
+    "reassurance": "If the filename already contains useful work, keep it. We can choose a separate practice file instead of overwriting it."
+  },
+  "scp-test-v3": {
+    "welcome": "Let’s send the practice file from Windows to the endpoint. SCP copies a file through the same secure connection used by SSH.",
+    "why": "This is how an administrator can deliver a small file while keeping the source and destination clear.",
+    "needs": [
+      "You’ll need rexuser-transfer-v3.txt in your Windows user folder from the previous lesson.",
+      "Have the endpoint’s actual public address, your existing private-key path, and a working SSH connection.",
+      "Use the local Windows PowerShell tab for the copy command, not the remote Linux tab."
+    ],
+    "firstMove": "In Windows PowerShell, move to your user folder and check that the practice file is present.",
+    "reassurance": "If SCP says it cannot find the file, check the Windows folder first. Recreating your SSH key will not fix a missing local file."
+  },
+  "verify-transfer-v3": {
+    "welcome": "The copy finished, but let’s make sure the right file arrived. We’ll inspect it on Linux and compare its checksum with the one recorded on Windows.",
+    "why": "A matching filename alone does not prove the contents are right. Comparing checksums gives us a stronger check.",
+    "needs": [
+      "You’ll need the practice file already copied to rhel9-lab-01.",
+      "Have your endpoint SSH session open as rexuser.",
+      "Keep the original Windows SHA-256 value in your notes for an exact comparison."
+    ],
+    "firstMove": "Select the endpoint’s Linux terminal, confirm its name, and list the received practice file in rexuser’s home folder.",
+    "reassurance": "If the values differ, keep both results and recopy the intended file. Don’t edit the recorded checksum to make it match."
+  },
+  "sftp-test-v3": {
+    "welcome": "Now let’s try a different way to move that same practice file. SFTP gives you a file-transfer prompt where you can look around and choose what to copy.",
+    "why": "It helps you understand which folder is on Windows and which folder is on Linux before sending a file.",
+    "needs": [
+      "You’ll need the same harmless Windows practice file and a working endpoint SSH connection.",
+      "Have the endpoint address and existing private-key path ready.",
+      "Use a local Windows PowerShell tab; we’ll start the SFTP tool there."
+    ],
+    "firstMove": "In Windows PowerShell, open your user folder and confirm the practice file exists before starting SFTP.",
+    "reassurance": "At the sftp prompt, local and remote folders are different. If a file seems missing, check which side you are listing before trying again."
+  },
+  "installer-types-v3": {
+    "welcome": "Before we install real software, let’s sort out three common file types: scripts, RPM packages, and compressed archives. They are not all installed the same way.",
+    "why": "Giving a file permission to run does not install it or make it trustworthy. Learning the difference helps you avoid unsafe guesses.",
+    "needs": [
+      "You’ll need your notes and the reference examples in this lesson.",
+      "No download or software installation is required for these commented examples.",
+      "Remember that a line beginning with # is a comment here, so the examples explain methods without running them."
+    ],
+    "firstMove": "Read the first script example and point out the # at the beginning of each sample line.",
+    "reassurance": "You don’t have to memorize every option today. Start by saying whether a command inspects, extracts, changes a permission, or installs software."
+  },
+  "software-inventory-v3": {
+    "welcome": "Let’s take a before picture of the software and services on each VM. We’ll save the lists so we can see what the Wazuh installation changes.",
+    "why": "A service is a program that can keep running in the background. Before-and-after lists make missing or unexpected changes easier to find.",
+    "needs": [
+      "You’ll need rexuser access to the endpoint and manager.",
+      "Keep separate note sections for rhel9-lab-01 and rhel9-manager-01.",
+      "Use the Linux terminal for these read-only checks; no new package is being installed yet."
+    ],
+    "firstMove": "Choose one VM, run hostname, and save its installed-package list under that computer’s name.",
+    "reassurance": "The lists can be long. You don’t need to understand every package name; you’re saving a record we can compare later."
+  },
+  "baseline-v2": {
+    "welcome": "Before installing Wazuh, let’s check that Linux is working normally. We’ll record the SSH service, free space, security mode, and administrator access.",
+    "why": "This working starting point is called a baseline. If something changes later, we’ll have real results to compare against.",
+    "needs": [
+      "You’ll need your verified rexuser SSH session on the endpoint.",
+      "Have the earlier software and storage notes available.",
+      "Keep the account’s configured password private if sudo asks for it."
+    ],
+    "firstMove": "In the endpoint SSH tab, check that the SSH service is active before moving to the other baseline checks.",
+    "reassurance": "If a starting check fails, it’s useful that we found it now. Resolve it before adding more software."
+  },
+  "rollback-gate-v3": {
+    "welcome": "Let’s decide how to get back to a working computer before the next change. We’ll write down what needs protection, how to restore it, and when we would stop.",
+    "why": "A snapshot is a point-in-time disk copy, not a complete recovery plan. We also need the right disks, a way to sign in, and checks that prove recovery worked.",
+    "needs": [
+      "You’ll need the working baseline and the names of both lab VMs.",
+      "Have access to the chosen backup or snapshot controls and know which disks hold the files you need.",
+      "Write down a restore method and stop condition before changing the computer; protect important data independently."
+    ],
+    "firstMove": "Open your notes and add three headings: What we’ll protect, How we’ll recover, and When we’ll stop.",
+    "reassurance": "If you can’t explain the restore steps yet, pause here. It’s much easier to learn recovery while the original computer still works."
+  },
+  "deallocate-v2": {
+    "welcome": "Let’s finish the session without accidentally leaving a VM running. We’ll leave Linux, then stop both computers through Azure.",
+    "why": "Closing a terminal is like closing a window: the computer behind it keeps running. Azure must show Stopped (deallocated) to release the running compute allocation.",
+    "needs": [
+      "You’ll need access to both VM pages in the Azure Portal.",
+      "Save any files and finish important tasks before stopping the VMs.",
+      "Keep your notes ready for the final power states and any disks, addresses, or recovery copies that still have charges."
+    ],
+    "firstMove": "Save your work in Linux and type exit in the SSH tab to return to Windows PowerShell.",
+    "reassurance": "If Azure says only Stopped, check again for the deallocated state. Don’t delete disks or the resource group just to end today’s session."
+  },
+  "wazuh-release-v4": {
+    "welcome": "We’re nearly ready to install Wazuh. First, let’s check that the release, manager size, and recovery copies match the plan we made.",
+    "why": "The manager runs several tools together. Checking its resources and supported release now can prevent a confusing half-finished installation.",
+    "needs": [
+      "You’ll need rhel9-manager-01 and rhel9-lab-01 running, with their four public/private addresses recorded separately.",
+      "The manager needs at least 4 virtual CPU cores, 8 GiB of memory, and 50 GB of storage, or the image’s larger minimum.",
+      "Have your working baseline, retained recovery copies, and official release notes ready; this course’s Wazuh release checkpoint is 4.14.7."
+    ],
+    "firstMove": "Open Virtual machines in Azure and check the name, resource group, and Running status of rhel9-manager-01.",
+    "reassurance": "If current release guidance differs from the course checkpoint, pause and compare it before installing. Don’t mix instructions from different releases."
+  },
+  "wazuh-central-v4": {
+    "welcome": "Let’s install the central Wazuh tools on the manager. We’ll check the downloaded installer first, then follow the installation and keep its private output safe.",
+    "why": "The manager receives information, the indexer stores and searches it, and the dashboard lets you read it in a browser. These belong on the manager VM, not the endpoint.",
+    "needs": [
+      "You’ll need the approved release checkpoint, a tested recovery plan, and the adequately sized rhel9-manager-01 VM.",
+      "Open its verified SSH session as rexuser and keep the endpoint’s tab separate.",
+      "Have private storage ready for generated credentials and recovery files; do not put them in screenshots or GitHub."
+    ],
+    "firstMove": "Select the manager’s SSH tab and run whoami, hostname, and pwd one at a time.",
+    "reassurance": "If the computer name is wrong, stop before downloading or running the installer. Picking the right tab is part of doing this well."
+  },
+  "wazuh-dashboard-v4": {
+    "welcome": "The central tools are installed. Now let’s check their services and open the Wazuh dashboard from Windows.",
+    "why": "An installer finishing doesn’t prove that the services or browser connection work. We’ll test them in small, separate steps.",
+    "needs": [
+      "You’ll need the completed central installation on rhel9-manager-01.",
+      "Keep its SSH tab and the Windows browser available, along with the private dashboard credentials.",
+      "Know the manager’s public address for browser access and your current home public address for the restricted dashboard rule."
+    ],
+    "firstMove": "Select the manager SSH tab, confirm its name, and inspect the installed service information before opening the browser.",
+    "reassurance": "If the page doesn’t load, work from the service to the listening port and then the network rule. Reinstalling everything is not our first move."
+  },
+  "wazuh-artifact-v4": {
+    "welcome": "Let’s get the endpoint’s Wazuh agent package and check it before installation. We’ll compare the file’s details and publisher signature with the official source.",
+    "why": "A file with the right name can still be wrong. These checks help us avoid installing a damaged or untrusted package.",
+    "needs": [
+      "You’ll need the approved Wazuh release and its official x86_64 agent-package source.",
+      "Open the verified rexuser SSH session on rhel9-lab-01, not on the manager.",
+      "Keep the official package checks and trusted signing-key guidance available for comparison."
+    ],
+    "firstMove": "In the endpoint’s SSH tab, run whoami and hostname to confirm rexuser on rhel9-lab-01.",
+    "reassurance": "If a signature or checksum check fails, keep the result and stop. A failed trust check is not something to skip to make the install continue."
+  },
+  "wazuh-agent-v4": {
+    "welcome": "Now we’ll install the small Wazuh agent on the endpoint and tell it how to reach the manager over the private network.",
+    "why": "The agent sends the endpoint’s security information to the manager. Using the correct private address keeps that traffic on the intended path.",
+    "needs": [
+      "You’ll need the verified agent RPM already saved on rhel9-lab-01.",
+      "Have the manager’s actual private address from your notes, with the manager services ready.",
+      "Use the endpoint SSH session as rexuser and the reviewed private-network rules for agent traffic."
+    ],
+    "firstMove": "Select the endpoint SSH tab and confirm the username and computer name before opening its sonic-wazuh folder.",
+    "reassurance": "If the agent installs but doesn’t connect, check its configured manager address and logs. Running and connected are two different checks."
+  },
+  "wazuh-checkin-v4": {
+    "welcome": "Let’s find your endpoint in the dashboard and prove it is the same computer we configured. We’ll compare its name, agent ID, and recent activity.",
+    "why": "A green symbol beside another computer does not prove our lab is connected. Matching identities and recent information gives us better evidence.",
+    "needs": [
+      "You’ll need the installed agent on rhel9-lab-01 and the working manager dashboard.",
+      "Keep the endpoint SSH session and dashboard open side by side if possible.",
+      "Have your recorded host names and private addresses available so you can identify the correct entry."
+    ],
+    "firstMove": "In the endpoint terminal, read its hostname and current time before comparing its agent details with the dashboard.",
+    "reassurance": "If there are duplicate names, don’t choose the green one by guesswork. Compare the agent ID and the latest activity too."
+  },
+  "wazuh-event-v4": {
+    "welcome": "Let’s watch a harmless file change travel from Linux into Wazuh. We’ll use a small practice folder, not a system file or personal document.",
+    "why": "Finding the actual event shows that the connection carries useful information, not just that a service happens to be running.",
+    "needs": [
+      "You’ll need the endpoint checking in successfully and the manager dashboard available.",
+      "Use the verified rexuser endpoint session and the dedicated sonic-fim practice folder.",
+      "Keep a backup of the agent configuration before adding the reviewed file-monitoring setting."
+    ],
+    "firstMove": "Confirm you are on rhel9-lab-01, then create the harmless practice folder and baseline text file from the lesson.",
+    "reassurance": "If the event doesn’t appear, check the monitored path, configuration, time, and dashboard filter before making a second change."
+  },
+  "wazuh-fault-v4": {
+    "welcome": "Let’s practice solving one small, known problem. On the disposable endpoint only, we’ll briefly give the agent a wrong manager address and follow its error messages.",
+    "why": "This teaches us to find a connection problem from evidence instead of restarting everything and hoping it works.",
+    "needs": [
+      "You’ll need a working, connected rhel9-lab-01 endpoint and its verified configuration backup.",
+      "Keep the real manager private address written down and your SSH access working.",
+      "Use only this isolated practice endpoint; never introduce this fault on a work computer."
+    ],
+    "firstMove": "On the endpoint, confirm the computer name and save the working agent configuration before editing it.",
+    "reassurance": "If you aren’t sure you can restore the working address, skip the fault for now and review the recovery step first."
+  },
+  "wazuh-recover-v4": {
+    "welcome": "Let’s bring the endpoint back using the recovery method we chose earlier. We’ll check what remains afterward and prove the computer still works.",
+    "why": "Uninstalling software and restoring a disk do different things. A restore can also remove newer files, so we choose the branch deliberately.",
+    "needs": [
+      "You’ll need the endpoint’s working baseline and the agreed recovery branch from your notes.",
+      "Keep your recovery copy and another way to reach the VM available before making changes.",
+      "Preserve any files you need and confirm whether the final goal is agent removal or restoration to the pre-install state."
+    ],
+    "firstMove": "Open the endpoint’s recovery record and read its chosen branch before running the package-removal example.",
+    "reassurance": "If your plan calls for disk restoration, don’t also run uninstall steps just because they are shown. Follow the branch that matches the recorded goal."
+  },
+  "wazuh-close-v4": {
+    "welcome": "You’ve worked through the change. Let’s collect the useful evidence, say clearly what is still unfinished, and stop both lab VMs when you’re done.",
+    "why": "Good handoff notes help the next administrator understand the result. Checking both power states also helps prevent unnecessary running costs.",
+    "needs": [
+      "You’ll need the endpoint and manager results, including your event, fault, and recovery notes.",
+      "Have the Azure pages for both VMs available.",
+      "Keep private credentials separate from the redacted screenshots and notes you plan to share."
+    ],
+    "firstMove": "Open your change record and add the final-state headings shown in the first step.",
+    "reassurance": "An honest note about an unfinished check is more useful than writing healthy without evidence. Save what you observed and name the next action."
+  }
+}

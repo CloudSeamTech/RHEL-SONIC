@@ -1,0 +1,254 @@
+{
+  "summary": {
+    "originalClassesWithReviewedWelcome": 97,
+    "nessusLessonsRewritten": 43,
+    "nessusStepsRewritten": 108,
+    "azureMaintenanceLessons": 10,
+    "azureMaintenanceSteps": 30,
+    "azureStepsWithRealInterfaceReference": 14,
+    "azureCaptureGaps": 16,
+    "liveAzureOperationsPerformed": 0
+  },
+  "steps": [
+    {
+      "lessonId": "azure-maint-plan",
+      "step": 1,
+      "title": "Choose four practice servers",
+      "status": "reference",
+      "assetId": "az-vm-overview",
+      "captureInstructions": "Capture choose four practice servers in your own practice lab. Include the selected VM name and the relevant controls or observed result. Hide account details, secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-plan",
+      "step": 2,
+      "title": "Write the order and the stop rule",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture write the order and the stop rule in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-baseline",
+      "step": 1,
+      "title": "Check the Windows pilot",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture check the windows pilot in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-baseline",
+      "step": 2,
+      "title": "Check the RHEL pilot",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture check the rhel pilot in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-backup",
+      "step": 1,
+      "title": "Choose the vault and backup policy",
+      "status": "reference",
+      "assetId": "az-backup-policy",
+      "captureInstructions": "Capture choose the vault and backup policy in your own practice lab. Include the selected VM name and the relevant controls or observed result. Hide account details, secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-backup",
+      "step": 2,
+      "title": "Run Backup now and inspect the recovery point",
+      "status": "reference",
+      "assetId": "az-backup-job",
+      "captureInstructions": "Capture run backup now and inspect the recovery point in your own practice lab. Include the selected VM name and the relevant controls or observed result. Hide account details, secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-backup",
+      "step": 3,
+      "title": "Prove the restore route before update night",
+      "status": "reference",
+      "assetId": "azure-restore-point",
+      "captureInstructions": "Capture prove the restore route before update night in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-snapshots",
+      "step": 1,
+      "title": "List the disks and choose a consistent moment",
+      "status": "reference",
+      "assetId": "az-vm-disk-pane",
+      "captureInstructions": "Capture list the disks and choose a consistent moment in your own practice lab. Include the selected VM name and the relevant controls or observed result. Hide account details, secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-snapshots",
+      "step": 2,
+      "title": "Create and label each required snapshot",
+      "status": "reference",
+      "assetId": "azure-create-snapshot",
+      "captureInstructions": "Capture create and label each required snapshot in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-snapshots",
+      "step": 3,
+      "title": "Write the snapshot recovery and cleanup plan",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture write the snapshot recovery and cleanup plan in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-assessment",
+      "step": 1,
+      "title": "Check support and access first",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture check support and access first in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-assessment",
+      "step": 2,
+      "title": "Run an assessment without installing",
+      "status": "reference",
+      "assetId": "aum-check-updates",
+      "captureInstructions": "Capture run an assessment without installing in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-assessment",
+      "step": 3,
+      "title": "Review who controls patching and reboots",
+      "status": "reference",
+      "assetId": "aum-update-settings",
+      "captureInstructions": "Capture review who controls patching and reboots in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-windows-pilot",
+      "step": 1,
+      "title": "Drain work and verify the safety net",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture drain work and verify the safety net in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-windows-pilot",
+      "step": 2,
+      "title": "Create a one-machine update job",
+      "status": "reference",
+      "assetId": "aum-install-updates",
+      "captureInstructions": "Capture create a one-machine update job in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-windows-pilot",
+      "step": 3,
+      "title": "Wait, reconnect and run the real checks",
+      "status": "reference",
+      "assetId": "aum-assessment-results",
+      "captureInstructions": "Capture wait, reconnect and run the real checks in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-rhel-pilot",
+      "step": 1,
+      "title": "Read the available security updates",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture read the available security updates in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-rhel-pilot",
+      "step": 2,
+      "title": "Install through one approved route",
+      "status": "reference",
+      "assetId": "aum-install-updates",
+      "captureInstructions": "Capture install through one approved route in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-rhel-pilot",
+      "step": 3,
+      "title": "Reboot once when approved and prove health",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture reboot once when approved and prove health in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-rolling",
+      "step": 1,
+      "title": "Turn pilot evidence into the next-wave decision",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture turn pilot evidence into the next-wave decision in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-rolling",
+      "step": 2,
+      "title": "Drain, patch, reboot and check one server",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture drain, patch, reboot and check one server in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-rolling",
+      "step": 3,
+      "title": "Rehearse a failed gate without breaking a VM",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture the worksheet clearly labeled SIMULATION and your written stop/notify/recovery decision. Do not use a fake Azure failure screen or deliberately damage a VM."
+    },
+    {
+      "lessonId": "azure-maint-rolling",
+      "step": 4,
+      "title": "Review a recurring maintenance schedule",
+      "status": "reference",
+      "assetId": "aum-maintenance-configuration",
+      "captureInstructions": "The source reference shows the Basics page, Guest scope and reboot setting. Use your actual approved schedule and targets; it does not prove the resulting rollout is serial or healthy."
+    },
+    {
+      "lessonId": "azure-maint-rollback",
+      "step": 1,
+      "title": "Stop and identify what actually failed",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture stop and identify what actually failed in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-rollback",
+      "step": 2,
+      "title": "Use a Windows uninstall only when supported",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture use a windows uninstall only when supported in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-rollback",
+      "step": 3,
+      "title": "Know the limits of RHEL package and kernel rollback",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture know the limits of rhel package and kernel rollback in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-recovery",
+      "step": 1,
+      "title": "Restore the backup into an isolated recovery network",
+      "status": "reference",
+      "assetId": "azure-restore-configuration",
+      "captureInstructions": "Capture restore the backup into an isolated recovery network in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-recovery",
+      "step": 2,
+      "title": "Test the recovered copy before any cutover",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture test the recovered copy before any cutover in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    },
+    {
+      "lessonId": "azure-maint-recovery",
+      "step": 3,
+      "title": "Review the snapshot-to-disk recovery path",
+      "status": "reference",
+      "assetId": "azure-swap-os-disk",
+      "captureInstructions": "The source reference shows Swap OS disk only. Follow the written recovery steps to create and verify a compatible replacement disk first. Capture your own Create disk, compatibility checks and supported swap confirmation without deleting original disks."
+    },
+    {
+      "lessonId": "azure-maint-recovery",
+      "step": 4,
+      "title": "Finish the practical and close the record",
+      "status": "capture-needed",
+      "assetId": null,
+      "captureInstructions": "Capture finish the practical and close the record in your own practice lab. Include the selected VM name and relevant controls or observed result. Hide secrets and unrelated resources."
+    }
+  ]
+}

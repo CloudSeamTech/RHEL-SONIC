@@ -1,4 +1,4 @@
-import { nessusLessons } from './nessus-curriculum.ts';
+import { guidedLessons as nessusLessons } from './guided-courses.ts';
 export type NessusProgress = {
   version: 1;
   checked: string[];

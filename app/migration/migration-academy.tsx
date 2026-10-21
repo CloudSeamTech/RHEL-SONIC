@@ -1,4 +1,5 @@
 'use client';
+import { welcomeFor } from '@/lib/lesson-welcome';
 /* oxlint-disable next/no-html-link-for-pages -- Vinext's client router currently crashes on these cross-page transitions; native navigation is intentional. */
 
 import { Fragment, useEffect, useMemo, useState } from 'react';
@@ -427,8 +428,8 @@ function LessonView({
         <section className="migration-pane pane-info">
           <span className="pane-label">IN PLAIN ENGLISH</span>
           <p>
-            {stage.plainEnglish} This project teaches the next necessary piece and
-            keeps the recovery path visible.
+            {stage.plainEnglish} This project teaches the next necessary piece
+            and keeps the recovery path visible.
           </p>
         </section>
         <section

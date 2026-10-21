@@ -15,7 +15,7 @@ export function TerminalSetup() {
           <pre>
             <code>
               {
-                'git clone --branch curriculum/nessus-training https://github.com/CloudSeamTech/SONIC-Academy.git\ncd SONIC-Academy\nnpm ci\nnpm run dev'
+                'git clone --branch curriculum/friendly-teaching-azure-maintenance https://github.com/CloudSeamTech/SONIC-Academy.git\ncd SONIC-Academy\nnpm ci\nnpm run dev'
               }
             </code>
           </pre>
