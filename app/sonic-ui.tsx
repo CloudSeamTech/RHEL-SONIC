@@ -4,6 +4,8 @@ import { useState, type ReactNode } from 'react';
 import { SessionGuide } from './session-guide';
 import { smallActions } from '@/lib/beginner-directions';
 import { InstructionScreenshots } from './instruction-screenshots';
+import { StepTeachingNotes } from './step-teaching-notes';
+import { readableStepTitle } from '@/lib/lesson-headings';
 import type { WalkthroughStep } from './wazuh-walkthroughs';
 import {
   Activity,
@@ -262,7 +264,7 @@ export function SonicWalkthrough({
             <details className="sonic-action-panel" open={index === 0}>
               <summary>
                 <span>STEP {String(index + 1).padStart(2, '0')}</span>
-                <strong>{step.title}</strong>
+                <strong>{readableStepTitle(step.title, step.actions, step.command)}</strong>
               </summary>
               <div className="sonic-action-body">
                 <p className="walkthrough-location">WHERE TO WORK: {step.where}</p>
@@ -270,6 +272,13 @@ export function SonicWalkthrough({
                   <summary>How to open the correct terminal or application</summary>
                   <SessionGuide location={step.where} />
                 </details>
+                <StepTeachingNotes
+                  lessonId={lessonId || 'linux'}
+                  title={step.title}
+                  action={step.actions.join(' ')}
+                  command={step.command}
+                  expected={step.expected}
+                />
                 <b className="sonic-action-label">DO THIS NOW · IN YOUR LAB</b>
             <ol>
               {step.actions.flatMap(smallActions).map((action, actionIndex) => (

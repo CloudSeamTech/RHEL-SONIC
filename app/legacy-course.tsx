@@ -1,5 +1,6 @@
 'use client';
 import { SessionGuide } from './session-guide';
+import { productionPracticeFor } from '@/lib/lab-production-practice';
 import { LessonVisualGuide } from './lesson-visual-guide';
 import { beginnerTerms } from './beginner-language';
 import { formatMinutes, lessonTimings, timingFor } from './course-timing';
@@ -576,9 +577,8 @@ export default function Home() {
                     <p>{lesson.change}</p>
                   </div>
                   <p className="lab-production-boundary">
-                    PRODUCTION PRACTICE: Confirm approval, a known-good baseline,
-                    least privilege, monitoring, and a tested rollback before an
-                    equivalent change on company infrastructure.
+                    <strong>PRODUCTION BEST PRACTICE:</strong>{' '}
+                    {productionPracticeFor(lesson.id)}
                   </p>
                 </section>
                 <details className="explanation lab-additional-context">
