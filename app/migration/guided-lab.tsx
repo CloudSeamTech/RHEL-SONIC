@@ -197,8 +197,8 @@ export function GuidedLab({
             <p>{productionPracticeFor(lessonId)}</p>
             <small>Compare with real-world practice; do not run lab commands against company systems without approval.</small>
           </section>
-          <details className="guided-visuals">
-            <summary>Show pictures and screen references for this step</summary>
+          <section className="guided-visuals" aria-label="Pictures and screen references for this step">
+            <h4 className="guided-visuals-heading">Pictures and screen references for this step</h4>
             <InstructionScreenshots stepId={`${lessonId}:guided:${index + 1}`} />
           {step.screenshots.map((id) => {
             const shot = screenshotCatalog.find((item) => item.id === id);
@@ -224,7 +224,7 @@ export function GuidedLab({
               </figure>
             ) : null;
           })}
-          </details>
+          </section>
           <details className="guided-trouble">
             <summary>My screen is different / it did not work</summary>
             <p>{step.trouble}</p>
