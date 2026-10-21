@@ -91,11 +91,7 @@ export function GuidedLab({
           <p>{purpose}</p>
         </section>
       )}
-      <section className="guided-production" aria-label="How this differs in production">
-        <b>HOW THIS WORKS IN PRODUCTION</b>
-        <p>{productionPracticeFor(lessonId)}</p>
-        <small>Compare with real-world practice; do not run lab commands against company systems without approval.</small>
-      </section>
+
       <dl className="guided-context">
         <div>
           <dt>WHERE TO WORK</dt>
@@ -181,6 +177,11 @@ export function GuidedLab({
           <section className="guided-expected">
             <b>CHECK THE RESULT · DID IT WORK?</b>
             <p>{step.expect}</p>
+          </section>
+          <section className="guided-production" aria-label="How this differs in production">
+            <b>HOW THIS WORKS IN PRODUCTION</b>
+            <p>{productionPracticeFor(lessonId)}</p>
+            <small>Compare with real-world practice; do not run lab commands against company systems without approval.</small>
           </section>
           <details className="guided-visuals">
             <summary>Show pictures and screen references for this step</summary>
