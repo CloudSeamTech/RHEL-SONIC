@@ -23,6 +23,8 @@ jobs:
           cache: npm
       - name: Install application dependencies
         run: npm ci
+      - name: Install local terminal companion dependencies
+        run: npm ci --prefix local-companion
       - name: Run curriculum and companion tests
         run: npm test
       - name: TypeScript check
