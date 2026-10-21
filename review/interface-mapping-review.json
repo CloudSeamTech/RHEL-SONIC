@@ -1,0 +1,24 @@
+{
+  "fallback": [
+    {
+      "stepId": "lab-01:guided:1",
+      "title": "Record the named outcome",
+      "actions": "# Understand the map",
+      "where": "Physical Windows host / lab worksheet; read-only planning."
+    },
+    {
+      "stepId": "move-01:guided:3",
+      "title": "Pick one cutover and rollback point PER service. Never shut down all origina",
+      "actions": "Pick one cutover and rollback point PER service. Never shut down all original services before testing a pilot.",
+      "where": "Lab inventory worksheet / read-only discovery and dependency planning."
+    },
+    {
+      "stepId": "installer-types-v3:guided:2",
+      "title": "Check the result and save your notes",
+      "actions": "Explain how you would first use file, hash/signature verification, and vendor instructions. Identify which actions merely inspect, which extract, which change permissions, and which actually execute/install.",
+      "where": "Reference examples · commented, do not execute"
+    }
+  ],
+  "assetCount": 148,
+  "stepCount": 803
+}

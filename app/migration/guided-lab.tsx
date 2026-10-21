@@ -4,7 +4,6 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { GuidedLab as Guide } from '@/lib/guided-lab';
-import screenshotCatalog from '@/content/migration/lab-screenshots.json';
 import { BeginnerActions, BeginnerWords } from '../beginner-actions';
 import { InstructionScreenshots } from '../instruction-screenshots';
 import './guided-lab.css';
@@ -12,20 +11,20 @@ import './guided-lab.css';
 export function GuidedLab({
   guide,
   lessonId,
+  screenshotLessonId = lessonId,
+  stepOffset = 0,
 }: {
   guide: Guide;
   lessonId: string;
+  screenshotLessonId?: string;
+  stepOffset?: number;
 }) {
   const [index, setIndex] = useState(0);
   const [checked, setChecked] = useState<number[]>([]);
   const [notice, setNotice] = useState('');
   const [copied, setCopied] = useState(false);
-  const [enlarged, setEnlarged] = useState<
-    (typeof screenshotCatalog)[number] | null
-  >(null);
-  const dialog = useRef<HTMLDialogElement>(null);
   const panel = useRef<HTMLElement>(null);
-  const storageKey = `sonic-guided-workstation2019-v1:${lessonId}`;
+  const storageKey = `sonic-guided-workstation2019-v1:${lessonId}${stepOffset ? `:part-${stepOffset}` : ''}`;
   // Synchronize saved lab notes after hydration; this does not execute a lab step.
   useEffect(() => {
     setIndex(0);
@@ -131,7 +130,7 @@ export function GuidedLab({
             STEP {index + 1} OF {guide.steps.length}
           </div>
           <h3>{step.title}</h3>
-          <InstructionScreenshots stepId={`${lessonId}:guided:${index + 1}`} />
+          <InstructionScreenshots stepId={`${screenshotLessonId}:guided:${index + stepOffset + 1}`} />
           <div className="guided-action">
             <b>Try these small actions</b>
             <BeginnerActions text={step.action} />
@@ -163,30 +162,6 @@ export function GuidedLab({
               </p>
             </section>
           )}
-          {step.screenshots.map((id) => {
-            const shot = screenshotCatalog.find((item) => item.id === id);
-            return shot ? (
-              <figure className="guided-screenshot" key={id}>
-                <button
-                  className="guided-image-button"
-                  aria-label={`Enlarge screenshot: ${shot.alt}`}
-                  onClick={() => {
-                    setEnlarged(shot);
-                    dialog.current?.showModal();
-                  }}
-                >
-                  <img src={shot.src} alt={shot.alt} loading="lazy" />
-                </button>
-                <figcaption>
-                  <strong>Reference screenshot · click to enlarge</strong>
-                  <p>{shot.note}</p>
-                  <a href={shot.source} target="_blank" rel="noreferrer">
-                    {shot.credit}
-                  </a>
-                </figcaption>
-              </figure>
-            ) : null;
-          })}
           <section className="guided-expected">
             <b>Check: does your screen match this?</b>
             <p>{step.expect}</p>
@@ -242,24 +217,6 @@ export function GuidedLab({
         <p>{guide.rollback}</p>
       </details>
       <output aria-live="polite">{notice}</output>
-      <dialog
-        ref={dialog}
-        className="guided-image-dialog"
-        onClose={() => setEnlarged(null)}
-      >
-        <button autoFocus onClick={() => dialog.current?.close()}>
-          Close screenshot ×
-        </button>
-        {enlarged && (
-          <>
-            <img src={enlarged.src} alt={enlarged.alt} />
-            <p>{enlarged.note}</p>
-            <a href={enlarged.source} target="_blank" rel="noreferrer">
-              {enlarged.credit}
-            </a>
-          </>
-        )}
-      </dialog>
     </section>
   );
 }

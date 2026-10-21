@@ -378,7 +378,7 @@ function LessonView({
     <article className="migration-lesson">
       <nav className="you-are-here" aria-label="You are here">
         <span>YOU ARE HERE</span>
-        <a href="/">SONIC</a>
+        <a href="/">SONIC-Academy</a>
         <ChevronRight size={13} />
         <a href="/migration#view=learn">{course.title}</a>
         <ChevronRight size={13} />
@@ -447,9 +447,10 @@ function LessonView({
         </span>
       </section>
       <div className="lesson-content">
-        <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />
+        {!lesson.separated && <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />}
         {guide && (
-          <GuidedLab key={lesson.id} lessonId={lesson.id} guide={guide} />
+          <GuidedLab key={lesson.id} lessonId={lesson.id} guide={guide}
+            screenshotLessonId={lesson.screenshotLessonId} stepOffset={lesson.stepOffset} />
         )}
         <details className="guided-reference" open={!guide}>
           <summary>Full lesson reference, commands, and background</summary>

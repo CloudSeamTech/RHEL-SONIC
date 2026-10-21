@@ -7,7 +7,7 @@ import {
 } from '../app/learning-pathways.ts';
 import alma from '../content/alma/desktop-lessons.json' with { type: 'json' };
 import { lessons } from '../app/course.ts';
-import catalog from '../content/migration/migration-lessons.generated.json' with { type: 'json' };
+import { migrationCurriculum } from '../app/migration-curriculum.ts';
 
 test('pathways retain every existing lesson exactly once with its original reader and ID', () => {
   const entries = learningPathways.flatMap(pathwayLessons);
@@ -16,7 +16,7 @@ test('pathways retain every existing lesson exactly once with its original reade
   assert.deepEqual(
     new Set(ids),
     new Set(
-      [...lessons, ...catalog.lessons, ...alma.lessons].map(
+      [...lessons, ...migrationCurriculum, ...alma.lessons].map(
         (lesson) => lesson.id,
       ),
     ),

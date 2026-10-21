@@ -15,3 +15,9 @@ Refresh after curriculum edits:
 The visual coverage check requires a unique matching asset for every real step and rejects stale hashes. The independent `screenshots:check` still measures authentic reviewed captures; diagrams do not make that check pass.
 
 The shared reader now breaks prose into smaller numbered actions without rewriting paths, addresses, conditions or commands. A glossary explains common terms. Mobile uses a step selector rather than a long navigation list; next/previous remain available. Pictures enlarge into a scrollable canvas so text can be read on a phone. Detailed evidence notes are collapsed, while the expected result remains visible. Checkboxes keep the existing independent per-step note storage and do not certify a completed lab.
+
+## Actual-interface reference correction
+
+The per-step diagrams are supplementary. They do not satisfy the user's screenshot requirement. The reader now uses explicit step associations in `interface-references.json` for real software screenshots pooled from multiple sources; it no longer automatically repeats a generated class sheet as a step screenshot. Each reference identifies the original source, exact application/version, unchanged image hash, and example-value caveats. `referenceRole` distinguishes control references, interface orientation, and notes/planning interfaces. The source screenshot's commands/results are never presented as the learner's output.
+
+`npm run screenshots:interfaces-check` checks the user-approved sourced-interface reference coverage. `npm run screenshots:targets-check` separately checks authentic captures of the exact lab and remains incomplete without that lab. It is not necessary to pretend source images are target-lab captures to show relevant interfaces at every step.

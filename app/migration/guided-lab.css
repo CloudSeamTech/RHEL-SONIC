@@ -499,3 +499,33 @@
   cursor: zoom-in;
   background: #000;
 }
+.screenshot-gap {
+  padding: 14px;
+  border-left: 2px solid #dfb656;
+  color: #bcbcbc;
+  line-height: 1.7;
+}
+.screenshot-gap strong {
+  display: block;
+  color: #dfb656;
+}
+.step-map-details {
+  margin: 12px;
+  border: 1px solid #242424;
+  padding: 12px;
+}
+.step-map-details summary {
+  cursor: pointer;
+  color: #898989;
+  line-height: 1.6;
+}
+.interface-reference figcaption {
+  display: block;
+  line-height: 1.6;
+}
+.interface-reference figcaption > span,
+.interface-reference figcaption small {
+  display: block;
+  margin-top: 8px;
+  color: #898989;
+}

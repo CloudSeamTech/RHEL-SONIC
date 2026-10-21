@@ -1,7 +1,6 @@
 import almaCourse from '../content/alma/desktop-lessons.json' with { type: 'json' };
 import { lessons, modules } from './course.ts';
-import catalog from '../content/migration/migration-lessons.generated.json' with { type: 'json' };
-const migrationLessons = catalog.lessons;
+import { migrationCurriculum as migrationLessons, migrationParts } from './migration-curriculum.ts';
 
 export type ConsoleLesson = {
   id: string;
@@ -246,10 +245,10 @@ const linuxTitles: Record<string, string> = {
 };
 
 function migration(ids: string[]): ConsoleLesson[] {
-  return ids.map((id) => {
+  return ids.flatMap(migrationParts).map((id) => {
     const lesson = migrationLessons.find((item) => item.id === id);
     if (!lesson) throw new Error(`Unknown pathway lesson: ${id}`);
-    const [title, description] = titles[id] ?? [
+    const [title, description] = (lesson.separated ? [lesson.title, lesson.description!] : titles[id]) ?? [
       lesson.title,
       lesson.body
         .split('\n')
@@ -284,7 +283,7 @@ export const learningPathways: LearningPathway[] = [
       },
       {
         title: '02 / Build DC01 and DC02',
-        lessons: migration(['lab-04', 'lab-05', 'lab-07', 'lab-06']),
+        lessons: migration(['lab-04', 'lab-07', 'lab-05', 'lab-06']),
       },
       {
         title: '03 / MECM Extension',

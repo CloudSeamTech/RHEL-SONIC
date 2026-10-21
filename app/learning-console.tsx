@@ -113,7 +113,7 @@ export function LearningConsole({
         aria-label="Learning navigation"
       >
         <div className="console-brand">
-          <a href="/">RHEL—SONIC</a>
+          <a href="/">SONIC-Academy</a>
           <small>ENTERPRISE IT LEARNING CONSOLE</small>
         </div>
         <div className="console-session">
@@ -449,7 +449,7 @@ export function LearningConsole({
           </div>
         </section>
         <footer className="console-footer">
-          <span>RHEL-SONIC // LEARN · PRACTICE · VERIFY</span>
+          <span>SONIC-Academy // LEARN · PRACTICE · VERIFY</span>
           <span>WINDOWS / AD → SQL → AZURE → MIGRATIONS</span>
         </footer>
       </main>

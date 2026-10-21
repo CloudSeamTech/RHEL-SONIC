@@ -1,105 +1,151 @@
-/* Native images preserve downloadable, full-resolution teaching assets. */
+/* Native images preserve unmodified, full-resolution reference assets. */
 /* oxlint-disable next/no-img-element */
 'use client';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import captureRegistry from '@/content/screenshots/captures.json';
 import pictureRegistry from '@/content/screenshots/step-pictures.json';
-import screenGuides from '@/content/screenshots/core-guides.json';
+import references from '@/content/screenshots/interface-references.json';
 import './migration/guided-lab.css';
-
-type ReviewedCapture = {
+type Capture = {
   stepId: string;
+  instructionHash: string;
   src: string;
   platform: string;
   provenance: string;
   reviewed: boolean;
 };
+type Enlarged = { src: string; title: string; note: string };
 const picturesByStep = new Map(
-  pictureRegistry.pictures.map((picture) => [picture.stepId, picture]),
+  pictureRegistry.pictures.map((p) => [p.stepId, p]),
 );
-
+const referenceByStep = new Map(references.steps.map((p) => [p.stepId, p]));
+const referenceById = new Map(references.assets.map((p) => [p.id, p]));
 export function InstructionScreenshots({ stepId }: { stepId: string }) {
   const dialog = useRef<HTMLDialogElement>(null);
-  const capture = (captureRegistry as ReviewedCapture[]).find(
-    (item) => item.stepId === stepId && item.reviewed,
-  );
+  const [enlarged, setEnlarged] = useState<Enlarged | null>(null);
   const picture = picturesByStep.get(stepId);
+  const capture = (captureRegistry as Capture[]).find(
+    (p) =>
+      p.stepId === stepId &&
+      p.reviewed &&
+      p.instructionHash === picture?.instructionHash,
+  );
+  const association = referenceByStep.get(stepId);
+  const shots =
+    association?.instructionHash === picture?.instructionHash
+      ? (association?.assetIds
+          .map((id) => referenceById.get(id)!)
+          .filter(Boolean) ?? [])
+      : [];
   if (!capture && !picture) return null;
-  const classGuide = screenGuides.lessons.find(
-    (lesson) => lesson.lessonId === stepId.split(':')[0],
-  );
-  const screen = screenGuides.assets.find(
-    (asset) => asset.id === classGuide?.guideIds[0],
-  );
-  const src = capture?.src ?? picture!.src;
-  const title = capture
-    ? `Lab screenshot · ${capture.platform}`
-    : `Picture for this step · ${picture!.title}`;
-  const note =
-    capture?.provenance ??
-    'Illustrated step map, not a software screenshot. Follow the numbered actions and compare with your own screen. Command examples are not results.';
+  function open(image: Enlarged) {
+    setEnlarged(image);
+    requestAnimationFrame(() => dialog.current?.showModal());
+  }
   return (
-    <figure className="guided-screenshot step-picture" data-step-id={stepId}>
-      <div className="step-picture-heading">
-        <strong>
-          {capture ? 'Look at this screen' : 'Look at this step picture'}
-        </strong>
-        <span className="step-picture-kind">
-          {capture ? 'Reviewed capture' : 'Illustrated guide'}
-        </span>
-      </div>
-      {!capture && screen && (
-        <div className="step-screen-reference">
-          <p>
-            <strong>Screen reference for this class</strong> · illustrated
-            example
-          </p>
+    <section
+      className="step-picture"
+      data-step-id={stepId}
+      aria-label="Pictures for this step"
+    >
+      {capture && (
+        <figure className="guided-screenshot">
+          <figcaption>
+            <strong>Screenshot · {capture.platform}</strong>
+          </figcaption>
           <button
-            className="step-screen-button"
-            aria-label={`Enlarge screen reference for ${stepId}`}
-            onClick={() => dialog.current?.showModal()}
+            className="guided-image-button"
+            aria-label={`Enlarge screenshot for ${stepId}`}
+            onClick={() =>
+              open({
+                src: capture.src,
+                title: capture.platform,
+                note: capture.provenance,
+              })
+            }
+          >
+            <img src={capture.src} alt={capture.platform} loading="lazy" />
+          </button>
+          <p>{capture.provenance}</p>
+        </figure>
+      )}
+      {!capture &&
+        shots.map((shot) => (
+          <figure
+            className="guided-screenshot interface-reference"
+            key={shot.id}
+          >
+            <figcaption>
+              <strong>{shot.title}</strong>
+              <span>Actual interface reference · {shot.platform}</span>
+            </figcaption>
+            <button
+              className="guided-image-button"
+              aria-label={`Enlarge interface reference: ${shot.title}`}
+              onClick={() => open(shot)}
+            >
+              <img src={shot.src} alt={shot.title} loading="lazy" />
+              <span className="picture-zoom-label">
+                Tap to see the controls up close ↗
+              </span>
+            </button>
+            <figcaption>
+              <p>{shot.note}</p>
+              <a href={shot.source} target="_blank" rel="noreferrer">
+                {shot.credit} ↗
+              </a>
+              <small>
+                Reference covers the pictured controls, not every action or your
+                lab’s results.
+              </small>
+            </figcaption>
+          </figure>
+        ))}
+      {!capture && !shots.length && (
+        <p className="screenshot-gap">
+          <strong>Interface screenshot still needed for this step.</strong> The
+          guide below is a diagram, not a screenshot.
+        </p>
+      )}
+      {picture && (
+        <details className="step-map-details" open={!capture && !shots.length}>
+          <summary>
+            Illustrated action map · help with the written directions
+          </summary>
+          <button
+            className="guided-image-button"
+            aria-label={`Enlarge picture for ${stepId}`}
+            onClick={() =>
+              open({
+                src: picture.src,
+                title: picture.title,
+                note: 'Illustrated step map, not a product screenshot or actual output.',
+              })
+            }
           >
             <img
-              src={screen.src}
-              alt={`${screen.title} — class screen reference; use the step map below for this action`}
+              src={picture.src}
+              alt={`${picture.title} — illustrated action map`}
               loading="lazy"
             />
+            <span className="picture-zoom-label">Enlarge action map ↗</span>
           </button>
-          <small>
-            Related steps share this screen reference. Your exact actions are
-            pictured below.
-          </small>
-        </div>
+        </details>
       )}
-      <button
-        className="guided-image-button"
-        aria-label={`Enlarge picture for ${stepId}`}
-        onClick={() => dialog.current?.showModal()}
+      <dialog
+        className="guided-image-dialog"
+        ref={dialog}
+        aria-label={enlarged?.title ?? 'Step picture'}
       >
-        <img src={src} alt={title} loading="lazy" />
-        <span className="picture-zoom-label">
-          Tap or click to make the picture bigger ↗
-        </span>
-      </button>
-      <figcaption>
-        <small>{note}</small>
-      </figcaption>
-      <dialog className="guided-image-dialog" ref={dialog} aria-label={title}>
         <button onClick={() => dialog.current?.close()}>Close picture ×</button>
         <p className="picture-pan-hint">
-          On a small screen, swipe the picture sideways to read it.
+          Swipe the picture sideways on a small screen.
         </p>
         <div className="picture-pan-canvas">
-          {!capture && screen && (
-            <img
-              src={screen.src}
-              alt={`${screen.title} — illustrated screen reference`}
-            />
-          )}
-          <img src={src} alt={title} />
+          {enlarged && <img src={enlarged.src} alt={enlarged.title} />}
         </div>
-        <p>{note}</p>
+        <p>{enlarged?.note}</p>
       </dialog>
-    </figure>
+    </section>
   );
 }

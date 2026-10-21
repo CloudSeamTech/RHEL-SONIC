@@ -18,7 +18,10 @@
     "screenshots:check": "node --experimental-strip-types tools/screenshot-coverage.mjs --require-complete",
     "screenshots:core-check": "node --experimental-strip-types --test tests/core-guides.test.mjs",
     "pictures:generate": "node --experimental-strip-types tools/generate-step-pictures.mjs",
-    "pictures:check": "node --experimental-strip-types --test tests/step-pictures.test.mjs"
+    "pictures:check": "node --experimental-strip-types --test tests/step-pictures.test.mjs",
+    "screenshots:interfaces": "node tools/audit-interface-screenshots.mjs",
+    "screenshots:interfaces-check": "node tools/audit-interface-screenshots.mjs --require-references",
+    "screenshots:targets-check": "node tools/audit-interface-screenshots.mjs --require-complete"
   },
   "dependencies": {
     "react": "19.2.6",

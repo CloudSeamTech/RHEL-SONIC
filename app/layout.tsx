@@ -15,7 +15,7 @@ const geistMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'RHEL-SONIC | Learning Console',
+  title: 'SONIC-Academy | Learning Console',
   icons: { icon: '/favicon.svg' },
   description:
     'Practical Windows Server, Active Directory, SQL Server, Azure, migration, and Linux learning pathways.',
