@@ -8,6 +8,7 @@ import screenshotCatalog from '@/content/migration/lab-screenshots.json';
 import { BeginnerActions, BeginnerWords } from '../beginner-actions';
 import { productionPracticeFor } from '@/lib/lab-production-practice';
 import { explainStep } from '@/lib/step-coaching';
+import { checkTeachingFor } from '@/lib/reference-check-teaching';
 import { InstructionScreenshots } from '../instruction-screenshots';
 import './guided-lab.css';
 
@@ -52,7 +53,10 @@ export function GuidedLab({
     }
   }, [storageKey, guide.steps.length]);
   const step = guide.steps[index];
-  const coaching = explainStep({ lessonId, title: step.title, action: step.action, command: step.command, expected: step.expect });
+  const clarity = checkTeachingFor(lessonId, index + 1);
+  const currentTitle = clarity?.title ?? step.title;
+  const currentAction = clarity?.action ?? step.action;
+  const coaching = explainStep({ lessonId, title: currentTitle, action: currentAction, command: step.command, expected: step.expect });
   function select(next: number) {
     setIndex(next);
     setCopied(false);
@@ -112,7 +116,7 @@ export function GuidedLab({
         >
           {guide.steps.map((item, n) => (
             <option key={n} value={n}>
-              Step {n + 1}: {item.title}
+              Step {n + 1}: {checkTeachingFor(lessonId, n + 1)?.title ?? item.title}
             </option>
           ))}
         </select>
@@ -130,7 +134,7 @@ export function GuidedLab({
               <span>
                 {checked.includes(n) ? '✓' : String(n + 1).padStart(2, '0')}
               </span>
-              {item.title}
+              {checkTeachingFor(lessonId, n + 1)?.title ?? item.title}
             </button>
           ))}
           </nav>
@@ -144,11 +148,11 @@ export function GuidedLab({
           <div className="guided-step-number">
             STEP {index + 1} OF {guide.steps.length}
           </div>
-          <h3>{step.title}</h3>
+          <h3>{currentTitle}</h3>
           <p className="coaching-why"><strong>WHY THIS STEP:</strong> {coaching.reason}</p>
           <div className="guided-action">
             <b>DO THIS NOW · IN YOUR PRACTICE LAB</b>
-            <BeginnerActions text={step.action} />
+            <BeginnerActions text={currentAction} />
           </div>
           <p className="coaching-effect"><strong>WHAT THIS CHANGES OR CHECKS:</strong> {coaching.impact}</p>
           {step.command && (
