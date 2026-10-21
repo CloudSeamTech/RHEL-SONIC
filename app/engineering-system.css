@@ -538,3 +538,15 @@ body:has(.learning-console):before {
   .sonic-action-body { padding: 12px; }
   .sonic-action-panel > summary { padding: 13px 11px; gap: 10px; }
 }
+
+/* Concise meaning attached directly to the current task. */
+.reader-workspace .coaching-brief {
+  border-left: 2px solid #dfb656;
+  background: #0b0d0e;
+  margin: 11px 0 18px;
+  padding: 11px 14px;
+}
+.reader-workspace .coaching-brief p { margin: 5px 0 9px; font-size: 13px; line-height: 1.6; color: #c3c6c9; }
+.coaching-brief p strong { color: #dfb656; letter-spacing: .025em; font-size: 11px; }
+.reader-workspace .coaching-brief .coaching-command { padding: 7px 0 2px; border-top: 1px solid #292929; }
+.coaching-brief .coaching-command summary { font-size: 12px; }
