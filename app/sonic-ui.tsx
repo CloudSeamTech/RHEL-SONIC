@@ -4,6 +4,7 @@ import { useState, type ReactNode } from 'react';
 import { SessionGuide } from './session-guide';
 import { smallActions } from '@/lib/beginner-directions';
 import { InstructionScreenshots } from './instruction-screenshots';
+import { StepTeachingNotes } from './step-teaching-notes';
 import type { WalkthroughStep } from './wazuh-walkthroughs';
 import {
   Activity,
@@ -270,6 +271,13 @@ export function SonicWalkthrough({
                   <summary>How to open the correct terminal or application</summary>
                   <SessionGuide location={step.where} />
                 </details>
+                <StepTeachingNotes
+                  lessonId={lessonId || 'linux'}
+                  title={step.title}
+                  action={step.actions.join(' ')}
+                  command={step.command}
+                  expected={step.expected}
+                />
                 <b className="sonic-action-label">DO THIS NOW · IN YOUR LAB</b>
             <ol>
               {step.actions.flatMap(smallActions).map((action, actionIndex) => (
