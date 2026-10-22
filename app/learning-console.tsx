@@ -109,7 +109,7 @@ export function LearningConsole({
       : selected.source === 'alma'
         ? 'cat /etc/os-release'
         : selected.id === 'lab-04'
-          ? 'Get-ADDomain -Identity agency.test'
+          ? 'Get-ADDomain -Identity cloudseam.tech'
           : selected.id === 'lab-07'
             ? 'repadmin /replsummary'
             : selected.id.startsWith('sql-')
@@ -448,7 +448,7 @@ export function LearningConsole({
                 <p>
                   <time>[EXAMPLE]</time> <b className="console-amber">[HINT]</b>{' '}
                   {selected.id === 'lab-04'
-                    ? 'Confirm DNS resolves agency.test before adding AG-DC02.'
+                    ? 'Confirm DNS resolves cloudseam.tech before adding AG-DC02.'
                     : 'Read the complete lesson before running commands.'}
                 </p>
                 <p>

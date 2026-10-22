@@ -40,7 +40,7 @@ export function welcomeFor(
         'Keep its verified private address, DNS settings and authorized administrator sign-in ready.',
         id === 'lab-04' || id === 'lab-08'
           ? 'Have the planned new forest name beside you. A forest is the directory environment we are about to create.'
-          : 'Check that AG-DC01 and agency.test DNS are working before joining the server.',
+          : 'Check that AG-DC01 and cloudseam.tech DNS are working before joining the server.',
       ],
       firstMove:
         isController && id !== 'lab-07'

@@ -1,0 +1,1373 @@
+{
+  "id": "iis-helpdesk",
+  "title": "Build the CloudSeam IT Help Desk",
+  "description": "Learn IIS by building, protecting and recovering a real osTicket help desk on APP01.",
+  "baseline": "VMware Workstation Pro \u00b7 Windows Server 2019 APP01 \u00b7 cloudseam.tech \u00b7 IIS + PHP 8.4 x64 NTS + maintained MariaDB 10.11 \u00b7 osTicket self-hosted edition",
+  "prerequisite": "Let\u2019s give your Windows server a useful job. We\u2019ll build a help desk where a practice user can report a problem and an IT agent can resolve it. Start after the APP01 domain-join and IIS foundation lesson; each class below adds one small piece.",
+  "supplies": [
+    "A prepared APP01 member VM and a private Windows client; do not install the app on DC01/DC02.",
+    "Working cloudseam.tech AD DNS and the actual private IPs from your lab plan.",
+    "Administrator rights on your own lab VMs, trusted installers and a password manager.",
+    "An approved practice mailbox only if you choose the optional mail integration class.",
+    "A recovery plan and protected backup space outside the website folder."
+  ],
+  "sources": [
+    {
+      "title": "osTicket installation and current prerequisites",
+      "url": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html"
+    },
+    {
+      "title": "Official self-hosted download",
+      "url": "https://osticket.com/download/"
+    },
+    {
+      "title": "PHP on Windows IIS",
+      "url": "https://www.php.net/manual/en/install.windows.iis.php"
+    },
+    {
+      "title": "IIS site bindings",
+      "url": "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+    },
+    {
+      "title": "MariaDB Windows installation",
+      "url": "https://mariadb.com/docs/server/server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/installing-mariadb-msi-packages-on-windows"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "helpdesk-plan",
+      "title": "Plan Your CloudSeam Help Desk",
+      "description": "Record the server, domain, software versions and recovery plan before installing anything.",
+      "what": "Let\u2019s record the server, domain, software versions and recovery plan before installing anything.",
+      "why": "A small plan helps you tell which machine and which name each setting belongs to.",
+      "needs": [
+        "APP01: updated Windows Server 2019 Desktop Experience, joined to cloudseam.tech",
+        "Working DC01/DC02 DNS, a private lab client, and permission to administer your practice VMs",
+        "Suggested lab allocation: 2 vCPUs, 4\u20138 GB RAM and 60 GB disk; adjust for your host"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "Your plan names APP01, cloudseam.tech, helpdesk.cloudseam.tech and the software versions.",
+      "exercise": "Write a three-line plan with your real private addresses.",
+      "quiz": [
+        {
+          "question": "Where does osTicket belong?",
+          "options": [
+            "APP01, the member application server",
+            "On both domain controllers",
+            "On the physical VMware host"
+          ],
+          "answer": 0,
+          "explanation": "APP01, the member application server is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Meet the machines",
+          "where": "VMware Workstation Pro on your host",
+          "actions": [
+            "Open the APP01 console. Keep the VMware network private; do not add router port forwarding.",
+            "Write down APP01\u2019s actual IPv4 address, subnet and the two domain DNS addresses. The existing course example is 192.168.77.20 for APP01; use it only if it matches your lab.",
+            "Our AD domain is cloudseam.tech. Our application address is helpdesk.cloudseam.tech. These are names, not IP addresses."
+          ],
+          "expected": "You have a short machine and address list.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Meet the machines",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-plan-1"
+          }
+        },
+        {
+          "title": "Check APP01 before installing",
+          "where": "APP01 \u00b7 Windows PowerShell as administrator",
+          "actions": [
+            "Open Start, type Windows PowerShell, right-click it and choose Run as administrator.",
+            "Run the read-only checks below. Confirm APP01, Windows Server 2019, cloudseam.tech and a healthy domain trust.",
+            "If the domain is still an older practice domain, stop. Do not rename a working AD forest or simply edit DNS to pretend it was renamed; use the updated fresh-build classes or a separately planned migration."
+          ],
+          "expected": "APP01 is running the intended source OS and domain; the secure-channel test is True.",
+          "command": "hostname\nGet-ComputerInfo | Select-Object WindowsProductName\n(Get-CimInstance Win32_ComputerSystem).Domain\nTest-ComputerSecureChannel\nGet-DnsClientServerAddress -AddressFamily IPv4",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Check APP01 before installing",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-plan-2"
+          }
+        },
+        {
+          "title": "Collect the installers and recovery point",
+          "where": "APP01 \u00b7 browser and your backup notes",
+          "actions": [
+            "Get the free self-hosted osTicket package from osticket.com/download, PHP 8.4 x64 Non-Thread Safe from php.net, and a maintained MariaDB 10.11 x64 Windows MSI from mariadb.org. Use current security patches and verify publisher/checksums where provided.",
+            "Also obtain Microsoft Visual C++ 2015\u20132022 x64 Redistributable and Microsoft IIS URL Rewrite 2.1 from their official sites. Avoid old all-in-one tutorial bundles and retired Web Platform Installer.",
+            "Record the exact versions. Back up APP01 before changes; a short-lived VMware checkpoint of this disposable member VM is a convenience, not a database backup and never an AD recovery recipe."
+          ],
+          "expected": "You have trusted installers, version notes and a recovery plan.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Collect the installers and recovery point",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-plan-3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-iis",
+      "title": "Install and Explore IIS",
+      "description": "Install IIS and CGI, then find websites, application pools and bindings.",
+      "what": "Let\u2019s install IIS and CGI, then find websites, application pools and bindings.",
+      "why": "IIS receives a browser request and chooses the right website. We\u2019ll learn those pieces before adding PHP.",
+      "needs": [
+        "Completed Help Desk Plan",
+        "Local administrator access on APP01"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "IIS serves a local page and you can explain a site, pool and binding.",
+      "exercise": "Point out the site, pool and binding in IIS Manager.",
+      "quiz": [
+        {
+          "question": "What does a binding match?",
+          "options": [
+            "Protocol, IP address, port and hostname",
+            "A database password",
+            "A Windows wallpaper"
+          ],
+          "answer": 0,
+          "explanation": "Protocol, IP address, port and hostname is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Install the web server role",
+          "where": "APP01 \u00b7 elevated Windows PowerShell",
+          "actions": [
+            "Run the command below on APP01, not DC01. It adds IIS, its management console and CGI support for PHP.",
+            "Read Success and Restart Needed. If a restart is requested, restart this member VM and sign in again."
+          ],
+          "expected": "Web-Server and Web-CGI show Installed.",
+          "command": "Install-WindowsFeature Web-Server,Web-CGI -IncludeManagementTools\nGet-WindowsFeature Web-Server,Web-CGI",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Install the web server role",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "iis-fastcgi"
+          }
+        },
+        {
+          "title": "Explore IIS Manager",
+          "where": "APP01 \u00b7 Start \u2192 Windows Administrative Tools \u2192 IIS Manager",
+          "actions": [
+            "You can also press Win+R, type inetmgr and press Enter.",
+            "Expand APP01 on the left. Select Application Pools, then Sites. A site holds the address and files; its pool runs the application.",
+            "Select Default Web Site and choose Bindings on the right. Observe its port; do not delete the existing migration test page."
+          ],
+          "expected": "You can locate Sites, Application Pools and Bindings.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Explore IIS Manager",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "iis-bindings"
+          }
+        },
+        {
+          "title": "Check the basic website",
+          "where": "APP01 \u00b7 browser",
+          "actions": [
+            "Open http://localhost/index.html if you created the earlier APP01 test page, or http://localhost for the default IIS page.",
+            "If the browser cannot connect, check W3SVC using the command below. Fix the role/service before adding osTicket.",
+            "Keep the existing test page: it remains useful when you migrate APP01 to Azure."
+          ],
+          "expected": "IIS serves a basic page on APP01.",
+          "command": "Get-Service W3SVC\nGet-Website",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Check the basic website",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-iis-3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-php",
+      "title": "Connect PHP to IIS",
+      "description": "Install supported PHP and make IIS execute a small PHP test.",
+      "what": "Let\u2019s install supported PHP and make IIS execute a small PHP test.",
+      "why": "osTicket is written in PHP. IIS passes PHP files to FastCGI so they run instead of downloading.",
+      "needs": [
+        "IIS and CGI installed",
+        "Official PHP 8.4 x64 NTS ZIP and Microsoft x64 runtime"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "A browser executes PHP through IIS without exposing the source code.",
+      "exercise": "Explain why php-cgi.exe is selected instead of php.exe.",
+      "quiz": [
+        {
+          "question": "Which PHP build fits IIS FastCGI?",
+          "options": [
+            "x64 Non-Thread Safe",
+            "Any old PHP ZIP",
+            "Only the Apache module"
+          ],
+          "answer": 0,
+          "explanation": "x64 Non-Thread Safe is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Unpack and configure PHP",
+          "where": "APP01 \u00b7 File Explorer and Notepad as administrator",
+          "actions": [
+            "Install the Microsoft Visual C++ x64 Redistributable. Extract PHP to C:\\PHP so php-cgi.exe is directly inside that folder.",
+            "Copy php.ini-production to php.ini. Open php.ini and set extension_dir=\"C:\\PHP\\ext\". Enable the supplied mysqli, mbstring, intl, gd and fileinfo extensions by removing their leading semicolons. Enable openssl if supplied and needed for TLS mail. Do not download random extension DLLs.",
+            "Set date.timezone=\"UTC\", log_errors=On, display_errors=Off and cgi.fix_pathinfo=1. Keep PHP files outside the website root. Save and run the checks.",
+            "Also set session.save_path=\"C:\\Sites\\HelpdeskRuntime\\sessions\", upload_tmp_dir=\"C:\\Sites\\HelpdeskRuntime\\uploads\" and error_log=\"C:\\Sites\\HelpdeskRuntime\\php-errors.log\". We will create and permission those private runtime folders when we create the pool."
+          ],
+          "expected": "PHP reports 8.4 and the required extensions load without startup warnings.",
+          "command": "& C:\\PHP\\php.exe --ini\n& C:\\PHP\\php.exe -v\n& C:\\PHP\\php.exe -m",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Unpack and configure PHP",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-php-1"
+          }
+        },
+        {
+          "title": "Add the FastCGI handler",
+          "where": "APP01 \u00b7 IIS Manager \u2192 APP01 \u2192 Handler Mappings",
+          "actions": [
+            "Choose Add Module Mapping. Request path: *.php. Module: FastCgiModule. Executable: C:\\PHP\\php-cgi.exe. Name: PHP-FastCGI.",
+            "Choose OK and Yes when asked to create a FastCGI application. If FastCgiModule is absent, return to the CGI role check.",
+            "Use php-cgi.exe, not php.exe. Keep Enable 32-Bit Applications=False for an x64 PHP pool."
+          ],
+          "expected": "IIS has a PHP-FastCGI mapping to the x64 CGI executable.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Add the FastCGI handler",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "iis-handler"
+          }
+        },
+        {
+          "title": "Prove PHP runs and remove the test",
+          "where": "APP01 \u00b7 elevated PowerShell and browser",
+          "actions": [
+            "Write a temporary PHP page into the existing IIS root using the command below. It prints a short message, not a phpinfo dump.",
+            "Open http://localhost/php-check.php on APP01. You should see PHP is working. If code downloads or displays as text, stop and fix the handler.",
+            "Remove the test file after checking. A successful command-line PHP test alone does not prove IIS can execute PHP."
+          ],
+          "expected": "The browser executes PHP, and the test page is removed.",
+          "command": "Set-Content -LiteralPath C:\\inetpub\\wwwroot\\php-check.php -Value '<?php echo \"PHP is working\"; ?>' -Encoding ASCII\n# After the browser check:\nRemove-Item -LiteralPath C:\\inetpub\\wwwroot\\php-check.php",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Prove PHP runs and remove the test",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-php-3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-database",
+      "title": "Create the Help Desk Database",
+      "description": "Install MariaDB and give osTicket its own database and account.",
+      "what": "Let\u2019s install MariaDB and give osTicket its own database and account.",
+      "why": "Tickets and settings live in a database. A separate account limits the application to its own data.",
+      "needs": [
+        "Verified PHP installation",
+        "MariaDB 10.11 maintained Windows MSI and password manager"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "The app account connects to its own database and 3306 has no inbound allow rule.",
+      "exercise": "Record the database name and username, keeping its password in your password manager.",
+      "quiz": [
+        {
+          "question": "Which account should the web installer use?",
+          "options": [
+            "osticket_app with rights on osticket only",
+            "MariaDB root",
+            "The domain Administrator"
+          ],
+          "answer": 0,
+          "explanation": "osticket_app with rights on osticket only is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Install MariaDB locally",
+          "where": "APP01 \u00b7 MariaDB Windows installer",
+          "actions": [
+            "Run the signed MariaDB MSI. Keep the database server and client features; choose a Windows service and TCP port 3306.",
+            "Choose a strong root password and save it privately. Leave remote root access disabled.",
+            "Do not create an inbound firewall rule for 3306. This lab keeps the application and database on APP01. Record the installed service name and bin folder."
+          ],
+          "expected": "MariaDB runs as a Windows service and its port is not exposed to other lab machines.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Install MariaDB locally",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-database-1"
+          }
+        },
+        {
+          "title": "Create the application database",
+          "where": "APP01 \u00b7 MariaDB command prompt from Start",
+          "actions": [
+            "Open the MariaDB command prompt and connect with mariadb -u root -p. Type the password at the prompt.",
+            "Run the SQL below one statement at a time. Replace REPLACE_WITH_UNIQUE_SECRET locally with a new unique password; do not submit that placeholder or upload your real password.",
+            "Give privileges only on osticket.*, not every database. FLUSH PRIVILEGES is unnecessary after CREATE USER and GRANT."
+          ],
+          "expected": "Database osticket and its dedicated localhost account exist.",
+          "command": "CREATE DATABASE osticket CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\nCREATE USER 'osticket_app'@'localhost' IDENTIFIED BY 'REPLACE_WITH_UNIQUE_SECRET';\nGRANT ALL PRIVILEGES ON osticket.* TO 'osticket_app'@'localhost';\nSHOW GRANTS FOR 'osticket_app'@'localhost';",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Create the application database",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-database-2"
+          }
+        },
+        {
+          "title": "Test the application login",
+          "where": "APP01 \u00b7 MariaDB command prompt",
+          "actions": [
+            "Exit the root session with exit. Connect as the new user with the command below, using the app password when prompted.",
+            "Run SELECT DATABASE(); and SHOW TABLES;. Empty tables are expected before the installer runs.",
+            "If access is denied, check the username, password and localhost account before editing grants. Keep database root out of the osTicket installer."
+          ],
+          "expected": "The app account connects to osticket without root privileges.",
+          "command": "mariadb -h localhost -u osticket_app -p osticket\n# After connecting, run:\nSELECT DATABASE();\nSHOW TABLES;",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Test the application login",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-database-3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-site",
+      "title": "Create the CloudSeam IIS Website",
+      "description": "Create a dedicated osTicket folder, application pool and hostname binding.",
+      "what": "Let\u2019s create a dedicated osTicket folder, application pool and hostname binding.",
+      "why": "A separate pool and folder let you change the help desk without replacing the original APP01 test website.",
+      "needs": [
+        "IIS and PHP tested",
+        "Official self-hosted osTicket ZIP"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "The site has an isolated pool and narrowly scoped file permissions.",
+      "exercise": "Show the site\u2019s physical path and its application pool.",
+      "quiz": [
+        {
+          "question": "What should be temporarily writable during setup?",
+          "options": [
+            "ost-config.php only",
+            "The entire drive",
+            "All domain controller folders"
+          ],
+          "answer": 0,
+          "explanation": "ost-config.php only is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Copy the application files",
+          "where": "APP01 \u00b7 File Explorer",
+          "actions": [
+            "Create C:\\Sites\\CloudSeamHelpdesk. Extract the osTicket download into a temporary folder.",
+            "Copy the CONTENTS of its upload folder into C:\\Sites\\CloudSeamHelpdesk. The destination should contain index.php, include, scp and setup directly.",
+            "Inside include, copy ost-sampleconfig.php to ost-config.php. Keep the ZIP and SQL backup outside the public website folder."
+          ],
+          "expected": "The website root contains index.php and include\\ost-config.php.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Copy the application files",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-site-1"
+          }
+        },
+        {
+          "title": "Create the pool and site",
+          "where": "APP01 \u00b7 IIS Manager",
+          "actions": [
+            "In Application Pools choose Add Application Pool. Name it CloudSeamHelpdesk, select No Managed Code and Integrated. Its identity stays ApplicationPoolIdentity.",
+            "Right-click Sites \u2192 Add Website. Site name: CloudSeamHelpdesk. Select the matching pool. Physical path: C:\\Sites\\CloudSeamHelpdesk.",
+            "For the temporary local HTTP binding use port 80 and hostname helpdesk.cloudseam.tech. Leave your existing Default Web Site and its files intact."
+          ],
+          "expected": "The new site uses its own pool, folder and hostname binding.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Create the pool and site",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "iis-add-binding"
+          }
+        },
+        {
+          "title": "Grant limited file access",
+          "where": "APP01 \u00b7 elevated Windows PowerShell",
+          "actions": [
+            "Grant the pool Read and Execute on the website folder. Grant Modify on ost-config.php only for the installer. Run the commands below.",
+            "In IIS Manager select CloudSeamHelpdesk \u2192 Authentication \u2192 Anonymous Authentication \u2192 Edit \u2192 Application pool identity. This makes anonymous requests use the named pool\u2019s file rights.",
+            "In Default Document ensure index.php is present, adding it if necessary. Do not grant Everyone Full Control or make the whole site writable.",
+            "Create the private runtime folders in the command below and grant Modify only there to this pool. These folders stay outside the website root; they hold temporary uploads, sessions and the PHP error log."
+          ],
+          "expected": "The pool can read the app and temporarily write its configuration file.",
+          "command": "icacls C:\\Sites\\CloudSeamHelpdesk /grant \"IIS AppPool\\CloudSeamHelpdesk:(OI)(CI)(RX)\"\nicacls C:\\Sites\\CloudSeamHelpdesk\\include\\ost-config.php /grant \"IIS AppPool\\CloudSeamHelpdesk:(M)\"\nNew-Item -ItemType Directory -Force -Path C:\\Sites\\HelpdeskRuntime\\sessions,C:\\Sites\\HelpdeskRuntime\\uploads\nicacls C:\\Sites\\HelpdeskRuntime /grant \"IIS AppPool\\CloudSeamHelpdesk:(OI)(CI)(M)\"",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Grant limited file access",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-site-3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-dns",
+      "title": "Give the Help Desk Its Name",
+      "description": "Create the private DNS record and verify that a lab client reaches APP01.",
+      "what": "Let\u2019s create the private DNS record and verify that a lab client reaches APP01.",
+      "why": "DNS turns helpdesk.cloudseam.tech into APP01\u2019s address; it does not install IIS or make a website public.",
+      "needs": [
+        "APP01\u2019s recorded private IP",
+        "DNS administration rights on the cloudseam.tech lab DC"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "A private client resolves the help desk name to APP01 and firewall rules are scoped.",
+      "exercise": "Explain why an internal DNS record does not expose this server publicly.",
+      "quiz": [
+        {
+          "question": "Where does the helpdesk A record go for this lab?",
+          "options": [
+            "The existing private cloudseam.tech DNS zone",
+            "The database tables",
+            "The osTicket admin password field"
+          ],
+          "answer": 0,
+          "explanation": "The existing private cloudseam.tech DNS zone is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Create the private DNS record",
+          "where": "DC01 \u00b7 Server Manager \u2192 Tools \u2192 DNS",
+          "actions": [
+            "Expand your DC \u2192 Forward Lookup Zones \u2192 cloudseam.tech. This should already be your AD-integrated zone from the domain build.",
+            "Right-click the zone \u2192 New Host (A or AAAA). Name: helpdesk. IP address: APP01\u2019s recorded private IPv4 address. Choose Add Host.",
+            "Do not change the root cloudseam.tech record, registrar nameservers, MX records, or public DNS. Internal AD DNS must separately resolve any public CloudSeam services your clients need."
+          ],
+          "expected": "Private DNS maps helpdesk.cloudseam.tech to APP01, without changing public records.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Create the private DNS record",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-dns-1"
+          }
+        },
+        {
+          "title": "Test the name from a client",
+          "where": "Private Windows lab client \u00b7 PowerShell",
+          "actions": [
+            "Confirm this client uses your AD DNS servers. Run Resolve-DnsName below and compare the returned IP to APP01.",
+            "A wrong answer usually means a stale record, wrong client DNS server or mismatched subnet. Correct that before opening the app.",
+            "Use the exact hostname in IIS bindings. Browsing by IP can select a different IIS site."
+          ],
+          "expected": "The private client resolves the intended APP01 address.",
+          "command": "Resolve-DnsName helpdesk.cloudseam.tech",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Test the name from a client",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-dns-2"
+          }
+        },
+        {
+          "title": "Scope the web firewall access",
+          "where": "APP01 and your private lab client",
+          "actions": [
+            "On APP01 open Windows Defender Firewall with Advanced Security. Inspect existing IIS inbound rules before adding another.",
+            "If no suitable rule exists: Inbound Rules \u2192 New Rule \u2192 Port \u2192 TCP \u2192 Specific local ports: 443 \u2192 Allow the connection \u2192 Domain profile \u2192 name CloudSeam Helpdesk HTTPS. Open the new rule \u2192 Scope \u2192 Remote IP addresses \u2192 These IP addresses \u2192 Add your recorded lab subnet. Inspect other enabled 443 rules too; a broad allow rule can defeat this scope.",
+            "Allow TCP 443 only from your recorded lab subnet. If your disposable setup needs HTTP temporarily, scope TCP 80 to that same subnet and remove the temporary allowance when HTTPS is ready. Do not open database port 3306.",
+            "From the client, test 443 after the next HTTPS lesson; before its binding exists, failure is expected. No router forwarding or public inbound RDP is needed."
+          ],
+          "expected": "You have a private-only web access plan; DNS resolution works.",
+          "command": "# Run on the private client after HTTPS is configured:\nTest-NetConnection helpdesk.cloudseam.tech -Port 443",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Scope the web firewall access",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-dns-3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-https",
+      "title": "Protect the Help Desk with HTTPS",
+      "description": "Create a lab certificate, bind HTTPS and trust it on one practice client.",
+      "what": "Let\u2019s create a lab certificate, bind HTTPS and trust it on one practice client.",
+      "why": "HTTPS protects passwords in transit. The certificate must match the name in your browser.",
+      "needs": [
+        "Working private DNS",
+        "APP01 administrator and one disposable lab client"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "A private client reaches the site over trusted HTTPS with a matching certificate.",
+      "exercise": "Record certificate name, thumbprint and expiry without exporting its private key.",
+      "quiz": [
+        {
+          "question": "What certificate name matches this site?",
+          "options": [
+            "helpdesk.cloudseam.tech",
+            "localhost only",
+            "migrate.cloudseam.tech"
+          ],
+          "answer": 0,
+          "explanation": "helpdesk.cloudseam.tech is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Create a named lab certificate",
+          "where": "APP01 \u00b7 elevated Windows PowerShell",
+          "actions": [
+            "Run the command below to create a short-lived certificate for helpdesk.cloudseam.tech in the local computer Personal store.",
+            "A self-signed certificate is for this private exercise. It is not publicly trusted. For a real deployment, use an approved CA and renewal process.",
+            "Record its thumbprint and expiry. Export only its public certificate for the client, never the private key."
+          ],
+          "expected": "The certificate contains helpdesk.cloudseam.tech and a recorded expiry.",
+          "command": "New-SelfSignedCertificate -DnsName 'helpdesk.cloudseam.tech' -CertStoreLocation 'Cert:\\LocalMachine\\My' -FriendlyName 'CloudSeam Helpdesk Lab' -NotAfter (Get-Date).AddMonths(3)",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Create a named lab certificate",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "iis-certificates"
+          }
+        },
+        {
+          "title": "Bind the site to HTTPS",
+          "where": "APP01 \u00b7 IIS Manager \u2192 Sites \u2192 CloudSeamHelpdesk \u2192 Bindings",
+          "actions": [
+            "Choose Add. Type: https. Port: 443. Hostname: helpdesk.cloudseam.tech. Enable Require Server Name Indication.",
+            "Choose the CloudSeam Helpdesk Lab certificate and select OK. If it is missing, check Local Computer \u2192 Personal and confirm it has a private key.",
+            "Once HTTPS is verified, remove the help desk\u2019s temporary HTTP binding. Do not turn off unrelated sites. Install Microsoft IIS URL Rewrite 2.1 and confirm its feature is visible; osTicket requires it."
+          ],
+          "expected": "The site has the intended HTTPS/SNI certificate binding.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Bind the site to HTTPS",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "iis-https"
+          }
+        },
+        {
+          "title": "Trust and test on the practice client",
+          "where": "APP01 certlm.msc, then your disposable private Windows client",
+          "actions": [
+            "On APP01 press Win+R \u2192 certlm.msc \u2192 Personal \u2192 Certificates. Open your certificate, check its name and thumbprint, then All Tasks \u2192 Export \u2192 No, do not export the private key \u2192 DER encoded .CER.",
+            "Transfer that public .CER to your lab client. Compare the thumbprint out of band, then import it into that client\u2019s Local Computer \u2192 Trusted Root Certification Authorities. Do this only for your own disposable client.",
+            "Open https://helpdesk.cloudseam.tech. Check the certificate name and trust. Do not simply click through warnings. Never copy a PFX/private key into website files."
+          ],
+          "expected": "The client establishes trusted HTTPS to the exact help desk hostname.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Trust and test on the practice client",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "iis-https"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-install",
+      "title": "Install osTicket and Lock Down Setup",
+      "description": "Complete the osTicket installer and remove its temporary setup permissions.",
+      "what": "Let\u2019s complete the osTicket installer and remove its temporary setup permissions.",
+      "why": "The installer joins the website and database. Finishing includes taking away the extra access used during installation.",
+      "needs": [
+        "Trusted HTTPS",
+        "Database osticket, account osticket_app and its private password"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "The help desk is installed with a dedicated account, protected configuration and no installer directory.",
+      "exercise": "Sign in at /scp/ and verify that the installer is inaccessible.",
+      "quiz": [
+        {
+          "question": "Is the osTicket administrator automatically a domain administrator?",
+          "options": [
+            "No; they are separate accounts",
+            "Yes, always",
+            "Only when IIS restarts"
+          ],
+          "answer": 0,
+          "explanation": "No; they are separate accounts is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Check the web installer",
+          "where": "Private client \u00b7 https://helpdesk.cloudseam.tech/setup/",
+          "actions": [
+            "Open the installer over HTTPS. Read its prerequisite checks before continuing.",
+            "Fix missing PHP extensions, URL Rewrite or config permissions on APP01. Recycle only the CloudSeamHelpdesk application pool after php.ini changes, then check again.",
+            "If a required component is missing, stop here rather than bypassing the check. Use current osTicket requirements for your downloaded release."
+          ],
+          "expected": "The installer\u2019s required checks pass.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Check the web installer",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-install-1"
+          }
+        },
+        {
+          "title": "Create the help desk and administrator",
+          "where": "Private client \u00b7 osTicket installer",
+          "actions": [
+            "Helpdesk Name: CloudSeam IT Help Desk. Helpdesk URL: https://helpdesk.cloudseam.tech/. Use a real mailbox you control for required email fields; do not assume support@cloudseam.tech already exists.",
+            "Create a unique osTicket administrator username and password. This is an application account; do not reuse your Windows domain Administrator password.",
+            "Database: osticket. Username: osticket_app. Password: your stored app secret. Host: localhost. Complete installation and record the result. Entering an email address does not configure SMTP or IMAP."
+          ],
+          "expected": "osTicket installs and its staff login at /scp/ opens.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Create the help desk and administrator",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-install-2"
+          }
+        },
+        {
+          "title": "Remove the installer and write permission",
+          "where": "APP01 \u00b7 elevated PowerShell, then osTicket admin panel",
+          "actions": [
+            "After a successful install, delete only C:\\Sites\\CloudSeamHelpdesk\\setup. The command below removes that installer folder.",
+            "Remove the pool\u2019s temporary ost-config.php grant; its inherited Read/Execute rights from the site folder remain. Confirm effective permissions in Properties \u2192 Security \u2192 Advanced.",
+            "In osTicket Admin Panel \u2192 Settings \u2192 System check the help desk URL and put the desk Online when ready. Verify /setup/ no longer launches installation."
+          ],
+          "expected": "The desk is online, the installer is gone and the config file is read-only to the pool.",
+          "command": "Remove-Item -LiteralPath C:\\Sites\\CloudSeamHelpdesk\\setup -Recurse\nicacls C:\\Sites\\CloudSeamHelpdesk\\include\\ost-config.php /remove:g \"IIS AppPool\\CloudSeamHelpdesk\"",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Remove the installer and write permission",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "ost-settings"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-tickets",
+      "title": "Run Your First Help Desk Ticket",
+      "description": "Create a practice agent and move a fake support ticket from open to resolved.",
+      "what": "Let\u2019s create a practice agent and move a fake support ticket from open to resolved.",
+      "why": "A working enterprise app needs a usable workflow, not just a successful install page.",
+      "needs": [
+        "Installed help desk",
+        "Two browser sessions and fake practice data"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "A test ticket completes the support workflow and its history remains visible.",
+      "exercise": "Create and resolve a second ticket using a different fictional problem.",
+      "quiz": [
+        {
+          "question": "Which message is intended only for staff?",
+          "options": [
+            "An internal note",
+            "A requester reply",
+            "The public help desk homepage"
+          ],
+          "answer": 0,
+          "explanation": "An internal note is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Create a limited agent",
+          "where": "osTicket \u00b7 /scp/ \u2192 Admin Panel",
+          "actions": [
+            "Open Agents and add a practice agent. Choose the Support department and a role with only the ticket permissions needed for the exercise.",
+            "Use an email address you control for required fields. Arrange the initial password with the available admin workflow; if activation email is required, finish the optional mail lesson before expecting delivery.",
+            "Keep the admin account for administration and the agent account for daily ticket work. Local osTicket accounts do not automatically enable AD single sign-on."
+          ],
+          "expected": "You have a separate Support agent and a documented activation method.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Create a limited agent",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "ost-settings"
+          }
+        },
+        {
+          "title": "Submit a practice ticket",
+          "where": "Private client \u00b7 https://helpdesk.cloudseam.tech/",
+          "actions": [
+            "Open a private/incognito browser window so you are not acting as staff. Choose Open a New Ticket.",
+            "Use a mailbox you control, subject: Practice \u2014 cannot reach shared drive, and a short fictional description. Do not attach passwords or real customer information.",
+            "Submit and record the ticket number shown. The ticket can exist even if outbound email has not yet been configured."
+          ],
+          "expected": "A numbered test ticket appears in the staff queue.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Submit a practice ticket",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "ost-new-ticket"
+          }
+        },
+        {
+          "title": "Assign, reply and resolve",
+          "where": "osTicket staff panel \u00b7 /scp/",
+          "actions": [
+            "Open the ticket, assign it to the Support agent, and add an internal note describing your planned checks. A note is for staff; a reply is for the requester.",
+            "Add a helpful reply explaining the fictional fix. Close the ticket when the problem is resolved and check the status in the staff panel.",
+            "If requester status requires an emailed access link, configure mail first; do not claim that an undelivered email proves the ticket failed."
+          ],
+          "expected": "The ticket history shows assignment, a note, a reply and a resolved status.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Assign, reply and resolve",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "ost-ticket-status"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-mail",
+      "title": "Connect a Real Practice Mailbox",
+      "description": "Configure authenticated mail only when you have an approved mailbox.",
+      "what": "Let\u2019s configure authenticated mail only when you have an approved mailbox.",
+      "why": "Creating a domain or typing an email address does not create a mailbox. We\u2019ll keep ticket testing honest until delivery is verified.",
+      "needs": [
+        "Optional: a mailbox you control and its provider\u2019s SMTP/OAuth instructions",
+        "A maintained osTicket release and the matching provider-supported auth plugin if required"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "Mail is either verified with a real delivery test or explicitly documented as not configured.",
+      "exercise": "Record the result of one real notification without exposing mail credentials.",
+      "quiz": [
+        {
+          "question": "Does an AD domain create an email mailbox?",
+          "options": [
+            "No; a mail service must provide it",
+            "Yes, automatically",
+            "Only after a reboot"
+          ],
+          "answer": 0,
+          "explanation": "No; a mail service must provide it is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Collect the provider settings",
+          "where": "Your mail provider admin portal and osTicket Admin Panel",
+          "actions": [
+            "Record the approved mailbox, SMTP host, port, TLS mode and authentication method. Do not place secrets in tickets or course notes.",
+            "For Microsoft 365 or another provider requiring OAuth, use the supported osTicket OAuth plugin and provider app registration instructions; do not enable legacy basic authentication as a shortcut.",
+            "If you do not have a mailbox, skip mail integration and keep practising tickets manually. No email delivery should be claimed."
+          ],
+          "expected": "You know whether mail integration is available and which authentication method is supported.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Collect the provider settings",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "ost-settings"
+          }
+        },
+        {
+          "title": "Configure outgoing mail",
+          "where": "osTicket Admin Panel \u2192 Emails \u2192 select or add your approved address",
+          "actions": [
+            "Open the selected email\u2019s outgoing SMTP settings. Enter the provider\u2019s exact host, port, encryption and supported authentication details. UI labels vary by release.",
+            "Save and use the built-in email diagnostic/test function. Check the recipient mailbox and provider message trace if available.",
+            "Changing the display address alone does not authorize sending. If authentication fails, use the provider\u2019s error and plugin documentation."
+          ],
+          "expected": "A test email is actually delivered, or the unresolved provider error is recorded.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Configure outgoing mail",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "ost-settings"
+          }
+        },
+        {
+          "title": "Test notifications and record the boundary",
+          "where": "osTicket tickets and your approved mailbox",
+          "actions": [
+            "Create another fake ticket and send a staff reply. Confirm the actual notification reaches the mailbox.",
+            "Inbound ticket creation is separate: configure supported IMAP/OAuth fetching and a documented scheduler only if you intend to teach email-to-ticket intake. A successful SMTP test does not prove inbound fetching works.",
+            "Leave inbound fetching disabled until it has its own successful test. Record what is configured and what is not."
+          ],
+          "expected": "You can distinguish outgoing notifications from optional inbound email fetching.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Test notifications and record the boundary",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "ost-new-ticket"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-recovery",
+      "title": "Back Up and Restore the Help Desk",
+      "description": "Back up the database and files, then prove recovery on an isolated copy.",
+      "what": "Let\u2019s back up the database and files, then prove recovery on an isolated copy.",
+      "why": "A website folder alone is not the help desk. Tickets, configuration and any attachments must all be recoverable.",
+      "needs": [
+        "A working practice ticket",
+        "Protected backup folder outside the web root and an isolated recovery VM"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "You have tested a separate restore, not just created a backup file.",
+      "exercise": "Record one restored ticket number, attachment check and measured recovery time.",
+      "quiz": [
+        {
+          "question": "What proves a backup is useful?",
+          "options": [
+            "A verified restore of the ticket and attachment",
+            "A filename alone",
+            "A successful ping"
+          ],
+          "answer": 0,
+          "explanation": "A verified restore of the ticket and attachment is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Freeze changes and take a logical backup",
+          "where": "APP01 \u00b7 osTicket Admin Panel, IIS Manager and MariaDB command prompt",
+          "actions": [
+            "Tell practice users the desk is offline, set Helpdesk Status to Offline, then stop only the CloudSeamHelpdesk pool so no web writes occur during the backup.",
+            "Create a protected folder such as D:\\LabBackups only if D: exists; otherwise choose another protected non-web folder. Run mariadb-dump from the installed MariaDB bin folder using --result-file. Never redirect binary or dump data through Windows PowerShell\u2019s default text encoding.",
+            "The command prompts for the database administrator password. Confirm exit code 0, a nonempty SQL file and a backup record. Keep database access local."
+          ],
+          "expected": "A consistent logical SQL dump exists outside the website folder.",
+          "command": "mariadb-dump -u root -p --single-transaction --routines --events --triggers --databases osticket --result-file=\"D:\\LabBackups\\osticket.sql\"",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Freeze changes and take a logical backup",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-recovery-1"
+          }
+        },
+        {
+          "title": "Save files and restart the desk",
+          "where": "APP01 \u00b7 protected backup storage and IIS Manager",
+          "actions": [
+            "While the pool is stopped, back up C:\\Sites\\CloudSeamHelpdesk, PHP configuration, IIS site/pool/bindings, osTicket version, and any external attachment storage or plugins. ost-config.php contains database secrets; protect it.",
+            "If an attachments plugin stores files outside the database, include that exact location. Keep certificate private-key backups only in protected storage with a separate recovery process.",
+            "Restart the pool, return the desk Online, and submit a small test ticket. Copy backups to protected storage outside APP01; a backup only on the VM can be lost with it."
+          ],
+          "expected": "The desk works again and the recovery package includes database, files, configuration and required attachments.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Save files and restart the desk",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-recovery-2"
+          }
+        },
+        {
+          "title": "Prove restore without replacing the original",
+          "where": "Separate recovery VM \u00b7 isolated network",
+          "actions": [
+            "Build the same supported IIS/PHP/database baseline on an isolated copy, not on DC01 or over your only working APP01. Keep outgoing mail disabled to avoid duplicate notifications.",
+            "Restore the site files and import the SQL dump using the MariaDB client SOURCE command. Recreate the dedicated database account and adjust the protected configuration to this recovery VM.",
+            "Use an isolated client\u2019s hosts entry for helpdesk.cloudseam.tech pointing only to the recovery IP; do not change shared DNS. Verify login, the known ticket and its attachment. Remove that temporary hosts entry afterward. Record recovery time, then retire or isolate the restored copy."
+          ],
+          "expected": "A known ticket and attachment are readable on the isolated restored application.",
+          "command": "# Inside the MariaDB client on the isolated recovery VM:\nSOURCE D:/LabBackups/osticket.sql;",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Prove restore without replacing the original",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-recovery-3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-operations",
+      "title": "Troubleshoot, Scan and Prepare for Azure",
+      "description": "Find IIS errors, scan your approved lab target and record a migration baseline.",
+      "what": "Let\u2019s find IIS errors, scan your approved lab target and record a migration baseline.",
+      "why": "We\u2019ll use the application to practise the everyday checks an enterprise administrator needs.",
+      "needs": [
+        "Working osTicket baseline",
+        "Approved private Nessus scanner and a protected backup"
+      ],
+      "bestPractices": [
+        "Work on APP01 in your private VMware lab. Keep DC01 and DC02 dedicated to directory services.",
+        "Use your password manager for secrets. Screenshots and tickets should contain fake practice data only.",
+        "Stop at a failed check. Fix that piece before continuing to the next lesson."
+      ],
+      "commonMistakes": [
+        "Using public DNS for an AD client instead of the lab domain controllers.",
+        "Treating a sample picture or a checked box as evidence that the app works."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My screen or result is different.",
+          "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
+        }
+      ],
+      "pass": "You can troubleshoot by evidence and have a private scan and migration plan.",
+      "exercise": "Write a short before/after checklist covering HTTPS, tickets, attachments, mail and recovery.",
+      "quiz": [
+        {
+          "question": "Which target belongs in the practice scan?",
+          "options": [
+            "APP01\u2019s approved private IP",
+            "Any public cloudseam.tech address",
+            "The entire internet"
+          ],
+          "answer": 0,
+          "explanation": "APP01\u2019s approved private IP is the result this class is designed to teach."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Follow the error to the right component",
+          "where": "APP01 \u00b7 IIS Manager \u2192 CloudSeamHelpdesk \u2192 Logging",
+          "actions": [
+            "Find the site ID and its log folder, normally C:\\inetpub\\logs\\LogFiles\\W3SVC<site-id>. Make one failed request and match its timestamp, path, status and substatus.",
+            "For 404, check URL, physical path and index.php. For 403, check default document, authorization and file permissions. For 500, check PHP configuration and logs; 500.19 often points to invalid configuration or a missing module.",
+            "For 502.3, investigate FastCGI startup, runtime architecture and PHP errors. Recycle only this pool after a fix. Do not disable all security or restart every website."
+          ],
+          "expected": "You can match a real request to its IIS log record and a targeted next check.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Follow the error to the right component",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-operations-1"
+          }
+        },
+        {
+          "title": "Scan only the approved practice app",
+          "where": "Your existing Nessus scanner \u00b7 private VMware network",
+          "actions": [
+            "Use the Nessus classes to create a scan scoped only to APP01\u2019s recorded private address. Resolve helpdesk.cloudseam.tech through your lab DNS; do not scan the public cloudseam.tech address by accident.",
+            "Set a light practice scan, record permission/scope, and compare findings with the installed versions and actual settings. Keep availability checks and backup ready.",
+            "Fix one verified issue, repeat the same scan and test ticket creation. A clean scan alone does not prove the application is secure. Nessus on Windows uses its own service, not IIS."
+          ],
+          "expected": "The scan scope is private APP01, findings are reviewed, and the app still works afterward.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Scan only the approved practice app",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-operations-2"
+          }
+        },
+        {
+          "title": "Record the Azure migration baseline",
+          "where": "APP01 and private client \u00b7 your migration notes",
+          "actions": [
+            "Record the Server 2019 version, PHP/osTicket/MariaDB versions, help desk URL, ticket ID, attachment test, certificate expiry, backup path and database size.",
+            "Follow the existing Azure migration lessons to move the VMware workload to a supported private Azure network and validate it before the Server 2022 upgrade. Use a supported migration/upgrade procedure for the exact VM and OS; keep rollback available.",
+            "At cutover, point the PRIVATE helpdesk.cloudseam.tech A record at the validated Azure private address reachable from your lab/client network. Do not edit a guest\u2019s static IP as though it were an Azure NIC setting. Re-test HTTPS, login, a ticket, attachment, mail and backup."
+          ],
+          "expected": "A documented baseline exists for migration, with separate checks for cutover and later OS upgrade.",
+          "command": "",
+          "breakdown": [],
+          "sources": [
+            "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
+            "https://www.php.net/manual/en/install.windows.iis.php",
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Record the Azure migration baseline",
+            "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
+            "assetId": "helpdesk-operations-3"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -44,7 +44,7 @@
     "reassurance": "If VMnet2 is already in use, leave it alone and choose another unused VMnet. The example name isn’t a requirement."
   },
   "lab-04": {
-    "welcome": "We’re going to build AG-DC01, the first server that keeps track of our lab’s users and computers. Once Windows is ready, we’ll give it the Active Directory job and create our practice domain, agency.test.",
+    "welcome": "We’re going to build AG-DC01, the first server that keeps track of our lab’s users and computers. Once Windows is ready, we’ll give it the Active Directory job and create our practice domain, cloudseam.tech.",
     "why": "A domain gives several computers one shared place to check who can sign in and which rules to use.",
     "needs": [
       "Have VMware Workstation Pro and your Windows Server 2019 Desktop Experience ISO ready.",
@@ -55,10 +55,10 @@
     "reassurance": "If your Windows edition doesn’t say Desktop Experience, stop before installing it. That is the option with the desktop screens we’ll use."
   },
   "lab-05": {
-    "welcome": "Now that agency.test works, let’s give it a few pretend people and a simple sign-in message. We’ll make a user, a group, and a folder-like container for keeping them organized.",
+    "welcome": "Now that cloudseam.tech works, let’s give it a few pretend people and a simple sign-in message. We’ll make a user, a group, and a folder-like container for keeping them organized.",
     "why": "These small practice objects give us something recognizable to manage and move later.",
     "needs": [
-      "Start AG-DC01 and make sure you can sign in as your lab’s agency.test administrator.",
+      "Start AG-DC01 and make sure you can sign in as your lab’s cloudseam.tech administrator.",
       "Have the Create the Domain lesson’s checks completed first.",
       "Use made-up names and a private temporary password; we don’t need real employee information."
     ],
@@ -66,29 +66,29 @@
     "reassurance": "OU means an organizational unit, which is a container for organizing domain objects. GPO means a saved set of rules. We’ll show you where both live."
   },
   "lab-06": {
-    "welcome": "Let’s build APP01, the practice server we’ll move later. We’ll join it to agency.test and put a tiny website on it so we have a real thing to test before and after the move.",
+    "welcome": "Let’s build APP01, the practice server we’ll move later. We’ll join it to cloudseam.tech and put a tiny website on it so we have a real thing to test before and after the move.",
     "why": "A working test page gives us a simple way to notice whether a migration changed the application.",
     "needs": [
       "Have your Windows Server 2019 Desktop Experience ISO and private VMware network ready.",
-      "Keep AG-DC01 running and confirm agency.test name lookup works.",
+      "Keep AG-DC01 running and confirm cloudseam.tech name lookup works.",
       "Reserve APP01’s address in your network notes and have a domain account allowed to join a lab computer."
     ],
     "firstMove": "Open Workstation Pro → File → New Virtual Machine and name the new machine APP01 when asked.",
     "reassurance": "We’ll keep the website small. You don’t need to know web development to create and check this test page."
   },
   "lab-07": {
-    "welcome": "Let’s add AG-DC02 as a second keeper of the same agency.test directory. It will copy the directory from AG-DC01 instead of starting another domain.",
+    "welcome": "Let’s add AG-DC02 as a second keeper of the same cloudseam.tech directory. It will copy the directory from AG-DC01 instead of starting another domain.",
     "why": "A second domain controller helps the domain keep working when one controller is unavailable.",
     "needs": [
       "Have a new Server 2019 Desktop Experience VM plan for AG-DC02.",
       "Keep AG-DC01 running, healthy, and reachable through the private VMware network.",
-      "Have the reserved address for AG-DC02 and an agency.test account allowed to add a domain controller."
+      "Have the reserved address for AG-DC02 and an cloudseam.tech account allowed to add a domain controller."
     ],
     "firstMove": "Start the AG-DC02 build in Workstation Pro → File → New Virtual Machine.",
     "reassurance": "The important choice later is to add a controller to the existing domain. If the wizard offers to create a new forest, we’ll use the existing-domain option instead."
   },
   "lab-08": {
-    "welcome": "This time we’ll build a different organization’s directory on DEST-DC01. Its domain is destination.test, and we’ll keep it separate from agency.test.",
+    "welcome": "This time we’ll build a different organization’s directory on DEST-DC01. Its domain is migrate.cloudseam.tech, and we’ll keep it separate from cloudseam.tech.",
     "why": "Moving to another organization is different from adding another controller to the same domain.",
     "needs": [
       "Have your Server 2019 Desktop Experience ISO and enough spare PC resources for another VM.",
@@ -121,7 +121,7 @@
     "reassurance": "If the import asks for account or path mappings, stop and read what it needs. Our simple banner should not require guessing production account names."
   },
   "lab-11": {
-    "welcome": "We’re ready to move APP01 from agency.test to destination.test. We’ll keep checking its website along the way so we can tell whether the move worked.",
+    "welcome": "We’re ready to move APP01 from cloudseam.tech to migrate.cloudseam.tech. We’ll keep checking its website along the way so we can tell whether the move worked.",
     "why": "Changing a computer’s domain can affect sign-in and application access, even when the server name stays the same.",
     "needs": [
       "Have APP01’s test website working before you begin.",
@@ -146,7 +146,7 @@
     "welcome": "Let’s build WSUS01, a separate Windows server that can help organize Windows updates for our lab. We’ll start small instead of downloading every update Microsoft offers.",
     "why": "An update server gives administrators a way to choose which updates reach which computers.",
     "needs": [
-      "Have a new Server 2019 Desktop Experience VM for WSUS01 on the private agency.test network.",
+      "Have a new Server 2019 Desktop Experience VM for WSUS01 on the private cloudseam.tech network.",
       "Keep AG-DC01 working so WSUS01 can join the domain.",
       "Plan space for update files and check your internet and storage limits before choosing products to download."
     ],
@@ -165,11 +165,11 @@
     "reassurance": "You don’t have to download every optional tool today. Choose the core SQL path first, then add the management extensions when you need them."
   },
   "sql-02": {
-    "welcome": "Let’s give the database its own Windows server, SQL01. First we’ll get Windows and its network ready, then join it to agency.test.",
+    "welcome": "Let’s give the database its own Windows server, SQL01. First we’ll get Windows and its network ready, then join it to cloudseam.tech.",
     "why": "Separating SQL from the domain controller makes each computer’s job easier to understand and troubleshoot.",
     "needs": [
       "Have the Server 2019 Desktop Experience ISO and private VMware network ready.",
-      "Keep AG-DC01 running and have an account allowed to join SQL01 to agency.test.",
+      "Keep AG-DC01 running and have an account allowed to join SQL01 to cloudseam.tech.",
       "Review the SQL sizing plan from the previous lesson; the database server may need more spare RAM and disk space than the basic domain-controller VM."
     ],
     "firstMove": "Open Workstation Pro → File → New Virtual Machine and start the SQL01 build.",
@@ -179,7 +179,7 @@
     "welcome": "Now we’ll install the SQL Server database engine on SQL01. We’ll take the setup pages one at a time and choose settings that also fit our later Configuration Manager exercise.",
     "why": "A database engine is the service that stores and answers questions about data. Setup choices affect which applications can use it.",
     "needs": [
-      "Have SQL01 joined to agency.test with working DNS and time.",
+      "Have SQL01 joined to cloudseam.tech with working DNS and time.",
       "Copy the verified SQL Server 2022 installer to SQL01 and use an account allowed to install it.",
       "Keep your version, memory, and storage plan nearby. The required collation is the database’s text-sorting rule, so copy it exactly from the steps."
     ],
@@ -212,7 +212,7 @@
     "welcome": "Let’s prepare MECM01 for Microsoft Configuration Manager, the tool that can manage software and updates across many computers. We’ll get the Windows roles and folders ready before its main installer.",
     "why": "Configuration Manager depends on several other pieces, so preparing them in order makes setup easier to understand.",
     "needs": [
-      "Have a separate Server 2019 VM for MECM01 on the agency.test network.",
+      "Have a separate Server 2019 VM for MECM01 on the cloudseam.tech network.",
       "Keep AG-DC01 and SQL01 available, and have permission to join the domain and install Windows roles.",
       "Use the Windows ADK and Windows PE add-on versions supported by your chosen Configuration Manager release; leave enough RAM and storage for this optional extension."
     ],
@@ -223,7 +223,7 @@
     "welcome": "MECM01 needs a few carefully chosen permissions before setup will work. We’ll visit the directory server and SQL server and give only the lab access the installer needs.",
     "why": "Permissions are like keys to specific doors. Giving the right access is safer and easier to explain than making every account an administrator everywhere.",
     "needs": [
-      "Have MECM01 prepared and joined to agency.test, with SQL01 and AG-DC01 working.",
+      "Have MECM01 prepared and joined to cloudseam.tech, with SQL01 and AG-DC01 working.",
       "Keep the Configuration Manager installer files and the exact setup-account name ready.",
       "Have the lab’s directory and SQL administrators help with their respective permissions; keep passwords and storage keys out of notes."
     ],
@@ -300,7 +300,7 @@
     "welcome": "Let’s look at what really changes when a server joins another organization’s domain. We’ll follow the people, permissions, DNS settings, and application connections—not just the computer name.",
     "why": "The same username written in two domains can represent two different identities with different access.",
     "needs": [
-      "Have the agency.test and destination.test inventories and working DNS checks.",
+      "Have the cloudseam.tech and migrate.cloudseam.tech inventories and working DNS checks.",
       "Use APP01’s completed migration notes as your small pilot example.",
       "List the accounts and services used by SQL and any optional Configuration Manager work, with the people who own those settings."
     ],

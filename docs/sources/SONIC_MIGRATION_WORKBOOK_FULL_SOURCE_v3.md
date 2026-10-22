@@ -66,7 +66,7 @@ The complete course has a working local path and a separate Azure extension. You
 <thead>
 <tr class="header">
 <th><p><strong>IMPORTANT DISTINCTION</strong></p>
-<p>A domain controller is not just a new VM and a public DNS zone. A Windows AD forest is created by installing AD DS and promoting a server. Your existing public cloudscene.tech zone does not automatically create ad.cloudscene.tech as an AD domain.</p></th>
+<p>A domain controller is not just a new VM and a public DNS zone. A Windows AD forest is created by installing AD DS and promoting a server. Your existing public cloudseam.tech zone does not automatically create azure.cloudseam.tech as an AD domain.</p></th>
 </tr>
 </thead>
 <tbody>
@@ -75,9 +75,9 @@ The complete course has a working local path and a separate Azure extension. You
 
 UPDATED LEARNING PATH - SQL/MECM labs follow Lab 13; optional HA-01 through HA-05 follow AZ-03:
 
-\[ \] Original Labs 01-07: network, agency.test, two DCs, test users, APP01.
+\[ \] Original Labs 01-07: network, cloudseam.tech, two DCs, test users, APP01.
 
-\[ \] Original Labs 08-12: destination.test, GPO, member-server move, rollback.
+\[ \] Original Labs 08-12: migrate.cloudseam.tech, GPO, member-server move, rollback.
 
 \[ \] Original Lab 13: WSUS01; then new SQL-01 through SQL-05 and MECM-01 through MECM-05.
 
@@ -146,9 +146,9 @@ First understand what each computer represents. You are building a tiny version 
 
 | **OLD AGENCY / SOURCE**                 | **NEW ENTERPRISE / DESTINATION**                          |
 |-----------------------------------------|-----------------------------------------------------------|
-| AG-DC01 \| agency.test \| 192.168.77.10 | DEST-DC01 \| destination.test \| 192.168.77.40            |
-| AG-DC02 (optional) \| 192.168.77.11     | AZ-DC01 (later) \| ad.cloudscene.tech \| Azure private IP |
-| APP01 \| 192.168.77.30 \| IIS website   | APP01 after domain change: destination.test               |
+| AG-DC01 \| cloudseam.tech \| 192.168.77.10 | DEST-DC01 \| migrate.cloudseam.tech \| 192.168.77.40            |
+| AG-DC02 (optional) \| 192.168.77.11     | AZ-DC01 (later) \| azure.cloudseam.tech \| Azure private IP |
+| APP01 \| 192.168.77.30 \| IIS website   | APP01 after domain change: migrate.cloudseam.tech               |
 | WSUS01 (optional) \| 192.168.77.50      | Your cloud deployment is a separate, later exercise       |
 
 <table>
@@ -363,7 +363,7 @@ Every local VM needs to communicate, but none of the AD services should be expos
 <thead>
 <tr class="header">
 <th><p><strong>WHY THIS MATTERS</strong></p>
-<p>The computers can talk to each other on this private lab network. DNS tells the agency members to ask AG-DC01 about agency.test. Later, the destination domain has its own DNS authority.</p></th>
+<p>The computers can talk to each other on this private lab network. DNS tells the agency members to ask AG-DC01 about cloudseam.tech. Later, the destination domain has its own DNS authority.</p></th>
 </tr>
 </thead>
 <tbody>
@@ -461,7 +461,7 @@ LAB 04 / FIRST DOMAIN CONTROLLER
 
 # Make AG-DC01: the agency begins
 
-Create the first Windows server, then make it the owner of the agency.test forest.
+Create the first Windows server, then make it the owner of the cloudseam.tech forest.
 
 **\[ \]** VMware: File \> New Virtual Machine \> Typical \> Installer disc image file (ISO). Pick the Windows Server ISO.
 
@@ -477,15 +477,15 @@ Create the first Windows server, then make it the owner of the agency.test fores
 
 **\[ \]** In Server Manager, select the flag notification \> Promote this server to a domain controller \> Add a new forest.
 
-**\[ \]** Root domain name: agency.test. Enable DNS server and Global Catalog. Set a strong DSRM password. Continue through prerequisite checks and select Install.
+**\[ \]** Root domain name: cloudseam.tech. Enable DNS server and Global Catalog. Set a strong DSRM password. Continue through prerequisite checks and select Install.
 
-**\[ \]** Let the server reboot; sign in with the new domain account (for example AGENCY\Administrator).
+**\[ \]** Let the server reboot; sign in with the new domain account (for example CLOUDSEAM\Administrator).
 
 > hostname
 > ipconfig /all
 > Get-ADDomain \| Select-Object DNSRoot,NetBIOSName
 
-**PASS CHECK** hostname = AG-DC01; the Active Directory domain DNS root shows agency.test.
+**PASS CHECK** hostname = AG-DC01; the Active Directory domain DNS root shows cloudseam.tech.
 
 <table>
 <colgroup>
@@ -519,11 +519,11 @@ Create the first Windows server, then make it the owner of the agency.test fores
 
 ## Guided walkthrough
 
-**WHERE** Physical host Workstation Pro, then AG-DC01 guest / Server 2019 Desktop Experience / local Administrator, then AGENCY domain Administrator.
+**WHERE** Physical host Workstation Pro, then AG-DC01 guest / Server 2019 Desktop Experience / local Administrator, then CLOUDSEAM domain Administrator.
 
 **BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
 
-**PASS** hostname = AG-DC01; the Active Directory domain DNS root shows agency.test.
+**PASS** hostname = AG-DC01; the Active Directory domain DNS root shows cloudseam.tech.
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
@@ -808,13 +808,13 @@ Create the first Windows server, then make it the owner of the agency.test fores
 
 ### Step 26: Choose the correct promotion operation
 
-**DO** Click Promote this server to a domain controller. Choose Add a new forest. Enter agency.test as Root domain name. Click Next.
+**DO** Click Promote this server to a domain controller. Choose Add a new forest. Enter cloudseam.tech as Root domain name. Click Next.
 
-**EXPECT** The wizard shows a NEW forest named agency.test.
+**EXPECT** The wizard shows a NEW forest named cloudseam.tech.
 
 **IF STUCK** A replica must not create a second forest with the same name. A destination forest must not accidentally join the source forest.
 
-**EVIDENCE** Capture the wizard shows a NEW forest named agency.test. Record the target computer and date.
+**EVIDENCE** Capture the wizard shows a NEW forest named cloudseam.tech. Record the target computer and date.
 
 **SCREENSHOTS** ad-forest
 
@@ -832,7 +832,7 @@ Create the first Windows server, then make it the owner of the agency.test fores
 
 ### Step 28: Review DNS and additional options
 
-**DO** Continue past the isolated-root DNS-delegation warning only if it is the expected warning for this private lab. Confirm the AGENCY NetBIOS name on Additional Options.
+**DO** Continue past the isolated-root DNS-delegation warning only if it is the expected warning for this private lab. Confirm the CLOUDSEAM NetBIOS name on Additional Options.
 
 **EXPECT** The wizard advances without a blocking validation error.
 
@@ -854,7 +854,7 @@ Create the first Windows server, then make it the owner of the agency.test fores
 
 ### Step 30: Check prerequisites before promotion
 
-**DO** On Review Options confirm agency.test, the correct computer, and DNS. Click Next, then wait for Prerequisites Check.
+**DO** On Review Options confirm cloudseam.tech, the correct computer, and DNS. Click Next, then wait for Prerequisites Check.
 
 **EXPECT** The prerequisite check succeeds; only understood lab warnings remain.
 
@@ -876,18 +876,18 @@ Create the first Windows server, then make it the owner of the agency.test fores
 
 ### Step 32: Verify the directory
 
-**DO** Sign in with your authorized agency.test administrator account. Open Windows PowerShell as administrator in this VM and run the checks.
+**DO** Sign in with your authorized cloudseam.tech administrator account. Open Windows PowerShell as administrator in this VM and run the checks.
 
-**EXPECT** The DNSRoot is agency.test and domain-controller records resolve to the lab’s private IPs.
+**EXPECT** The DNSRoot is cloudseam.tech and domain-controller records resolve to the lab’s private IPs.
 
 **IF STUCK** If Get-ADDomain is unavailable, confirm you are on the promoted server with the AD management tools. If DNS fails, inspect the adapter’s DNS and the domain DNS zone.
 
-**EVIDENCE** Capture the DNSRoot is agency.test and domain-controller records resolve to the lab’s private IPs. Record the target computer and date.
+**EVIDENCE** Capture the DNSRoot is cloudseam.tech and domain-controller records resolve to the lab’s private IPs. Record the target computer and date.
 
 **COMMAND**
 > hostname
 > Get-ADDomain | Select-Object DNSRoot, NetBIOSName
-> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.cloudseam.tech
 
 LAB 05 / IDENTITY + RULES
 
@@ -898,19 +898,19 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 **\[ \]** On AG-DC01 open Server Manager \> Tools \> Active Directory Users and Computers.
 
-**\[ \]** Right-click agency.test \> New \> Organizational Unit. Create an OU named Operations. Create an OU named Security too.
+**\[ \]** Right-click cloudseam.tech \> New \> Organizational Unit. Create an OU named Operations. Create an OU named Security too.
 
 **\[ \]** Right-click Operations \> New \> User. Make user test.analyst, set a strong temporary password, and optionally require password change at next logon.
 
 **\[ \]** Right-click Operations \> New \> Group. Create group GG-Operations. Add test.analyst as a member.
 
-**\[ \]** Open Server Manager \> Tools \> Group Policy Management. Expand Forest \> Domains \> agency.test.
+**\[ \]** Open Server Manager \> Tools \> Group Policy Management. Expand Forest \> Domains \> cloudseam.tech.
 
 **\[ \]** Right-click the Operations OU \> Create a GPO in this domain, and Link it here. Name: LAB-Operations-Banner.
 
 **\[ \]** Right-click LAB-Operations-Banner \> Edit \> Computer Configuration \> Policies \> Windows Settings \> Security Settings \> Local Policies \> Security Options.
 
-**\[ \]** Set Interactive logon: Message title for users attempting to log on = AGENCY LAB. Set Interactive logon: Message text for users attempting to log on = This is a practice environment.
+**\[ \]** Set Interactive logon: Message title for users attempting to log on = CLOUDSEAM LAB. Set Interactive logon: Message text for users attempting to log on = This is a practice environment.
 
 **\[ \]** Close the editor. The GPO must remain linked to the Operations OU so that an Operations computer can receive it.
 
@@ -951,7 +951,7 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 ## Guided walkthrough
 
-**WHERE** AG-DC01 guest / Server Manager, ADUC, and GPMC / authorized agency.test administrator.
+**WHERE** AG-DC01 guest / Server Manager, ADUC, and GPMC / authorized cloudseam.tech administrator.
 
 **BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
 
@@ -961,23 +961,23 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 ### Step 01: Open Active Directory Users and Computers
 
-**DO** Inside AG-DC01 open Server Manager > Tools > Active Directory Users and Computers. Expand agency.test in the left pane.
+**DO** Inside AG-DC01 open Server Manager > Tools > Active Directory Users and Computers. Expand cloudseam.tech in the left pane.
 
-**EXPECT** You are managing the agency.test directory on AG-DC01.
+**EXPECT** You are managing the cloudseam.tech directory on AG-DC01.
 
 **IF STUCK** If Tools lacks this console, verify AD DS management tools were installed; do not create users on the physical host.
 
-**EVIDENCE** Capture you are managing the agency.test directory on AG-DC01. Record the target computer and date.
+**EVIDENCE** Capture you are managing the cloudseam.tech directory on AG-DC01. Record the target computer and date.
 
 ### Step 02: Create the Operations OU
 
-**DO** Right-click agency.test > New > Organizational Unit. Enter Operations. Leave protection from accidental deletion enabled, then OK. Repeat to create Security.
+**DO** Right-click cloudseam.tech > New > Organizational Unit. Enter Operations. Leave protection from accidental deletion enabled, then OK. Repeat to create Security.
 
-**EXPECT** Both OUs appear under agency.test.
+**EXPECT** Both OUs appear under cloudseam.tech.
 
 **IF STUCK** An OU is a directory container, not a Windows folder. Do not create it inside the default Users container.
 
-**EVIDENCE** Capture both OUs appear under agency.test. Record the target computer and date.
+**EVIDENCE** Capture both OUs appear under cloudseam.tech. Record the target computer and date.
 
 ### Step 03: Create the test user
 
@@ -1001,7 +1001,7 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 ### Step 05: Open Group Policy Management
 
-**DO** In Server Manager choose Tools > Group Policy Management. Expand Forest: agency.test > Domains > agency.test.
+**DO** In Server Manager choose Tools > Group Policy Management. Expand Forest: cloudseam.tech > Domains > cloudseam.tech.
 
 **EXPECT** The Operations OU appears in the policy tree.
 
@@ -1021,7 +1021,7 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 ### Step 07: Edit the logon banner
 
-**DO** Right-click the linked GPO > Edit. Expand Computer Configuration > Policies > Windows Settings > Security Settings > Local Policies > Security Options. Set the interactive logon message title to AGENCY LAB and message text to This is a practice environment.
+**DO** Right-click the linked GPO > Edit. Expand Computer Configuration > Policies > Windows Settings > Security Settings > Local Policies > Security Options. Set the interactive logon message title to CLOUDSEAM LAB and message text to This is a practice environment.
 
 **EXPECT** The two banner settings show your lab text.
 
@@ -1057,7 +1057,7 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 **\[ \]** Open Windows PowerShell as Administrator. Run the DNS and network checks below.
 
-**\[ \]** Press Win+R \> sysdm.cpl \> Computer Name \> Change \> Domain, enter agency.test. Provide authorized agency.test admin credentials. Restart.
+**\[ \]** Press Win+R \> sysdm.cpl \> Computer Name \> Change \> Domain, enter cloudseam.tech. Provide authorized cloudseam.tech admin credentials. Restart.
 
 **\[ \]** On AG-DC01 \> Active Directory Users and Computers, find APP01 in Computers and move the computer object into the Operations OU.
 
@@ -1067,14 +1067,14 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 **\[ \]** Open http://localhost on APP01. You should see your custom webpage.
 
-> nslookup agency.test 192.168.77.10
+> nslookup cloudseam.tech 192.168.77.10
 > Test-NetConnection 192.168.77.10 -Port 53
 > Install-WindowsFeature Web-Server -IncludeManagementTools
 > Set-Content C:\inetpub\wwwroot\index.html "\<h1\>Agency app is alive\</h1\>"
 > gpupdate /force
 > gpresult /r /scope computer
 
-**PASS CHECK** APP01 belongs to agency.test; localhost website works; gpresult lists LAB-Operations-Banner as applied.
+**PASS CHECK** APP01 belongs to cloudseam.tech; localhost website works; gpresult lists LAB-Operations-Banner as applied.
 
 <table>
 <colgroup>
@@ -1097,7 +1097,7 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 <thead>
 <tr class="header">
 <th><p><strong>IF IT DOES NOT WORK</strong></p>
-<p>If domain join fails, verify APP01 DNS points to AG-DC01, not to your home router or 8.8.8.8. Use nslookup -type=SRV _ldap._tcp.dc._msdcs.agency.test 192.168.77.10.</p></th>
+<p>If domain join fails, verify APP01 DNS points to AG-DC01, not to your home router or 8.8.8.8. Use nslookup -type=SRV _ldap._tcp.dc._msdcs.cloudseam.tech 192.168.77.10.</p></th>
 </tr>
 </thead>
 <tbody>
@@ -1112,7 +1112,7 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 **BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
 
-**PASS** APP01 belongs to agency.test; localhost website works; gpresult lists LAB-Operations-Banner as applied.
+**PASS** APP01 belongs to cloudseam.tech; localhost website works; gpresult lists LAB-Operations-Banner as applied.
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
@@ -1353,7 +1353,7 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 ### Step 22: Check domain DNS before joining
 
-**DO** In APP01, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for agency.test.
+**DO** In APP01, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for cloudseam.tech.
 
 **EXPECT** The domain resolves and the DC’s LDAP SRV records are returned.
 
@@ -1362,28 +1362,28 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 **EVIDENCE** Capture the domain resolves and the DC’s LDAP SRV records are returned. Record the target computer and date.
 
 **COMMAND**
-> Resolve-DnsName agency.test
-> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+> Resolve-DnsName cloudseam.tech
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.cloudseam.tech
 
 ### Step 23: Join the domain
 
-**DO** Inside APP01 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter agency.test, click OK, and supply your authorized lab join credentials.
+**DO** Inside APP01 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter cloudseam.tech, click OK, and supply your authorized lab join credentials.
 
-**EXPECT** Windows welcomes the computer to agency.test and requests a restart.
+**EXPECT** Windows welcomes the computer to cloudseam.tech and requests a restart.
 
 **IF STUCK** Check DNS and time before changing passwords or disabling a firewall. Do not use your personal Microsoft account as AD credentials.
 
-**EVIDENCE** Capture windows welcomes the computer to agency.test and requests a restart. Record the target computer and date.
+**EVIDENCE** Capture windows welcomes the computer to cloudseam.tech and requests a restart. Record the target computer and date.
 
 ### Step 24: Restart and verify membership
 
-**DO** Restart APP01. Sign in using Other user and an authorized account in agency.test. Run the checks below in Windows PowerShell.
+**DO** Restart APP01. Sign in using Other user and an authorized account in cloudseam.tech. Run the checks below in Windows PowerShell.
 
-**EXPECT** The reported domain is agency.test and the secure-channel test returns True.
+**EXPECT** The reported domain is cloudseam.tech and the secure-channel test returns True.
 
 **IF STUCK** If trust fails, record the error and inspect DNS/time and the computer account. Do not delete/rejoin a production computer as an experiment.
 
-**EVIDENCE** Capture the reported domain is agency.test and the secure-channel test returns True. Record the target computer and date.
+**EVIDENCE** Capture the reported domain is cloudseam.tech and the secure-channel test returns True. Record the target computer and date.
 
 **COMMAND**
 > hostname
@@ -1432,17 +1432,17 @@ LAB 07 / OPTIONAL REPLICA
 
 # Add AG-DC02: copy the same domain
 
-This exercise demonstrates AD replication. Unlike a new destination forest, AG-DC02 stays in the agency.test domain.
+This exercise demonstrates AD replication. Unlike a new destination forest, AG-DC02 stays in the cloudseam.tech domain.
 
 **\[ \]** Create AG-DC02 (Windows Server Desktop Experience) on the same lab network. Name it AG-DC02.
 
 **\[ \]** Assign 192.168.77.11/24; preferred DNS 192.168.77.10; VMware NAT gateway.
 
-**\[ \]** Open sysdm.cpl \> Computer Name \> Change \> Domain, enter agency.test. Restart.
+**\[ \]** Open sysdm.cpl \> Computer Name \> Change \> Domain, enter cloudseam.tech. Restart.
 
 **\[ \]** In Server Manager \> Manage \> Add Roles and Features, install Active Directory Domain Services.
 
-**\[ \]** Select Promote this server to a domain controller \> Add a domain controller to an existing domain. Choose agency.test.
+**\[ \]** Select Promote this server to a domain controller \> Add a domain controller to an existing domain. Choose cloudseam.tech.
 
 **\[ \]** Use authorized domain admin credentials, enable DNS, choose Global Catalog, and finish the promotion.
 
@@ -1463,7 +1463,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 <thead>
 <tr class="header">
 <th><p><strong>WHY THIS MATTERS</strong></p>
-<p>Within one AD forest/domain, directory objects replicate to additional DCs. That is NOT how you transfer identities into a different forest, such as destination.test or a DISA-provided domain.</p></th>
+<p>Within one AD forest/domain, directory objects replicate to additional DCs. That is NOT how you transfer identities into a different forest, such as migrate.cloudseam.tech or a DISA-provided domain.</p></th>
 </tr>
 </thead>
 <tbody>
@@ -1488,7 +1488,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ## Guided walkthrough
 
-**WHERE** Physical host Workstation Pro, then AG-DC02 Server 2019 guest / local Administrator and agency.test Domain Admin.
+**WHERE** Physical host Workstation Pro, then AG-DC02 Server 2019 guest / local Administrator and cloudseam.tech Domain Admin.
 
 **BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
 
@@ -1733,7 +1733,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 22: Check domain DNS before joining
 
-**DO** In AG-DC02, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for agency.test.
+**DO** In AG-DC02, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for cloudseam.tech.
 
 **EXPECT** The domain resolves and the DC’s LDAP SRV records are returned.
 
@@ -1742,28 +1742,28 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 **EVIDENCE** Capture the domain resolves and the DC’s LDAP SRV records are returned. Record the target computer and date.
 
 **COMMAND**
-> Resolve-DnsName agency.test
-> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+> Resolve-DnsName cloudseam.tech
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.cloudseam.tech
 
 ### Step 23: Join the domain
 
-**DO** Inside AG-DC02 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter agency.test, click OK, and supply your authorized lab join credentials.
+**DO** Inside AG-DC02 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter cloudseam.tech, click OK, and supply your authorized lab join credentials.
 
-**EXPECT** Windows welcomes the computer to agency.test and requests a restart.
+**EXPECT** Windows welcomes the computer to cloudseam.tech and requests a restart.
 
 **IF STUCK** Check DNS and time before changing passwords or disabling a firewall. Do not use your personal Microsoft account as AD credentials.
 
-**EVIDENCE** Capture windows welcomes the computer to agency.test and requests a restart. Record the target computer and date.
+**EVIDENCE** Capture windows welcomes the computer to cloudseam.tech and requests a restart. Record the target computer and date.
 
 ### Step 24: Restart and verify membership
 
-**DO** Restart AG-DC02. Sign in using Other user and an authorized account in agency.test. Run the checks below in Windows PowerShell.
+**DO** Restart AG-DC02. Sign in using Other user and an authorized account in cloudseam.tech. Run the checks below in Windows PowerShell.
 
-**EXPECT** The reported domain is agency.test and the secure-channel test returns True.
+**EXPECT** The reported domain is cloudseam.tech and the secure-channel test returns True.
 
 **IF STUCK** If trust fails, record the error and inspect DNS/time and the computer account. Do not delete/rejoin a production computer as an experiment.
 
-**EVIDENCE** Capture the reported domain is agency.test and the secure-channel test returns True. Record the target computer and date.
+**EVIDENCE** Capture the reported domain is cloudseam.tech and the secure-channel test returns True. Record the target computer and date.
 
 **COMMAND**
 > hostname
@@ -1816,13 +1816,13 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 29: Choose the correct promotion operation
 
-**DO** Click Promote this server to a domain controller. Select Add a domain controller to an existing domain. Enter agency.test and use Change to supply an authorized domain administrator account.
+**DO** Click Promote this server to a domain controller. Select Add a domain controller to an existing domain. Enter cloudseam.tech and use Change to supply an authorized domain administrator account.
 
-**EXPECT** The wizard shows the existing agency.test domain.
+**EXPECT** The wizard shows the existing cloudseam.tech domain.
 
 **IF STUCK** A replica must not create a second forest with the same name. A destination forest must not accidentally join the source forest.
 
-**EVIDENCE** Capture the wizard shows the existing agency.test domain. Record the target computer and date.
+**EVIDENCE** Capture the wizard shows the existing cloudseam.tech domain. Record the target computer and date.
 
 ### Step 30: Set controller options and DSRM
 
@@ -1838,7 +1838,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 31: Review DNS and additional options
 
-**DO** On Additional Options choose AG-DC01 as the replication source if offered; confirm DNS resolves agency.test before continuing.
+**DO** On Additional Options choose AG-DC01 as the replication source if offered; confirm DNS resolves cloudseam.tech before continuing.
 
 **EXPECT** The wizard advances without a blocking validation error.
 
@@ -1860,7 +1860,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 33: Check prerequisites before promotion
 
-**DO** On Review Options confirm agency.test, the correct computer, and DNS. Click Next, then wait for Prerequisites Check.
+**DO** On Review Options confirm cloudseam.tech, the correct computer, and DNS. Click Next, then wait for Prerequisites Check.
 
 **EXPECT** The prerequisite check succeeds; only understood lab warnings remain.
 
@@ -1882,18 +1882,18 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 35: Verify the directory
 
-**DO** Sign in with your authorized agency.test administrator account. Open Windows PowerShell as administrator in this VM and run the checks.
+**DO** Sign in with your authorized cloudseam.tech administrator account. Open Windows PowerShell as administrator in this VM and run the checks.
 
-**EXPECT** The DNSRoot is agency.test and domain-controller records resolve to the lab’s private IPs.
+**EXPECT** The DNSRoot is cloudseam.tech and domain-controller records resolve to the lab’s private IPs.
 
 **IF STUCK** If Get-ADDomain is unavailable, confirm you are on the promoted server with the AD management tools. If DNS fails, inspect the adapter’s DNS and the domain DNS zone.
 
-**EVIDENCE** Capture the DNSRoot is agency.test and domain-controller records resolve to the lab’s private IPs. Record the target computer and date.
+**EVIDENCE** Capture the DNSRoot is cloudseam.tech and domain-controller records resolve to the lab’s private IPs. Record the target computer and date.
 
 **COMMAND**
 > hostname
 > Get-ADDomain | Select-Object DNSRoot, NetBIOSName
-> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.cloudseam.tech
 
 ### Step 36: Prove replication
 
@@ -1915,7 +1915,7 @@ LAB 08 / SECOND FOREST
 
 # Create DEST-DC01: the NEW enterprise
 
-Build the other school. Its directory must remain completely separate from agency.test.
+Build the other school. Its directory must remain completely separate from cloudseam.tech.
 
 **\[ \]** Create a new Windows Server Desktop Experience VM named DEST-DC01. Use 2 vCPUs, 4 GB RAM, ~60 GB thin disk, same lab NAT VMnet.
 
@@ -1923,18 +1923,18 @@ Build the other school. Its directory must remain completely separate from agenc
 
 **\[ \]** In Server Manager \> Manage \> Add Roles and Features, install Active Directory Domain Services.
 
-**\[ \]** Select Promote this server to a domain controller \> Add a new forest. Enter destination.test.
+**\[ \]** Select Promote this server to a domain controller \> Add a new forest. Enter migrate.cloudseam.tech.
 
 **\[ \]** Enable DNS, keep Global Catalog selected, and configure a strong DSRM password. Complete promotion and restart.
 
-**\[ \]** Open AD Users and Computers. Verify the tree shows destination.test, not agency.test.
+**\[ \]** Open AD Users and Computers. Verify the tree shows migrate.cloudseam.tech, not cloudseam.tech.
 
-**\[ \]** Create an Operations OU. Create a \*new\* test.analyst account and GG-Operations group in destination.test. Record the domain in which you created each.
+**\[ \]** Create an Operations OU. Create a \*new\* test.analyst account and GG-Operations group in migrate.cloudseam.tech. Record the domain in which you created each.
 
 > Get-ADDomain \| Select-Object DNSRoot
 > Get-ADUser test.analyst \| Select-Object Name,SID
 
-**PASS CHECK** DEST-DC01 shows destination.test; the account SID differs from agency.test's test.analyst SID.
+**PASS CHECK** DEST-DC01 shows migrate.cloudseam.tech; the account SID differs from cloudseam.tech's test.analyst SID.
 
 <table>
 <colgroup>
@@ -1957,7 +1957,7 @@ Build the other school. Its directory must remain completely separate from agenc
 <thead>
 <tr class="header">
 <th><p><strong>IF IT DOES NOT WORK</strong></p>
-<p>Do not join DEST-DC01 to agency.test first. If you accidentally promoted into the wrong forest, revert to a clean pre-promotion VM snapshot and build the intended separate forest again.</p></th>
+<p>Do not join DEST-DC01 to cloudseam.tech first. If you accidentally promoted into the wrong forest, revert to a clean pre-promotion VM snapshot and build the intended separate forest again.</p></th>
 </tr>
 </thead>
 <tbody>
@@ -1968,11 +1968,11 @@ Build the other school. Its directory must remain completely separate from agenc
 
 ## Guided walkthrough
 
-**WHERE** Physical host Workstation Pro, then DEST-DC01 Server 2019 guest / local Administrator for a new destination.test forest.
+**WHERE** Physical host Workstation Pro, then DEST-DC01 Server 2019 guest / local Administrator for a new migrate.cloudseam.tech forest.
 
 **BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
 
-**PASS** DEST-DC01 shows destination.test; the account SID differs from agency.test's test.analyst SID.
+**PASS** DEST-DC01 shows migrate.cloudseam.tech; the account SID differs from cloudseam.tech's test.analyst SID.
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
@@ -2257,13 +2257,13 @@ Build the other school. Its directory must remain completely separate from agenc
 
 ### Step 26: Choose the correct promotion operation
 
-**DO** Click Promote this server to a domain controller. Choose Add a new forest. Enter destination.test as Root domain name. Click Next.
+**DO** Click Promote this server to a domain controller. Choose Add a new forest. Enter migrate.cloudseam.tech as Root domain name. Click Next.
 
-**EXPECT** The wizard shows a NEW forest named destination.test.
+**EXPECT** The wizard shows a NEW forest named migrate.cloudseam.tech.
 
 **IF STUCK** A replica must not create a second forest with the same name. A destination forest must not accidentally join the source forest.
 
-**EVIDENCE** Capture the wizard shows a NEW forest named destination.test. Record the target computer and date.
+**EVIDENCE** Capture the wizard shows a NEW forest named migrate.cloudseam.tech. Record the target computer and date.
 
 **SCREENSHOTS** ad-forest
 
@@ -2281,7 +2281,7 @@ Build the other school. Its directory must remain completely separate from agenc
 
 ### Step 28: Review DNS and additional options
 
-**DO** Continue past the isolated-root DNS-delegation warning only if it is the expected warning for this private lab. Confirm the DESTINATION NetBIOS name on Additional Options.
+**DO** Choose Add a new forest, not Add a new domain to an existing forest. This is a separate migrate.cloudseam.tech forest, not an AD child domain. Confirm the MIGRATE NetBIOS name on Additional Options. Record any DNS delegation warning; the next DNS lesson establishes explicit conditional forwarding between the namespaces.
 
 **EXPECT** The wizard advances without a blocking validation error.
 
@@ -2303,7 +2303,7 @@ Build the other school. Its directory must remain completely separate from agenc
 
 ### Step 30: Check prerequisites before promotion
 
-**DO** On Review Options confirm destination.test, the correct computer, and DNS. Click Next, then wait for Prerequisites Check.
+**DO** On Review Options confirm migrate.cloudseam.tech, the correct computer, and DNS. Click Next, then wait for Prerequisites Check.
 
 **EXPECT** The prerequisite check succeeds; only understood lab warnings remain.
 
@@ -2325,18 +2325,18 @@ Build the other school. Its directory must remain completely separate from agenc
 
 ### Step 32: Verify the directory
 
-**DO** Sign in with your authorized destination.test administrator account. Open Windows PowerShell as administrator in this VM and run the checks.
+**DO** Sign in with your authorized migrate.cloudseam.tech administrator account. Open Windows PowerShell as administrator in this VM and run the checks.
 
-**EXPECT** The DNSRoot is destination.test and domain-controller records resolve to the lab’s private IPs.
+**EXPECT** The DNSRoot is migrate.cloudseam.tech and domain-controller records resolve to the lab’s private IPs.
 
 **IF STUCK** If Get-ADDomain is unavailable, confirm you are on the promoted server with the AD management tools. If DNS fails, inspect the adapter’s DNS and the domain DNS zone.
 
-**EVIDENCE** Capture the DNSRoot is destination.test and domain-controller records resolve to the lab’s private IPs. Record the target computer and date.
+**EVIDENCE** Capture the DNSRoot is migrate.cloudseam.tech and domain-controller records resolve to the lab’s private IPs. Record the target computer and date.
 
 **COMMAND**
 > hostname
 > Get-ADDomain | Select-Object DNSRoot, NetBIOSName
-> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.destination.test
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.migrate.cloudseam.tech
 
 LAB 09 / DNS + OPTIONAL TRUST
 
@@ -2347,9 +2347,9 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 **\[ \]** On AG-DC01, open Server Manager \> Tools \> DNS. Expand AG-DC01.
 
-**\[ \]** Right-click Conditional Forwarders \> New Conditional Forwarder. DNS domain: destination.test. Master server IP: 192.168.77.40. Select OK.
+**\[ \]** Right-click Conditional Forwarders \> New Conditional Forwarder. DNS domain: migrate.cloudseam.tech. Master server IP: 192.168.77.40. Select OK.
 
-**\[ \]** On DEST-DC01, open DNS \> Conditional Forwarders \> New Conditional Forwarder. DNS domain: agency.test. Master server IP: 192.168.77.10.
+**\[ \]** On DEST-DC01, open DNS \> Conditional Forwarders \> New Conditional Forwarder. DNS domain: cloudseam.tech. Master server IP: 192.168.77.10.
 
 **\[ \]** On both DCs run nslookup with the other domain name and its explicit local DNS server.
 
@@ -2357,8 +2357,8 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 **\[ \]** Enter the other forest name and review the wizard. For a local-only lab you may configure a two-way forest trust with controlled test credentials, then validate it in both directions. Skip this step if you only intend to import GPO backups and rejoin one server.
 
-> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.destination.test 192.168.77.10
-> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.agency.test 192.168.77.40
+> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.migrate.cloudseam.tech 192.168.77.10
+> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.cloudseam.tech 192.168.77.40
 
 **PASS CHECK** Each query returns an SRV record for the opposite forest; trust is optional, not a prerequisite for the rest of the exercises.
 
@@ -2414,7 +2414,7 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 ### Step 02: Right-click Conditional Forwarders / New Conditional Forwarder. DNS domain:
 
-**DO** Right-click Conditional Forwarders > New Conditional Forwarder. DNS domain: destination.test. Master server IP: 192.168.77.40. Select OK.
+**DO** Right-click Conditional Forwarders > New Conditional Forwarder. DNS domain: migrate.cloudseam.tech. Master server IP: 192.168.77.40. Select OK.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2424,7 +2424,7 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 ### Step 03: On DEST-DC01, open DNS / Conditional Forwarders
 
-**DO** On DEST-DC01, open DNS > Conditional Forwarders > New Conditional Forwarder. DNS domain: agency.test. Master server IP: 192.168.77.10.
+**DO** On DEST-DC01, open DNS > Conditional Forwarders > New Conditional Forwarder. DNS domain: cloudseam.tech. Master server IP: 192.168.77.10.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2473,8 +2473,8 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 **EVIDENCE** Capture each query returns an SRV record for the opposite forest; trust is optional, not a prerequisite for the rest of the exercises. Record the target computer and date.
 
 **COMMAND**
-> nslookup -type=SRV _ldap._tcp.dc._msdcs.destination.test 192.168.77.10
-> nslookup -type=SRV _ldap._tcp.dc._msdcs.agency.test 192.168.77.40
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.migrate.cloudseam.tech 192.168.77.10
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.cloudseam.tech 192.168.77.40
 
 LAB 10 / POLICY MIGRATION
 
@@ -2483,13 +2483,13 @@ LAB 10 / POLICY MIGRATION
 
 This lesson is the answer to “How do I move the agency’s Group Policies into a different domain?”
 
-**\[ \]** On AG-DC01 open Group Policy Management. Expand agency.test \> Group Policy Objects.
+**\[ \]** On AG-DC01 open Group Policy Management. Expand cloudseam.tech \> Group Policy Objects.
 
 **\[ \]** Right-click LAB-Operations-Banner \> Back Up. Choose a folder like C:\GPOBackups. Give the backup a description.
 
 **\[ \]** Copy the completed GPO backup folder onto DEST-DC01 using an approved local lab method (for example, a temporary VMware shared folder). Keep all files within each backup folder.
 
-**\[ \]** On DEST-DC01 open Group Policy Management. Expand destination.test \> Group Policy Objects.
+**\[ \]** On DEST-DC01 open Group Policy Management. Expand migrate.cloudseam.tech \> Group Policy Objects.
 
 **\[ \]** Right-click Group Policy Objects \> New. Create LAB-Operations-Banner-Dest.
 
@@ -2497,11 +2497,11 @@ This lesson is the answer to “How do I move the agency’s Group Policies into
 
 **\[ \]** Choose LAB-Operations-Banner. For our simple banner the wizard should not need domain-specific security principal mappings. Finish importing.
 
-**\[ \]** Right-click the Operations OU in destination.test \> Link an Existing GPO \> LAB-Operations-Banner-Dest.
+**\[ \]** Right-click the Operations OU in migrate.cloudseam.tech \> Link an Existing GPO \> LAB-Operations-Banner-Dest.
 
 **\[ \]** Open the destination GPO and confirm the login title and message are present.
 
-> Get-GPO -Name "LAB-Operations-Banner-Dest" -Domain destination.test
+> Get-GPO -Name "LAB-Operations-Banner-Dest" -Domain migrate.cloudseam.tech
 
 **PASS CHECK** The destination GPO exists, contains the test banner, and is linked to the destination Operations OU.
 
@@ -2545,9 +2545,9 @@ This lesson is the answer to “How do I move the agency’s Group Policies into
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
-### Step 01: On AG-DC01 open Group Policy Management. Expand agency.test / Group Policy O
+### Step 01: On AG-DC01 open Group Policy Management. Expand cloudseam.tech / Group Policy O
 
-**DO** On AG-DC01 open Group Policy Management. Expand agency.test > Group Policy Objects.
+**DO** On AG-DC01 open Group Policy Management. Expand cloudseam.tech > Group Policy Objects.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2575,9 +2575,9 @@ This lesson is the answer to “How do I move the agency’s Group Policies into
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 04: On DEST-DC01 open Group Policy Management. Expand destination.test / Group P
+### Step 04: On DEST-DC01 open Group Policy Management. Expand migrate.cloudseam.tech / Group P
 
-**DO** On DEST-DC01 open Group Policy Management. Expand destination.test > Group Policy Objects.
+**DO** On DEST-DC01 open Group Policy Management. Expand migrate.cloudseam.tech > Group Policy Objects.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2615,9 +2615,9 @@ This lesson is the answer to “How do I move the agency’s Group Policies into
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 08: Right-click the Operations OU in destination.test / Link an Existing GPO
+### Step 08: Right-click the Operations OU in migrate.cloudseam.tech / Link an Existing GPO
 
-**DO** Right-click the Operations OU in destination.test > Link an Existing GPO > LAB-Operations-Banner-Dest.
+**DO** Right-click the Operations OU in migrate.cloudseam.tech > Link an Existing GPO > LAB-Operations-Banner-Dest.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2646,7 +2646,7 @@ This lesson is the answer to “How do I move the agency’s Group Policies into
 **EVIDENCE** Capture the destination GPO exists, contains the test banner, and is linked to the destination Operations OU. Record the target computer and date.
 
 **COMMAND**
-> Get-GPO -Name "LAB-Operations-Banner-Dest" -Domain destination.test
+> Get-GPO -Name "LAB-Operations-Banner-Dest" -Domain migrate.cloudseam.tech
 
 LAB 11 / CUTOVER DAY
 
@@ -2662,7 +2662,7 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 <thead>
 <tr class="header">
 <th><p><strong>STOP HERE BEFORE CHANGING MEMBERSHIP</strong></p>
-<p>Take a powered-off VMware snapshot of APP01 (or an independent VM backup). Make a note of its old domain, IP, IIS page, account permissions, and how to sign in with the LOCAL Administrator after leaving agency.test.</p></th>
+<p>Take a powered-off VMware snapshot of APP01 (or an independent VM backup). Make a note of its old domain, IP, IIS page, account permissions, and how to sign in with the LOCAL Administrator after leaving cloudseam.tech.</p></th>
 </tr>
 </thead>
 <tbody>
@@ -2679,11 +2679,11 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 **\[ \]** Log in with APP01\Administrator (local). Change APP01 DNS from 192.168.77.10 to 192.168.77.40 in the IPv4 adapter settings. Keep its own IP as 192.168.77.30.
 
-**\[ \]** Run nslookup destination.test 192.168.77.40 and the destination AD SRV record check from Lesson 9.
+**\[ \]** Run nslookup migrate.cloudseam.tech 192.168.77.40 and the destination AD SRV record check from Lesson 9.
 
-**\[ \]** Open sysdm.cpl \> Computer Name \> Change \> Domain. Enter destination.test. Provide destination domain join credentials; reboot.
+**\[ \]** Open sysdm.cpl \> Computer Name \> Change \> Domain. Enter migrate.cloudseam.tech. Provide destination domain join credentials; reboot.
 
-**\[ \]** On DEST-DC01, find APP01 in Active Directory Users and Computers and move the computer account into destination.test \> Operations.
+**\[ \]** On DEST-DC01, find APP01 in Active Directory Users and Computers and move the computer account into migrate.cloudseam.tech \> Operations.
 
 **\[ \]** On APP01, run gpupdate /force and gpresult /r /scope computer. Open the website again. Check the logon notice.
 
@@ -2694,7 +2694,7 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 > gpupdate /force
 > gpresult /r /scope computer
 
-**PASS CHECK** APP01 now belongs to destination.test; the website works; destination GPO is applied; old DCs remain intact.
+**PASS CHECK** APP01 now belongs to migrate.cloudseam.tech; the website works; destination GPO is applied; old DCs remain intact.
 
 <table>
 <colgroup>
@@ -2732,7 +2732,7 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 **BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
 
-**PASS** APP01 now belongs to destination.test; the website works; destination GPO is applied; old DCs remain intact.
+**PASS** APP01 now belongs to migrate.cloudseam.tech; the website works; destination GPO is applied; old DCs remain intact.
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
@@ -2786,9 +2786,9 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 06: Run nslookup destination.test 192.168.77.40 and the destination AD SRV recor
+### Step 06: Run nslookup migrate.cloudseam.tech 192.168.77.40 and the destination AD SRV recor
 
-**DO** Run nslookup destination.test 192.168.77.40 and the destination AD SRV record check from Lesson 9.
+**DO** Run nslookup migrate.cloudseam.tech 192.168.77.40 and the destination AD SRV record check from Lesson 9.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2798,7 +2798,7 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 ### Step 07: Open sysdm.cpl / Computer Name
 
-**DO** Open sysdm.cpl > Computer Name > Change > Domain. Enter destination.test. Provide destination domain join credentials; reboot.
+**DO** Open sysdm.cpl > Computer Name > Change > Domain. Enter migrate.cloudseam.tech. Provide destination domain join credentials; reboot.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2808,7 +2808,7 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 ### Step 08: On DEST-DC01, find APP01 in Active Directory Users and Computers and move th
 
-**DO** On DEST-DC01, find APP01 in Active Directory Users and Computers and move the computer account into destination.test > Operations.
+**DO** On DEST-DC01, find APP01 in Active Directory Users and Computers and move the computer account into migrate.cloudseam.tech > Operations.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2830,11 +2830,11 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 **DO** Use the named shell and machine above. Read each command against the full lesson reference; run these lines only after completing the preceding actions.
 
-**EXPECT** APP01 now belongs to destination.test; the website works; destination GPO is applied; old DCs remain intact.
+**EXPECT** APP01 now belongs to migrate.cloudseam.tech; the website works; destination GPO is applied; old DCs remain intact.
 
 **IF STUCK** Read the actual error. SQL statements belong in SSMS New Query, Windows commands in the named guest PowerShell, and Azure commands in the stated administration context.
 
-**EVIDENCE** Capture aPP01 now belongs to destination.test; the website works; destination GPO is applied; old DCs remain intact. Record the target computer and date.
+**EVIDENCE** Capture aPP01 now belongs to migrate.cloudseam.tech; the website works; destination GPO is applied; old DCs remain intact. Record the target computer and date.
 
 **COMMAND**
 > hostname
@@ -2859,7 +2859,7 @@ A real migration engineer needs a recovery path, not only a success screenshot.
 
 **\[ \]** Power on APP01. Confirm the old agency domain, DNS, GPO, and website are back as expected.
 
-**\[ \]** If you are continuing to the Azure extension, keep the rollback APP01 snapshot so you can practice a second migration from agency.test later.
+**\[ \]** If you are continuing to the Azure extension, keep the rollback APP01 snapshot so you can practice a second migration from cloudseam.tech later.
 
 **\[ \]** Write a change ticket note stating what you changed, what worked, what failed, and whether you rolled back.
 
@@ -2944,7 +2944,7 @@ A real migration engineer needs a recovery path, not only a success screenshot.
 
 ### Step 05: If you are continuing to the Azure extension, keep the rollback APP01 snapsh
 
-**DO** If you are continuing to the Azure extension, keep the rollback APP01 snapshot so you can practice a second migration from agency.test later.
+**DO** If you are continuing to the Azure extension, keep the rollback APP01 snapshot so you can practice a second migration from cloudseam.tech later.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2985,9 +2985,9 @@ LAB 13 / PATCHING
 
 WSUS is a separate server role. Treat it as an application dependency, not as something that must automatically move into the cloud.
 
-**\[ \]** Create WSUS01 (Windows Server) on the agency.test lab network; set IP 192.168.77.50 and DNS 192.168.77.10.
+**\[ \]** Create WSUS01 (Windows Server) on the cloudseam.tech lab network; set IP 192.168.77.50 and DNS 192.168.77.10.
 
-**\[ \]** Join WSUS01 to agency.test and restart.
+**\[ \]** Join WSUS01 to cloudseam.tech and restart.
 
 **\[ \]** In Server Manager \> Manage \> Add Roles and Features, select Windows Server Update Services. Review prerequisites and choose a local content directory on a volume with generous free space.
 
@@ -3039,12 +3039,12 @@ Picture five school buildings. AD is the student directory; WSUS is the update l
 
 | **Build order** | **Machine**       | **Suggested lab IP** | **Its job**                                                      |
 |-----------------|-------------------|----------------------|------------------------------------------------------------------|
-| 1               | AG-DC01 / AG-DC02 | 192.168.77.10 / .11  | AD domain agency.test; DNS, accounts, GPO                        |
+| 1               | AG-DC01 / AG-DC02 | 192.168.77.10 / .11  | AD domain cloudseam.tech; DNS, accounts, GPO                        |
 | 2               | WSUS01            | 192.168.77.50        | Windows update service; later add MECM software update point     |
 | 3               | SQL01             | 192.168.77.60        | SQL Server database engine; MECM database + separate PracticeDB  |
 | 4               | MECM01            | 192.168.77.70        | Configuration Manager site server, management/distribution roles |
 | 5               | APP01             | 192.168.77.30        | IIS member server and client to test migration                   |
-| 6               | DEST-DC01         | 192.168.77.40        | Separate destination.test forest for identity migration practice |
+| 6               | DEST-DC01         | 192.168.77.40        | Separate migrate.cloudseam.tech forest for identity migration practice |
 | 7               | AZ-SQL01 (later)  | 10.90.x.x            | Azure SQL Server VM; practice .bak restore                       |
 
 Only turn on what you need. For MECM to run: AG-DC01 + SQL01 + MECM01 must be on; add WSUS01 for update lessons. A second DC adds redundancy, not a new forest.
@@ -3063,9 +3063,9 @@ MECM and SQL Server can technically share a server for a lab, but we deliberatel
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
-### Step 01: Create WSUS01 (Windows Server) on the agency.test lab network; set IP 192.16
+### Step 01: Create WSUS01 (Windows Server) on the cloudseam.tech lab network; set IP 192.16
 
-**DO** Create WSUS01 (Windows Server) on the agency.test lab network; set IP 192.168.77.50 and DNS 192.168.77.10.
+**DO** Create WSUS01 (Windows Server) on the cloudseam.tech lab network; set IP 192.168.77.50 and DNS 192.168.77.10.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -3073,9 +3073,9 @@ MECM and SQL Server can technically share a server for a lab, but we deliberatel
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 02: Join WSUS01 to agency.test and restart.
+### Step 02: Join WSUS01 to cloudseam.tech and restart.
 
-**DO** Join WSUS01 to agency.test and restart.
+**DO** Join WSUS01 to cloudseam.tech and restart.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -3255,7 +3255,7 @@ We are building TWO kinds of databases: a practice database we own, and a specia
 SQL-02 / NEW WINDOWS VM
 
 
-# Create SQL01 and join agency.test
+# Create SQL01 and join cloudseam.tech
 
 We must build the computer first. It is not SQL until SQL Server software is installed.
 
@@ -3267,16 +3267,16 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 \[ \] After Windows installation, rename it SQL01 and reboot. Set fixed IP 192.168.77.60/24, correct VMware gateway, DNS 192.168.77.10.
 
-\[ \] On SQL01 run nslookup agency.test and ping AG-DC01 by name; ICMP may be blocked, so DNS is the important first check.
+\[ \] On SQL01 run nslookup cloudseam.tech and ping AG-DC01 by name; ICMP may be blocked, so DNS is the important first check.
 
-\[ \] Windows \> Settings \> System \> About \> Rename this PC (advanced) \> Change \> Domain: agency.test. Enter lab domain join credentials; restart.
+\[ \] Windows \> Settings \> System \> About \> Rename this PC (advanced) \> Change \> Domain: cloudseam.tech. Enter lab domain join credentials; restart.
 
 > hostname
 > (Get-CimInstance Win32_ComputerSystem).Domain
 > ipconfig /all
-> Resolve-DnsName AG-DC01.agency.test
+> Resolve-DnsName AG-DC01.cloudseam.tech
 
-**PASS CHECK** SQL01 is a MEMBER of agency.test and resolves AG-DC01 correctly. It is NOT a DC.
+**PASS CHECK** SQL01 is a MEMBER of cloudseam.tech and resolves AG-DC01 correctly. It is NOT a DC.
 
 **WRITE IT DOWN** Server or resource: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Result: PASS / FAIL Date: \_\_\_\_\_\_\_\_\_\_
 
@@ -3288,7 +3288,7 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 **BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
 
-**PASS** SQL01 is a MEMBER of agency.test and resolves AG-DC01 correctly. It is NOT a DC.
+**PASS** SQL01 is a MEMBER of cloudseam.tech and resolves AG-DC01 correctly. It is NOT a DC.
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
@@ -3529,7 +3529,7 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 ### Step 22: Check domain DNS before joining
 
-**DO** In SQL01, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for agency.test.
+**DO** In SQL01, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for cloudseam.tech.
 
 **EXPECT** The domain resolves and the DC’s LDAP SRV records are returned.
 
@@ -3538,28 +3538,28 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 **EVIDENCE** Capture the domain resolves and the DC’s LDAP SRV records are returned. Record the target computer and date.
 
 **COMMAND**
-> Resolve-DnsName agency.test
-> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.agency.test
+> Resolve-DnsName cloudseam.tech
+> Resolve-DnsName -Type SRV _ldap._tcp.dc._msdcs.cloudseam.tech
 
 ### Step 23: Join the domain
 
-**DO** Inside SQL01 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter agency.test, click OK, and supply your authorized lab join credentials.
+**DO** Inside SQL01 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter cloudseam.tech, click OK, and supply your authorized lab join credentials.
 
-**EXPECT** Windows welcomes the computer to agency.test and requests a restart.
+**EXPECT** Windows welcomes the computer to cloudseam.tech and requests a restart.
 
 **IF STUCK** Check DNS and time before changing passwords or disabling a firewall. Do not use your personal Microsoft account as AD credentials.
 
-**EVIDENCE** Capture windows welcomes the computer to agency.test and requests a restart. Record the target computer and date.
+**EVIDENCE** Capture windows welcomes the computer to cloudseam.tech and requests a restart. Record the target computer and date.
 
 ### Step 24: Restart and verify membership
 
-**DO** Restart SQL01. Sign in using Other user and an authorized account in agency.test. Run the checks below in Windows PowerShell.
+**DO** Restart SQL01. Sign in using Other user and an authorized account in cloudseam.tech. Run the checks below in Windows PowerShell.
 
-**EXPECT** The reported domain is agency.test and the secure-channel test returns True.
+**EXPECT** The reported domain is cloudseam.tech and the secure-channel test returns True.
 
 **IF STUCK** If trust fails, record the error and inspect DNS/time and the computer account. Do not delete/rejoin a production computer as an experiment.
 
-**EVIDENCE** Capture the reported domain is agency.test and the secure-channel test returns True. Record the target computer and date.
+**EVIDENCE** Capture the reported domain is cloudseam.tech and the secure-channel test returns True. Record the target computer and date.
 
 **COMMAND**
 > hostname
@@ -3596,7 +3596,7 @@ SQL Server is the filing cabinet. We will configure its lock, doors and labels b
 \[ \] Do NOT allow public or entire-internet connections to TCP 1433; keep SQL inside private networks.
 
 > Get-Service MSSQLSERVER
-> Test-NetConnection SQL01.agency.test -Port 1433
+> Test-NetConnection SQL01.cloudseam.tech -Port 1433
 
 **PASS CHECK** SQL engine service Running; correct collation selected; TCP connectivity works from MECM01 later (not necessarily from other hosts).
 
@@ -3738,7 +3738,7 @@ Think of SSMS as a filing-cabinet window. The SQL database lives on SQL01 even w
 
 \[ \] On SQL01 install SSMS from the Microsoft website. Open SQL Server Management Studio.
 
-\[ \] Connect to Server: Server type = Database Engine; Server name = SQL01 or SQL01.agency.test; Authentication = Windows Authentication; Connect.
+\[ \] Connect to Server: Server type = Database Engine; Server name = SQL01 or SQL01.cloudseam.tech; Authentication = Windows Authentication; Connect.
 
 \[ \] Expand Databases. Open New Query. Paste the practice script below. It creates only FAKE records and never touches MECM tables.
 
@@ -3791,7 +3791,7 @@ Think of SSMS as a filing-cabinet window. The SQL database lives on SQL01 even w
 
 ### Step 02: Connect to Server: Server type = Database Engine; Server name = SQL01 or SQL
 
-**DO** Connect to Server: Server type = Database Engine; Server name = SQL01 or SQL01.agency.test; Authentication = Windows Authentication; Connect.
+**DO** Connect to Server: Server type = Database Engine; Server name = SQL01 or SQL01.cloudseam.tech; Authentication = Windows Authentication; Connect.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -3990,7 +3990,7 @@ Configuration Manager / MECM is the school office: it knows which computers exis
 
 \[ \] VMware \> File \> New VM \> Windows Server Desktop Experience; name MECM01; fixed lab IP 192.168.77.70; DNS 192.168.77.10; allocate about 12-16 GB RAM if possible.
 
-\[ \] Join MECM01 to agency.test, restart, and confirm domain name/DNS connectivity.
+\[ \] Join MECM01 to cloudseam.tech, restart, and confirm domain name/DNS connectivity.
 
 \[ \] Open Server Manager \> Manage \> Add Roles and Features; review current Configuration Manager site prerequisites for IIS, BITS, .NET, RDC and other required components for your selected version.
 
@@ -4002,8 +4002,8 @@ Configuration Manager / MECM is the school office: it knows which computers exis
 
 > hostname
 > (Get-CimInstance Win32_ComputerSystem).Domain
-> Resolve-DnsName SQL01.agency.test
-> Test-NetConnection SQL01.agency.test -Port 1433
+> Resolve-DnsName SQL01.cloudseam.tech
+> Test-NetConnection SQL01.cloudseam.tech -Port 1433
 
 **PASS CHECK** MECM01 is domain-joined; SQL01 resolves; Test-NetConnection reports TcpTestSucceeded = True.
 
@@ -4031,9 +4031,9 @@ Configuration Manager / MECM is the school office: it knows which computers exis
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 02: Join MECM01 to agency.test, restart, and confirm domain name/DNS connectivit
+### Step 02: Join MECM01 to cloudseam.tech, restart, and confirm domain name/DNS connectivit
 
-**DO** Join MECM01 to agency.test, restart, and confirm domain name/DNS connectivity.
+**DO** Join MECM01 to cloudseam.tech, restart, and confirm domain name/DNS connectivity.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4094,8 +4094,8 @@ Configuration Manager / MECM is the school office: it knows which computers exis
 **COMMAND**
 > hostname
 > (Get-CimInstance Win32_ComputerSystem).Domain
-> Resolve-DnsName SQL01.agency.test
-> Test-NetConnection SQL01.agency.test -Port 1433
+> Resolve-DnsName SQL01.cloudseam.tech
+> Test-NetConnection SQL01.cloudseam.tech -Port 1433
 
 MECM-02 / AD + SQL PERMISSIONS
 
@@ -4106,22 +4106,22 @@ A computer can be domain-joined and still be denied database access. We must giv
 
 \[ \] On AG-DC01, open Server Manager \> Tools \> ADSI Edit. This is the advanced AD editor; use ONLY in this disposable training forest.
 
-\[ \] In ADSI Edit \> Connect to Default naming context \> DC=agency,DC=test \> CN=System. Right-click System \> New \> Object \> Container, name it System Management.
+\[ \] In ADSI Edit \> Connect to Default naming context \> DC=cloudseam,DC=tech \> CN=System. Right-click System \> New \> Object \> Container, name it System Management.
 
-\[ \] Right-click CN=System Management \> Properties \> Security \> Add agency\MECM01\$ (select Computers); grant Full Control with inheritance to descendants for site publishing.
+\[ \] Right-click CN=System Management \> Properties \> Security \> Add CLOUDSEAM\MECM01\$ (select Computers); grant Full Control with inheritance to descendants for site publishing.
 
 \[ \] Optionally extend the lab AD schema using ConfigMgr media \SMSSETUP\BIN\X64\extadsch.exe as a Schema Admin; BACK UP AD system state first. Schema extension is a separate, forest-wide, difficult-to-reverse change.
 
-\[ \] On SQL01: Computer Management \> Local Users and Groups \> Groups \> Administrators \> Add agency\MECM01\$ (site-server computer account), as required for this remote site-system setup.
+\[ \] On SQL01: Computer Management \> Local Users and Groups \> Groups \> Administrators \> Add CLOUDSEAM\MECM01\$ (site-server computer account), as required for this remote site-system setup.
 
-\[ \] SSMS on SQL01 \> Security \> Logins \> New Login \> agency\MECM01\$ \> Server Roles \> sysadmin. This high privilege is required by Configuration Manager; apply only to the isolated lab SQL instance.
+\[ \] SSMS on SQL01 \> Security \> Logins \> New Login \> CLOUDSEAM\MECM01\$ \> Server Roles \> sysadmin. This high privilege is required by Configuration Manager; apply only to the isolated lab SQL instance.
 
 \[ \] Ensure the account RUNNING MECM Setup is local Administrator on MECM01 and SQL01, and SQL sysadmin on the instance (per Microsoft requirements).
 
 \[ \] On MECM01 test name resolution and SQL connectivity again. Confirm SQL01 Windows firewall permits TCP 1433 ONLY from MECM01 and authorized admin hosts.
 
-> Test-NetConnection SQL01.agency.test -Port 1433
-> \# In SSMS on SQL01 check Security \> Logins for AGENCY\MECM01\$
+> Test-NetConnection SQL01.cloudseam.tech -Port 1433
+> \# In SSMS on SQL01 check Security \> Logins for CLOUDSEAM\MECM01\$
 
 **PASS CHECK** You can explain two access paths: MECM01 -\> SQL01 TCP and MECM01 computer identity -\> SQL Server permissions.
 
@@ -4153,7 +4153,7 @@ A computer can be domain-joined and still be denied database access. We must giv
 
 ### Step 02: In ADSI Edit / Connect to Default naming context
 
-**DO** In ADSI Edit > Connect to Default naming context > DC=agency,DC=test > CN=System. Right-click System > New > Object > Container, name it System Management.
+**DO** In ADSI Edit > Connect to Default naming context > DC=cloudseam,DC=tech > CN=System. Right-click System > New > Object > Container, name it System Management.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4163,7 +4163,7 @@ A computer can be domain-joined and still be denied database access. We must giv
 
 ### Step 03: Right-click CN=System Management / Properties
 
-**DO** Right-click CN=System Management > Properties > Security > Add agency\MECM01\$ (select Computers); grant Full Control with inheritance to descendants for site publishing.
+**DO** Right-click CN=System Management > Properties > Security > Add CLOUDSEAM\MECM01\$ (select Computers); grant Full Control with inheritance to descendants for site publishing.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4183,7 +4183,7 @@ A computer can be domain-joined and still be denied database access. We must giv
 
 ### Step 05: On SQL01: Computer Management / Local Users and Groups
 
-**DO** On SQL01: Computer Management > Local Users and Groups > Groups > Administrators > Add agency\MECM01\$ (site-server computer account), as required for this remote site-system setup.
+**DO** On SQL01: Computer Management > Local Users and Groups > Groups > Administrators > Add CLOUDSEAM\MECM01\$ (site-server computer account), as required for this remote site-system setup.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4193,7 +4193,7 @@ A computer can be domain-joined and still be denied database access. We must giv
 
 ### Step 06: SSMS on SQL01 / Security
 
-**DO** SSMS on SQL01 > Security > Logins > New Login > agency\MECM01\$ > Server Roles > sysadmin. This high privilege is required by Configuration Manager; apply only to the isolated lab SQL instance.
+**DO** SSMS on SQL01 > Security > Logins > New Login > CLOUDSEAM\MECM01\$ > Server Roles > sysadmin. This high privilege is required by Configuration Manager; apply only to the isolated lab SQL instance.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4232,8 +4232,8 @@ A computer can be domain-joined and still be denied database access. We must giv
 **EVIDENCE** Capture you can explain two access paths: MECM01 -> SQL01 TCP and MECM01 computer identity -> SQL Server permissions. Record the target computer and date.
 
 **COMMAND**
-> Test-NetConnection SQL01.agency.test -Port 1433
-> \# In SSMS on SQL01 check Security > Logins for AGENCY\MECM01\$
+> Test-NetConnection SQL01.cloudseam.tech -Port 1433
+> \# In SSMS on SQL01 check Security > Logins for CLOUDSEAM\MECM01\$
 
 MECM-03 / SETUP WIZARD
 
@@ -4250,11 +4250,11 @@ Use the graphical Setup Wizard and verify every prerequisite. We are NOT install
 
 \[ \] Site settings: Site code LAB (three characters); Site name Agency Lab; installation folder on MECM01. Choose stand-alone primary site.
 
-\[ \] Database Information: SQL Server FQDN SQL01.agency.test; default instance (leave name blank); database by default CM_LAB; Service Broker port 4022.
+\[ \] Database Information: SQL Server FQDN SQL01.cloudseam.tech; default instance (leave name blank); database by default CM_LAB; Service Broker port 4022.
 
-\[ \] SMS Provider: MECM01.agency.test. On client communication choose HTTPS/enhanced HTTP design appropriate for your isolated lab; do NOT expose HTTP roles to the internet.
+\[ \] SMS Provider: MECM01.cloudseam.tech. On client communication choose HTTPS/enhanced HTTP design appropriate for your isolated lab; do NOT expose HTTP roles to the internet.
 
-\[ \] Management Point and Distribution Point: MECM01.agency.test for small lab. Use required certificates/communication options for your chosen version.
+\[ \] Management Point and Distribution Point: MECM01.cloudseam.tech for small lab. Use required certificates/communication options for your chosen version.
 
 \[ \] Run Prerequisite Checker. STOP if red errors appear. Resolve missing Windows features, ADK, permissions, SQL collation, port or network issues before installing.
 
@@ -4318,19 +4318,9 @@ Use the graphical Setup Wizard and verify every prerequisite. We are NOT install
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 05: Database Information: SQL Server FQDN SQL01.agency.test; default instance (l
+### Step 05: Database Information: SQL Server FQDN SQL01.cloudseam.tech; default instance (l
 
-**DO** Database Information: SQL Server FQDN SQL01.agency.test; default instance (leave name blank); database by default CM_LAB; Service Broker port 4022.
-
-**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
-
-**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
-
-**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
-
-### Step 06: SMS Provider: MECM01.agency.test. On client communication choose HTTPS/enhan
-
-**DO** SMS Provider: MECM01.agency.test. On client communication choose HTTPS/enhanced HTTP design appropriate for your isolated lab; do NOT expose HTTP roles to the internet.
+**DO** Database Information: SQL Server FQDN SQL01.cloudseam.tech; default instance (leave name blank); database by default CM_LAB; Service Broker port 4022.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4338,9 +4328,19 @@ Use the graphical Setup Wizard and verify every prerequisite. We are NOT install
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 07: Management Point and Distribution Point: MECM01.agency.test for small lab. U
+### Step 06: SMS Provider: MECM01.cloudseam.tech. On client communication choose HTTPS/enhan
 
-**DO** Management Point and Distribution Point: MECM01.agency.test for small lab. Use required certificates/communication options for your chosen version.
+**DO** SMS Provider: MECM01.cloudseam.tech. On client communication choose HTTPS/enhanced HTTP design appropriate for your isolated lab; do NOT expose HTTP roles to the internet.
+
+**EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
+
+**IF STUCK** Check the named computer and account first. Capture the exact error and compare the lesson reference below before retrying; do not skip a failed prerequisite.
+
+**EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
+
+### Step 07: Management Point and Distribution Point: MECM01.cloudseam.tech for small lab. U
+
+**DO** Management Point and Distribution Point: MECM01.cloudseam.tech for small lab. Use required certificates/communication options for your chosen version.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4511,13 +4511,13 @@ MECM-05 / WSUS + SUP
 
 WSUS is the update catalog. MECM is the manager that approves and targets update deployments. MECM Software Update Point (SUP) is the connector.
 
-\[ \] Confirm WSUS01 already has the WSUS role installed (original Lab 13) and is joined to agency.test with proper DNS.
+\[ \] Confirm WSUS01 already has the WSUS role installed (original Lab 13) and is joined to cloudseam.tech with proper DNS.
 
 \[ \] On WSUS01 open IIS Manager and check whether WSUS Administration is listening on HTTP 8530 or HTTPS 8531; record actual configured ports.
 
 \[ \] Install WSUS Administration Console/components on MECM01 as required by your ConfigMgr version. Make sure MECM01 can talk to WSUS01 and SQL01.
 
-\[ \] MECM console \> Administration \> Site Configuration \> Servers and Site System Roles \> Add Site System Server \> WSUS01.agency.test.
+\[ \] MECM console \> Administration \> Site Configuration \> Servers and Site System Roles \> Add Site System Server \> WSUS01.cloudseam.tech.
 
 \[ \] Add Software Update Point role, select lab-appropriate HTTPS/security settings and WSUS ports; use the correct port values for the existing WSUS install.
 
@@ -4547,7 +4547,7 @@ WSUS is the update catalog. MECM is the manager that approves and targets update
 
 ### Step 01: Confirm WSUS01 already has the WSUS role installed (original Lab 13) and is
 
-**DO** Confirm WSUS01 already has the WSUS role installed (original Lab 13) and is joined to agency.test with proper DNS.
+**DO** Confirm WSUS01 already has the WSUS role installed (original Lab 13) and is joined to cloudseam.tech with proper DNS.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4577,7 +4577,7 @@ WSUS is the update catalog. MECM is the manager that approves and targets update
 
 ### Step 04: MECM console / Administration
 
-**DO** MECM console > Administration > Site Configuration > Servers and Site System Roles > Add Site System Server > WSUS01.agency.test.
+**DO** MECM console > Administration > Site Configuration > Servers and Site System Roles > Add Site System Server > WSUS01.cloudseam.tech.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4982,11 +4982,11 @@ MOVE-04 / DOMAIN CHANGE
 
 An existing domain controller cannot simply be joined to the destination domain. You migrate identities and computers using a plan, while apps often need to be reconfigured for new accounts.
 
-\[ \] Write down current domain = agency.test and destination = destination.test (or approved mock Azure domain). Keep both AD systems available during transition.
+\[ \] Write down current domain = cloudseam.tech and destination = migrate.cloudseam.tech (or approved mock Azure domain). Keep both AD systems available during transition.
 
 \[ \] Create new users/groups/OUs and permitted GPOs in destination forest. Use Group Policy Migration Table if account/group references differ.
 
-\[ \] Check which MECM01 services, SQL permissions and clients refer to AGENCY users/groups; those need mapping to destination identities.
+\[ \] Check which MECM01 services, SQL permissions and clients refer to CLOUDSEAM users/groups; those need mapping to destination identities.
 
 \[ \] Move only APP01 first: backup app, validate destination DNS/credentials, change domain in System Properties, reboot, apply new GPO, verify application.
 
@@ -5008,9 +5008,9 @@ An existing domain controller cannot simply be joined to the destination domain.
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
-### Step 01: Write down current domain = agency.test and destination = destination.test (
+### Step 01: Write down current domain = cloudseam.tech and destination = migrate.cloudseam.tech (
 
-**DO** Write down current domain = agency.test and destination = destination.test (or approved mock Azure domain). Keep both AD systems available during transition.
+**DO** Write down current domain = cloudseam.tech and destination = migrate.cloudseam.tech (or approved mock Azure domain). Keep both AD systems available during transition.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -5030,7 +5030,7 @@ An existing domain controller cannot simply be joined to the destination domain.
 
 ### Step 03: Check which MECM01 services, SQL permissions and clients refer to AGENCY use
 
-**DO** Check which MECM01 services, SQL permissions and clients refer to AGENCY users/groups; those need mapping to destination identities.
+**DO** Check which MECM01 services, SQL permissions and clients refer to CLOUDSEAM users/groups; those need mapping to destination identities.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -6330,7 +6330,7 @@ Now map the same ideas into the Azure subscription you already own. Do not treat
 
 **\[ \]** Save and review the VNet. Write down which location and subnet you selected.
 
-**\[ \]** Search for Azure DNS zones. Observe your existing cloudscene.tech public DNS zone, but DO NOT add public DC service records or publish private AD server IPs there.
+**\[ \]** Search for Azure DNS zones. Observe your existing cloudseam.tech public DNS zone, but DO NOT add public DC service records or publish private AD server IPs there.
 
 **PASS CHECK** Budget alert exists; resource group and VNet exist; no domain controller has a public-facing DNS record.
 
@@ -6444,9 +6444,9 @@ Now map the same ideas into the Azure subscription you already own. Do not treat
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 08: Search for Azure DNS zones. Observe your existing cloudscene.tech public DNS
+### Step 08: Search for Azure DNS zones. Observe your existing cloudseam.tech public DNS
 
-**DO** Search for Azure DNS zones. Observe your existing cloudscene.tech public DNS zone, but DO NOT add public DC service records or publish private AD server IPs there.
+**DO** Search for Azure DNS zones. Observe your existing cloudseam.tech public DNS zone, but DO NOT add public DC service records or publish private AD server IPs there.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -6459,7 +6459,7 @@ LAB 15 / CLOUD VM + AD DS
 
 # Azure: create AZ-DC01 carefully
 
-This is your optional cloud destination forest: ad.cloudscene.tech. It is not the same forest as local destination.test.
+This is your optional cloud destination forest: azure.cloudseam.tech. It is not the same forest as local migrate.cloudseam.tech.
 
 **\[ \]** Azure portal \> Virtual machines \> Create \> Azure virtual machine. Select rg-ad-migration-lab, an allowed region, and name AZ-DC01.
 
@@ -6475,7 +6475,7 @@ This is your optional cloud destination forest: ad.cloudscene.tech. It is not th
 
 **\[ \]** Inside the Azure Windows VM, leave IP addressing and DNS adapter settings automatic. Azure manages NIC settings. After promotion, configure the Azure VNet custom DNS server to use this DC’s Azure private IP (next step).
 
-**\[ \]** Install AD DS with Server Manager \> Add Roles and Features and promote as Add a new forest \> ad.cloudscene.tech. Enable DNS and reboot.
+**\[ \]** Install AD DS with Server Manager \> Add Roles and Features and promote as Add a new forest \> azure.cloudseam.tech. Enable DNS and reboot.
 
 **\[ \]** Azure portal \> Virtual networks \> vnet-ad-migration-lab \> DNS servers \> Custom. Add AZ-DC01 private IP and Save. Existing VMs may need DHCP lease refresh or reboot to use new DNS settings.
 
@@ -6483,7 +6483,7 @@ This is your optional cloud destination forest: ad.cloudscene.tech. It is not th
 
 > Get-ADDomain \| Select-Object DNSRoot
 > ipconfig /all
-> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.ad.cloudscene.tech 10.90.1.10
+> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.azure.cloudseam.tech 10.90.1.10
 
 **PASS CHECK** New cloud AD domain exists, resolves PRIVATELY, and its VM has no direct public RDP/AD exposure.
 
@@ -6494,7 +6494,7 @@ This is your optional cloud destination forest: ad.cloudscene.tech. It is not th
 <thead>
 <tr class="header">
 <th><p><strong>WHY THIS MATTERS</strong></p>
-<p>You did not “point cloudscene.tech at a server” and magically get AD. You built a Windows Server, configured private networking, installed AD DS, and created a new forest that happens to use a subdomain of the name you own.</p></th>
+<p>You did not “point cloudseam.tech at a server” and magically get AD. You built a Windows Server, configured private networking, installed AD DS, and created a new forest that happens to use a subdomain of the name you own.</p></th>
 </tr>
 </thead>
 <tbody>
@@ -6599,7 +6599,7 @@ This is your optional cloud destination forest: ad.cloudscene.tech. It is not th
 
 ### Step 08: Install AD DS with Server Manager / Add Roles and Features and promote as Ad
 
-**DO** Install AD DS with Server Manager > Add Roles and Features and promote as Add a new forest > ad.cloudscene.tech. Enable DNS and reboot.
+**DO** Install AD DS with Server Manager > Add Roles and Features and promote as Add a new forest > azure.cloudseam.tech. Enable DNS and reboot.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -6640,7 +6640,7 @@ This is your optional cloud destination forest: ad.cloudscene.tech. It is not th
 **COMMAND**
 > Get-ADDomain | Select-Object DNSRoot
 > ipconfig /all
-> nslookup -type=SRV _ldap._tcp.dc._msdcs.ad.cloudscene.tech 10.90.1.10
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.azure.cloudseam.tech 10.90.1.10
 
 LAB 16 / VPN / DNS / SECURITY
 
@@ -6671,13 +6671,13 @@ To actually move an on-premises server into an Azure-hosted domain, the two netw
 
 **\[ \]** If your network setup supports it, in Azure create a GatewaySubnet, Virtual network gateway, Local network gateway (your real VPN public endpoint and internal prefixes), then the IPsec/IKE connection. Configure the peer VPN device using matching values.
 
-**\[ \]** Verify routes both ways, permitted AD ports inside the tunnel, and DNS conditional forwarding from agency.test to ad.cloudscene.tech and vice versa as required.
+**\[ \]** Verify routes both ways, permitted AD ports inside the tunnel, and DNS conditional forwarding from cloudseam.tech to azure.cloudseam.tech and vice versa as required.
 
 **\[ \]** Run nslookup for the AD SRV record across the private path and Test-NetConnection to approved destination ports. Do not publish AD ports in an Azure NSG to the internet.
 
 **\[ \]** Do not attempt an actual cross-cloud domain join until the private connectivity and DNS tests both pass.
 
-> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.ad.cloudscene.tech \<AGENCY-DNS-IP\>
+> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.azure.cloudseam.tech \<AGENCY-DNS-IP\>
 > Test-NetConnection \<AZ-DC01-PRIVATE-IP\> -Port 53
 
 **PASS CHECK** VPN path and DNS tests pass OR you explicitly record “Azure cutover deferred, local course complete.”
@@ -6764,7 +6764,7 @@ To actually move an on-premises server into an Azure-hosted domain, the two netw
 
 ### Step 05: Verify routes both ways, permitted AD ports inside the tunnel, and DNS condi
 
-**DO** Verify routes both ways, permitted AD ports inside the tunnel, and DNS conditional forwarding from agency.test to ad.cloudscene.tech and vice versa as required.
+**DO** Verify routes both ways, permitted AD ports inside the tunnel, and DNS conditional forwarding from cloudseam.tech to azure.cloudseam.tech and vice versa as required.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -6803,7 +6803,7 @@ To actually move an on-premises server into an Azure-hosted domain, the two netw
 **EVIDENCE** Capture vPN path and DNS tests pass OR you explicitly record “Azure cutover deferred, local course complete.” Record the target computer and date.
 
 **COMMAND**
-> nslookup -type=SRV _ldap._tcp.dc._msdcs.ad.cloudscene.tech \<AGENCY-DNS-IP>
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.azure.cloudseam.tech \<AGENCY-DNS-IP>
 > Test-NetConnection \<AZ-DC01-PRIVATE-IP> -Port 53
 
 LAB 17 / OPTIONAL CAPSTONE
@@ -6821,7 +6821,7 @@ Only after the networking gate passes: do one member server at a time. Do not tr
 
 **\[ \]** Read the current Microsoft documentation for agent-based/physical-server-style migration and confirm whether your exact Workstation-based source and Windows edition are supported before selecting it.
 
-**\[ \]** For a low-cost alternate hands-on: create a clean Azure APP02 VM with no public inbound ports, install IIS, securely transfer your simple test site through the VPN, and join APP02 to ad.cloudscene.tech.
+**\[ \]** For a low-cost alternate hands-on: create a clean Azure APP02 VM with no public inbound ports, install IIS, securely transfer your simple test site through the VPN, and join APP02 to azure.cloudseam.tech.
 
 **\[ \]** Validate APP02 DNS/domain membership, local test page, required authentication, GPO application, patching, and monitoring. Only then think about switching real clients to APP02.
 
@@ -6934,7 +6934,7 @@ Only after the networking gate passes: do one member server at a time. Do not tr
 
 ### Step 06: Join the destination domain and install IIS
 
-**DO** With private DNS to AZ-DC01 verified, use sysdm.cpl > Computer Name > Change to join ad.cloudscene.tech with authorized credentials. Restart, then install IIS from elevated PowerShell.
+**DO** With private DNS to AZ-DC01 verified, use sysdm.cpl > Computer Name > Change to join azure.cloudseam.tech with authorized credentials. Restart, then install IIS from elevated PowerShell.
 
 **EXPECT** APP02 is a member server, has a healthy domain secure channel, and IIS is running.
 
@@ -7003,11 +7003,11 @@ Practice saying the process out loud. The goal is to describe a safe sequence, n
 </tbody>
 </table>
 
-\[ \] I can explain why cloudscene.tech public DNS does not create an AD forest.
+\[ \] I can explain why cloudseam.tech public DNS does not create an AD forest.
 
 \[ \] I can distinguish extra domain controllers from a second forest.
 
-\[ \] I can join APP01 to agency.test, then to destination.test.
+\[ \] I can join APP01 to cloudseam.tech, then to migrate.cloudseam.tech.
 
 \[ \] I can show a GPO backup/import and identify what did NOT transfer.
 
@@ -7047,9 +7047,9 @@ Practice saying the process out loud. The goal is to describe a safe sequence, n
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
-### Step 01: I can explain why cloudscene.tech public DNS does not create an AD forest.
+### Step 01: I can explain why cloudseam.tech public DNS does not create an AD forest.
 
-**DO** I can explain why cloudscene.tech public DNS does not create an AD forest.
+**DO** I can explain why cloudseam.tech public DNS does not create an AD forest.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -7067,9 +7067,9 @@ Practice saying the process out loud. The goal is to describe a safe sequence, n
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 03: I can join APP01 to agency.test, then to destination.test.
+### Step 03: I can join APP01 to cloudseam.tech, then to migrate.cloudseam.tech.
 
-**DO** I can join APP01 to agency.test, then to destination.test.
+**DO** I can join APP01 to cloudseam.tech, then to migrate.cloudseam.tech.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -7126,8 +7126,8 @@ When you get stuck, follow this order. The order matters more than memorizing al
 
 | **Symptom**                      | **First check**                                      | **Useful command**                                          |
 |----------------------------------|------------------------------------------------------|-------------------------------------------------------------|
-| Cannot join agency.test          | Client DNS points to agency DC; private reachability | ipconfig /all ; nslookup agency.test                        |
-| Cannot join destination.test     | Client DNS points to destination DC; DNS SRV lookup  | nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.destination.test |
+| Cannot join cloudseam.tech          | Client DNS points to agency DC; private reachability | ipconfig /all ; nslookup cloudseam.tech                        |
+| Cannot join migrate.cloudseam.tech     | Client DNS points to destination DC; DNS SRV lookup  | nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.migrate.cloudseam.tech |
 | Second DC not replicating        | AD replication / time / DNS                          | repadmin /replsummary ; dcdiag                              |
 | GPO exists but not applied       | Correct OU link, computer object, filtering          | gpresult /r /scope computer                                 |
 | Website disappeared after rejoin | IIS service, local app files, permissions            | Get-Service W3SVC ; curl.exe http://localhost               |
