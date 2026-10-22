@@ -3156,7 +3156,7 @@
     },
     {
       "stepId": "lab-03:guided:1",
-      "instructionHash": "fcf008180869075281d5eedfa897bfb1b25979065792515fbed64edc3155f385",
+      "instructionHash": "35af7a96f22f3bfa4b3cc634bcde3e9d43f20abc2cf263362a97b547b3139104",
       "assetIds": [
         "vmware-network-editor"
       ],
@@ -3168,7 +3168,7 @@
     },
     {
       "stepId": "lab-03:guided:2",
-      "instructionHash": "553753da9fa3f37e772ec5aa891527bc3174ad3088151f6971055c7f5c5ab2dc",
+      "instructionHash": "c621ec5e0efe781bef5c59866bab3b776143eae999f6e56252af92d3d5b90f3b",
       "assetIds": [
         "vmware-network-editor"
       ],
@@ -3180,7 +3180,7 @@
     },
     {
       "stepId": "lab-03:guided:3",
-      "instructionHash": "aeb3723d25392cab1ea7e0d69ad74b09f1e6607c4ae0add1511b9e92f2bc3ca0",
+      "instructionHash": "3c51f9afc5419ec49d07f99f869578aa07170edcf8041628267a1938a0c70b72",
       "assetIds": [
         "vmware-network-editor"
       ],
@@ -3192,19 +3192,7 @@
     },
     {
       "stepId": "lab-03:guided:4",
-      "instructionHash": "4ac84d2a2ca3bb001e4f36f10e513395274ec7daf22fafbbc8397653e6e727ae",
-      "assetIds": [
-        "vmware-nat-settings"
-      ],
-      "excludedAssetIds": [],
-      "coverage": "partial-vendor-reference",
-      "reviewed": true,
-      "referenceRole": "control-reference",
-      "selectionReason": "VMware Workstation on the Windows 10 host; only the named visible control is an interface reference"
-    },
-    {
-      "stepId": "lab-03:guided:5",
-      "instructionHash": "d47bb152e30de9826b6f5c7848006ebc4a7576a95be635e00f2106b335e9496a",
+      "instructionHash": "f3591dafd63429006d9a9760e22b0b1e4b34fe0bab22f7ccd0c7caa8710c1ec1",
       "assetIds": [
         "vmware-network-editor"
       ],
@@ -3215,8 +3203,20 @@
       "selectionReason": "VMware Workstation on the Windows 10 host; only the named visible control is an interface reference"
     },
     {
+      "stepId": "lab-03:guided:5",
+      "instructionHash": "b7bb697dfbe45e4c7cd470e725216dafa6d840fba07ceecb1ebbbe1de1ac715c",
+      "assetIds": [
+        "win-notepad"
+      ],
+      "excludedAssetIds": [],
+      "coverage": "partial-vendor-reference",
+      "reviewed": true,
+      "referenceRole": "control-reference",
+      "selectionReason": "VMware Workstation on the Windows 10 host; only the named visible control is an interface reference"
+    },
+    {
       "stepId": "lab-03:guided:6",
-      "instructionHash": "9aadda17b27bd2725610711c6980ab62dbbaa40e3ded90778685fee3a5a53b1e",
+      "instructionHash": "8e6e32bc2a9417952e39ee9492aea765a75d993dcc26574c616fe537e910cf2d",
       "assetIds": [],
       "excludedAssetIds": [],
       "coverage": "missing-interface-screenshot",
@@ -3274,7 +3274,7 @@
     },
     {
       "stepId": "lab-04:guided:5",
-      "instructionHash": "e39c46429abc52c066db69100a9d9bdebfa2ba8ca8fb6d6059420fc8e35ba4f6",
+      "instructionHash": "36f5163414047d05cfcd2b34bdf7f41e099ca4402a30ad317ecbf324afab0f17",
       "assetIds": [],
       "excludedAssetIds": [
         "workstation-6"
@@ -3323,7 +3323,7 @@
     },
     {
       "stepId": "lab-04:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
       "assetIds": [
         "vmware-network-editor"
       ],
@@ -3431,7 +3431,7 @@
     },
     {
       "stepId": "lab-04:guided:18",
-      "instructionHash": "594124fbf66280fd0b5816626a3750fa86a3e308261c926a7489d72ec07b5b33",
+      "instructionHash": "62d3a03691a4fa9dfc17495321e6a26fac670d80415970f1791351e6b47c2650",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -3455,7 +3455,7 @@
     },
     {
       "stepId": "lab-04:guided:20",
-      "instructionHash": "87b61d2a29d14568f2f8506744b3fac0819ca424493a11563d8650493a4f6ad0",
+      "instructionHash": "0a9f6dcaa6969851efc4f64b6b2832cdec4fd418d3e50499572a6d9e113191bc",
       "assetIds": [
         "win-ipv4-properties",
         "win-powershell-tabs"
@@ -3468,7 +3468,7 @@
     },
     {
       "stepId": "lab-04:guided:21",
-      "instructionHash": "e7ad0d6143b75dde37ff6d93186af7c1ef2e106d5b3b8311b1ca64611d0a985c",
+      "instructionHash": "743bccc8f22a562bc3da9f15afdc5cdfdf5aa4c92266d4059cbbaf657c4d9740",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -3616,7 +3616,7 @@
     },
     {
       "stepId": "lab-05:guided:1",
-      "instructionHash": "bc6bdc8a8bdd4eac8fb9b75ab27568894dda49da9bd049d51e3e1543922417be",
+      "instructionHash": "cfd23dd4b729f8d0d5e6276eedf73f5237534b333bc955ef88da012e7a66691e",
       "assetIds": [
         "win-server-roles"
       ],
@@ -3701,7 +3701,7 @@
     },
     {
       "stepId": "lab-05:guided:8",
-      "instructionHash": "3490bb69d8e510bce41ae03934f31dd661f8e893541561d4183488246443a08a",
+      "instructionHash": "697d1f583845e40a1d7821d2b8fd5403472dc9e65f1d81bca5b59b71f9f05aa4",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -3810,7 +3810,7 @@
     },
     {
       "stepId": "lab-06:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
       "assetIds": [
         "vmware-network-editor"
       ],
@@ -3942,7 +3942,7 @@
     },
     {
       "stepId": "lab-06:guided:20",
-      "instructionHash": "bc3255908bb02dcaba16e8109405d8b30b82e003ef30f7a74feb70fffeb79bba",
+      "instructionHash": "092b0da6c613de3e68b2f7b2ce64f96b713e541bda2347f9c17d968132b75094",
       "assetIds": [
         "win-ipv4-properties",
         "win-powershell-tabs"
@@ -4087,7 +4087,7 @@
     },
     {
       "stepId": "lab-07:guided:5",
-      "instructionHash": "39a749ae4ed9bea7e95ad37a615ef64140115cd780b5f663ca9ccb4bf8583afa",
+      "instructionHash": "43fd401c8cdfd6fb4b7450b280d94b424350254f91fe89d64a58f6e02ecdf835",
       "assetIds": [],
       "excludedAssetIds": [
         "workstation-6"
@@ -4136,7 +4136,7 @@
     },
     {
       "stepId": "lab-07:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
       "assetIds": [
         "vmware-network-editor"
       ],
@@ -4244,7 +4244,7 @@
     },
     {
       "stepId": "lab-07:guided:18",
-      "instructionHash": "521b7bc8dc6127d0426f76ac9ea4c495a73d97d8721310e19818d677168959a9",
+      "instructionHash": "e9f6fd90edcd7f6f07d08ab6d22a23b24d604d45fcd9562d4b69e3455d8c17c7",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -4268,7 +4268,7 @@
     },
     {
       "stepId": "lab-07:guided:20",
-      "instructionHash": "ac3c7f023e455de182180f6cc0a892d94e5a90942a74726bdfac903cd2703d20",
+      "instructionHash": "13eed2480644ea0277191d4b91c89008fa795641b3ef82db87fe203734d1cb82",
       "assetIds": [
         "win-ipv4-properties",
         "win-powershell-tabs"
@@ -4281,7 +4281,7 @@
     },
     {
       "stepId": "lab-07:guided:21",
-      "instructionHash": "1c8c793ed1ed9d006b6fb78dee5edff6400460259122bcf81ce88766e82e2d47",
+      "instructionHash": "c9591dad9527f4f1033ac469f1791b77a48f343c6a26c30e57502befdbe0decd",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -4293,7 +4293,7 @@
     },
     {
       "stepId": "lab-07:guided:22",
-      "instructionHash": "a0e5d99db158ec4580ee8c0d3fa6ed614224888c5472e21b8fa44c406ef57b20",
+      "instructionHash": "2a59fd58943d5f18e8f39eab480c3511867e2a2ed75b70b86409a5d5af9e3417",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -4305,7 +4305,7 @@
     },
     {
       "stepId": "lab-07:guided:23",
-      "instructionHash": "a84e9c64f1fe01844f4ccc2d72fb02c9b70068f54ccbe3018d201d47dabf1896",
+      "instructionHash": "3aa4b072549adebee746b0ce2b36d8926fb5f7b1d3bf94601fd28707e57ada27",
       "assetIds": [
         "win-domain-join"
       ],
@@ -4317,7 +4317,7 @@
     },
     {
       "stepId": "lab-07:guided:24",
-      "instructionHash": "b35246ce79ae6df46a4bbb43bece8913e15c75058e4d9cdde69fd185a3f2a5db",
+      "instructionHash": "d17c7d765cb25e263182b3819c4ce240cfc5907bd6250bec9317b818e247fbe1",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -4402,7 +4402,7 @@
     },
     {
       "stepId": "lab-07:guided:31",
-      "instructionHash": "2f2eb4dbf7f2906d77645a7242127e75de7c1f56d02312b87301b4879c83b6dd",
+      "instructionHash": "25d4d48e4a403a1092e86c99b2dfeb33ecaf2c6810c558ec0d1537698059e6fb",
       "assetIds": [
         "win-dc-replica"
       ],
@@ -4464,7 +4464,7 @@
     },
     {
       "stepId": "lab-07:guided:36",
-      "instructionHash": "4a05bcb29b833d8c919bd23c122dd4a9234b22075ddccf6549f228bb9405e96a",
+      "instructionHash": "387386b96aeb78647589b083bcbd42403007ea634b6b1a56986628ef35460947",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -4573,7 +4573,7 @@
     },
     {
       "stepId": "lab-08:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
       "assetIds": [
         "vmware-network-editor"
       ],
@@ -4705,7 +4705,7 @@
     },
     {
       "stepId": "lab-08:guided:20",
-      "instructionHash": "15055098f0c164996e9aba8c3a05bcf7c7bf39fd32b118ffb58faabd32a1c96e",
+      "instructionHash": "58862d0e695b22e6fdad7dd548a11879668cd8565cca9220f80e5981af2d6df4",
       "assetIds": [
         "win-ipv4-properties",
         "win-powershell-tabs"
@@ -4865,7 +4865,7 @@
     },
     {
       "stepId": "lab-09:guided:1",
-      "instructionHash": "8158fca8987934c48e2e8172779fd462fc526f832ddc6f5b2b2ad27c70ecd61f",
+      "instructionHash": "b3049b462dde4a9f6b3e33ef4d0aaa907a83908ac6d61af836b23edee9efc08f",
       "assetIds": [
         "win-server-roles"
       ],
@@ -4877,7 +4877,7 @@
     },
     {
       "stepId": "lab-09:guided:2",
-      "instructionHash": "fedde9d0862177962913d6b9ff4f7ec1b473311a4fc5551560c6c46db99d47ab",
+      "instructionHash": "f1c6bbe1d282e9af55aa593dbc7bfc7aea653740bf3737f1f4a6668a380ee75b",
       "assetIds": [
         "win-dns-forwarder"
       ],
@@ -4889,7 +4889,7 @@
     },
     {
       "stepId": "lab-09:guided:3",
-      "instructionHash": "cc47f0a6495aee35d2b6ed8b0e0896c140e0a94f404f66f7e9ad29eaba7df06f",
+      "instructionHash": "94b750c06a7f6965c892a11cf20a71868a1ac520c6ac033c2d1c41cffb118bc5",
       "assetIds": [
         "win-dns-forwarder"
       ],
@@ -4937,7 +4937,7 @@
     },
     {
       "stepId": "lab-09:guided:7",
-      "instructionHash": "0cee5ccde4bb1d4faf23cf365521058a5a651044e2926376ee4ee9fe806bd89a",
+      "instructionHash": "e00448fd18648100cd92135510a2f52f571ee57157e37ffa7e0b133d35bd73a2",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -4949,7 +4949,7 @@
     },
     {
       "stepId": "lab-10:guided:1",
-      "instructionHash": "6a1604bc82d2c6dcc0f8cf7854da7e19143eb49232c9313e06737341140d7466",
+      "instructionHash": "33bf99d976fd3b23d0e2039ae567fcad7cbf62120ec3e07291923fb637d9e846",
       "assetIds": [
         "win-gpo-report"
       ],
@@ -5123,7 +5123,7 @@
     },
     {
       "stepId": "lab-11:guided:5",
-      "instructionHash": "f5c867beb593e38d7ea8f3b204619049ba431a8b2992b0b33dd807101eb4ce28",
+      "instructionHash": "06af8641dd1e15875616f2e9508929e15acad00352a70d1fffadcb9cf076b74a",
       "assetIds": [
         "win-ipv4-properties"
       ],
@@ -5135,7 +5135,7 @@
     },
     {
       "stepId": "lab-11:guided:6",
-      "instructionHash": "010040b56f4b3ac85795cc3a43238e2ef868d0c5945b0495447d60fb0609b87a",
+      "instructionHash": "9ddca09b550a516a256bb91a09684c5edcbb5e06622dcd7f059d4c73d2a1ceb3",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -5183,7 +5183,7 @@
     },
     {
       "stepId": "lab-11:guided:10",
-      "instructionHash": "feaefe1b553e7da3b4cd76c6bed6ac45ee1cb684b71a8130ea937ec3ab7c9780",
+      "instructionHash": "2815fc09c4da0d446229bf105178a89d88ab43180ed3a0213c1f3e4499712b9f",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -5279,7 +5279,7 @@
     },
     {
       "stepId": "lab-13:guided:1",
-      "instructionHash": "c892959935fac98483f29c3664c5b54834e37117027248caad66637142d624b1",
+      "instructionHash": "999115ce1f3498d48611ad0ff220dac66dbd3ceb06e7b26a8e55062f3ba2ef51",
       "assetIds": [
         "mecm-wsus-connect"
       ],
@@ -5564,7 +5564,7 @@
     },
     {
       "stepId": "sql-02:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
       "assetIds": [
         "vmware-network-editor"
       ],
@@ -5696,7 +5696,7 @@
     },
     {
       "stepId": "sql-02:guided:20",
-      "instructionHash": "5ec9cf000b2a83c6dad09f11809ee8f313caa6ae8cd699e834c80fd105d45d3d",
+      "instructionHash": "d0d032d95f81e392f911dac52eb8da08e108159b22dc021f02c241081f9f92da",
       "assetIds": [
         "win-ipv4-properties",
         "win-powershell-tabs"
@@ -6055,7 +6055,7 @@
     },
     {
       "stepId": "mecm-01:guided:1",
-      "instructionHash": "07883a008e41c9a65d1d36bef2c3ea757607bf611cbdaf5ca7a5cdbc62840052",
+      "instructionHash": "4a0c0a09332b08a3de3aa2190042c4070fc015452852596bc14594e94ab05632",
       "assetIds": [
         "workstation-1"
       ],
@@ -6143,7 +6143,7 @@
     },
     {
       "stepId": "mecm-02:guided:1",
-      "instructionHash": "c66dedc0fc5842d2f15d37011857653a1df53bc3362ab7b2977727f38a2821c1",
+      "instructionHash": "8511a5ed9ee219fe5ca523bb475e3653c5d0c414dd2e1ba5e9caf1302c0c7b31",
       "assetIds": [
         "win-adsi-edit"
       ],
@@ -6383,15 +6383,17 @@
     },
     {
       "stepId": "mecm-04:guided:1",
-      "instructionHash": "6250163fb2cd99140237b51f4a3d97b88e25fc3bf545203fd1b602f4fbf0b945",
+      "instructionHash": "795b4cdb1d277fc26b3074788f41adf5fd01198cfc9187e25baecf1de4204f89",
       "assetIds": [
-        "vmware-nat-settings"
+        "workstation-1"
       ],
-      "excludedAssetIds": [],
+      "excludedAssetIds": [
+        "workstation-15"
+      ],
       "coverage": "partial-vendor-reference",
       "reviewed": true,
-      "referenceRole": "control-reference",
-      "selectionReason": "Workstation NAT network editor; gateway values are examples"
+      "referenceRole": "interface-orientation",
+      "selectionReason": "Workstation VM wizard and hardware summary"
     },
     {
       "stepId": "mecm-04:guided:2",
@@ -6646,7 +6648,7 @@
     },
     {
       "stepId": "move-02:guided:3",
-      "instructionHash": "0ae64af69e51f31712b5df26eeec212bd01d4ec68eaad2fc3e9fbd3f6f20f782",
+      "instructionHash": "450784353ad8f87f2c157061c6a6488e64e81e42d79933d9bbb9f64f26a11bc4",
       "assetIds": [
         "workstation-1"
       ],
@@ -7153,7 +7155,7 @@
     },
     {
       "stepId": "lab-16:guided:1",
-      "instructionHash": "776cc83274d3445b8b8e0205f04f6a7c9eb650516a73a40f5a9fc87f47f60b94",
+      "instructionHash": "124c06277fbc6dc613acf7f4ae65fcce7a042cceb6fe30d956ccefb23f4e04cf",
       "assetIds": [
         "win-notepad"
       ],

@@ -3,10 +3,10 @@
     "id": "iis-bindings",
     "src": "/helpdesk/iis-bindings.png",
     "title": "IIS Site Bindings",
-    "platform": "Windows IIS \u00b7 official Microsoft reference",
+    "platform": "Windows IIS · official Microsoft reference",
     "source": "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/",
     "original": "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/index/_static/image1.png",
-    "credit": "Microsoft Learn \u00b7 Microsoft documentation contributors",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
     "note": "Original documentation image. It shows IIS controls, not a completed CloudSeam lab. Older IIS styling and example names may differ; use cloudseam.tech and the written values in this lesson.",
     "sha256": "b6db94129a3204bbddc3a28d90abd7fa60a614c724967356aff623eae7f76921"
   },
@@ -14,10 +14,10 @@
     "id": "iis-add-binding",
     "src": "/helpdesk/iis-add-binding.png",
     "title": "IIS Add Site Binding",
-    "platform": "Windows IIS \u00b7 official Microsoft reference",
+    "platform": "Windows IIS · official Microsoft reference",
     "source": "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/",
     "original": "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/index/_static/image3.png",
-    "credit": "Microsoft Learn \u00b7 Microsoft documentation contributors",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
     "note": "Original documentation image. It shows IIS controls, not a completed CloudSeam lab. Older IIS styling and example names may differ; use cloudseam.tech and the written values in this lesson.",
     "sha256": "f54729a7727a1de196811c934ecf83ca4df6d79f599eda359dd482e64d7d97a8"
   },
@@ -25,10 +25,10 @@
     "id": "iis-fastcgi",
     "src": "/helpdesk/iis-fastcgi.png",
     "title": "IIS CGI role service",
-    "platform": "Windows IIS \u00b7 official Microsoft reference",
+    "platform": "Windows IIS · official Microsoft reference",
     "source": "https://learn.microsoft.com/en-us/iis/configuration/system.webserver/fastcgi/",
     "original": "https://learn.microsoft.com/en-us/iis/configuration/system.webserver/fastcgi/index/_static/image1.png",
-    "credit": "Microsoft Learn \u00b7 Microsoft documentation contributors",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
     "note": "Original documentation image. It shows IIS controls, not a completed CloudSeam lab. Older IIS styling and example names may differ; use cloudseam.tech and the written values in this lesson.",
     "sha256": "ef6748da9008d4c989984c66f24650aa328254104cb184c7bef940696766dbd3"
   },
@@ -36,10 +36,10 @@
     "id": "iis-handler",
     "src": "/helpdesk/iis-handler.png",
     "title": "IIS FastCGI handler configuration",
-    "platform": "Windows IIS \u00b7 official Microsoft reference",
+    "platform": "Windows IIS · official Microsoft reference",
     "source": "https://learn.microsoft.com/en-us/iis/configuration/system.webserver/fastcgi/",
     "original": "https://learn.microsoft.com/en-us/iis/configuration/system.webserver/fastcgi/index/_static/image11.png",
-    "credit": "Microsoft Learn \u00b7 Microsoft documentation contributors",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
     "note": "Original documentation image. It shows IIS controls, not a completed CloudSeam lab. Older IIS styling and example names may differ; use cloudseam.tech and the written values in this lesson.",
     "sha256": "3ba92280d0554219cdf4b7b1a59c8838c1b2d099161f210436a2c526f1d1968b"
   },
@@ -47,10 +47,10 @@
     "id": "iis-certificates",
     "src": "/helpdesk/iis-certificates.jpg",
     "title": "IIS Server Certificates",
-    "platform": "Windows IIS \u00b7 official Microsoft reference",
+    "platform": "Windows IIS · official Microsoft reference",
     "source": "https://learn.microsoft.com/en-us/iis/manage/configuring-security/how-to-set-up-ssl-on-iis/",
     "original": "https://learn.microsoft.com/en-us/iis/manage/configuring-security/how-to-set-up-ssl-on-iis/_static/image3.jpg",
-    "credit": "Microsoft Learn \u00b7 Microsoft documentation contributors",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
     "note": "Original documentation image. It shows IIS controls, not a completed CloudSeam lab. Older IIS styling and example names may differ; use cloudseam.tech and the written values in this lesson.",
     "sha256": "483eb50b321898eead3463961033c3801c28892a8e12a1e513ae84772856bf0a"
   },
@@ -58,10 +58,10 @@
     "id": "iis-https",
     "src": "/helpdesk/iis-https.jpg",
     "title": "IIS HTTPS binding",
-    "platform": "Windows IIS \u00b7 official Microsoft reference",
+    "platform": "Windows IIS · official Microsoft reference",
     "source": "https://learn.microsoft.com/en-us/iis/manage/configuring-security/how-to-set-up-ssl-on-iis/",
     "original": "https://learn.microsoft.com/en-us/iis/manage/configuring-security/how-to-set-up-ssl-on-iis/_static/image12.jpg",
-    "credit": "Microsoft Learn \u00b7 Microsoft documentation contributors",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
     "note": "Original documentation image. It shows IIS controls, not a completed CloudSeam lab. Older IIS styling and example names may differ; use cloudseam.tech and the written values in this lesson.",
     "sha256": "4ca9645170edb1ae4d6f03f63005767c572a5dac8e0d1a51cc5423d43afbb593"
   },
@@ -69,10 +69,10 @@
     "id": "ost-settings",
     "src": "/helpdesk/ost-settings.png",
     "title": "osTicket System Settings",
-    "platform": "osTicket \u00b7 official documentation reference",
+    "platform": "osTicket · official documentation reference",
     "source": "https://docs.osticket.com/en/latest/Admin/Settings/System.html",
     "original": "https://docs.osticket.com/en/latest/_images/admin_settings_system_genSettings.png",
-    "credit": "osTicket documentation \u00b7 respective copyright holders",
+    "credit": "osTicket documentation · respective copyright holders",
     "note": "Original osTicket documentation screenshot. Labels, theme and sample values may differ from your release. This is an interface reference, not a capture of your installation; enter the CloudSeam values in the directions.",
     "sha256": "72f9663efeaec47f5233d1dc1d0c82318d6fe5c135ae489e09388b2ad8501d1e"
   },
@@ -80,10 +80,10 @@
     "id": "ost-new-ticket",
     "src": "/helpdesk/ost-new-ticket.png",
     "title": "osTicket Open a New Ticket",
-    "platform": "osTicket \u00b7 official documentation reference",
+    "platform": "osTicket · official documentation reference",
     "source": "https://docs.osticket.com/en/latest/User/Ticket/Open%20A%20Ticket.html",
     "original": "https://docs.osticket.com/en/latest/_images/user_ticket_open_welcome.png",
-    "credit": "osTicket documentation \u00b7 respective copyright holders",
+    "credit": "osTicket documentation · respective copyright holders",
     "note": "Original osTicket documentation screenshot. Labels, theme and sample values may differ from your release. This is an interface reference, not a capture of your installation; enter the CloudSeam values in the directions.",
     "sha256": "416ac7f1c3ac7b379fc0c2deb3ac5072c88f730667a0b339a97b967bf13046bf"
   },
@@ -91,10 +91,10 @@
     "id": "ost-ticket-status",
     "src": "/helpdesk/ost-ticket-status.png",
     "title": "osTicket Check Ticket Status",
-    "platform": "osTicket \u00b7 official documentation reference",
+    "platform": "osTicket · official documentation reference",
     "source": "https://docs.osticket.com/en/latest/User/Ticket/Check%20Ticket%20Status.html",
     "original": "https://docs.osticket.com/en/latest/_images/user_ticket_stat_welcome.png",
-    "credit": "osTicket documentation \u00b7 respective copyright holders",
+    "credit": "osTicket documentation · respective copyright holders",
     "note": "Original osTicket documentation screenshot. Labels, theme and sample values may differ from your release. This is an interface reference, not a capture of your installation; enter the CloudSeam values in the directions.",
     "sha256": "416ac7f1c3ac7b379fc0c2deb3ac5072c88f730667a0b339a97b967bf13046bf"
   },
@@ -104,9 +104,9 @@
     "title": "Meet the machines",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
-    "sha256": "5ecbe479ea3ea058fdc68960ac522ceddac6a1ddc282f9317e05c6e9a8283e02"
+    "sha256": "c0fd0e8ee1d259a4056f9fa39a8564852c96b8d5b6d642df5dcd46aaa1da05be"
   },
   {
     "id": "helpdesk-plan-2",
@@ -114,7 +114,7 @@
     "title": "Check APP01 before installing",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "6160e4f8dd175383041c0332292f0bd6764fa19ee7c36278e82eabc3e4052aeb"
   },
@@ -124,7 +124,7 @@
     "title": "Collect the installers and recovery point",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "9ae5b88ffe2ecee2596d05f9e83cb5f91be1a281dc7a8380d4e878f826cfea02"
   },
@@ -134,7 +134,7 @@
     "title": "Check the basic website",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "c50ebfc9a6b1c87230419e411f079045f446a613ede5d7cff99b05f7773a258b"
   },
@@ -144,7 +144,7 @@
     "title": "Unpack and configure PHP",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "6c802739ac63a9b5ef386809388ab8b9a2dea1851bdd35dd183db8f26d27d0f0"
   },
@@ -154,7 +154,7 @@
     "title": "Prove PHP runs and remove the test",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "afed1d97aee8665673757e0b9646c988baf4fa4927d675c46f68511485c81301"
   },
@@ -164,7 +164,7 @@
     "title": "Install MariaDB locally",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "5fedb0d98875aeee57d08e31d60334f8223af8071b3cf482ec35f53d50b64332"
   },
@@ -174,7 +174,7 @@
     "title": "Create the application database",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "67422da50180165b328854efa1519154d777013306cf6991f6630012bb356d76"
   },
@@ -184,7 +184,7 @@
     "title": "Test the application login",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "444aa630152b4d1f72d9dcfdeac70482b70a9608c523bb4aa0900974832ac411"
   },
@@ -194,7 +194,7 @@
     "title": "Copy the application files",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "dd140763ff0766cb0ab1b88f8bb681585a1dfd4570d592dcfea2f3689d7b84c1"
   },
@@ -204,7 +204,7 @@
     "title": "Grant limited file access",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "695b7682c58e9cdcc03810b6e46b2945bea81b50599d8f513e7302bcf112646e"
   },
@@ -214,7 +214,7 @@
     "title": "Create the private DNS record",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "6d8455bbda2faf46f7751a3d9a695bb10122915bb6575308e1a760222c932b3f"
   },
@@ -224,7 +224,7 @@
     "title": "Test the name from a client",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "f3ea1cd58ce27f72aa87d9eb7396c66ea17c6f3be1ddbc77d3082ada2d49261f"
   },
@@ -234,7 +234,7 @@
     "title": "Scope the web firewall access",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "e7dfd0e92c7bcbc59a6a25bd2108225c96b69fbaac5d338e29e8d63b561de425"
   },
@@ -244,7 +244,7 @@
     "title": "Check the web installer",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "927afd6be138c02c2d4f50840ae462fd3a88ab90a8fc1086fdce6f91cfa634d2"
   },
@@ -254,7 +254,7 @@
     "title": "Create the help desk and administrator",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "90b8d4f38e932cde4c0d8d0d31a0d6c17279b1cc21221c3811ed6238faad3055"
   },
@@ -264,7 +264,7 @@
     "title": "Freeze changes and take a logical backup",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "c5f1bde21c6329e3653b75f41796c2b7551b6d795464de35d4d8d3ff5e9f13fc"
   },
@@ -274,7 +274,7 @@
     "title": "Save files and restart the desk",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "47bcaa5c0f0c4a2560c938b3b0bdda6607938d98cb0c25048f1accdaca390717"
   },
@@ -284,7 +284,7 @@
     "title": "Prove restore without replacing the original",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "ad45c818e5eaeaff2869c5437a1569b7319eaf833d54619e21fe50466e26c320"
   },
@@ -294,7 +294,7 @@
     "title": "Follow the error to the right component",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "d91950a57c75d856c4a2b39c782bc25ceb1f56fbda36ce486d85529bafcac391"
   },
@@ -304,7 +304,7 @@
     "title": "Scan only the approved practice app",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "cfef55164d996de86cb593d7d835a068e4e08988e6a9f3aecb1686f6dc4ed62d"
   },
@@ -314,7 +314,7 @@
     "title": "Record the Azure migration baseline",
     "platform": "Illustrated action guide",
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "ce836fbd5ca6c4566369b179e5a09ff6e6f0ffdad8277dc45d57c41215c0186f"
   },
@@ -324,7 +324,7 @@
     "title": "Protect the app before changing PHP",
     "platform": "Illustrated action guide",
     "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
     "sha256": "16b1c290608b0ab8b1343181269b87f9fe0bc01fbf2bc682d9ab2529ead3bdf3"
   },
@@ -334,7 +334,7 @@
     "title": "Download and stage the fixed runtime",
     "platform": "Illustrated action guide",
     "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
     "sha256": "9a16d99d01816f4c2cc9d1fc1c46f024d1ea3bba94a8cfc8d3e404c3c403487f"
   },
@@ -344,7 +344,7 @@
     "title": "Try the update on an isolated copy first",
     "platform": "Illustrated action guide",
     "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
     "sha256": "bf39257b9781c63f8ef17ee9be70345491f6d6eed1a36d3a47483f0576c225ea"
   },
@@ -354,7 +354,7 @@
     "title": "Check the web runtime and reopen carefully",
     "platform": "Illustrated action guide",
     "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
     "sha256": "6dca1f290ee3c47190f33918932e7c59208aff958978d2556cd50a324dda1bed"
   },
@@ -364,7 +364,7 @@
     "title": "Roll back safely when a check fails",
     "platform": "Illustrated action guide",
     "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
-    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
     "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
     "sha256": "e062d058bf68e8add2c1421751100a1732fbffc01e70eca0552139c7792db9a7"
   }

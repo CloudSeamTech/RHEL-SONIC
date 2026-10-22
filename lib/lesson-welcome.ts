@@ -15,8 +15,8 @@ export const lessonWelcomes: Record<string, LessonWelcome> = {
   ...alma,
 };
 const splitMachines: Record<string, string> = {
-  'lab-04': 'AG-DC01',
-  'lab-07': 'AG-DC02',
+  'lab-04': 'DC01',
+  'lab-07': 'DC02',
   'lab-06': 'APP01',
   'lab-08': 'DEST-DC01',
   'sql-02': 'SQL01',
@@ -40,7 +40,7 @@ export function welcomeFor(
         'Keep its verified private address, DNS settings and authorized administrator sign-in ready.',
         id === 'lab-04' || id === 'lab-08'
           ? 'Have the planned new forest name beside you. A forest is the directory environment we are about to create.'
-          : 'Check that AG-DC01 and cloudseam.tech DNS are working before joining the server.',
+          : 'Check that DC01 and cloudseam.tech DNS are working before joining the server.',
       ],
       firstMove:
         isController && id !== 'lab-07'

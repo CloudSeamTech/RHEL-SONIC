@@ -1,12 +1,7 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, IBM_Plex_Mono } from 'next/font/google';
+import { IBM_Plex_Mono } from 'next/font/google';
 import './globals.css';
 import './sonic.css';
-
-const geistSans = Space_Grotesk({
-  variable: '--font-space-grotesk',
-  subsets: ['latin'],
-});
 
 const geistMono = IBM_Plex_Mono({
   variable: '--font-ibm-plex-mono',
@@ -29,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistMono.variable} antialiased`}
       >
         {children}
       </body>
@@ -38,3 +33,5 @@ export default function RootLayout({
 }
 
 import './sonic-design-system.css';
+
+import './terminal-typography.css';

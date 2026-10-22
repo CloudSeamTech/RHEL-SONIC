@@ -84,7 +84,7 @@
           "where": "VMware Workstation Pro on your host",
           "actions": [
             "Open the APP01 console. Keep the VMware network private; do not add router port forwarding.",
-            "Write down APP01\u2019s actual IPv4 address, subnet and the two domain DNS addresses. The existing course example is 192.168.77.20 for APP01; use it only if it matches your lab.",
+            "Write down APP01\u2019s actual IPv4 address, subnet and the two domain DNS addresses. The existing course example is 10.50.0.30 for APP01; use it only if it matches your lab.",
             "Our AD domain is cloudseam.tech. Our application address is helpdesk.cloudseam.tech. These are names, not IP addresses."
           ],
           "expected": "You have a short machine and address list.",

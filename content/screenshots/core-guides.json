@@ -105,6 +105,14 @@
       "kind": "illustrated",
       "note": "Command examples only. Run commands in the named shell and inspect your own results. Shortcut labels are keyboard instructions, not commands to type.",
       "provenance": "AI-generated schematic command reference, not an actual terminal capture."
+    },
+    {
+      "id": "host-only-network",
+      "title": "DC01 and DC02 on isolated VMnet2",
+      "src": "/lab-screenshots/host-only-network.svg",
+      "kind": "illustrated",
+      "note": "DC01 10.50.0.10/24 and DC02 10.50.0.11/24 use host-only VMnet2. DHCP is off and the default gateway stays blank. The Windows host adapter can access the lab; there is no routed physical-LAN or internet connection.",
+      "provenance": "Original SONIC-Academy teaching diagram; not a live VMware capture or recorded result."
     }
   ],
   "lessons": [
@@ -120,7 +128,7 @@
       "lessonId": "lab-01",
       "title": "Understand the map",
       "guideIds": [
-        "planning"
+        "host-only-network"
       ],
       "focus": "Understand the map"
     },
@@ -136,7 +144,7 @@
       "lessonId": "lab-03",
       "title": "Build one safe VMware network",
       "guideIds": [
-        "windows"
+        "host-only-network"
       ],
       "focus": "Build one safe VMware network"
     },

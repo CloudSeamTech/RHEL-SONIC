@@ -300,7 +300,7 @@ const systems = [
     detail: 'Workstation + migration pathway',
     status: 'PREPARATION',
     description:
-      'Start here. Prepare Windows for RHEL administration, or enter the separate Windows Agency-to-Azure migration pathway with AG-DC01, APP01, DEST-DC01, SQL, MECM, and Azure.',
+      'Start here. Prepare Windows for RHEL administration, or enter the separate Windows Agency-to-Azure migration pathway with DC01, APP01, DEST-DC01, SQL, MECM, and Azure.',
     lesson: 'windows-tools-v2',
     migrationEntry: true,
     x: 17,

@@ -37,7 +37,7 @@ function forStep(row){
    'lab-00': [[files()],[notes()],[notes()]],
    'lab-01': [[notes()]],
    'lab-02': [[],[files()],[notes()],['win-task-manager-performance']],
-   'lab-03': [['vmware-network-editor'],['vmware-network-editor'],['vmware-network-editor'],['vmware-nat-settings'],['vmware-network-editor'],[]],
+   'lab-03': [['vmware-network-editor'],['vmware-network-editor'],['vmware-network-editor'],['vmware-network-editor'],[notes()],[]],
   };
   return [sets[id][row.step-1] ?? [],
    id === 'lab-03' || (id === 'lab-02' && row.step === 1)
@@ -54,7 +54,8 @@ function forStep(row){
  if(/guest profile/.test(t)) return [['workstation-15'], 'Workstation guest operating system profile orientation', 'interface-orientation'];
  if(/patch the new|windows update/.test(text)) return [[choose('win-update-settings')], 'Windows Update settings for the guest', 'control-reference'];
  if(/ipv4|ncpa\.cpl/.test(text)) return [[choose('win-ipv4-properties')], 'Guest Ethernet IPv4 properties', 'control-reference'];
- if(/nat settings|actual nat gateway|vmnet/.test(text) && !c) return [[choose('vmware-nat-settings','vmware-network-editor')], 'Workstation NAT network editor; gateway values are examples', 'control-reference'];
+ if(/host-only|vmnet2/.test(text) && !c) return [['vmware-network-editor'], 'Workstation host-only control reference; use VMnet2 and the written 10.50.0.0/24 plan', 'control-reference'];
+ if(/nat settings|actual nat gateway/.test(text) && !c) return [[choose('vmware-nat-settings','vmware-network-editor')], 'Workstation NAT network editor; gateway values are examples', 'control-reference'];
  if(/check host resources/.test(t)) return [[choose('win-task-manager-performance')], 'Host Task Manager Performance; source utilization is not your host', 'control-reference'];
  if(/create the test user|create and populate the group/.test(t)) return [[choose('win-ad-user-logon')], 'Active Directory Users and Computers user/group workflow', 'interface-orientation'];
  if(/notepad|change ticket|handoff card|cutover decision|can explain|can distinguish|can describe|can join/.test(text) && !c) return [[notes()], 'Notes editor for the written question and answer', 'planning-interface'];

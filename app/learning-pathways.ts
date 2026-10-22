@@ -36,15 +36,15 @@ const titles: Record<string, [string, string]> = {
   ],
   'lab-03': [
     'Build a Private Lab Network',
-    'Create a VMware NAT network for your Windows lab servers.',
+    'Create the isolated VMnet2 host-only network for your Windows lab servers.',
   ],
   'lab-04': [
     'Build DC01',
-    'Install Windows Server on AG-DC01, configure its address, and create cloudseam.tech with AD DS and DNS.',
+    'Install Windows Server on DC01, configure its address, and create cloudseam.tech with AD DS and DNS.',
   ],
   'lab-07': [
     'Add DC02',
-    'Build AG-DC02 in cloudseam.tech and verify Active Directory replication.',
+    'Build DC02 in cloudseam.tech and verify Active Directory replication.',
   ],
   'lab-05': [
     'Create Users & Policy',

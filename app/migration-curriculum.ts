@@ -8,7 +8,7 @@ export type CurriculumLesson = (typeof catalog.lessons)[number] & {
 };
 
 const machines: Record<string, string> = {
-  'lab-04': 'AG-DC01', 'lab-06': 'APP01', 'lab-07': 'AG-DC02',
+  'lab-04': 'DC01', 'lab-06': 'APP01', 'lab-07': 'DC02',
   'lab-08': 'DEST-DC01', 'sql-02': 'SQL01',
 };
 
@@ -40,8 +40,8 @@ export const migrationCurriculum: CurriculumLesson[] = catalog.lessons.flatMap((
       where: `${machine} guest · Windows Server 2019 administrative tools`,
       before: `Complete “Install Windows Server 2019 on ${machine}” first. VMware VM creation and Windows installation are separate earlier lessons.`,
       pass: header.match(/\*\*PASS\*\* ([^\n]+)/)?.[1] ?? '',
-      description: lesson.id === 'lab-04' ? 'Install AD DS and DNS on the prepared AG-DC01 server and create cloudseam.tech.'
-        : lesson.id === 'lab-07' ? 'Promote the prepared AG-DC02 server and verify replication with AG-DC01.'
+      description: lesson.id === 'lab-04' ? 'Install AD DS and DNS on the prepared DC01 server and create cloudseam.tech.'
+        : lesson.id === 'lab-07' ? 'Promote the prepared DC02 server and verify replication with DC01.'
         : lesson.id === 'lab-08' ? 'Install AD DS on the prepared DEST-DC01 server and create migrate.cloudseam.tech.'
         : `Join the prepared ${machine} server to cloudseam.tech${lesson.id === 'lab-06' ? ' and install the IIS test website' : ''}.` },
   ];

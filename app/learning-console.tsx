@@ -450,7 +450,7 @@ export function LearningConsole({
                 <p>
                   <time>[EXAMPLE]</time> <b className="console-amber">[HINT]</b>{' '}
                   {selected.id === 'lab-04'
-                    ? 'Confirm DNS resolves cloudseam.tech before adding AG-DC02.'
+                    ? 'Confirm DNS resolves cloudseam.tech before adding DC02.'
                     : 'Read the complete lesson before running commands.'}
                 </p>
                 <p>

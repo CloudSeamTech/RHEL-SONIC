@@ -367,7 +367,7 @@ export function SonicDashboard({
           <span className="eyebrow">WINDOWS MIGRATION PATHWAY · AVAILABLE NOW</span>
           <h2>Agency Windows Environment → Azure</h2>
           <p>
-            Start with LAB 00. Build AG-DC01, APP01, DEST-DC01, SQL01 and
+            Start with LAB 00. Build DC01, APP01, DEST-DC01, SQL01 and
             MECM01, then rehearse the Azure move with budget, proof, and
             rollback gates.
           </p>

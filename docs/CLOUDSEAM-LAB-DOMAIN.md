@@ -1,6 +1,6 @@
 # CloudSeam lab naming
 
-The authoritative primary lab AD DNS domain is **cloudseam.tech** (NetBIOS **CLOUDSEAM**). Keep AG-DC01, AG-DC02, APP01, SQL01 and existing lesson IDs/routes. Domain controllers provide private AD-integrated DNS; member servers and lab clients use those DNS servers.
+The authoritative primary lab AD DNS domain is **cloudseam.tech** (NetBIOS **CLOUDSEAM**). Keep DC01, DC02, APP01, SQL01 and existing lesson IDs/routes. Domain controllers provide private AD-integrated DNS; member servers and lab clients use those DNS servers.
 
 The private application name is **helpdesk.cloudseam.tech**, an A record in that existing private zone pointing to APP01's actual lab address. Public website, mail and registrar records are separate. Do not change public nameservers or overwrite the zone apex to complete the help desk class. Internal clients may need explicitly maintained records for public CloudSeam services because AD DNS is authoritative internally.
 
