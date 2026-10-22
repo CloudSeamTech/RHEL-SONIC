@@ -2,7 +2,7 @@
   "id": "iis-helpdesk",
   "title": "Build the CloudSeam IT Help Desk",
   "description": "Learn IIS by building, protecting and recovering a real osTicket help desk on APP01.",
-  "baseline": "VMware Workstation Pro \u00b7 Windows Server 2019 APP01 \u00b7 cloudseam.tech \u00b7 IIS + PHP 8.4 x64 NTS + maintained MariaDB 10.11 \u00b7 osTicket self-hosted edition",
+  "baseline": "VMware Workstation Pro \u00b7 Windows Server 2019 APP01 \u00b7 cloudseam.tech \u00b7 IIS + PHP 8.4.27 minimum / newer patched 8.4 x64 NTS + maintained MariaDB 10.11 \u00b7 osTicket self-hosted edition",
   "prerequisite": "Let\u2019s give your Windows server a useful job. We\u2019ll build a help desk where a practice user can report a problem and an IT agent can resolve it. Start after the APP01 domain-join and IIS foundation lesson; each class below adds one small piece.",
   "supplies": [
     "A prepared APP01 member VM and a private Windows client; do not install the app on DC01/DC02.",
@@ -31,6 +31,10 @@
     {
       "title": "MariaDB Windows installation",
       "url": "https://mariadb.com/docs/server/server-management/install-and-upgrade-mariadb/installing-mariadb/binary-packages/installing-mariadb-msi-packages-on-windows"
+    },
+    {
+      "title": "PHP October 21, 2026 security advisory and fixed releases",
+      "url": "https://www.php.net/archive/2026.php#2026-10-21-1"
     }
   ],
   "lessons": [
@@ -125,7 +129,8 @@
           "title": "Collect the installers and recovery point",
           "where": "APP01 \u00b7 browser and your backup notes",
           "actions": [
-            "Get the free self-hosted osTicket package from osticket.com/download, PHP 8.4 x64 Non-Thread Safe from php.net, and a maintained MariaDB 10.11 x64 Windows MSI from mariadb.org. Use current security patches and verify publisher/checksums where provided.",
+            "Get the free self-hosted osTicket package from osticket.com/download. For PHP, open https://www.php.net/downloads.php \u2192 Windows downloads \u2192 PHP 8.4 \u2192 x64 Non Thread Safe \u2192 Zip. Require PHP 8.4.27 or a newer security-patched 8.4 release; older 8.4 builds do not contain the October 21, 2026 fixes for CVE-2026-109618 and CVE-2026-109619. Also obtain a maintained MariaDB 10.11 x64 Windows MSI from mariadb.org.",
+            "Choose the runtime ZIP, not the source, debug pack or development SDK. Check the ZIP filename/version and compare its SHA-256 with the value on the official download page. Save the trusted ZIP and version record outside the website folder.",
             "Also obtain Microsoft Visual C++ 2015\u20132022 x64 Redistributable and Microsoft IIS URL Rewrite 2.1 from their official sites. Avoid old all-in-one tutorial bundles and retired Web Platform Installer.",
             "Record the exact versions. Back up APP01 before changes; a short-lived VMware checkpoint of this disposable member VM is a convenience, not a database backup and never an AD recovery recipe."
           ],
@@ -135,7 +140,9 @@
           "sources": [
             "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
             "https://www.php.net/manual/en/install.windows.iis.php",
-            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/",
+            "https://www.php.net/archive/2026.php#2026-10-21-1",
+            "https://www.php.net/downloads.php"
           ],
           "screenshot": {
             "status": "illustration",
@@ -281,7 +288,7 @@
           "fix": "Check the server name and the exact step first. Record the error and use the troubleshooting class; do not disable the firewall or give Everyone full control."
         }
       ],
-      "pass": "A browser executes PHP through IIS without exposing the source code.",
+      "pass": "The browser, not just the CLI, reports PHP 8.4.27 or a newer patched 8.4 release through IIS FastCGI; the temporary test file is removed.",
       "exercise": "Explain why php-cgi.exe is selected instead of php.exe.",
       "quiz": [
         {
@@ -300,18 +307,20 @@
           "title": "Unpack and configure PHP",
           "where": "APP01 \u00b7 File Explorer and Notepad as administrator",
           "actions": [
-            "Install the Microsoft Visual C++ x64 Redistributable. Extract PHP to C:\\PHP so php-cgi.exe is directly inside that folder.",
+            "For a fresh install, use the official PHP 8.4 x64 Non Thread Safe runtime ZIP, version 8.4.27 or a newer patched 8.4 release. Install Microsoft Visual C++ x64 Redistributable. Right-click the ZIP \u2192 Extract All; put its contents directly in C:\\PHP, so C:\\PHP\\php-cgi.exe exists. If C:\\PHP already contains a working runtime, do not overwrite it: use the later Update PHP and Recover Safely class instead.",
             "Copy php.ini-production to php.ini. Open php.ini and set extension_dir=\"C:\\PHP\\ext\". Enable the supplied mysqli, mbstring, intl, gd and fileinfo extensions by removing their leading semicolons. Enable openssl if supplied and needed for TLS mail. Do not download random extension DLLs.",
             "Set date.timezone=\"UTC\", log_errors=On, display_errors=Off and cgi.fix_pathinfo=1. Keep PHP files outside the website root. Save and run the checks.",
             "Also set session.save_path=\"C:\\Sites\\HelpdeskRuntime\\sessions\", upload_tmp_dir=\"C:\\Sites\\HelpdeskRuntime\\uploads\" and error_log=\"C:\\Sites\\HelpdeskRuntime\\php-errors.log\". We will create and permission those private runtime folders when we create the pool."
           ],
-          "expected": "PHP reports 8.4 and the required extensions load without startup warnings.",
-          "command": "& C:\\PHP\\php.exe --ini\n& C:\\PHP\\php.exe -v\n& C:\\PHP\\php.exe -m",
+          "expected": "The selected 8.4 runtime is at least 8.4.27, its published ZIP hash matches, and the required extensions load without warnings.",
+          "command": "& C:\\PHP\\php.exe --ini\n& C:\\PHP\\php.exe -v\n& C:\\PHP\\php.exe -m\n& C:\\PHP\\php-cgi.exe -v",
           "breakdown": [],
           "sources": [
             "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
             "https://www.php.net/manual/en/install.windows.iis.php",
-            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/"
+            "https://learn.microsoft.com/en-us/iis/configuration/system.applicationhost/sites/site/bindings/",
+            "https://www.php.net/archive/2026.php#2026-10-21-1",
+            "https://www.php.net/downloads.php"
           ],
           "screenshot": {
             "status": "illustration",
@@ -347,12 +356,12 @@
           "title": "Prove PHP runs and remove the test",
           "where": "APP01 \u00b7 elevated PowerShell and browser",
           "actions": [
-            "Write a temporary PHP page into the existing IIS root using the command below. It prints a short message, not a phpinfo dump.",
-            "Open http://localhost/php-check.php on APP01. You should see PHP is working. If code downloads or displays as text, stop and fix the handler.",
+            "Write the temporary page below into the existing IIS root. It prints the PHP version and server interface actually serving the browser request; it does not publish a phpinfo dump.",
+            "Open http://localhost/php-check.php on APP01. Check that the browser shows PHP 8.4.27 or a newer patched 8.4 release, followed by cgi-fcgi. If it shows an older version, a different runtime is still mapped in IIS. If PHP downloads or appears as source text, stop and fix the handler.",
             "Remove the test file after checking. A successful command-line PHP test alone does not prove IIS can execute PHP."
           ],
-          "expected": "The browser executes PHP, and the test page is removed.",
-          "command": "Set-Content -LiteralPath C:\\inetpub\\wwwroot\\php-check.php -Value '<?php echo \"PHP is working\"; ?>' -Encoding ASCII\n# After the browser check:\nRemove-Item -LiteralPath C:\\inetpub\\wwwroot\\php-check.php",
+          "expected": "The IIS-served page reports the required patched runtime and cgi-fcgi, and the temporary page is removed.",
+          "command": "Set-Content -LiteralPath C:\\inetpub\\wwwroot\\php-check.php -Value '<?php echo PHP_VERSION . \" / \" . PHP_SAPI; ?>' -Encoding ASCII\n# After the browser check:\nRemove-Item -LiteralPath C:\\inetpub\\wwwroot\\php-check.php",
           "breakdown": [],
           "sources": [
             "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
@@ -1255,6 +1264,235 @@
             "instructions": "Compare the named controls with your screen. Use the CloudSeam values in the written actions.",
             "assetId": "helpdesk-recovery-3"
           }
+        }
+      ]
+    },
+    {
+      "id": "helpdesk-php-update",
+      "title": "Update PHP and Recover Safely",
+      "description": "Stage a patched PHP runtime, test it on a restored copy, switch IIS and recover safely if a check fails.",
+      "what": "Let\u2019s practise a real PHP security update without overwriting the only working copy. We\u2019ll keep a recovery record, test first and make one controlled switch.",
+      "why": "An application can keep working on a vulnerable runtime. We need to prove both that the security fix is active in IIS and that the help desk still works.",
+      "needs": [
+        "Complete Back Up and Restore the Help Desk first, including the isolated recovery test.",
+        "A verified PHP 8.4.27 or newer patched 8.4 x64 NTS ZIP, administrator access and a protected backup location.",
+        "A private test client, a disposable restored APP01 copy and your actual ticket/attachment/mail acceptance checks."
+      ],
+      "bestPractices": [
+        "Keep old and candidate PHP folders separate; verify hashes and matching extension builds.",
+        "Keep vulnerable PHP out of service even if the patched application needs troubleshooting.",
+        "Change only the target site/pool. Record shared FastCGI or environment dependencies before touching them."
+      ],
+      "commonMistakes": [
+        "Checking php.exe on PATH while IIS continues using another php-cgi.exe.",
+        "Copying old extension DLLs into a new PHP build or leaving extension_dir/PHPRC pointed at old files.",
+        "Rolling back into a vulnerable version and reopening it to users.",
+        "Restoring a whole database or all IIS sites to fix one handler mapping."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The browser still shows the old version.",
+          "fix": "Inspect this site\u2019s PHP handler, the corresponding FastCGI full path/Arguments, PHPRC and the loaded php.ini. Stop and start the target pool; do not assume the CLI runtime is the web runtime."
+        },
+        {
+          "problem": "The new runtime cannot load an extension.",
+          "fix": "Check the x64 NTS branch/build, its Visual C++ runtime, extension_dir and DLL dependencies. Keep the pool stopped until the candidate loads and passes tests."
+        }
+      ],
+      "pass": "The actual IIS-served runtime is security-approved and all application checks pass, or the service remains unavailable with a documented safe recovery decision.",
+      "exercise": "On an isolated restored copy, practise switching between two security-approved candidate folders and record how you would keep a vulnerable previous runtime offline. Do not install or expose an unpatched runtime just to demonstrate the failure.",
+      "quiz": [
+        {
+          "question": "The old PHP build works but is below the fixed security minimum. What is the safe rollback decision?",
+          "options": [
+            "Keep the service unavailable and repair a patched candidate or recover on an isolated copy.",
+            "Reopen the old build because the login page works.",
+            "Turn off logging and retry."
+          ],
+          "answer": 0,
+          "explanation": "A functional but vulnerable runtime is not an acceptable live recovery state."
+        },
+        {
+          "question": "Which check proves IIS is actually using the patched runtime?",
+          "options": [
+            "A temporary private page reporting PHP_VERSION, PHP_SAPI and its loaded INI, followed by removal.",
+            "The ZIP filename alone.",
+            "php.exe found first on PATH."
+          ],
+          "answer": 0,
+          "explanation": "The browser request checks the runtime serving that website; CLI tools can point to another installation."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Record what IIS is really using",
+          "where": "APP01 \u00b7 IIS Manager and a private browser",
+          "actions": [
+            "Finish the Backup and Restore class first. Tell practice users that you are planning maintenance. This PHP-only update does not include an osTicket upgrade or database schema change.",
+            "In IIS Manager select Sites \u2192 CloudSeamHelpdesk \u2192 Handler Mappings \u2192 PHP-FastCGI \u2192 Edit. Record the exact php-cgi.exe path. At the server node open FastCGI Settings and record that same executable, its Arguments and Environment Variables. Check PHPRC or PHP_INI_SCAN_DIR if present: either can load configuration from another folder.",
+            "Use a short-lived PHP version page in this private site to record PHP_VERSION, PHP_SAPI and php_ini_loaded_file(). Remove it after checking. Also record the ticket number, attachment and mail test you will repeat after the change.",
+            "If the running version is below the fixed minimum, stop the CloudSeamHelpdesk pool now and keep it unavailable until patched. A private address, HTTPS or IIS does not patch PHP."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your change record names the current executable, actual web-served version, configuration path and acceptance checks.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Record what IIS is really using",
+            "instructions": "Compare the written actions with your own practice machine. Diagrams are not screenshots or evidence of success.",
+            "assetId": "iis-handler"
+          },
+          "sources": [
+            "https://www.php.net/archive/2026.php#2026-10-21-1",
+            "https://www.php.net/downloads.php",
+            "https://www.php.net/manual/en/install.windows.iis.php"
+          ]
+        },
+        {
+          "title": "Protect the app before changing PHP",
+          "where": "APP01 \u00b7 protected backups and elevated Windows PowerShell",
+          "actions": [
+            "Create the tested database/files backup from Backup and Restore the Help Desk. Copy the current PHP folder, php.ini and any additional INI files to protected storage outside the web root. Record extensions, VC++ runtime, pool identity, runtime-folder ACLs and the existing handler/FastCGI settings.",
+            "Run the IIS configuration backup below. Record its generated name. This backup covers server configuration; restoring it blindly can change other websites. Our first rollback choice will be restoring only this site\u2019s recorded PHP mapping.",
+            "Set the help desk Offline, stop CloudSeamHelpdesk and keep new tickets paused. If you use a temporary VMware checkpoint on this disposable member server, record it as an additional recovery aid, not a substitute for the tested database/files backup. Never use this as a domain-controller recovery method."
+          ],
+          "command": "Import-Module WebAdministration\n$phpChangeTag = Get-Date -Format 'yyyyMMdd-HHmmss'\n& \"$env:windir\\System32\\inetsrv\\appcmd.exe\" add backup \"CloudSeam-PHP-$phpChangeTag\"\nStop-WebAppPool -Name 'CloudSeamHelpdesk'\nGet-WebAppPoolState -Name 'CloudSeamHelpdesk' ",
+          "breakdown": [],
+          "expected": "A tested recovery package and exact pre-change mapping exist, with writes paused and the pool stopped.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Protect the app before changing PHP",
+            "instructions": "Compare the written actions with your own practice machine. Diagrams are not screenshots or evidence of success.",
+            "assetId": "helpdesk-php-update-2"
+          },
+          "sources": [
+            "https://www.php.net/archive/2026.php#2026-10-21-1",
+            "https://www.php.net/downloads.php",
+            "https://www.php.net/manual/en/install.windows.iis.php"
+          ]
+        },
+        {
+          "title": "Download and stage the fixed runtime",
+          "where": "APP01 \u00b7 browser, File Explorer and PowerShell",
+          "actions": [
+            "Open https://www.php.net/downloads.php \u2192 Windows downloads \u2192 PHP 8.4 \u2192 x64 Non Thread Safe \u2192 Zip. The October 21 fixes begin at 8.4.27. Use a newer patched 8.4 release if one is available and compatible; do not switch major/minor branches merely to get a larger number.",
+            "Compare Get-FileHash -Algorithm SHA256 on the actual downloaded ZIP with its official published SHA-256 before extracting. A matching filename alone does not validate a download.",
+            "Extract into a NEW folder, for example C:\\PHP-8.4.27. If your downloaded version is newer, use that version in the folder name and in every following path. Keep the previous runtime intact.",
+            "Start from the new package\u2019s php.ini-production. Reapply the recorded settings deliberately. Point extension_dir to this new folder\u2019s ext directory and keep session/upload/log paths on the existing protected runtime folders. Use only matching x64 NTS extensions built for this PHP branch; do not copy old DLLs wholesale.",
+            "Run the candidate checks below. Read any missing-runtime or extension warnings before proceeding."
+          ],
+          "command": "& 'C:\\PHP-8.4.27\\php-cgi.exe' -v\n& 'C:\\PHP-8.4.27\\php.exe' --ini\n& 'C:\\PHP-8.4.27\\php.exe' -m",
+          "breakdown": [],
+          "expected": "A separate candidate folder contains a verified supported patched runtime, matching extensions and the intended configuration.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Download and stage the fixed runtime",
+            "instructions": "Compare the written actions with your own practice machine. Diagrams are not screenshots or evidence of success.",
+            "assetId": "helpdesk-php-update-3"
+          },
+          "sources": [
+            "https://www.php.net/archive/2026.php#2026-10-21-1",
+            "https://www.php.net/downloads.php",
+            "https://www.php.net/manual/en/install.windows.iis.php"
+          ]
+        },
+        {
+          "title": "Try the update on an isolated copy first",
+          "where": "Isolated restored APP01 copy and a private test client",
+          "actions": [
+            "Use your tested restore to build a separate copy. Keep the original APP01 protected, outgoing mail disabled on the copy and shared DNS unchanged. Use an isolated client\u2019s temporary hosts entry for helpdesk.cloudseam.tech to reach only this test copy.",
+            "On the copy, map this site\u2019s PHP handler and corresponding FastCGI application to the staged candidate, as described in the next step. Adjust PHPRC/PHP_INI_SCAN_DIR only for this app if they point to an old configuration. A shared global variable requires a separate impact review; do not change other apps silently.",
+            "Start the copy\u2019s pool. Verify the web-served version, staff login, a fake ticket, a reply, attachment upload/download and the PHP/IIS error logs. Keep real outgoing mail disabled; record that mail still needs its live acceptance check.",
+            "If any test fails, stop here. Fix the candidate configuration or obtain a supported fix. Remove the isolated client\u2019s temporary hosts entry after the pilot."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The isolated copy passes the recorded application checks on the patched candidate. No shared DNS was changed.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Try the update on an isolated copy first",
+            "instructions": "Compare the written actions with your own practice machine. Diagrams are not screenshots or evidence of success.",
+            "assetId": "helpdesk-php-update-4"
+          },
+          "sources": [
+            "https://www.php.net/archive/2026.php#2026-10-21-1",
+            "https://www.php.net/downloads.php",
+            "https://www.php.net/manual/en/install.windows.iis.php"
+          ]
+        },
+        {
+          "title": "Switch only the CloudSeam PHP mapping",
+          "where": "APP01 \u00b7 IIS Manager with CloudSeamHelpdesk stopped",
+          "actions": [
+            "At the server node open FastCGI Settings \u2192 Add Application. Full Path: C:\\PHP-8.4.27\\php-cgi.exe, or your recorded newer candidate. Reapply necessary non-secret FastCGI settings and app-specific environment variables to that candidate entry. Leave an old entry intact if another application still uses it.",
+            "Select Sites \u2192 CloudSeamHelpdesk \u2192 Handler Mappings \u2192 PHP-FastCGI \u2192 Edit. Change Executable to the same candidate php-cgi.exe path, leaving FastCgiModule and *.php unchanged. Confirm any creation prompt, and inspect FastCGI Settings again so the full path and Arguments match.",
+            "If PHPRC was configured, verify this app now loads the intended new php.ini. Ensure the pool identity has Read/Execute on the candidate folder, and retains Modify only on the private session/upload/log folders. Do not grant write access to all PHP binaries.",
+            "Start only CloudSeamHelpdesk using the command below. Stopping and starting the pool retires its old PHP workers. Do not use a server-wide iisreset for this single-app exercise."
+          ],
+          "command": "Import-Module WebAdministration\nStart-WebAppPool -Name 'CloudSeamHelpdesk'\nGet-WebAppPoolState -Name 'CloudSeamHelpdesk'",
+          "breakdown": [],
+          "expected": "Only the intended site points to the candidate, and its pool has restarted.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Switch only the CloudSeam PHP mapping",
+            "instructions": "Compare the written actions with your own practice machine. Diagrams are not screenshots or evidence of success.",
+            "assetId": "iis-handler"
+          },
+          "sources": [
+            "https://www.php.net/archive/2026.php#2026-10-21-1",
+            "https://www.php.net/downloads.php",
+            "https://www.php.net/manual/en/install.windows.iis.php"
+          ]
+        },
+        {
+          "title": "Check the web runtime and reopen carefully",
+          "where": "Private client \u2192 helpdesk.cloudseam.tech; APP01 logs",
+          "actions": [
+            "On APP01 create the temporary version-check file below in this site\u2019s physical root. From your private client open https://helpdesk.cloudseam.tech/php-version-check.php. Compare its version, cgi-fcgi SAPI and loaded php.ini path with your candidate. CLI output alone is not enough.",
+            "Require at least 8.4.27 on the supported 8.4 branch and review current PHP advisories for any newer security floor. If the page still reports the old runtime or wrong configuration, keep the site unavailable and inspect the site mapping, candidate FastCGI entry and environment variables.",
+            "Remove the temporary file, set the help desk Online for your practice client and repeat login, known ticket lookup, new ticket, reply, attachment and configured mail checks. Review new IIS/PHP errors. If an acceptance check fails, stop the pool and follow the rollback decision; do not leave a broken or vulnerable site serving.",
+            "Record the new runtime, test results and time. If the checks pass, reopen normal practice access, monitor errors and retain the protected previous configuration until the agreed retention period ends."
+          ],
+          "command": "Set-Content -LiteralPath 'C:\\Sites\\CloudSeamHelpdesk\\php-version-check.php' -Value '<?php echo PHP_VERSION . \" / \" . PHP_SAPI . \" / \" . php_ini_loaded_file(); ?>' -Encoding ASCII\n# After verifying in the private browser, remove the temporary page:\nRemove-Item -LiteralPath 'C:\\Sites\\CloudSeamHelpdesk\\php-version-check.php' ",
+          "breakdown": [],
+          "expected": "The actual website uses the patched candidate, acceptance checks pass and the temporary page is gone.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Check the web runtime and reopen carefully",
+            "instructions": "Compare the written actions with your own practice machine. Diagrams are not screenshots or evidence of success.",
+            "assetId": "helpdesk-php-update-6"
+          },
+          "sources": [
+            "https://www.php.net/archive/2026.php#2026-10-21-1",
+            "https://www.php.net/downloads.php",
+            "https://www.php.net/manual/en/install.windows.iis.php"
+          ]
+        },
+        {
+          "title": "Roll back safely when a check fails",
+          "where": "APP01 \u00b7 IIS Manager, recovery record and isolated lab",
+          "actions": [
+            "Stop CloudSeamHelpdesk first and record the failed check and new errors. Keep the candidate folder/logs for investigation. Do not restore a whole-VM checkpoint or overwrite the database as the first response to a PHP mapping problem.",
+            "Check the previous runtime against the security advisory BEFORE putting it back into service. If it is older than the fixed minimum or otherwise vulnerable, leave the live pool stopped. Investigate that old runtime only on an isolated copy with no user traffic, or repair the patched candidate. Availability is not permission to reopen vulnerable PHP.",
+            "If the previous runtime is still security-approved, select this site \u2192 Handler Mappings \u2192 PHP-FastCGI \u2192 Edit and restore its recorded previous executable. Restore only its recorded candidate-specific FastCGI/environment settings and the previous protected php.ini if those were changed. Do not remove an entry used by another website.",
+            "Restart only this pool and repeat the web-served version and every acceptance check. Reopen only when the old runtime remains patched and the application passes. Otherwise stop it again and keep a maintenance notice or unavailable service.",
+            "A PHP-only mapping rollback normally does not need a database restore. If application/schema/data changes also occurred, stop and use a separately approved application-consistent restore plan; restoring an older database can erase new tickets. Restore server-wide IIS configuration only after checking the effect on every site.",
+            "Record the rollback decision, exact runtime/configuration restored, ticket/data checks and next corrective action. Never mark a failed patch successful merely because you rolled back."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The app is either healthy on a security-approved runtime or remains unavailable pending a safe fix. No vulnerable runtime was returned to service.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Roll back safely when a check fails",
+            "instructions": "Compare the written actions with your own practice machine. Diagrams are not screenshots or evidence of success.",
+            "assetId": "helpdesk-php-update-7"
+          },
+          "sources": [
+            "https://www.php.net/archive/2026.php#2026-10-21-1",
+            "https://www.php.net/downloads.php",
+            "https://www.php.net/manual/en/install.windows.iis.php"
+          ]
         }
       ]
     },
