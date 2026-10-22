@@ -30,6 +30,22 @@ const alma={
 const fallback=[];
 function forStep(row){
  const id=row.lessonId,t=row.title.toLowerCase(),a=row.actions.toLowerCase(),w=row.where.toLowerCase(),c=row.command,text=t+' '+a;
+ // Foundation steps run on the Windows host, not in the Azure Portal. Match
+ // the named control before broad keyword rules ("Backups" is a folder here).
+ if (['lab-00','lab-01','lab-02','lab-03'].includes(id)) {
+  const sets = {
+   'lab-00': [[files()],[notes()],[notes()]],
+   'lab-01': [[notes()]],
+   'lab-02': [[],[files()],[notes()],['win-task-manager-performance']],
+   'lab-03': [['vmware-network-editor'],['vmware-network-editor'],['vmware-network-editor'],['vmware-nat-settings'],['vmware-network-editor'],[]],
+  };
+  return [sets[id][row.step-1] ?? [],
+   id === 'lab-03' || (id === 'lab-02' && row.step === 1)
+    ? 'VMware Workstation on the Windows 10 host; only the named visible control is an interface reference'
+    : 'Windows host File Explorer, notes or Task Manager for the named preparation action; no Azure deployment',
+   id === 'lab-00' || id === 'lab-01' || (id === 'lab-02' && row.step === 3) ? 'planning-interface' : 'control-reference'];
+ }
+
  if(['lab-04','lab-06','lab-07','lab-08','sql-02'].includes(id) && row.step <= 21) {
   const sets=[['workstation-1'],['workstation-2'],['workstation-4'],['workstation-15'],['workstation-6'],['workstation-14'],['workstation-9','workstation-8'],['workstation-4'],['vmware-network-editor'],['workstation-15'],['win2019-install-1'],['win2019-install-1'],['win2019-install-2'],['win2019-install-3'],['win2019-install-3'],['workstation-15'],['win-update-settings'],[ps()],['win-ipv4-properties'],['win-ipv4-properties',ps()],[ps()]];
   return [sets[row.step-1], row.step<=10 ? 'VMware Workstation VM creation only; follow the written course values' : 'Windows Server installation and preparation only; source screens do not represent your lab results', 'interface-orientation'];
@@ -101,9 +117,13 @@ function forStep(row){
  if(/users|organizational unit|active directory/.test(text))return [[choose('win-ad-users','win-server-roles')],'Windows directory-administration interface','interface-orientation'];
  fallback.push({stepId:row.stepId,title:row.title,actions:row.actions,where:row.where});return [[notes()],'Notes editor for the written decision or observation','planning-interface'];
 }
+// These authentic Workstation 17 images show a Windows 7 guest. They are not
+// suitable for the Windows 10 host / Server 2019 lab. Do not silently substitute
+// a screenshot of unrelated controls: the existing labeled step map remains.
+const excludedWindows7GuestAssets = new Set(['workstation-4','workstation-6','workstation-14','workstation-15']);
 const missingIds=new Set();
-const mapped=rows.map(row=>{const [ids,reason,role]=forStep(row);for(const id of ids)if(!assets.has(id))missingIds.add(id);return {stepId:row.stepId,instructionHash:row.instructionHash,assetIds:[...new Set(ids)],coverage:'partial-vendor-reference',reviewed:true,referenceRole:role,selectionReason:reason};});
+const mapped=rows.map(row=>{const [ids,reason,role]=forStep(row);for(const id of ids)if(!assets.has(id))missingIds.add(id);return {stepId:row.stepId,instructionHash:row.instructionHash,assetIds:[...new Set(ids)].filter(id=>!excludedWindows7GuestAssets.has(id)),excludedAssetIds:ids.filter(id=>excludedWindows7GuestAssets.has(id)),coverage:ids.some(id=>!excludedWindows7GuestAssets.has(id))?'partial-vendor-reference':'missing-interface-screenshot',reviewed:true,referenceRole:role,selectionReason:reason};});
 if(missingIds.size){fs.mkdirSync('review',{recursive:true});fs.writeFileSync('review/interface-mapping-review.json',JSON.stringify({fallback,missingIds:[...missingIds]},null,2));console.error('Pending actual sources: '+[...missingIds].join(', '));process.exit(1);}
 fs.writeFileSync('content/screenshots/interface-references.json',JSON.stringify({version:2,assets:[...assets.values()],steps:mapped},null,2)+'\n');
 fs.mkdirSync('review',{recursive:true});fs.writeFileSync('review/interface-mapping-review.json',JSON.stringify({fallback,assetCount:assets.size,stepCount:mapped.length},null,2)+'\n');
-console.log(`Mapped ${mapped.length} steps to ${assets.size} real interface assets; ${fallback.length} notes decisions require review.`);
+console.log(`Audited ${mapped.length} steps: ${mapped.filter(row=>row.assetIds.length).length} with partial interface references, ${mapped.filter(row=>!row.assetIds.length).length} with capture gaps. ${fallback.length} notes decisions require review.`);

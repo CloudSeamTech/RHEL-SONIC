@@ -4,6 +4,7 @@ import { useState, type ReactNode } from 'react';
 import { learningPathways } from './learning-pathways';
 import './learning-console.css';
 import './engineering-system.css';
+import './lesson-reading.css';
 
 export function ConsoleReaderShell({
   lessonId,
@@ -132,8 +133,7 @@ export function ConsoleReaderShell({
             ☰
           </button>
           <a href="/">
-            <span className="console-green">[learner@sonic ~]#</span>{' '}
-            learning-console --lesson
+            Learning workspace
           </a>
           <div className="reader-tools">{tools}</div>
         </header>

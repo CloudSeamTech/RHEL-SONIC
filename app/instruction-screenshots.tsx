@@ -48,6 +48,15 @@ export function InstructionScreenshots({ stepId }: { stepId: string }) {
       data-step-id={stepId}
       aria-label="Pictures for this step"
     >
+      {association && (association.excludedAssetIds.length > 0 || /VMware Workstation/.test(association.selectionReason) ||
+        shots.some((shot) => /VMware Workstation/.test(shot.platform))) && (
+        <p className="vmware-platform-note">
+          <strong>Windows 10 is your host computer.</strong>{' '}
+          The guest is the computer inside VMware: use Server 2019 for the
+          Windows server builds, or AlmaLinux for the desktop course.
+          Neutral control references are not verified Windows 10 captures.
+        </p>
+      )}
       {capture && (
         <figure className="guided-screenshot">
           <figcaption>

@@ -493,7 +493,8 @@ export default function Home() {
               </dl>
             )}
             <div className="lesson-layout">
-              <aside className="lesson-index">
+              <details className="lesson-index">
+                <summary>Choose a lesson · follow this order</summary>
                 <div className="index-title">
                   MISSION PROGRESS <span>{percent}%</span>
                 </div>
@@ -540,7 +541,7 @@ export default function Home() {
                     on your machines.
                   </p>
                 </div>
-              </aside>
+              </details>
               <article className="lesson-content">
                 <div className="task-heading">
                   <span className="eyebrow">

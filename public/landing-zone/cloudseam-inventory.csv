@@ -1,0 +1,4 @@
+asset_id,device_name,os,owner_group
+LAB-001,APP01,Windows Server 2019,Training
+LAB-002,ALMA01,AlmaLinux 9,Training
+LAB-003,DC01,Windows Server 2019,Training

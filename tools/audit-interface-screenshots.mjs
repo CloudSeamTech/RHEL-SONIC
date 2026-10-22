@@ -47,7 +47,7 @@ const rows = coverage.steps.map((step) => {
     instructionHash: step.instructionHash,
     status: capture
       ? 'reviewed-target-capture'
-      : ref
+      : ref?.assetIds.length
         ? 'partial-vendor-reference'
         : 'missing-interface-screenshot',
     references: ref?.assetIds ?? [],

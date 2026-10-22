@@ -4,24 +4,24 @@
     "lessons": 97,
     "steps": 803,
     "reviewedTargetCaptures": 0,
-    "stepsWithPartialVendorReferences": 803,
-    "stepsWithoutInterfaceScreenshots": 0
+    "stepsWithPartialVendorReferences": 742,
+    "stepsWithoutInterfaceScreenshots": 61
   },
   "byTrack": {
     "Windows / AD / SQL / Azure / migrations": {
       "steps": 440,
-      "partialVendorReference": 440,
-      "missingInterfaceScreenshot": 0
+      "partialVendorReference": 396,
+      "missingInterfaceScreenshot": 44
     },
     "Linux / RHEL / Wazuh": {
       "steps": 291,
-      "partialVendorReference": 291,
-      "missingInterfaceScreenshot": 0
+      "partialVendorReference": 275,
+      "missingInterfaceScreenshot": 16
     },
     "AlmaLinux desktop": {
       "steps": 72,
-      "partialVendorReference": 72,
-      "missingInterfaceScreenshot": 0
+      "partialVendorReference": 71,
+      "missingInterfaceScreenshot": 1
     }
   },
   "steps": [
@@ -37,7 +37,7 @@
       "instructionHash": "734bee72cb50566e1dfb8760a8e79b2d57ba91e47ff3e2c226f156e31cec8db4",
       "status": "partial-vendor-reference",
       "references": [
-        "az-backup-goal"
+        "win-file-explorer"
       ],
       "captureNeeded": true
     },
@@ -53,8 +53,7 @@
       "instructionHash": "426cb63d3446c49a13e3a2658e6d5b02313dcc1571180006e920d8d50286a8e8",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "win-notepad"
       ],
       "captureNeeded": true
     },
@@ -100,10 +99,8 @@
       "command": "",
       "expected": "The product is Workstation Pro and it can create Windows Server 2019 guests.",
       "instructionHash": "753feaf8e4e1c9ac397ea48af0af02e0b7df7ac49491a91e30281bbfca4c92ee",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-1"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -134,8 +131,7 @@
       "instructionHash": "95b4ebc0dd0ea4162f837bcfb66f251485d1e19bc9d7b9aa7ee7256e3dd916fa",
       "status": "partial-vendor-reference",
       "references": [
-        "win2019-install-1",
-        "win2019-install-2"
+        "win-notepad"
       ],
       "captureNeeded": true
     },
@@ -167,8 +163,7 @@
       "instructionHash": "fcf008180869075281d5eedfa897bfb1b25979065792515fbed64edc3155f385",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "vmware-network-editor"
       ],
       "captureNeeded": true
     },
@@ -184,7 +179,7 @@
       "instructionHash": "553753da9fa3f37e772ec5aa891527bc3174ad3088151f6971055c7f5c5ab2dc",
       "status": "partial-vendor-reference",
       "references": [
-        "vmware-nat-settings"
+        "vmware-network-editor"
       ],
       "captureNeeded": true
     },
@@ -200,7 +195,7 @@
       "instructionHash": "aeb3723d25392cab1ea7e0d69ad74b09f1e6607c4ae0add1511b9e92f2bc3ca0",
       "status": "partial-vendor-reference",
       "references": [
-        "az-subnet-create"
+        "vmware-network-editor"
       ],
       "captureNeeded": true
     },
@@ -232,8 +227,7 @@
       "instructionHash": "d47bb152e30de9826b6f5c7848006ebc4a7576a95be635e00f2106b335e9496a",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "vmware-network-editor"
       ],
       "captureNeeded": true
     },
@@ -247,10 +241,8 @@
       "command": "",
       "expected": "All on-prem lab servers use the same dedicated VMnet.",
       "instructionHash": "9aadda17b27bd2725610711c6980ab62dbbaa40e3ded90778685fee3a5a53b1e",
-      "status": "partial-vendor-reference",
-      "references": [
-        "vmware-nat-settings"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -295,10 +287,8 @@
       "command": "",
       "expected": "The wizard lets you choose a guest OS profile.",
       "instructionHash": "676886086a1c6e249789dd8bd8c8a0f5158b7151e982df2fa8c795b348445210",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -311,10 +301,8 @@
       "command": "",
       "expected": "The guest profile says Windows Server 2019.",
       "instructionHash": "5f104ffbd0497f7f08986466e6b5a9e380934e5339ecb38551cd07159d2f7ef1",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -327,10 +315,8 @@
       "command": "",
       "expected": "The summary uses AG-DC01 and a location you can find again.",
       "instructionHash": "e39c46429abc52c066db69100a9d9bdebfa2ba8ca8fb6d6059420fc8e35ba4f6",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-6"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -343,10 +329,8 @@
       "command": "",
       "expected": "A new blank virtual disk is selected.",
       "instructionHash": "49a079c8bd023c68a504fb8975042f22a8cda1c326d6f51daf83a621e70e7fe0",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-14"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -376,10 +360,8 @@
       "command": "",
       "expected": "The CD/DVD path ends with your Server 2019 ISO filename.",
       "instructionHash": "01b8b6971a70c69359aba445001e57b19cd8f3dcdc0c30e9684bb56094fabd4c",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -408,10 +390,8 @@
       "command": "",
       "expected": "Windows Setup appears inside the VM console.",
       "instructionHash": "71dab0d74679ff25cb8ac1bbe8b5dda9ddb58d4bb968af98349222ccd301fdf8",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -504,10 +484,8 @@
       "command": "",
       "expected": "After restart, the guest is usable with the expected mouse/display integration.",
       "instructionHash": "c14026da7996bc3a9eaf77cb18999d159d2690570408598b107aba2f479d90ec",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -942,10 +920,8 @@
       "command": "",
       "expected": "The wizard lets you choose a guest OS profile.",
       "instructionHash": "676886086a1c6e249789dd8bd8c8a0f5158b7151e982df2fa8c795b348445210",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -958,10 +934,8 @@
       "command": "",
       "expected": "The guest profile says Windows Server 2019.",
       "instructionHash": "5f104ffbd0497f7f08986466e6b5a9e380934e5339ecb38551cd07159d2f7ef1",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -974,10 +948,8 @@
       "command": "",
       "expected": "The summary uses APP01 and a location you can find again.",
       "instructionHash": "cf595dd059bd82bed7c9aa3b5ad5bdb6dd78e3cf75fc55bea3ceb3b242fe4f02",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-6"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -990,10 +962,8 @@
       "command": "",
       "expected": "A new blank virtual disk is selected.",
       "instructionHash": "49a079c8bd023c68a504fb8975042f22a8cda1c326d6f51daf83a621e70e7fe0",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-14"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1023,10 +993,8 @@
       "command": "",
       "expected": "The CD/DVD path ends with your Server 2019 ISO filename.",
       "instructionHash": "01b8b6971a70c69359aba445001e57b19cd8f3dcdc0c30e9684bb56094fabd4c",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1055,10 +1023,8 @@
       "command": "",
       "expected": "Windows Setup appears inside the VM console.",
       "instructionHash": "71dab0d74679ff25cb8ac1bbe8b5dda9ddb58d4bb968af98349222ccd301fdf8",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1151,10 +1117,8 @@
       "command": "",
       "expected": "After restart, the guest is usable with the expected mouse/display integration.",
       "instructionHash": "c14026da7996bc3a9eaf77cb18999d159d2690570408598b107aba2f479d90ec",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1376,10 +1340,8 @@
       "command": "",
       "expected": "The wizard lets you choose a guest OS profile.",
       "instructionHash": "676886086a1c6e249789dd8bd8c8a0f5158b7151e982df2fa8c795b348445210",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1392,10 +1354,8 @@
       "command": "",
       "expected": "The guest profile says Windows Server 2019.",
       "instructionHash": "5f104ffbd0497f7f08986466e6b5a9e380934e5339ecb38551cd07159d2f7ef1",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1408,10 +1368,8 @@
       "command": "",
       "expected": "The summary uses AG-DC02 and a location you can find again.",
       "instructionHash": "39a749ae4ed9bea7e95ad37a615ef64140115cd780b5f663ca9ccb4bf8583afa",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-6"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1424,10 +1382,8 @@
       "command": "",
       "expected": "A new blank virtual disk is selected.",
       "instructionHash": "49a079c8bd023c68a504fb8975042f22a8cda1c326d6f51daf83a621e70e7fe0",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-14"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1457,10 +1413,8 @@
       "command": "",
       "expected": "The CD/DVD path ends with your Server 2019 ISO filename.",
       "instructionHash": "01b8b6971a70c69359aba445001e57b19cd8f3dcdc0c30e9684bb56094fabd4c",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1489,10 +1443,8 @@
       "command": "",
       "expected": "Windows Setup appears inside the VM console.",
       "instructionHash": "71dab0d74679ff25cb8ac1bbe8b5dda9ddb58d4bb968af98349222ccd301fdf8",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1585,10 +1537,8 @@
       "command": "",
       "expected": "After restart, the guest is usable with the expected mouse/display integration.",
       "instructionHash": "c14026da7996bc3a9eaf77cb18999d159d2690570408598b107aba2f479d90ec",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1957,10 +1907,8 @@
       "command": "",
       "expected": "The wizard lets you choose a guest OS profile.",
       "instructionHash": "676886086a1c6e249789dd8bd8c8a0f5158b7151e982df2fa8c795b348445210",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1973,10 +1921,8 @@
       "command": "",
       "expected": "The guest profile says Windows Server 2019.",
       "instructionHash": "5f104ffbd0497f7f08986466e6b5a9e380934e5339ecb38551cd07159d2f7ef1",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -1989,10 +1935,8 @@
       "command": "",
       "expected": "The summary uses DEST-DC01 and a location you can find again.",
       "instructionHash": "615fda6c9d5a0b7cdb2bda1df54943a7a2651bf9766674ab30c7ce5d079903be",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-6"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -2005,10 +1949,8 @@
       "command": "",
       "expected": "A new blank virtual disk is selected.",
       "instructionHash": "49a079c8bd023c68a504fb8975042f22a8cda1c326d6f51daf83a621e70e7fe0",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-14"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -2038,10 +1980,8 @@
       "command": "",
       "expected": "The CD/DVD path ends with your Server 2019 ISO filename.",
       "instructionHash": "01b8b6971a70c69359aba445001e57b19cd8f3dcdc0c30e9684bb56094fabd4c",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -2070,10 +2010,8 @@
       "command": "",
       "expected": "Windows Setup appears inside the VM console.",
       "instructionHash": "71dab0d74679ff25cb8ac1bbe8b5dda9ddb58d4bb968af98349222ccd301fdf8",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -2166,10 +2104,8 @@
       "command": "",
       "expected": "After restart, the guest is usable with the expected mouse/display integration.",
       "instructionHash": "c14026da7996bc3a9eaf77cb18999d159d2690570408598b107aba2f479d90ec",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -2588,8 +2524,7 @@
       "instructionHash": "f390825f2095b6ecbe3af8079d99ad3ef46bdc4ba8a74de25bbe64b562466d51",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -2751,8 +2686,7 @@
       "instructionHash": "6e7a31ad0bc5adedcbf320930867f262252d098db2d16c2f953a38b82dc8fd5b",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -2910,10 +2844,8 @@
       "command": "",
       "expected": "The named action finishes without an error; the next screen or check described in the action is available.",
       "instructionHash": "5ea0c40fb6e236b9e8c916f077c6c4c5206d75a29199da05ce8b750e6565a19a",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -2942,10 +2874,8 @@
       "command": "",
       "expected": "The named action finishes without an error; the next screen or check described in the action is available.",
       "instructionHash": "d66f001d181390fda2541fd084578b24914ce14cf3ef0f400a701d3bc2867b01",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -3105,8 +3035,7 @@
       "instructionHash": "3a9c52900bfd1d7f3ae5edf2c6e81773bb6c701438b756829efd475b50888d27",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -3269,10 +3198,8 @@
       "command": "",
       "expected": "The wizard lets you choose a guest OS profile.",
       "instructionHash": "676886086a1c6e249789dd8bd8c8a0f5158b7151e982df2fa8c795b348445210",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -3285,10 +3212,8 @@
       "command": "",
       "expected": "The guest profile says Windows Server 2019.",
       "instructionHash": "5f104ffbd0497f7f08986466e6b5a9e380934e5339ecb38551cd07159d2f7ef1",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -3301,10 +3226,8 @@
       "command": "",
       "expected": "The summary uses SQL01 and a location you can find again.",
       "instructionHash": "41138484a3c8ad93705ef2bb2700e17621b51428694d1ca26dc4bac5e7a0f06f",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-6"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -3317,10 +3240,8 @@
       "command": "",
       "expected": "A new blank virtual disk is selected.",
       "instructionHash": "24b666f8d6d332609dfdc030f3f1e4d3dbd6b0b00063757e841617d2bb1c1617",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-14"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -3350,10 +3271,8 @@
       "command": "",
       "expected": "The CD/DVD path ends with your Server 2019 ISO filename.",
       "instructionHash": "01b8b6971a70c69359aba445001e57b19cd8f3dcdc0c30e9684bb56094fabd4c",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-4"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -3382,10 +3301,8 @@
       "command": "",
       "expected": "Windows Setup appears inside the VM console.",
       "instructionHash": "71dab0d74679ff25cb8ac1bbe8b5dda9ddb58d4bb968af98349222ccd301fdf8",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -3478,10 +3395,8 @@
       "command": "",
       "expected": "After restart, the guest is usable with the expected mouse/display integration.",
       "instructionHash": "c14026da7996bc3a9eaf77cb18999d159d2690570408598b107aba2f479d90ec",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -4019,8 +3934,7 @@
       "instructionHash": "07883a008e41c9a65d1d36bef2c3ea757607bf611cbdaf5ca7a5cdbc62840052",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -4797,8 +4711,7 @@
       "instructionHash": "0ae64af69e51f31712b5df26eeec212bd01d4ec68eaad2fc3e9fbd3f6f20f782",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -5801,10 +5714,8 @@
       "command": "",
       "expected": "The named action finishes without an error; the next screen or check described in the action is available.",
       "instructionHash": "2507e50ea7890f14acaa34e4e108cb2307628d403bc2a48280a422d71331f33a",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -5865,10 +5776,8 @@
       "command": "",
       "expected": "Your inventory explicitly says Workstation Pro and Server 2019.",
       "instructionHash": "de07228a759dc086884538933e044a30c2294bbe1d8236ca82c4e5fb202f6e11",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-6"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -5899,8 +5808,7 @@
       "instructionHash": "14ac3f28668cb564eb81b7a91dbdbb0ca5522934154b23d5793cfa8e55845801",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -6010,10 +5918,8 @@
       "command": "",
       "expected": "You have application backups, disk recovery points, and the exact VM/NIC/disk configuration to recover.",
       "instructionHash": "c45975ace94d0710c6f175a2e33daa6bbc54fd20336c5b74cc561462d6cb5641",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -6749,10 +6655,8 @@
       "command": "",
       "expected": "The named action finishes without an error; the next screen or check described in the action is available.",
       "instructionHash": "3fcc801f8f3febf866a76c42591c3507160df4d07245f38cdd35cfc9e8ded8c7",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -6958,10 +6862,8 @@
       "command": "",
       "expected": "The named action finishes without an error; the next screen or check described in the action is available.",
       "instructionHash": "f6f9bfbe672642400a2af319e105a366c0f92a9dd5ecf70f5b9f4eb1988b9acb",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -7360,8 +7262,7 @@
       "instructionHash": "d55cc19427ed5d6727805a5b2b40d19d8e2809c3a45b11d39b60902fd5b16875",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -7601,8 +7502,7 @@
       "instructionHash": "9fc0f4dff90f276f3b6502649343271e8cde123602ac1c546670c2309fdadf69",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -7650,8 +7550,7 @@
       "instructionHash": "931e4c905d9779d52724f1314473208c6fd9f657f321125ae5f4e9c00eeac049",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -7667,8 +7566,7 @@
       "instructionHash": "796bb5c857d4ff385c4ba8aa3470f187e132d05418e6e11935a7f6a2f046cccf",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -7810,10 +7708,8 @@
       "command": "",
       "expected": "Check the named resource and settings before the next step. If the page shows an error, stop and read it before continuing.",
       "instructionHash": "f8c5c984a5e550e0ca3120afaf37f8834dd2dd48797ba0c8a7799b61c59f3445",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -8260,8 +8156,7 @@
       "instructionHash": "1ea33d2a7746e096bd8e5f35dd108ea84e8a3cd022d76c99f03ba2ddbe19f666",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -8661,8 +8556,7 @@
       "instructionHash": "5f60232cc519987baeb0b075a0a0e76341e9ee74aac387b20ea74b547cb870f4",
       "status": "partial-vendor-reference",
       "references": [
-        "workstation-1",
-        "workstation-15"
+        "workstation-1"
       ],
       "captureNeeded": true
     },
@@ -10245,10 +10139,8 @@
       "command": "",
       "expected": "Check the named resource and settings before the next step. If the page shows an error, stop and read it before continuing.",
       "instructionHash": "506ad0f08a31f825f734f72e94a738ddfaf16cebe3bacea68b7c404ec8add4b7",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -10261,10 +10153,8 @@
       "command": "",
       "expected": "Check the named resource and settings before the next step. If the page shows an error, stop and read it before continuing.",
       "instructionHash": "7b3f423f3cc844381b528370bc7c0dde3fbe0000ef3d5879ba383af9eecde921",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -10277,10 +10167,8 @@
       "command": "",
       "expected": "Check the named resource and settings before the next step. If the page shows an error, stop and read it before continuing.",
       "instructionHash": "7d1e22c2dddeb75e2f09c4f1da721f657113f2d57ba10f472eac93c3aa648cb3",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -10325,10 +10213,8 @@
       "command": "",
       "expected": "A named list of affected VMs, all required disks, dependencies and application-consistency requirements exists before a backup job is selected.",
       "instructionHash": "73381a82f658a7a8f2aa3cdc29594204950d4a4d48ebc4ac5f9b6cb2339a6e89",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -10341,10 +10227,8 @@
       "command": "",
       "expected": "The current restore point covers the intended data, recovery access works, and application-specific restore limitations are recorded. Unknown coverage is a no-go.",
       "instructionHash": "d3c6271ee334eb5d1e0cb16950a88e67ad51620be18453a73533e34d8b38af2c",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -10357,10 +10241,8 @@
       "command": "",
       "expected": "The change targets one identified RHEL VM and has an independent backup/recovery plan.",
       "instructionHash": "5d698e34dbd6bc92720c8fbbbc9a675985266995e45cac866239ee38f8933188",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -10373,10 +10255,8 @@
       "command": "",
       "expected": "The intended checkpoint exists and its owner, expiry and consistency limitations are recorded.",
       "instructionHash": "0026568295c849284eda96a14152fcfe8162f90708c5ddf3e51e0d8129cf817e",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -10389,10 +10269,8 @@
       "command": "",
       "expected": "Recovery is judged by validated guest/application state, not just a completed hypervisor task.",
       "instructionHash": "ee0e1be321da690c236036354ffe57887e131ee6150c7db5268e1a28a84542c5",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -10549,10 +10427,8 @@
       "command": "",
       "expected": "The SSH session ends and Azure explicitly reports Stopped (deallocated). Disk contents and the account’s public authorization persist. Retained resources may still bill.",
       "instructionHash": "7b6324d372f29f9c6c903fbeeaae7f00109e5e5195fd9b8ee958d0c713fc95f9",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -10629,10 +10505,8 @@
       "command": "",
       "expected": "The release is selected and the recovery record refers to the actual disks of both hosts, not just a snapshot name.",
       "instructionHash": "c276530b1b0d6be674ff858d68521d5ffdcf3b9760b4205ac75cdb9508efcd45",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -11189,10 +11063,8 @@
       "command": "",
       "expected": "Recovery is current and the endpoint-to-manager private TCP path is understood.",
       "instructionHash": "ab3394cc3e7f7d0fa0770062a0c0ac963fa1fe6969fdeb288a0263cc09742f41",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -11669,10 +11541,8 @@
       "command": "",
       "expected": "Exactly one recovery branch is selected and its evidence/retention requirements are understood.",
       "instructionHash": "25fcc444d6f180f5132e62b9639e88e4a7c8549540684db23f70fa67ce7e29b1",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -11701,10 +11571,8 @@
       "command": "",
       "expected": "A compatible managed recovery disk exists from the intended endpoint snapshot.",
       "instructionHash": "6222bf6970d0c7726e978ac05d6e89f64d2af48daf1eb3f57a119f88058413c4",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -11765,10 +11633,8 @@
       "command": "",
       "expected": "Your notes contain the actual observation and enough context to distinguish it from example output.",
       "instructionHash": "13da1157378d6db81d7b6b82dcca0e38cb5deeef06e8606db793f4f0cd5fb091",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -11829,10 +11695,8 @@
       "command": "",
       "expected": "The handoff explains the lab outcome, retained costs and recovery responsibilities.",
       "instructionHash": "9fd340ef555f14db6513b51fcf7882fe8007fe5dccb1cde9474c261f712c338a",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {
@@ -12804,10 +12668,8 @@
       "command": "",
       "expected": "You can explain rollback versus independent file recovery.",
       "instructionHash": "1f1e52eaea8d61d15cb1f2a4176cff93e92abf1a1d42c6a0e60c6985d800ca14",
-      "status": "partial-vendor-reference",
-      "references": [
-        "workstation-15"
-      ],
+      "status": "missing-interface-screenshot",
+      "references": [],
       "captureNeeded": true
     },
     {

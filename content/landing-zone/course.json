@@ -1,0 +1,781 @@
+{
+  "id": "azure-landing-zone",
+  "title": "Build Your First Azure Landing Zone",
+  "description": "Prepare a small Azure practice foundation, upload pretend inventory data, test recovery and clean up.",
+  "baseline": "cloudseam.tech · Azure portal · small learning foundation, not a production Azure Landing Zones deployment · metered storage · $25 monthly training goal, not a cap",
+  "prerequisite": "Before you start, you will need an active Azure training subscription and permission to create resources there. We will build this in the Azure portal, one piece at a time. Nothing is created or charged by opening this class.",
+  "supplies": [
+    "An active Azure training subscription and permission to create the dedicated lab resources.",
+    "Permission to assign Storage Blob Data Contributor at the lab storage account, or a lab administrator who can do it.",
+    "A Windows 10 PC, a modern browser, Windows PowerShell and a few private lab notes.",
+    "Your monthly training cost worksheet and a planned cleanup date. This is a pay-as-you-go lab, not a guaranteed free offer."
+  ],
+  "sources": [
+    {
+      "title": "Landing · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/"
+    },
+    {
+      "title": "Groups · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal"
+    },
+    {
+      "title": "Tags · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources"
+    },
+    {
+      "title": "Budget · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+    },
+    {
+      "title": "Vnet · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-network/quickstart-create-virtual-network"
+    },
+    {
+      "title": "Storage · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create"
+    },
+    {
+      "title": "Auth · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal"
+    },
+    {
+      "title": "Rbac · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/assign-azure-role-data-access"
+    },
+    {
+      "title": "Roles · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal"
+    },
+    {
+      "title": "Network · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security-set-default-access"
+    },
+    {
+      "title": "Blob · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal"
+    },
+    {
+      "title": "Soft · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-enable"
+    },
+    {
+      "title": "Restore · Microsoft documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-manage"
+    },
+    {
+      "title": "Pricing · Microsoft documentation",
+      "url": "https://azure.microsoft.com/en-us/pricing/details/storage/blobs/"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lz-plan",
+      "title": "Understand Your Landing Zone",
+      "description": "Choose a small Azure practice space and check permissions and costs before building it.",
+      "what": "Think of a landing zone as a prepared place for your application to move into. We will build a small practice foundation, then give it a tiny pretend business file.",
+      "why": "A company needs agreed rules for identity, cost, networks and data before its applications arrive. Our small lab teaches those decisions without deploying a full company platform.",
+      "needs": [
+        "An active Azure training subscription you are allowed to use.",
+        "Your browser, Windows 10 PC and a place to save short lab notes.",
+        "Permission to create the lab resources and assign the required data role; ask your tenant administrator if you do not have it."
+      ],
+      "bestPractices": [
+        "Keep your lab notes beside the portal and use only the dedicated practice resources.",
+        "Before selecting Create, read the subscription, resource name and paid options one more time."
+      ],
+      "commonMistakes": [
+        "Using the picture’s example names instead of your own CloudSeam values.",
+        "Moving on before the expected check passes."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "I cannot create a budget or assign a role.",
+          "fix": "Your account may have resource access without billing or role-assignment access. Ask the training subscription owner for the narrow permission needed; do not use a production subscription instead."
+        }
+      ],
+      "pass": "Explain the four boxes, show your training subscription name privately, and record your spending review point.",
+      "exercise": "Explain the four boxes, show your training subscription name privately, and record your spending review point.",
+      "quiz": [
+        {
+          "question": "Does the budget stop Azure at $25?",
+          "options": [
+            "Yes, immediately",
+            "No. It warns you; you still need to monitor and clean up.",
+            "Only when tags are present"
+          ],
+          "answer": 1,
+          "explanation": "Budgets notify you. Resources and subscription-level plans can keep charging until you remove or disable them."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Draw the small version first",
+          "where": "Your lab notes",
+          "actions": [
+            "Write: “I am preparing a place for CloudSeam’s pretend inventory file.”",
+            "Use the diagram to name the subscription, resource group, network and storage account.",
+            "Write “learning foundation” at the top. A resource group alone is not a production Azure landing zone. Companies also design management groups, policy, monitoring and shared services."
+          ],
+          "expected": "You can explain what each box does. Microsoft calls the application environment a workload landing zone; this lab is a reduced practice example.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "What we are building",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-map"
+          }
+        },
+        {
+          "title": "Check where you are signed in",
+          "where": "Azure portal → Subscriptions",
+          "actions": [
+            "Open portal.azure.com and search for Subscriptions.",
+            "Select only your training subscription. Copy its name and subscription ID to your private notes.",
+            "Open Access control (IAM) → View my access. Check your resource-creation permissions and whether you can assign roles at the planned storage account scope.",
+            "Keep cloudseam.tech as the Windows lab domain. Do not rename your Entra tenant or add public DNS records for this exercise."
+          ],
+          "expected": "Your notes identify the exact training subscription and the person who can grant the storage data role.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/assign-azure-role-data-access"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Check your account before you start",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-identity-plan"
+          }
+        },
+        {
+          "title": "Set a review point for spending",
+          "where": "Azure portal → Cost Management + Billing → Cost Management",
+          "actions": [
+            "Choose the training subscription scope and open Budgets → Add.",
+            "Create a monthly cost budget named cloudseam-training with amount 25 in your billing currency; use USD only if your account is billed in USD.",
+            "Add an actual-cost alert at 40% and an email you read. For a USD25 budget, that is an early review at USD10.",
+            "Check current Blob Storage pricing and your existing subscription costs. Leave paid security add-ons off for this lab; existing subscription-level plans may still charge."
+          ],
+          "expected": "You have a saved budget and an alert recipient. An alert is a reminder, not a hard cap; delayed usage can appear after cleanup.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets",
+            "https://azure.microsoft.com/en-us/pricing/details/storage/blobs/"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Set the cost boundary before building",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-budget"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lz-group",
+      "title": "Create Your Practice Resource Group",
+      "description": "Create a clearly named home for the lab and label it so you can find and remove it later.",
+      "what": "Let’s give all the practice pieces one easy-to-find home. A resource group is a management folder for related Azure resources.",
+      "why": "Keeping this exercise together makes cleanup much easier. It also helps you avoid deleting resources from another class.",
+      "needs": [
+        "Finish Understand Your Landing Zone.",
+        "Keep your selected subscription and cleanup date in your notes."
+      ],
+      "bestPractices": [
+        "Keep your lab notes beside the portal and use only the dedicated practice resources.",
+        "Before selecting Create, read the subscription, resource name and paid options one more time."
+      ],
+      "commonMistakes": [
+        "Using the picture’s example names instead of your own CloudSeam values.",
+        "Moving on before the expected check passes."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The group already exists.",
+          "fix": "Open it and confirm it belongs only to this exercise. If it contains other work, choose a new unique lab group name and use that name throughout."
+        }
+      ],
+      "pass": "Reopen the group and show its subscription, region and four tags. Explain why ExpiresOn will not delete it automatically.",
+      "exercise": "Reopen the group and show its subscription, region and four tags. Explain why ExpiresOn will not delete it automatically.",
+      "quiz": [
+        {
+          "question": "What makes an ExpiresOn tag reduce cost?",
+          "options": [
+            "Azure always deletes the resource on that date",
+            "You use it to find expired resources and actually clean them up",
+            "The tag changes storage pricing"
+          ],
+          "answer": 1,
+          "explanation": "The tag is a label. A person or separately configured automation must act on it."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Create the group",
+          "where": "Azure portal → Resource groups",
+          "actions": [
+            "Search for Resource groups, then select Create.",
+            "Select the training subscription you recorded. Name the group rg-cloudseam-lz-lab.",
+            "Choose a region available to you, such as East US, and record it. Use that same region for the network and storage account.",
+            "Select Review + create, then Create. Open Go to resource group."
+          ],
+          "expected": "The group overview shows rg-cloudseam-lz-lab in the intended subscription.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Create a resource group",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-create-group"
+          }
+        },
+        {
+          "title": "Add the lab labels",
+          "where": "rg-cloudseam-lz-lab → Tags",
+          "actions": [
+            "Open Tags in the group menu.",
+            "Add Environment=Lab, Project=SONIC-Academy and Owner=your approved non-secret learner ID.",
+            "Add ExpiresOn with the day you plan to remove the lab, using YYYY-MM-DD. Select Apply.",
+            "Do not put passwords, tokens, email addresses or private customer information in tags."
+          ],
+          "expected": "The saved tags identify this lab and its cleanup date.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Label the practice resources",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-tags"
+          }
+        },
+        {
+          "title": "Know what the labels do",
+          "where": "Your lab notes",
+          "actions": [
+            "Write one sentence: “Tags help me find resources; cleanup is what stops their charges.”",
+            "Remember that group tags do not automatically appear on the resources inside it. We will add the same tags when creating the network and storage account.",
+            "Check the empty resource list. There should be no VM, gateway or other paid surprise in this new group."
+          ],
+          "expected": "You can find the group by name and tags, and its Resources list is empty.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+            "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Why tags can help reduce costs",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-tag-why"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lz-network",
+      "title": "Prepare the Network",
+      "description": "Create an empty virtual network and understand how this lab will reach storage.",
+      "what": "A virtual network is a private address space for future Azure machines. We will prepare one, but we will not pay to run servers in it.",
+      "why": "Separating the network plan from the machines helps you see what each piece does. Blob Storage is its own service; it does not automatically join this network.",
+      "needs": [
+        "Finish Create Your Practice Resource Group.",
+        "Check that 10.60.0.0/16 does not overlap any network you plan to connect later. If it does, ask for an unused range and record it."
+      ],
+      "bestPractices": [
+        "Keep your lab notes beside the portal and use only the dedicated practice resources.",
+        "Before selecting Create, read the subscription, resource name and paid options one more time."
+      ],
+      "commonMistakes": [
+        "Using the picture’s example names instead of your own CloudSeam values.",
+        "Moving on before the expected check passes."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "Azure says the address range overlaps.",
+          "fix": "Check the subnet is inside your VNet range and does not overlap another subnet in this VNet. For future connected networks, choose an approved unused address plan before deployment."
+        }
+      ],
+      "pass": "Record the VNet and subnet names and ranges, and explain why no VM is running in them.",
+      "exercise": "Record the VNet and subnet names and ranges, and explain why no VM is running in them.",
+      "quiz": [
+        {
+          "question": "Did creating the VNet automatically make Blob Storage private to it?",
+          "options": [
+            "Yes",
+            "No. Storage network access must be configured separately.",
+            "Only if both resources use the same tag"
+          ],
+          "answer": 1,
+          "explanation": "A storage account is a separate service. A matching resource group or region does not attach it to a VNet."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Open the network wizard",
+          "where": "Azure portal → Virtual networks → Create",
+          "actions": [
+            "Search for Virtual networks and select Create.",
+            "Choose your training subscription and rg-cloudseam-lz-lab.",
+            "Set the name to vnet-cloudseam-lab and use the region from your notes.",
+            "On Security, leave paid Azure Bastion, Azure Firewall and DDoS Network Protection off. Do not add a gateway or a VM."
+          ],
+          "expected": "The wizard names only the empty lab network, with no paid optional appliances selected.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-network/quickstart-create-virtual-network"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Reserve a network for future servers",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-network-map"
+          }
+        },
+        {
+          "title": "Set the address space",
+          "where": "Create virtual network → IP addresses",
+          "actions": [
+            "Set the IPv4 address space to 10.60.0.0/16.",
+            "Edit the default subnet or add the single subnet snet-workload with 10.60.1.0/24. Save the subnet.",
+            "Add the same four lab tags on Tags.",
+            "Open Review + create. Check the subscription, group, region and ranges, then select Create."
+          ],
+          "expected": "Deployment completes. Subnets lists snet-workload at 10.60.1.0/24.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-network/quickstart-create-virtual-network",
+            "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Check the network before you select Create",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-network-review"
+          }
+        },
+        {
+          "title": "Explain what is connected",
+          "where": "vnet-cloudseam-lab → Overview and Subnets",
+          "actions": [
+            "Open Connected devices. This new network should have no VM network interfaces.",
+            "Open Subnets and check the saved range.",
+            "Write: “The network is ready for future servers. Today I upload from my Windows browser to a storage endpoint, not through this empty VNet.”"
+          ],
+          "expected": "You can distinguish the empty private network from the authenticated storage upload path.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-network/quickstart-create-virtual-network"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Reserve a network for future servers",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-network-map"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lz-storage",
+      "title": "Create Protected Storage",
+      "description": "Create a small storage account, limit its network access and give yourself file permissions.",
+      "what": "Now we need a place for the pretend inventory file. A storage account holds files as objects called blobs. A container groups those blobs.",
+      "why": "We want the file to be reachable by you, while anonymous visitors and unrelated networks are turned away.",
+      "needs": [
+        "Finish Prepare the Network.",
+        "Be on a connection with a public IPv4 address the storage firewall can allow. A VPN or changing home address can require an updated rule."
+      ],
+      "bestPractices": [
+        "Keep your lab notes beside the portal and use only the dedicated practice resources.",
+        "Before selecting Create, read the subscription, resource name and paid options one more time."
+      ],
+      "commonMistakes": [
+        "Using the picture’s example names instead of your own CloudSeam values.",
+        "Moving on before the expected check passes."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The container says authorization failed.",
+          "fix": "Check the tenant and storage account first. Check the client public IPv4 rule, then Storage Blob Data Contributor and its scope. Wait for role propagation and refresh. A management Contributor role alone does not grant Entra blob-data access."
+        }
+      ],
+      "pass": "Show the private container, Microsoft Entra authentication method, client IP rule and storage-scoped data role.",
+      "exercise": "Show the private container, Microsoft Entra authentication method, client IP rule and storage-scoped data role.",
+      "quiz": [
+        {
+          "question": "What is required to upload a file here?",
+          "options": [
+            "Only the correct web address",
+            "Both an allowed network source and an authorized identity",
+            "A public anonymous container"
+          ],
+          "answer": 1,
+          "explanation": "The firewall checks the source network. Microsoft Entra and the data role check who you are and what you may do."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Choose the storage settings",
+          "where": "Azure portal → Storage accounts → Create",
+          "actions": [
+            "Select your training subscription, rg-cloudseam-lz-lab and the same region.",
+            "Use a globally unique name such as stcloudseamlab followed by your own lowercase letters and numbers. Storage names use 3–24 lowercase letters and digits; no dots or hyphens.",
+            "Choose Standard performance, general-purpose v2 where offered, and Locally-redundant storage (LRS). Use Hot for this tiny active lab.",
+            "On Advanced, require secure transfer, set minimum TLS to 1.2, disable anonymous blob access and choose Microsoft Entra authorization as the portal default. Leave hierarchical namespace off.",
+            "Disable shared-key authorization using Allow storage account key access where the wizard offers that setting. Do not enable paid Defender for Storage. Add the lab tags."
+          ],
+          "expected": "The planned account has the correct name, Standard LRS storage and no paid optional protection selected.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create",
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Storage account setup tabs",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-create-storage"
+          }
+        },
+        {
+          "title": "Restrict the upload route",
+          "where": "Create storage account → Networking",
+          "actions": [
+            "Use public network access with access limited to selected networks / IP addresses.",
+            "Add your current public client IPv4 address using the portal’s Add your client IP option. Do not choose all networks. In the saved Networking settings, remove any extra IP/network rules and leave trusted-service/resource-instance exceptions off for this standalone lab.",
+            "Do not add a private endpoint or paid gateway. This exercise uses authenticated HTTPS over the restricted public endpoint.",
+            "If this wizard cannot add the client rule, create with public network access Disabled, then open Networking and enable Selected networks with your client IP before trying to upload.",
+            "Review the chosen settings and select Create. When deployment completes, confirm the saved Networking rules."
+          ],
+          "expected": "The account allows your current client IP only. Its endpoint is public, but its data is not anonymously accessible.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security-set-default-access",
+            "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Allow only your current home connection",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-storage-network"
+          }
+        },
+        {
+          "title": "Grant your account file access",
+          "where": "Your storage account → Access control (IAM)",
+          "actions": [
+            "Select Add → Add role assignment. Search for Storage Blob Data Contributor and select it.",
+            "On Members, choose User, group, or service principal → Select members. Select your own training sign-in.",
+            "Review + assign at this storage account scope. Do not grant the role across your whole subscription.",
+            "You also need at least Reader management access to browse the account in the portal; the resource creator’s Contributor access normally already provides that. If role assignment is unavailable, ask the lab administrator.",
+            "Allow up to 30 minutes for the data role to take effect, then refresh the portal. Do not fall back to a shared key to hide a permissions problem."
+          ],
+          "expected": "Role assignments lists Storage Blob Data Contributor for your account at the storage account scope.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/assign-azure-role-data-access",
+            "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Add a role assignment",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-role"
+          }
+        },
+        {
+          "title": "Create the private container",
+          "where": "Your storage account → Data storage → Containers",
+          "actions": [
+            "Select + Container and name it sample-data.",
+            "Keep anonymous access level Private (no anonymous access), then create the container.",
+            "Open sample-data. Check that the authentication method says Microsoft Entra user account; switch to that method if necessary.",
+            "If the data screen is denied, check the current client IP rule and the data role separately. Keep anonymous access disabled."
+          ],
+          "expected": "The empty sample-data container opens using Microsoft Entra authentication. Private here means no anonymous data access; it does not mean a private network endpoint.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal",
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Create a private blob container",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-container"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lz-data",
+      "title": "Upload Your Dummy Data",
+      "description": "Create three fake inventory records, upload them and check the downloaded copy.",
+      "what": "Let’s give the landing-zone practice space a tiny workload: a file listing three made-up training machines. Nothing here comes from a real company.",
+      "why": "Uploading is only half the job. Downloading and checking the contents proves that you put the right file in the right place.",
+      "needs": [
+        "Finish Create Protected Storage and open sample-data.",
+        "Your Windows 10 computer and Windows PowerShell; the command below only writes a small local CSV."
+      ],
+      "bestPractices": [
+        "Keep your lab notes beside the portal and use only the dedicated practice resources.",
+        "Before selecting Create, read the subscription, resource name and paid options one more time."
+      ],
+      "commonMistakes": [
+        "Using the picture’s example names instead of your own CloudSeam values.",
+        "Moving on before the expected check passes."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The downloaded file opens as a spreadsheet.",
+          "fix": "That is fine, but Notepad shows the exact plain text. Right-click the local file, choose Open with → Notepad, and compare the four lines."
+        }
+      ],
+      "pass": "Show the three fake records in the downloaded copy and explain why a plain URL does not give an anonymous visitor permission.",
+      "exercise": "Show the three fake records in the downloaded copy and explain why a plain URL does not give an anonymous visitor permission.",
+      "quiz": [
+        {
+          "question": "What does dummy data mean here?",
+          "options": [
+            "A safe copy of a customer export",
+            "Invented records with no real people or secrets",
+            "An account password stored as a CSV"
+          ],
+          "answer": 1,
+          "explanation": "Dummy data is invented for practice. It lets you test a process without exposing real information."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Create the fake inventory file",
+          "where": "Windows 10 host → Windows PowerShell",
+          "actions": [
+            "Open Windows PowerShell on your Windows 10 host; administrator access is not needed.",
+            "If Downloads already has a file named cloudseam-inventory.csv that you want to keep, rename that older file first. This command replaces a same-named file.",
+            "Copy and run the command below. It creates cloudseam-inventory.csv in your Downloads folder.",
+            "Open the file in Notepad and check for the header plus three made-up device rows. Do not replace them with real employee or customer details."
+          ],
+          "expected": "Downloads contains a CSV with four lines: one header and three fake devices.",
+          "breakdown": [
+            {
+              "term": "CSV",
+              "meaning": "A plain-text table. Commas separate the columns and each line is one row."
+            },
+            {
+              "term": "Set-Content",
+              "meaning": "Writes this small pretend table to a file on your Windows computer. It does not upload anything to Azure."
+            }
+          ],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal"
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Make a pretend inventory file",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-csv"
+          },
+          "command": "@'\nasset_id,device_name,os,owner_group\nLAB-001,APP01,Windows Server 2019,Training\nLAB-002,ALMA01,AlmaLinux 9,Training\nLAB-003,DC01,Windows Server 2019,Training\n'@ | Set-Content -Path \"$env:USERPROFILE\\Downloads\\cloudseam-inventory.csv\" -Encoding UTF8"
+        },
+        {
+          "title": "Upload into the container",
+          "where": "Azure portal → Your storage account → Containers → sample-data",
+          "actions": [
+            "Check Microsoft Entra user account is the data authentication method.",
+            "Select Upload → Browse for files. Choose Downloads → cloudseam-inventory.csv.",
+            "Keep the blob type as Block blob and do not enable overwrite if an unrelated file already uses this name.",
+            "Select Upload and wait for completion. Refresh the list if needed."
+          ],
+          "expected": "The container lists cloudseam-inventory.csv with a nonzero size and a recent modified time.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal",
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Upload a local file to Blob Storage",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-upload"
+          }
+        },
+        {
+          "title": "Download and compare",
+          "where": "sample-data → cloudseam-inventory.csv",
+          "actions": [
+            "Select the blob, then Download. Save it to a new folder so it does not replace your original.",
+            "Open the downloaded file in Notepad. Compare its column names and all three rows with the original.",
+            "For an extra check, run Get-FileHash on each actual file path in PowerShell. Their SHA256 values should match.",
+            "Write down the container name, blob name and the result of your comparison."
+          ],
+          "expected": "Both copies contain the same header and three fake records. Matching SHA256 values, if checked, show the downloaded bytes match the original.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Download a blob",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-download"
+          }
+        },
+        {
+          "title": "Test the anonymous boundary",
+          "where": "Windows 10 browser → InPrivate / Incognito window",
+          "actions": [
+            "From the blob properties, copy only its normal URL. Do not create a shared access signature (SAS) or copy an access token.",
+            "Open a new private browser window where you are not signed in. Paste the plain URL.",
+            "The file should not download anonymously. Azure may show an authorization error or an unhelpful not-found response.",
+            "Close the private window. Return to your signed-in portal and confirm you can still download through your authorized session."
+          ],
+          "expected": "The plain URL does not allow an anonymous download, while your authorized portal access still works.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal",
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Microsoft Entra data authorization",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-auth"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lz-recover",
+      "title": "Recover the File and Clean Up",
+      "description": "Practise recovering a deleted blob, then remove the lab and check remaining costs.",
+      "what": "Before we finish, let’s prove you can recover from a small mistake. We will delete only the pretend file, bring it back and then remove the practice resources.",
+      "why": "A recovery plan is useful only when you test it. Cleanup matters too: stopping a computer would not stop storage charges, and this lab does not even have a VM.",
+      "needs": [
+        "Finish Upload Your Dummy Data.",
+        "Keep a local copy of the CSV. You will delete only this exercise’s fake file and dedicated resource group."
+      ],
+      "bestPractices": [
+        "Keep your lab notes beside the portal and use only the dedicated practice resources.",
+        "Before selecting Create, read the subscription, resource name and paid options one more time."
+      ],
+      "commonMistakes": [
+        "Using the picture’s example names instead of your own CloudSeam values.",
+        "Moving on before the expected check passes."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "I cannot restore the blob or delete the group.",
+          "fix": "For the blob, confirm soft delete was enabled before deletion, retention has not expired and versioning is off. For group deletion, check for a lock or a policy denial and ask the lab administrator; do not bypass organizational controls."
+        }
+      ],
+      "pass": "Recover the fake file successfully, then show that the lab group is deleted and record a follow-up subscription cost check.",
+      "exercise": "Recover the fake file successfully, then show that the lab group is deleted and record a follow-up subscription cost check.",
+      "quiz": [
+        {
+          "question": "What does deleting the lab resource group remove?",
+          "options": [
+            "Every charge in the subscription",
+            "Only resources in that group; other resources and subscription plans need their own review",
+            "Only its tags"
+          ],
+          "answer": 1,
+          "explanation": "Resource-group deletion has a specific scope. Subscription plans, licenses and resources elsewhere are separate."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Turn on the short recovery window",
+          "where": "Your storage account → Data management → Data protection",
+          "actions": [
+            "Enable soft delete for blobs and set retention to 7 days. Save the setting before deleting anything.",
+            "Keep blob versioning and point-in-time restore off for this small exercise; the restore steps below use soft delete without versioning.",
+            "Wait for the saved configuration to show 7 days. Soft-deleted data still uses storage during retention."
+          ],
+          "expected": "Blob soft delete is enabled for seven days. You have not yet deleted the test file.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-enable"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Configure blob soft delete",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-soft-delete"
+          }
+        },
+        {
+          "title": "Delete only the pretend file",
+          "where": "Your storage account → Containers → sample-data",
+          "actions": [
+            "Select only cloudseam-inventory.csv. Check the name before choosing Delete.",
+            "Confirm the single-file deletion, then refresh the container.",
+            "Turn on Show deleted blobs, or Show active and deleted blobs if that is the label you see.",
+            "Select the deleted CSV. Its status should say Deleted."
+          ],
+          "expected": "The fake CSV is marked Deleted and remains visible with the deleted-items view enabled.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-manage"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Show deleted blobs",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-show-deleted"
+          }
+        },
+        {
+          "title": "Bring it back and prove it opens",
+          "where": "Deleted cloudseam-inventory.csv → Overview",
+          "actions": [
+            "Select Undelete. Refresh the container and turn off the deleted-items filter if needed.",
+            "Open the active CSV and download it into another new local folder.",
+            "Check the three fake device rows again. If you never enabled soft delete before deletion, stop: this recovery path will not work; re-upload the safe local CSV and repeat in order.",
+            "Write: “Soft delete protects this blob for seven days; it is not a separate backup of my whole Azure environment.”"
+          ],
+          "expected": "The CSV is active again and its three rows are readable in the downloaded copy.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-manage"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Restore a deleted blob",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-undelete"
+          }
+        },
+        {
+          "title": "Remove this lab and review the bill",
+          "where": "Azure portal → Resource groups → rg-cloudseam-lz-lab",
+          "actions": [
+            "Save your private notes and local CSV first. Open the group and read every resource name.",
+            "Delete the group only if it contains just this lab’s network and storage account. Enter the group name when asked and confirm deletion.",
+            "Wait for deletion to finish, then check that those two resources no longer appear in All resources. Do not delete resources from other classes.",
+            "Open Cost Management → Cost analysis at your training subscription scope. Filter by the lab group or tags and review charges after billing data updates.",
+            "Check separately for any paid subscription-level Defender plans, licenses or resources outside this group. A deleted group does not disable them."
+          ],
+          "expected": "The lab resources are gone. You have a follow-up cost check scheduled; a delayed charge can still arrive for usage that occurred before deletion.",
+          "breakdown": [],
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal",
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Delete only the practice resource group",
+            "instructions": "Compare this guide with the written settings and check the result in your own subscription.",
+            "assetId": "lz-delete-group"
+          }
+        }
+      ]
+    }
+  ]
+}

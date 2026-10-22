@@ -1,0 +1,222 @@
+[
+  {
+    "id": "lz-create-group",
+    "src": "/landing-zone/lz-create-group.png",
+    "title": "Create a resource group",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal",
+    "original": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/media/manage-resource-groups-portal/manage-resource-groups-create-group.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "8352b1483cdc06d1c237571b9143ea2c39e03659bd1bd3974d23f39c7ec19c4f"
+  },
+  {
+    "id": "lz-create-storage",
+    "src": "/landing-zone/lz-create-storage.png",
+    "title": "Storage account setup tabs",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/common/storage-account-create",
+    "original": "https://learn.microsoft.com/en-us/azure/storage/common/media/storage-account-create/create-account-tabs.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "d8c420b9271397fba4f9141fc9d55733223a3386954160548d59c827d1261ee5"
+  },
+  {
+    "id": "lz-role",
+    "src": "/landing-zone/lz-role.png",
+    "title": "Add a role assignment",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal",
+    "original": "https://learn.microsoft.com/en-us/azure/role-based-access-control/media/shared/add-role-assignment-menu.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "a964753b2e8fd7f030015162c60bbc91c7118486ab4c2f3eb24ecabeadb5543d"
+  },
+  {
+    "id": "lz-auth",
+    "src": "/landing-zone/lz-auth.png",
+    "title": "Microsoft Entra data authorization",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-portal",
+    "original": "https://learn.microsoft.com/en-us/azure/storage/blobs/media/authorize-data-operations-portal/auth-method-azure-ad.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "a5036fc90484458df4aca5f62d64f98cc5843becacc638b7822ad80760d14d05"
+  },
+  {
+    "id": "lz-container",
+    "src": "/landing-zone/lz-container.png",
+    "title": "Create a private blob container",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal",
+    "original": "https://learn.microsoft.com/en-us/azure/storage/blobs/media/storage-quickstart-blobs-portal/create-container-lrg.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "b95c097510e4c17418f0f20e17ab7a76811ddf5d041a1b56a5487b3d1004cbd5"
+  },
+  {
+    "id": "lz-upload",
+    "src": "/landing-zone/lz-upload.png",
+    "title": "Upload a local file to Blob Storage",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal",
+    "original": "https://learn.microsoft.com/en-us/azure/storage/blobs/media/storage-quickstart-blobs-portal/upload-blob.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "bdf616cf04a799634aaf799094f3676b99984f537b571e61d4250b32ad4d4c07"
+  },
+  {
+    "id": "lz-download",
+    "src": "/landing-zone/lz-download.png",
+    "title": "Download a blob",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal",
+    "original": "https://learn.microsoft.com/en-us/azure/storage/blobs/media/storage-quickstart-blobs-portal/download-blob.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "dfb66fc2fc5814eb457c69d49e98b287169cbe5cad6f7fd278bf7859e94f15e5"
+  },
+  {
+    "id": "lz-soft-delete",
+    "src": "/landing-zone/lz-soft-delete.png",
+    "title": "Configure blob soft delete",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-enable",
+    "original": "https://learn.microsoft.com/en-us/azure/storage/blobs/media/soft-delete-blob-enable/blob-soft-delete-configuration-portal.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "d7eccc05b66f3130e4e61cb5cf18caae832a7d72cb0fdec3adb8c65daca0a5ba"
+  },
+  {
+    "id": "lz-show-deleted",
+    "src": "/landing-zone/lz-show-deleted.png",
+    "title": "Show deleted blobs",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-manage",
+    "original": "https://learn.microsoft.com/en-us/azure/storage/blobs/media/soft-delete-blob-manage/soft-deleted-blobs-list-portal.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "439dc4219665932c9bd95eb3ebfe302a2268ee10389b0790c52fe72f1b12853a"
+  },
+  {
+    "id": "lz-undelete",
+    "src": "/landing-zone/lz-undelete.png",
+    "title": "Restore a deleted blob",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/blobs/soft-delete-blob-manage",
+    "original": "https://learn.microsoft.com/en-us/azure/storage/blobs/media/soft-delete-blob-manage/undelete-soft-deleted-blob-portal.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "79b352cd0f219e1445066f6cabe7484317a8efea5e22fb0064b4f7a7776562e9"
+  },
+  {
+    "id": "lz-delete-group",
+    "src": "/landing-zone/lz-delete-group.png",
+    "title": "Delete only the practice resource group",
+    "platform": "Microsoft Azure portal · official interface reference",
+    "source": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal",
+    "original": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/media/manage-resource-groups-portal/delete-group.png",
+    "credit": "Microsoft Learn · Microsoft documentation contributors",
+    "note": "Unaltered Microsoft documentation screenshot. Example names and other displayed values are not this lab. Use the written CloudSeam settings; your portal labels may vary.",
+    "sha256": "85130654708146a9533653efd82e91ad5bb165e41ccba33cdc0261d78fb6d048"
+  },
+  {
+    "id": "lz-map",
+    "src": "/landing-zone/lz-map.svg",
+    "title": "What we are building",
+    "platform": "CloudSeam learning lab · illustrated action guide",
+    "source": "https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/",
+    "original": "Original SONIC-Academy teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
+    "note": "This diagram explains the lab choices. It is not a screenshot, a deployed resource or proof that the task ran.",
+    "sha256": "04eb55caefc7fb76b30c1e94bd47f01fca700d0c629c3ed8d176c16a32d54220"
+  },
+  {
+    "id": "lz-budget",
+    "src": "/landing-zone/lz-budget.svg",
+    "title": "Set the cost boundary before building",
+    "platform": "CloudSeam learning lab · illustrated action guide",
+    "source": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets",
+    "original": "Original SONIC-Academy teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
+    "note": "This diagram explains the lab choices. It is not a screenshot, a deployed resource or proof that the task ran.",
+    "sha256": "d3e10b2bbb8203c2efa514a46b1de9247b32a58abf0e8c18a805c064a18d6dec"
+  },
+  {
+    "id": "lz-identity-plan",
+    "src": "/landing-zone/lz-identity-plan.svg",
+    "title": "Check your account before you start",
+    "platform": "CloudSeam learning lab · illustrated action guide",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/blobs/assign-azure-role-data-access",
+    "original": "Original SONIC-Academy teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
+    "note": "This diagram explains the lab choices. It is not a screenshot, a deployed resource or proof that the task ran.",
+    "sha256": "ec1bfb224336d13f0dfe48c52cc49ca36a1fb1e8187f900a54a0268db31cee7f"
+  },
+  {
+    "id": "lz-tags",
+    "src": "/landing-zone/lz-tags.svg",
+    "title": "Label the practice resources",
+    "platform": "CloudSeam learning lab · illustrated action guide",
+    "source": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+    "original": "Original SONIC-Academy teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
+    "note": "This diagram explains the lab choices. It is not a screenshot, a deployed resource or proof that the task ran.",
+    "sha256": "af5e64eed533c6c4e70b076f471bc2d9976ea042cbc05274b02ebdb95a7072d8"
+  },
+  {
+    "id": "lz-tag-why",
+    "src": "/landing-zone/lz-tag-why.svg",
+    "title": "Why tags can help reduce costs",
+    "platform": "CloudSeam learning lab · illustrated action guide",
+    "source": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+    "original": "Original SONIC-Academy teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
+    "note": "This diagram explains the lab choices. It is not a screenshot, a deployed resource or proof that the task ran.",
+    "sha256": "6a58b104e782b031d51367d6a1a401d29e5e08cca8ece6de4c0e1397e2164bda"
+  },
+  {
+    "id": "lz-network-map",
+    "src": "/landing-zone/lz-network-map.svg",
+    "title": "Reserve a network for future servers",
+    "platform": "CloudSeam learning lab · illustrated action guide",
+    "source": "https://learn.microsoft.com/en-us/azure/virtual-network/quickstart-create-virtual-network",
+    "original": "Original SONIC-Academy teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
+    "note": "This diagram explains the lab choices. It is not a screenshot, a deployed resource or proof that the task ran.",
+    "sha256": "a81bf8a3d8b61a2d61043a3b9d4546f6f320d560c1a352a91b5236edf2b5fc49"
+  },
+  {
+    "id": "lz-network-review",
+    "src": "/landing-zone/lz-network-review.svg",
+    "title": "Check the network before you select Create",
+    "platform": "CloudSeam learning lab · illustrated action guide",
+    "source": "https://learn.microsoft.com/en-us/azure/virtual-network/quickstart-create-virtual-network",
+    "original": "Original SONIC-Academy teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
+    "note": "This diagram explains the lab choices. It is not a screenshot, a deployed resource or proof that the task ran.",
+    "sha256": "54964887e05bb42d1d6728a588bdb940b4f121a4ae2a3643795c4f64995abbab"
+  },
+  {
+    "id": "lz-storage-network",
+    "src": "/landing-zone/lz-storage-network.svg",
+    "title": "Allow only your current home connection",
+    "platform": "CloudSeam learning lab · illustrated action guide",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/common/storage-network-security-set-default-access",
+    "original": "Original SONIC-Academy teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
+    "note": "This diagram explains the lab choices. It is not a screenshot, a deployed resource or proof that the task ran.",
+    "sha256": "5869782799219e303d375af2d4819214f3020d485a685ee5ea4ab9edbd9c25dd"
+  },
+  {
+    "id": "lz-csv",
+    "src": "/landing-zone/lz-csv.svg",
+    "title": "Make a pretend inventory file",
+    "platform": "CloudSeam learning lab · illustrated action guide",
+    "source": "https://learn.microsoft.com/en-us/azure/storage/blobs/storage-quickstart-blobs-portal",
+    "original": "Original SONIC-Academy teaching diagram",
+    "credit": "SONIC-Academy · original teaching diagram",
+    "note": "This diagram explains the lab choices. It is not a screenshot, a deployed resource or proof that the task ran.",
+    "sha256": "16b317fe0f02a220a2ca9ded213c311ead7b79da2af7ba60ef6ae6b6dfb825b9"
+  }
+]

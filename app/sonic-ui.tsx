@@ -261,7 +261,7 @@ export function SonicWalkthrough({
       <ol>
         {steps.map((step, index) => (
           <li key={`${variant}-${index}-${step.title}`}>
-            <details className="sonic-action-panel" open={index === 0}>
+            <details className="sonic-action-panel" name={`walkthrough-${lessonId}`} open={index === 0}>
               <summary>
                 <span>STEP {String(index + 1).padStart(2, '0')}</span>
                 <strong>{readableStepTitle(step.title, step.actions, step.command)}</strong>
