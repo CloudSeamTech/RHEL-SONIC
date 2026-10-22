@@ -9,13 +9,19 @@ export type NessusStep = {
   command?: string;
   breakdown: { term: string; meaning: string }[];
   expected: string;
-  screenshot: { status: 'capture-needed'; title: string; instructions: string };
+  screenshot: {
+    status: 'capture-needed' | 'reference';
+    title: string;
+    instructions: string;
+    assetId?: string;
+  };
   sources: string[];
 };
 export type NessusLesson = {
   id: string;
   title: string;
   description: string;
+  needs?: string[];
   what: string;
   why: string;
   bestPractices: string[];
@@ -37,6 +43,7 @@ export type NessusCourse = {
   description: string;
   baseline: string;
   prerequisite: string;
+  supplies?: string[];
   sources: { title: string; url: string }[];
   lessons: NessusLesson[];
 };

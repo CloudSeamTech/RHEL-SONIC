@@ -1,0 +1,497 @@
+{
+  "lab-00": {
+    "welcome": "Let’s get your lab organized before we build anything. We’ll start on your Windows computer and make a home for the files and notes you’ll use throughout the course.",
+    "why": "A few clear notes now will save you from wondering which server or password a later step means.",
+    "needs": [
+      "Have your Windows computer and File Explorer ready.",
+      "Choose a folder where you can keep course installers, screenshots, backups, and notes.",
+      "Keep passwords in your password manager, separate from your class notes."
+    ],
+    "firstMove": "Open File Explorer and create a folder named SONIC-Lab.",
+    "reassurance": "You don’t need an Azure account to organize the local lab. We’ll tell you when a later class needs one."
+  },
+  "lab-01": {
+    "welcome": "Before we start clicking, let’s meet the computers we’re going to build. Think of the diagram as a seating chart: each server has a name and a job.",
+    "why": "Knowing which computer does what helps you put each change in the right place.",
+    "needs": [
+      "Open your SONIC-Lab notes on your Windows computer.",
+      "Keep the course network map beside you.",
+      "You only need to read and write in this lesson; no servers need to be running yet."
+    ],
+    "firstMove": "Write AG-DC01, APP01, and DEST-DC01 on separate lines in your notes.",
+    "reassurance": "The names may look unfamiliar at first. We’ll use them repeatedly, and you can return to this map whenever you need it."
+  },
+  "lab-02": {
+    "welcome": "Let’s check that your computer can run our practice servers and that you have the right Windows installer. We’ll use VMware Workstation Pro to give each server its own little computer inside your PC.",
+    "why": "The installer and available memory decide whether the later build steps will match your screen.",
+    "needs": [
+      "Use a Windows computer on which you’re allowed to install VMware Workstation Pro.",
+      "Have the Windows Server 2019 64-bit installer file supplied by your course, or obtain the permitted Microsoft evaluation ISO. An ISO is the installer’s virtual DVD.",
+      "Leave room for Windows itself as well as the VMs. Our basic server builds use about 4 GB of memory each, and SQL needs more."
+    ],
+    "firstMove": "Open VMware Workstation Pro, then choose Help → About.",
+    "reassurance": "If the PC cannot run every VM at once, pause here and make a smaller running schedule. Don’t squeeze out the memory your own Windows desktop needs."
+  },
+  "lab-03": {
+    "welcome": "Let’s give the practice servers a private network where they can talk to one another. We’ll write down its actual settings so you won’t have to guess an address later.",
+    "why": "Active Directory needs reliable connections and name lookup. Keeping this lab separate also protects your other computers.",
+    "needs": [
+      "Open VMware Workstation Pro on your physical Windows computer.",
+      "Have permission to change this computer’s VMware network settings.",
+      "Keep your home-network and VPN address ranges handy so we can choose a different range for the lab."
+    ],
+    "firstMove": "In Workstation Pro, click Edit → Virtual Network Editor.",
+    "reassurance": "If VMnet2 is already in use, leave it alone and choose another unused VMnet. The example name isn’t a requirement."
+  },
+  "lab-04": {
+    "welcome": "We’re going to build AG-DC01, the first server that keeps track of our lab’s users and computers. Once Windows is ready, we’ll give it the Active Directory job and create our practice domain, agency.test.",
+    "why": "A domain gives several computers one shared place to check who can sign in and which rules to use.",
+    "needs": [
+      "Have VMware Workstation Pro and your Windows Server 2019 Desktop Experience ISO ready.",
+      "Use the private VMnet and address plan you checked in the previous network class.",
+      "For this basic VM, have about 4 GB RAM, two virtual CPU cores, and a new 60 GB virtual disk available. Keep its administrator passwords private."
+    ],
+    "firstMove": "On your Windows computer, open Workstation Pro → File → New Virtual Machine.",
+    "reassurance": "If your Windows edition doesn’t say Desktop Experience, stop before installing it. That is the option with the desktop screens we’ll use."
+  },
+  "lab-05": {
+    "welcome": "Now that agency.test works, let’s give it a few pretend people and a simple sign-in message. We’ll make a user, a group, and a folder-like container for keeping them organized.",
+    "why": "These small practice objects give us something recognizable to manage and move later.",
+    "needs": [
+      "Start AG-DC01 and make sure you can sign in as your lab’s agency.test administrator.",
+      "Have the Create the Domain lesson’s checks completed first.",
+      "Use made-up names and a private temporary password; we don’t need real employee information."
+    ],
+    "firstMove": "On AG-DC01, open Server Manager → Tools → Active Directory Users and Computers.",
+    "reassurance": "OU means an organizational unit, which is a container for organizing domain objects. GPO means a saved set of rules. We’ll show you where both live."
+  },
+  "lab-06": {
+    "welcome": "Let’s build APP01, the practice server we’ll move later. We’ll join it to agency.test and put a tiny website on it so we have a real thing to test before and after the move.",
+    "why": "A working test page gives us a simple way to notice whether a migration changed the application.",
+    "needs": [
+      "Have your Windows Server 2019 Desktop Experience ISO and private VMware network ready.",
+      "Keep AG-DC01 running and confirm agency.test name lookup works.",
+      "Reserve APP01’s address in your network notes and have a domain account allowed to join a lab computer."
+    ],
+    "firstMove": "Open Workstation Pro → File → New Virtual Machine and name the new machine APP01 when asked.",
+    "reassurance": "We’ll keep the website small. You don’t need to know web development to create and check this test page."
+  },
+  "lab-07": {
+    "welcome": "Let’s add AG-DC02 as a second keeper of the same agency.test directory. It will copy the directory from AG-DC01 instead of starting another domain.",
+    "why": "A second domain controller helps the domain keep working when one controller is unavailable.",
+    "needs": [
+      "Have a new Server 2019 Desktop Experience VM plan for AG-DC02.",
+      "Keep AG-DC01 running, healthy, and reachable through the private VMware network.",
+      "Have the reserved address for AG-DC02 and an agency.test account allowed to add a domain controller."
+    ],
+    "firstMove": "Start the AG-DC02 build in Workstation Pro → File → New Virtual Machine.",
+    "reassurance": "The important choice later is to add a controller to the existing domain. If the wizard offers to create a new forest, we’ll use the existing-domain option instead."
+  },
+  "lab-08": {
+    "welcome": "This time we’ll build a different organization’s directory on DEST-DC01. Its domain is destination.test, and we’ll keep it separate from agency.test.",
+    "why": "Moving to another organization is different from adding another controller to the same domain.",
+    "needs": [
+      "Have your Server 2019 Desktop Experience ISO and enough spare PC resources for another VM.",
+      "Use the private VMware network, with a separate reserved address for DEST-DC01.",
+      "Keep notes and administrator passwords for the two domains clearly separated."
+    ],
+    "firstMove": "Open Workstation Pro → File → New Virtual Machine and begin the DEST-DC01 build.",
+    "reassurance": "It’s easy to mix up the two domains. Before each directory change, check the computer name and the domain shown in the window."
+  },
+  "lab-09": {
+    "welcome": "Our two domains now need to find each other by name. We’ll teach each domain’s DNS server where to ask about the other domain.",
+    "why": "DNS is the network’s address book. A computer cannot join or use another domain if it cannot find the right domain services.",
+    "needs": [
+      "Start AG-DC01 and DEST-DC01 and check that their separate domains are healthy.",
+      "Keep each controller’s actual private address in your notes.",
+      "Have an administrator account for each domain. A trust exercise is optional and comes only after name lookup works."
+    ],
+    "firstMove": "On AG-DC01, open Server Manager → Tools → DNS.",
+    "reassurance": "If a lookup fails, we’ll check the address and forwarding direction first. You don’t need to create a trust just to fix DNS."
+  },
+  "lab-10": {
+    "welcome": "Let’s copy our little sign-in-banner policy into the new domain. We’ll back up the policy, move that backup, and import its settings into a new destination policy.",
+    "why": "A policy backup saves its settings, but it does not automatically move every user, permission, or link that went with it.",
+    "needs": [
+      "Have the LAB-Operations-Banner policy on AG-DC01 from the users-and-policy class.",
+      "Start DEST-DC01 and prepare its Operations organizational unit.",
+      "Have a permitted way to copy a folder between these practice VMs and enough access to manage policy in both domains."
+    ],
+    "firstMove": "On AG-DC01, open Server Manager → Tools → Group Policy Management.",
+    "reassurance": "If the import asks for account or path mappings, stop and read what it needs. Our simple banner should not require guessing production account names."
+  },
+  "lab-11": {
+    "welcome": "We’re ready to move APP01 from agency.test to destination.test. We’ll keep checking its website along the way so we can tell whether the move worked.",
+    "why": "Changing a computer’s domain can affect sign-in and application access, even when the server name stays the same.",
+    "needs": [
+      "Have APP01’s test website working before you begin.",
+      "Keep both domain controllers available and finish the cross-domain DNS checks first.",
+      "Test APP01’s local Administrator sign-in, have destination join credentials, and prepare the recorded recovery point before changing membership."
+    ],
+    "firstMove": "Sign in to APP01 and record its current computer name, domain, and network settings.",
+    "reassurance": "A local sign-in such as APP01\\Administrator is different from a domain sign-in. Testing it now gives you a way back in during the move."
+  },
+  "lab-12": {
+    "welcome": "A recovery plan is more useful after you have tried it. Let’s rehearse bringing our disposable APP01 member server back to its recorded state and check its website again.",
+    "why": "This practice helps you find missing recovery steps before a real outage puts you under pressure.",
+    "needs": [
+      "Have APP01’s before-and-after evidence from the domain-move lesson.",
+      "Use the named pre-cutover recovery point for this disposable member VM, plus the old domain’s working DNS and sign-in information.",
+      "Keep this exercise away from domain controllers, SQL servers, and real data; their recovery needs are different."
+    ],
+    "firstMove": "On APP01, record the current domain, address settings, policy, and website result before you simulate a failed move.",
+    "reassurance": "If the snapshot or its age is unclear, don’t try a random one. Write down what is missing and return to the recovery plan first."
+  },
+  "lab-13": {
+    "welcome": "Let’s build WSUS01, a separate Windows server that can help organize Windows updates for our lab. We’ll start small instead of downloading every update Microsoft offers.",
+    "why": "An update server gives administrators a way to choose which updates reach which computers.",
+    "needs": [
+      "Have a new Server 2019 Desktop Experience VM for WSUS01 on the private agency.test network.",
+      "Keep AG-DC01 working so WSUS01 can join the domain.",
+      "Plan space for update files and check your internet and storage limits before choosing products to download."
+    ],
+    "firstMove": "Start the WSUS01 VM build and record its planned name, address, and storage location.",
+    "reassurance": "This is an optional extension. It’s fine to return after the core Windows and SQL labs are comfortable."
+  },
+  "sql-01": {
+    "welcome": "Before we install SQL Server, let’s collect the right tools and check that their versions work together. SQL Server stores the data; SSMS is the separate app we’ll use to look after it.",
+    "why": "Choosing compatible installers now prevents a long setup from failing because two products expect different versions.",
+    "needs": [
+      "Have your private Installers folder ready on Windows.",
+      "Use Microsoft’s permitted SQL Server evaluation or your supplied licensed installer, plus the separate SSMS installer.",
+      "If you plan to add Configuration Manager, check its exact SQL and Windows support list and leave enough memory and disk space for that larger lab."
+    ],
+    "firstMove": "Open Microsoft’s SQL Server download page and record the edition and version you plan to use.",
+    "reassurance": "You don’t have to download every optional tool today. Choose the core SQL path first, then add the management extensions when you need them."
+  },
+  "sql-02": {
+    "welcome": "Let’s give the database its own Windows server, SQL01. First we’ll get Windows and its network ready, then join it to agency.test.",
+    "why": "Separating SQL from the domain controller makes each computer’s job easier to understand and troubleshoot.",
+    "needs": [
+      "Have the Server 2019 Desktop Experience ISO and private VMware network ready.",
+      "Keep AG-DC01 running and have an account allowed to join SQL01 to agency.test.",
+      "Review the SQL sizing plan from the previous lesson; the database server may need more spare RAM and disk space than the basic domain-controller VM."
+    ],
+    "firstMove": "Open Workstation Pro → File → New Virtual Machine and start the SQL01 build.",
+    "reassurance": "We are preparing Windows here, not installing SQL Server yet. The next class walks you through the database installer."
+  },
+  "sql-03": {
+    "welcome": "Now we’ll install the SQL Server database engine on SQL01. We’ll take the setup pages one at a time and choose settings that also fit our later Configuration Manager exercise.",
+    "why": "A database engine is the service that stores and answers questions about data. Setup choices affect which applications can use it.",
+    "needs": [
+      "Have SQL01 joined to agency.test with working DNS and time.",
+      "Copy the verified SQL Server 2022 installer to SQL01 and use an account allowed to install it.",
+      "Keep your version, memory, and storage plan nearby. The required collation is the database’s text-sorting rule, so copy it exactly from the steps."
+    ],
+    "firstMove": "On SQL01, open the SQL Server installer and choose the Installation page.",
+    "reassurance": "If the prerequisite page shows an error, pause there. Fixing that one item is better than clicking through a warning you don’t understand."
+  },
+  "sql-04": {
+    "welcome": "Let’s make a tiny helpdesk database and ask it a few questions. You’ll see how a table stores rows and how a query selects the rows you want.",
+    "why": "Seeing your own sample data makes the later backup and restore checks much easier to follow.",
+    "needs": [
+      "Have the SQL Server service running on SQL01.",
+      "Install SQL Server Management Studio, usually called SSMS, as a separate Microsoft application.",
+      "Use your permitted Windows-authenticated SQL account and keep all names and helpdesk records fictional."
+    ],
+    "firstMove": "On SQL01, open SQL Server Management Studio and connect to the Database Engine.",
+    "reassurance": "If the connection fails, we’ll check the server name and your sign-in first. There is no need to open SQL to the public internet."
+  },
+  "sql-05": {
+    "welcome": "Let’s make a database backup and prove that it can be restored. We’ll restore it under a new test name so the original practice database stays where it is.",
+    "why": "A backup file is only the start. A successful test restore shows that you can actually get the data back.",
+    "needs": [
+      "Have the AgencyHelpdesk practice database and its sample rows on SQL01.",
+      "Sign in to SSMS with an account allowed to back up and restore that database.",
+      "Prepare a backup folder that the SQL service can use and room for a separate restored database and its files."
+    ],
+    "firstMove": "On SQL01, create the backup folder named in the lesson and check its permissions.",
+    "reassurance": "When the restore asks for file locations, take your time. The test copy must not overwrite the original database’s data files."
+  },
+  "mecm-01": {
+    "welcome": "Let’s prepare MECM01 for Microsoft Configuration Manager, the tool that can manage software and updates across many computers. We’ll get the Windows roles and folders ready before its main installer.",
+    "why": "Configuration Manager depends on several other pieces, so preparing them in order makes setup easier to understand.",
+    "needs": [
+      "Have a separate Server 2019 VM for MECM01 on the agency.test network.",
+      "Keep AG-DC01 and SQL01 available, and have permission to join the domain and install Windows roles.",
+      "Use the Windows ADK and Windows PE add-on versions supported by your chosen Configuration Manager release; leave enough RAM and storage for this optional extension."
+    ],
+    "firstMove": "Begin the MECM01 VM build in Workstation Pro and record its reserved private address.",
+    "reassurance": "ADK is a set of Windows deployment tools. You don’t need to memorize its name; the important part is matching the version in the support table."
+  },
+  "mecm-02": {
+    "welcome": "MECM01 needs a few carefully chosen permissions before setup will work. We’ll visit the directory server and SQL server and give only the lab access the installer needs.",
+    "why": "Permissions are like keys to specific doors. Giving the right access is safer and easier to explain than making every account an administrator everywhere.",
+    "needs": [
+      "Have MECM01 prepared and joined to agency.test, with SQL01 and AG-DC01 working.",
+      "Keep the Configuration Manager installer files and the exact setup-account name ready.",
+      "Have the lab’s directory and SQL administrators help with their respective permissions; keep passwords and storage keys out of notes."
+    ],
+    "firstMove": "On AG-DC01, open Server Manager → Tools and locate the directory tools used in the first step.",
+    "reassurance": "ADSI Edit exposes powerful directory settings. Check the named container carefully and stop if your directory tree does not match the lesson."
+  },
+  "mecm-03": {
+    "welcome": "We’re ready to install our small Configuration Manager site. A site is the group of management services and settings that will look after our lab clients.",
+    "why": "Following the server names and prerequisite checks carefully gives the console a working database and management point.",
+    "needs": [
+      "Have MECM01, SQL01, and AG-DC01 healthy, with the earlier roles and permissions checked.",
+      "Use the official Configuration Manager evaluation media and its downloaded prerequisite files.",
+      "Keep the planned site code LAB, SQL01’s full domain name, and your approved setup account in front of you."
+    ],
+    "firstMove": "On MECM01, mount the Configuration Manager installer media and open its setup launcher.",
+    "reassurance": "If the prerequisite checker shows a red error, leave the install stopped while you work through that error. The setup log will help us narrow it down."
+  },
+  "mecm-04": {
+    "welcome": "Let’s add APP01 as a managed client and check that Configuration Manager can see it. Then we’ll examine why the management server depends on SQL.",
+    "why": "A working console alone does not prove that a client can receive its settings or report back.",
+    "needs": [
+      "Have the Configuration Manager site installed on MECM01 and its SQL database available on SQL01.",
+      "Use APP01 as the named practice client, with working private DNS and domain access.",
+      "Have a recovery plan and a quiet lab window before the optional dependency interruption; don’t stop a database that other work needs."
+    ],
+    "firstMove": "On MECM01, open the Configuration Manager console → Administration.",
+    "reassurance": "A boundary tells Configuration Manager which network a client belongs to. We’ll create a small one for this lab instead of copying a large workplace setup."
+  },
+  "mecm-05": {
+    "welcome": "Now we’ll connect Configuration Manager to the separate WSUS01 update server. We’ll follow one update path through the two tools and check where its status appears.",
+    "why": "This shows which server supplies update information and which server manages the clients that need it.",
+    "needs": [
+      "Have WSUS01’s update role installed and its administrative console working.",
+      "Keep MECM01’s site and SQL01 healthy and confirm the required update-console components are installed.",
+      "Record WSUS01’s actual update-service port and approved security settings rather than guessing from another machine."
+    ],
+    "firstMove": "On WSUS01, open the WSUS console and confirm that the earlier WSUS lesson finished successfully.",
+    "reassurance": "If synchronization stalls, we’ll read the status and named logs before changing settings. Downloading every product is not a troubleshooting shortcut."
+  },
+  "move-01": {
+    "welcome": "Before we move anything, let’s work out what each service depends on. A website, a database, and a management system do not all use the same moving plan.",
+    "why": "A server can start successfully in its new home while the application still fails because a database or sign-in service was left behind.",
+    "needs": [
+      "Open the inventory of AG-DC01, APP01, SQL01, and any optional MECM servers you built.",
+      "Keep the application and database names from your completed labs handy.",
+      "Use a blank page for arrows and notes; this lesson does not shut down or move a server."
+    ],
+    "firstMove": "Write one row for each server and list its job, operating system, addresses, and owner.",
+    "reassurance": "If you don’t know what a service talks to, mark that as a question. Finding the answer is part of planning, not a reason to guess."
+  },
+  "move-02": {
+    "welcome": "Let’s move our practice database using a SQL backup file. We’ll restore it on a prepared SQL Server VM in Azure, then compare the actual rows before calling the move successful.",
+    "why": "A database backup can move data between compatible SQL Server installations, but server accounts and application connections still need attention.",
+    "needs": [
+      "Have AgencyHelpdesk working on local SQL01 and a tested database backup procedure.",
+      "Prepare the approved Azure SQL Server VM, AZ-SQL01, with the same or a newer supported SQL Server version.",
+      "Have a private administration and file-transfer path, permitted SQL accounts at both ends, and a spending plan for the Azure VM and staging storage."
+    ],
+    "firstMove": "On SQL01, open SSMS and start a fresh backup of AgencyHelpdesk.",
+    "reassurance": "The .bak file is our database backup, not a copy of the whole Windows server. We’ll separately check the logins and connection settings the application needs."
+  },
+  "move-03": {
+    "welcome": "Moving Configuration Manager needs its own plan. Let’s compare keeping the current site with building a new one and moving only the objects the product supports.",
+    "why": "A management site contains more than a Windows installation and database; changing its domain casually can leave clients and services disconnected.",
+    "needs": [
+      "Have the source Configuration Manager site inventory, version, and database details available.",
+      "Locate its supported site-backup and recovery instructions, plus a real completed backup if you are preparing a live exercise.",
+      "Identify the source and destination domain owners and the supported target site before attempting a change."
+    ],
+    "firstMove": "On MECM01, open the Configuration Manager console → Administration and record the current site details.",
+    "reassurance": "It’s fine for this lesson to end with a reviewed plan. We won’t pretend that joining the old site server to another domain is a supported migration."
+  },
+  "move-04": {
+    "welcome": "Let’s look at what really changes when a server joins another organization’s domain. We’ll follow the people, permissions, DNS settings, and application connections—not just the computer name.",
+    "why": "The same username written in two domains can represent two different identities with different access.",
+    "needs": [
+      "Have the agency.test and destination.test inventories and working DNS checks.",
+      "Use APP01’s completed migration notes as your small pilot example.",
+      "List the accounts and services used by SQL and any optional Configuration Manager work, with the people who own those settings."
+    ],
+    "firstMove": "Write the source domain and destination domain at the top of a new comparison page.",
+    "reassurance": "You don’t need to move every account at once. We’ll identify the few dependencies our test application actually uses first."
+  },
+  "lab-14": {
+    "welcome": "Let’s plan the Azure side before we rent a cloud computer. We’ll choose the correct account, set a budget reminder, and make a private network for the destination lab.",
+    "why": "Azure charges can keep growing while you are away, so the names, network, and cost plan deserve a quick check first.",
+    "needs": [
+      "Have permission to use an Azure subscription and know who pays for it.",
+      "Choose a monthly lab limit and an email address for cost alerts.",
+      "Keep your local VMware address range handy so the Azure network can use a different, non-overlapping range."
+    ],
+    "firstMove": "Open portal.azure.com and check the directory and subscription shown for your lab.",
+    "reassurance": "A budget sends warnings; it does not automatically turn VMs off. We’ll keep checking costs and shutting down resources deliberately."
+  },
+  "lab-15": {
+    "welcome": "We’ll create AZ-DC01 in Azure and give it a directory-server job for the optional cloud destination. We’ll use Azure’s network settings carefully so the guest can keep finding the right services.",
+    "why": "A domain controller in Azure still needs correct identity and DNS settings; creating a VM alone does not create a working domain.",
+    "needs": [
+      "Finish the Azure destination plan and have its private network and subnet ready.",
+      "Use the licensed or pay-as-you-go Server 2019 Marketplace image required by this route, with Desktop Experience.",
+      "Have a permitted private way to administer the VM and enough budget for this optional directory server."
+    ],
+    "firstMove": "In the Azure portal, search for Virtual machines and select Create.",
+    "reassurance": "Keep the Windows network adapter on its Azure-managed settings. The lesson will show where to reserve the address in Azure instead."
+  },
+  "lab-16": {
+    "welcome": "Before a local server can use a cloud domain, we need to prove there is a private path between the networks. Let’s check that path one piece at a time.",
+    "why": "Two private addresses cannot communicate just because both computers have internet access.",
+    "needs": [
+      "Have the actual VMware subnet and Azure network ranges written down and checked for overlap.",
+      "Identify a compatible, permitted private-connection method and the person who controls its settings.",
+      "Review VPN Gateway or other connection costs before creating anything; this lesson can remain a planning gate if the required equipment is unavailable."
+    ],
+    "firstMove": "Write the local subnet and Azure subnet side by side, then identify the proposed private connection between them.",
+    "reassurance": "If you don’t have a suitable connection, stop at this gate. Opening public domain-controller ports is not the way around it."
+  },
+  "lab-17": {
+    "welcome": "Let’s move the small test website into an Azure Windows server named APP02. We’ll first prove it works on Server 2019, then hand it to the separate Server 2022 upgrade class.",
+    "why": "Doing the application move and operating-system upgrade separately helps us tell which change caused a problem.",
+    "needs": [
+      "Have APP01’s IIS test site working and its files and recovery notes ready.",
+      "Finish the private-network and destination sign-in checks from the preceding Azure lessons.",
+      "Have budget and permission for a licensed Server 2019 Azure member VM, plus a permitted private way to copy the test files."
+    ],
+    "firstMove": "Open your migration notes and confirm this exercise moves the test workload and data rather than converting the Workstation VM itself.",
+    "reassurance": "If the old site already fails, we’ll fix or record that before copying it. We need a known starting point to compare with APP02."
+  },
+  "az-01": {
+    "welcome": "Let’s put a sensible price limit on the Azure practice. We’ll estimate one cloud VM first and learn which charges keep going after a server is stopped.",
+    "why": "A small lab should help you learn without leaving expensive services running by accident.",
+    "needs": [
+      "Open the Azure subscription you are allowed to use and know your spending limit.",
+      "Have the planned VM size, region, disk, and SQL license choices ready to estimate.",
+      "Make a simple cost note where you can record what remains after each session."
+    ],
+    "firstMove": "In the Azure portal, open Subscriptions and select the subscription that will pay for this lab.",
+    "reassurance": "If you only see a cost warning, don’t assume Azure stopped the resources for you. We’ll check their actual states and remaining charges."
+  },
+  "az-02": {
+    "welcome": "Let’s check what the migration tool can actually move before we choose it. Our local lab uses VMware Workstation Pro, which is different from an organization’s VMware vSphere setup.",
+    "why": "A tool that supports one hypervisor does not automatically support every product with VMware in its name.",
+    "needs": [
+      "Open Workstation Pro and record its exact product name and version.",
+      "Keep the Windows Server and application versions from your source inventory nearby.",
+      "Have the current Azure migration support table open; no VM is moved in this planning lesson."
+    ],
+    "firstMove": "On the physical Windows computer, open Workstation Pro → Help → About.",
+    "reassurance": "If full-VM migration is not supported for your source, that’s useful information. We can choose the supported workload-and-data route instead of forcing a conversion."
+  },
+  "az-03": {
+    "welcome": "Let’s rehearse the day we would switch users to the new server. We’ll decide who checks the application, when to stop, and when to return to the old service.",
+    "why": "A cutover is the moment users start using the new service. Practicing the decisions makes that moment less confusing.",
+    "needs": [
+      "Have the source and Azure test results from the completed migration lessons.",
+      "Keep the known recovery point, owner contact, and allowed interruption time in your notes.",
+      "Use a worksheet or a partner for this rehearsal; it does not need a real outage."
+    ],
+    "firstMove": "Open the cutover worksheet and write the person who makes the go-or-stop decision.",
+    "reassurance": "If any check is missing, mark the rehearsal as not ready. A clear stop decision is a useful result, too."
+  },
+  "upgrade-01": {
+    "welcome": "Our test website is now on APP02 in Azure running Server 2019. Let’s protect that working state, use the Azure-supported upgrade media, and then check the site again on Server 2022.",
+    "why": "Keeping the application and its data through an upgrade takes more than seeing the new Windows version on a screen.",
+    "needs": [
+      "Have the migrated APP02 member server working on licensed Server 2019, with its test website and private access checked.",
+      "Prepare the Azure-specific recovery point and restore procedure for its OS and any application data disks.",
+      "Use the supported matching Server 2022 upgrade route and the required Azure administration permissions. This class upgrades APP02, not either domain controller."
+    ],
+    "firstMove": "In the Azure portal, open APP02 and compare its name and disk details with your recorded upgrade target.",
+    "reassurance": "If Setup does not offer the supported keep-files-and-apps path for your image and edition, stop. A clean install is not an equivalent upgrade."
+  },
+  "ha-01": {
+    "welcome": "Let’s understand why our optional SQL design uses two SQL servers and a small cloud witness. The witness helps the Windows cluster make a decision; it does not hold another copy of the database.",
+    "why": "Cluster voting and database replication solve different problems. Mixing them up can make an apparently healthy design lose service or data.",
+    "needs": [
+      "Finish the single-server SQL backup and restore exercise first.",
+      "Have notes for two separate SQL nodes and their planned domain and network.",
+      "Use a sketch for this lesson; you do not need to create the Azure storage account yet."
+    ],
+    "firstMove": "Draw SQL01 and SQL02 as two separate boxes, then add a third small box labeled Cloud Witness.",
+    "reassurance": "High availability has several moving parts. We’ll learn the voting idea before changing any cluster settings."
+  },
+  "ha-02": {
+    "welcome": "Let’s prepare the two SQL computers before building the cluster. We’ll check that they can find the same domain and meet the supported Windows and SQL requirements.",
+    "why": "The cluster needs both nodes to agree on the basics before it can safely keep a service running.",
+    "needs": [
+      "Have two separate Windows SQL VMs, SQL01 and SQL02, joined to the same planned domain.",
+      "Keep domain controllers, DNS, time, and private network access healthy.",
+      "Have enough resources and the supported SQL replication and listener design; a cloud witness does not set those up for you."
+    ],
+    "firstMove": "On SQL01 and SQL02, compare each computer’s domain, address, DNS, and clock with the cluster plan.",
+    "reassurance": "If cluster validation reports an error, pause there. Don’t hide a network or storage problem by skipping validation."
+  },
+  "ha-03": {
+    "welcome": "Now we’ll create the little Azure storage account our cluster will use as its witness. Think of it as a shared place to help settle a tie, not a third SQL server.",
+    "why": "The witness adds a vote without needing a whole extra VM, but both cluster nodes still need to reach it.",
+    "needs": [
+      "Have the approved Azure subscription, resource group, region, and cost plan ready.",
+      "Use the planned SQL cluster design and confirm both nodes have the required permitted HTTPS path to the storage service.",
+      "Have approval for storage-account key access for this witness method and a private place to keep its secret key."
+    ],
+    "firstMove": "In the Azure portal, search for Storage accounts and select Create.",
+    "reassurance": "If policy does not allow the key-based witness method, leave the policy in place and review an approved alternative. We won’t change a workplace rule to make the example fit."
+  },
+  "ha-04": {
+    "welcome": "Let’s tell the healthy Windows cluster to use the Azure witness we just prepared. We’ll use the wizard on one cluster node and then check the result.",
+    "why": "Creating a storage account does not connect it to the cluster; this step makes that connection.",
+    "needs": [
+      "Have SQL01 and SQL02 online in the completed Windows cluster.",
+      "Keep the approved witness storage account available and its name and key in your private password manager.",
+      "Sign in to one node with permission to manage that cluster, and confirm its private path to Azure storage works."
+    ],
+    "firstMove": "On SQL01, open Server Manager → Tools → Failover Cluster Manager.",
+    "reassurance": "The storage key belongs only in the real setup wizard or its approved secret-handling process. Keep it out of screenshots, scripts, and command history."
+  },
+  "ha-05": {
+    "welcome": "Let’s check that the finished lab can handle a planned change, then tidy up the cloud costs. We’ll test the application through its normal connection name, not just look for green cluster icons.",
+    "why": "A cluster can be online while the database or client connection still fails. The application test tells us whether the design does its job.",
+    "needs": [
+      "Have both cluster nodes and the witness online, with SQL replicas healthy and the intended listener working.",
+      "Keep verified backups, the approved recovery plan, and the test application’s connection details ready.",
+      "Use a quiet disposable-lab window for planned failover; this is not a surprise outage test on a real service."
+    ],
+    "firstMove": "Open Failover Cluster Manager and your SQL health checks, and record the healthy starting state.",
+    "reassurance": "If planned failover fails, stop the experiment and use the supported recovery steps. Independent snapshots of domain controllers or SQL nodes are not a shortcut around those steps."
+  },
+  "lab-18": {
+    "welcome": "You’ve practiced a lot of moving parts. Let’s turn that work into a clear explanation you could give a teammate or interviewer.",
+    "why": "Explaining the order in your own words helps you spot what you understand and what needs another look.",
+    "needs": [
+      "Have your completed lab notes and a few useful, redacted screenshots nearby.",
+      "Keep the network map, domain names, database backup checks, and Azure recovery notes ready to refer to.",
+      "Choose a partner to ask questions, or use a voice recorder that stays in your private study space."
+    ],
+    "firstMove": "Start with the first prompt and explain why a public DNS name does not create an Active Directory domain.",
+    "reassurance": "You don’t have to memorize a speech. If a question catches you out, revisit that class and try explaining it again with your own example."
+  },
+  "lab-19": {
+    "welcome": "Something didn’t work? Let’s slow down and find the first broken link instead of changing five things at once.",
+    "why": "A small, ordered set of checks is usually more useful than guessing at the most complicated explanation.",
+    "needs": [
+      "Have the exact error message, affected computer name, and time the problem happened.",
+      "Keep your last working settings and the relevant class’s expected result nearby.",
+      "Make sure you can reach the VM console before considering a network or sign-in change."
+    ],
+    "firstMove": "Write down what you tried and what actually happened, then find the matching symptom in the troubleshooting table.",
+    "reassurance": "An error is information, not a failed class. We’ll start with a read-only check and change one thing only when the evidence points to it."
+  },
+  "lab-20": {
+    "welcome": "Let’s leave the lab in a state you can understand tomorrow. We’ll save useful evidence, stop what we don’t need running, and review anything Azure still charges for.",
+    "why": "Shutting down and deleting are different actions. Tidying up carefully protects both your work and your budget.",
+    "needs": [
+      "Have your notes and screenshots saved somewhere outside any resource you intend to delete.",
+      "List the VMware and Azure resources you created, including disks, snapshots, networking, and backups.",
+      "Decide whether you are pausing the lab or finishing it permanently before using a Delete button."
+    ],
+    "firstMove": "Open your evidence folder and check that your notes and the files you want to keep are saved.",
+    "reassurance": "If you’re not sure whether a disk or backup is still needed, keep it and review its dependency and cost. Don’t use deletion to find out."
+  },
+  "field-01": {
+    "welcome": "Imagine you’ve just joined a migration that is already under way. Let’s practice the questions that help you understand the work before you touch a server.",
+    "why": "Good questions reveal who owns the service, what has already been tested, and what still needs a decision.",
+    "needs": [
+      "Use a blank handoff worksheet and the completed lab as your example project.",
+      "Have the source and destination names, application owners, and current status available if this is a real authorized handoff.",
+      "Ask for existing diagrams and change records; don’t request someone’s password or private key as part of the worksheet."
+    ],
+    "firstMove": "Write the project name and ask which organization, Azure directory, and subscription the work belongs to.",
+    "reassurance": "It’s normal not to know the whole project on day one. Record unanswered questions with the person who can help, rather than filling gaps with guesses."
+  }
+}

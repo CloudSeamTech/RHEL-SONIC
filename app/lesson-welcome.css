@@ -1,0 +1,52 @@
+.teacher-welcome {
+  background: #080808;
+  border: 1px solid #242424;
+  margin: 16px 0;
+  padding: 18px;
+  color: #eaeaea;
+  min-width: 0;
+}
+.teacher-welcome .eyebrow {
+  color: #21c5db;
+}
+.teacher-welcome p,
+.teacher-welcome li {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.teacher-welcome .teacher-intro {
+  font-size: 16px;
+  margin: 10px 0 18px;
+}
+.teacher-welcome h3 {
+  font-size: 15px;
+  margin: 16px 0 8px;
+}
+.teacher-welcome ul {
+  padding-left: 22px;
+  list-style: disc;
+}
+.teacher-welcome li {
+  padding: 4px 0;
+}
+.teacher-welcome .teacher-first {
+  border-left: 2px solid #d184ac;
+  padding: 10px 14px;
+  margin: 16px 0;
+  background: #101010;
+}
+.teacher-welcome summary {
+  color: #21c5db;
+  font-size: 13px;
+  cursor: pointer;
+}
+.teacher-welcome .teacher-reassurance {
+  color: #b6b6b6;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+@media (max-width: 650px) {
+  .teacher-welcome {
+    padding: 14px;
+  }
+}

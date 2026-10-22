@@ -1,0 +1,110 @@
+.maintenance-practice {
+  border: 1px solid #242424;
+  background: #050505;
+  padding: 18px;
+  margin: 18px 0;
+  min-width: 0;
+}
+.maintenance-practice h2 {
+  font-size: 20px;
+}
+.maintenance-practice .eyebrow {
+  color: #d184ac;
+}
+.maintenance-practice p {
+  line-height: 1.65;
+}
+.practice-table-wrap {
+  max-width: 100%;
+  overflow: auto;
+  margin: 16px 0;
+}
+.maintenance-practice table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.maintenance-practice caption {
+  text-align: left;
+  color: #898989;
+  padding: 8px 0;
+}
+.maintenance-practice td,
+.maintenance-practice th {
+  border: 1px solid #242424;
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.maintenance-practice button {
+  background: #1c1c1c;
+  color: #eaeaea;
+  border: 1px solid #242424;
+  padding: 10px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.maintenance-practice button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.maintenance-practice button[aria-pressed='true'] {
+  border-color: #21c5db;
+  color: #21c5db;
+}
+.practice-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.practice-select select {
+  background: #101010;
+  color: #eaeaea;
+  border: 1px solid #242424;
+  padding: 10px;
+  font-family: inherit;
+  max-width: 100%;
+}
+.practice-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+.practice-controls button {
+  text-align: left;
+  line-height: 1.5;
+}
+.maintenance-practice summary {
+  color: #21c5db;
+  cursor: pointer;
+}
+.practice-log {
+  border: 1px solid #242424;
+  padding: 12px;
+  max-height: 250px;
+  overflow: auto;
+  margin: 16px 0;
+  font-family: var(--font-ibm-plex-mono), monospace;
+  font-size: 12px;
+}
+.practice-log span {
+  color: #dfb656;
+}
+.practice-log p {
+  margin: 8px 0;
+}
+.maintenance-practice button:focus-visible,
+.maintenance-practice select:focus-visible {
+  outline: 2px solid #21c5db;
+  outline-offset: 2px;
+}
+@media (max-width: 650px) {
+  .maintenance-practice {
+    padding: 12px;
+  }
+  .practice-controls {
+    grid-template-columns: 1fr;
+  }
+}

@@ -68,14 +68,14 @@ export function LearningConsole({
   const available = pathwayLessons(pathway);
   const selected =
     available.find((lesson) => lesson.id === selectedId) ?? available[0];
-  const completed =
-    selected.source === 'nessus'
-      ? nessusProgress.verified
-      : selected.source === 'alma'
-        ? almaCompleted
-        : selected.source === 'linux'
-          ? linuxProgress.completed
-          : migrationCompleted;
+  const completed = [
+    ...new Set([
+      ...almaCompleted,
+      ...linuxProgress.completed,
+      ...migrationCompleted,
+      ...nessusProgress.verified,
+    ]),
+  ];
   const next = available.find((lesson) => !completed.includes(lesson.id));
   const section = pathway.sections.find((item) =>
     item.lessons.some((lesson) => lesson.id === selected.id),

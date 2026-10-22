@@ -1,3 +1,5 @@
+import { maintenanceCourse } from '../lib/guided-courses.ts';
+import { welcomeFor } from '../lib/lesson-welcome.ts';
 import { nessusCourses, nessusCourseHref } from '../lib/nessus-curriculum.ts';
 import almaCourse from '../content/alma/desktop-lessons.json' with { type: 'json' };
 import { lessons, modules } from './course.ts';
@@ -9,7 +11,7 @@ export type ConsoleLesson = {
   title: string;
   description: string;
   href: string;
-  source: 'linux' | 'migration' | 'alma' | 'nessus';
+  source: 'linux' | 'migration' | 'alma' | 'nessus' | 'azure-lab';
   metadata: string;
   steps: string[];
 };
@@ -259,7 +261,9 @@ function migration(ids: string[]): ConsoleLesson[] {
     return {
       id,
       title,
-      description,
+      description:
+        welcomeFor(id, 'stepOffset' in lesson && lesson.stepOffset === 21)
+          ?.welcome ?? description,
       href: `/migration#lesson=${id}`,
       source: 'migration',
       metadata: lesson.surface,
@@ -326,6 +330,18 @@ export const learningPathways: LearningPathway[] = [
         title: '01 / Build the Destination',
         lessons: migration(['az-01', 'lab-14', 'lab-15', 'lab-16']),
       },
+      {
+        title: '02 / Update, Back Up and Recover Servers',
+        lessons: maintenanceCourse.lessons.map((lesson) => ({
+          id: lesson.id,
+          title: lesson.title,
+          description: lesson.description,
+          href: `/azure-operations#lesson=${lesson.id}`,
+          source: 'azure-lab' as const,
+          metadata: 'Azure Portal / Windows and RHEL practice servers',
+          steps: lesson.steps.map((step) => step.title),
+        })),
+      },
     ],
   },
   {
@@ -375,7 +391,7 @@ export const learningPathways: LearningPathway[] = [
           return {
             id,
             title: linuxTitles[id] ?? lesson.title,
-            description: lesson.objective,
+            description: welcomeFor(id)?.welcome ?? lesson.objective,
             href: `/#lesson=${id}`,
             source: 'linux' as const,
             metadata: lesson.shell,
@@ -402,7 +418,7 @@ export const learningPathways: LearningPathway[] = [
         .map((lesson) => ({
           id: lesson.id,
           title: lesson.title,
-          description: lesson.description,
+          description: welcomeFor(lesson.id)?.welcome ?? lesson.description,
           href: `/alma#lesson=${lesson.id}`,
           source: 'alma' as const,
           metadata: 'AlmaLinux 9 / GNOME / your own lab',
@@ -437,13 +453,19 @@ export const pathwayLessons = (pathway: LearningPathway) =>
 // Core lesson pagination follows the prerequisite route. Optional extensions
 // stay within their own sequence instead of interrupting the core route.
 export function lessonSequenceFor(id: string): ConsoleLesson[] {
-  if (id.startsWith('nessus-')) {
+  if (id.startsWith('nessus-') || id.startsWith('azure-maint-')) {
     const pathway = learningPathways.find((path) =>
       path.sections.some((section) =>
         section.lessons.some((lesson) => lesson.id === id),
       ),
     );
-    return pathway ? pathwayLessons(pathway) : [];
+    return pathway
+      ? pathwayLessons(pathway).filter((lesson) =>
+          id.startsWith('azure-maint-')
+            ? lesson.source === 'azure-lab'
+            : lesson.source === 'nessus',
+        )
+      : [];
   }
   if (id.startsWith('alma-'))
     return pathwayLessons(learningPathways.find((path) => path.id === 'alma')!);
@@ -453,7 +475,10 @@ export function lessonSequenceFor(id: string): ConsoleLesson[] {
         !['linux', 'alma'].includes(pathway.id) &&
         !pathway.id.startsWith('nessus-'),
     )
-    .flatMap((pathway) => pathway.sections);
+    .flatMap((pathway) => pathway.sections)
+    .filter((section) =>
+      section.lessons.every((lesson) => lesson.source !== 'azure-lab'),
+    );
   const optional = sections.find(
     (section) =>
       section.optional && section.lessons.some((lesson) => lesson.id === id),

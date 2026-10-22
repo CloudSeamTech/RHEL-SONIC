@@ -1,4 +1,6 @@
 'use client';
+import { LessonWelcome } from './lesson-welcome';
+import { welcomeFor } from '@/lib/lesson-welcome';
 import { SessionGuide } from './session-guide';
 import { productionPracticeFor } from '@/lib/lab-production-practice';
 import { LessonVisualGuide } from './lesson-visual-guide';
@@ -563,14 +565,19 @@ export default function Home() {
                 </p>
                 <h2>{display.title}</h2>
                 <p className="task-phase">{lesson.phase}</p>
-                <section className="lab-brief" aria-label="What, why, and production context">
+                <LessonWelcome lessonId={lesson.id} />
+                <details
+                  className="lab-brief"
+                  aria-label="What, why, and production context"
+                >
+                  <summary>A little more context for this task</summary>
                   <div>
                     <b>WHAT YOU ARE DOING</b>
-                    <p>{lesson.objective}</p>
+                    <p>{welcomeFor(lesson.id)?.welcome ?? lesson.objective}</p>
                   </div>
                   <div>
                     <b>WHY THIS MATTERS AT WORK</b>
-                    <p>{lesson.why}</p>
+                    <p>{welcomeFor(lesson.id)?.why ?? lesson.why}</p>
                   </div>
                   <div>
                     <b>LAB CHANGE · WHAT WILL BE DIFFERENT</b>
@@ -580,9 +587,12 @@ export default function Home() {
                     <strong>PRODUCTION BEST PRACTICE:</strong>{' '}
                     {productionPracticeFor(lesson.id)}
                   </p>
-                </section>
+                </details>
                 <details className="explanation lab-additional-context">
-                  <summary>More context: scenario, definitions, and workplace comparisons</summary>
+                  <summary>
+                    More context: scenario, definitions, and workplace
+                    comparisons
+                  </summary>
                   <p>{lesson.scenario}</p>
                   {lesson.vsphere && <p>{lesson.vsphere}</p>}
                   <details className="explanation" key={'words' + lesson.id}>
@@ -590,7 +600,9 @@ export default function Home() {
                     <dl>
                       {beginnerTerms(lesson).map(({ term, meaning }) => (
                         <Fragment key={term}>
-                          <dt><strong>{term}</strong></dt>
+                          <dt>
+                            <strong>{term}</strong>
+                          </dt>
                           <dd>{meaning}</dd>
                         </Fragment>
                       ))}
@@ -604,7 +616,9 @@ export default function Home() {
                   <details className="explanation lab-additional-context">
                     <summary>Optional architecture or command diagram</summary>
                     {lesson.visual === 'keys' && <KeyDiagram key={lesson.id} />}
-                    {lesson.visual === 'architecture' && <ArchitectureDiagram />}
+                    {lesson.visual === 'architecture' && (
+                      <ArchitectureDiagram />
+                    )}
                     {lesson.visual === 'protocols' && <ProtocolDiagram />}
                   </details>
                 )}

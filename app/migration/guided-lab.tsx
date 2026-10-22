@@ -9,6 +9,8 @@ import { BeginnerActions, BeginnerWords } from '../beginner-actions';
 import { productionPracticeFor } from '@/lib/lab-production-practice';
 import { explainStep } from '@/lib/step-coaching';
 import { checkTeachingFor } from '@/lib/reference-check-teaching';
+import { LessonWelcome } from '../lesson-welcome';
+import { welcomeFor } from '@/lib/lesson-welcome';
 import { InstructionScreenshots } from '../instruction-screenshots';
 import './guided-lab.css';
 
@@ -52,11 +54,18 @@ export function GuidedLab({
       setNotice('Step checks are kept for this visit only.');
     }
   }, [storageKey, guide.steps.length]);
+  const welcome = welcomeFor(lessonId);
   const step = guide.steps[index];
   const clarity = checkTeachingFor(lessonId, index + 1);
   const currentTitle = clarity?.title ?? step.title;
   const currentAction = clarity?.action ?? step.action;
-  const coaching = explainStep({ lessonId, title: currentTitle, action: currentAction, command: step.command, expected: step.expect });
+  const coaching = explainStep({
+    lessonId,
+    title: currentTitle,
+    action: currentAction,
+    command: step.command,
+    expected: step.expect,
+  });
   function select(next: number) {
     setIndex(next);
     setCopied(false);
@@ -81,17 +90,18 @@ export function GuidedLab({
       <header className="guided-heading">
         <div>
           <span className="eyebrow">GUIDED LAB / ONE STEP AT A TIME</span>
-          <h2>Follow one step at a time</h2>
+          <h2>Let’s work through it together</h2>
         </div>
         <span>
           {checked.length} of {guide.steps.length} steps checked
         </span>
       </header>
       <p className="guided-start-hint">
-        Read the action, compare the picture with your screen, and check the result.
-        Use Previous and Next to move at your own pace. Nothing runs automatically.
+        Take your time with one step. Try the small actions, then compare your
+        screen with the check below. You can go back whenever you need to.
       </p>
-      {purpose && (
+      <LessonWelcome lessonId={lessonId} />
+      {purpose && !welcome && (
         <section className="guided-purpose">
           <b>WHAT WE ARE BUILDING · WHY IT MATTERS</b>
           <p>{purpose}</p>
@@ -105,9 +115,13 @@ export function GuidedLab({
         </div>
         <div>
           <dt>BEFORE YOU START</dt>
-          <dd>{guide.before}</dd>
+          <dd>{welcome?.firstMove ?? guide.before}</dd>
         </div>
       </dl>
+      <details className="guided-extra-help">
+        <summary>Need the exact lab details?</summary>
+        <p>{guide.before}</p>
+      </details>
       <label className="guided-step-picker">
         Choose a step
         <select
@@ -116,27 +130,30 @@ export function GuidedLab({
         >
           {guide.steps.map((item, n) => (
             <option key={n} value={n}>
-              Step {n + 1}: {checkTeachingFor(lessonId, n + 1)?.title ?? item.title}
+              Step {n + 1}:{' '}
+              {checkTeachingFor(lessonId, n + 1)?.title ?? item.title}
             </option>
           ))}
         </select>
       </label>
       <div className="guided-workspace">
         <details className="guided-step-navigation">
-          <summary>Jump to a different step · {guide.steps.length} steps</summary>
+          <summary>
+            Jump to a different step · {guide.steps.length} steps
+          </summary>
           <nav className="guided-step-list" aria-label="Walkthrough steps">
-          {guide.steps.map((item, n) => (
-            <button
-              key={`${n}-${item.title}`}
-              onClick={() => select(n)}
-              aria-current={n === index ? 'step' : undefined}
-            >
-              <span>
-                {checked.includes(n) ? '✓' : String(n + 1).padStart(2, '0')}
-              </span>
-              {checkTeachingFor(lessonId, n + 1)?.title ?? item.title}
-            </button>
-          ))}
+            {guide.steps.map((item, n) => (
+              <button
+                key={`${n}-${item.title}`}
+                onClick={() => select(n)}
+                aria-current={n === index ? 'step' : undefined}
+              >
+                <span>
+                  {checked.includes(n) ? '✓' : String(n + 1).padStart(2, '0')}
+                </span>
+                {checkTeachingFor(lessonId, n + 1)?.title ?? item.title}
+              </button>
+            ))}
           </nav>
         </details>
         <article
@@ -149,12 +166,16 @@ export function GuidedLab({
             STEP {index + 1} OF {guide.steps.length}
           </div>
           <h3>{currentTitle}</h3>
-          <p className="coaching-why"><strong>WHY THIS STEP:</strong> {coaching.reason}</p>
+          <p className="coaching-why">
+            <strong>Here’s why:</strong> {coaching.reason}
+          </p>
           <div className="guided-action">
-            <b>DO THIS NOW · IN YOUR PRACTICE LAB</b>
+            <b>LET’S TRY IT · IN YOUR PRACTICE LAB</b>
             <BeginnerActions text={currentAction} />
           </div>
-          <p className="coaching-effect"><strong>WHAT THIS CHANGES OR CHECKS:</strong> {coaching.impact}</p>
+          <p className="coaching-effect">
+            <strong>What this does:</strong> {coaching.impact}
+          </p>
           {step.command && (
             <section className="guided-command">
               <header>
@@ -183,47 +204,62 @@ export function GuidedLab({
               {coaching.commandNotes.length > 0 && (
                 <details className="coaching-command">
                   <summary>Understand this command and its options</summary>
-                  <ul>{coaching.commandNotes.map((note) => <li key={note}>{note}</li>)}</ul>
+                  <ul>
+                    {coaching.commandNotes.map((note) => (
+                      <li key={note}>{note}</li>
+                    ))}
+                  </ul>
                 </details>
               )}
             </section>
           )}
-          <section className="guided-visuals" aria-label="Pictures and screen references for this step">
+          <section
+            className="guided-visuals"
+            aria-label="Pictures and screen references for this step"
+          >
             <h4 className="guided-visuals-heading">See it on screen</h4>
-          {step.screenshots.map((id) => {
-            const shot = screenshotCatalog.find((item) => item.id === id);
-            return shot ? (
-              <figure className="guided-screenshot" key={id}>
-                <button
-                  className="guided-image-button"
-                  aria-label={`Enlarge screenshot: ${shot.alt}`}
-                  onClick={() => {
-                    setEnlarged(shot);
-                    dialog.current?.showModal();
-                  }}
-                >
-                  <img src={shot.src} alt={shot.alt} loading="lazy" />
-                </button>
-                <figcaption>
-                  <strong>Reference screenshot · click to enlarge</strong>
-                  <p>{shot.note}</p>
-                  <a href={shot.source} target="_blank" rel="noreferrer">
-                    {shot.credit}
-                  </a>
-                </figcaption>
-              </figure>
-            ) : null;
-          })}
-            <InstructionScreenshots stepId={`${lessonId}:guided:${index + 1}`} />
+            {step.screenshots.map((id) => {
+              const shot = screenshotCatalog.find((item) => item.id === id);
+              return shot ? (
+                <figure className="guided-screenshot" key={id}>
+                  <button
+                    className="guided-image-button"
+                    aria-label={`Enlarge screenshot: ${shot.alt}`}
+                    onClick={() => {
+                      setEnlarged(shot);
+                      dialog.current?.showModal();
+                    }}
+                  >
+                    <img src={shot.src} alt={shot.alt} loading="lazy" />
+                  </button>
+                  <figcaption>
+                    <strong>Reference screenshot · click to enlarge</strong>
+                    <p>{shot.note}</p>
+                    <a href={shot.source} target="_blank" rel="noreferrer">
+                      {shot.credit}
+                    </a>
+                  </figcaption>
+                </figure>
+              ) : null;
+            })}
+            <InstructionScreenshots
+              stepId={`${lessonId}:guided:${index + 1}`}
+            />
           </section>
           <section className="guided-expected">
-            <b>CHECK THE RESULT · DID IT WORK?</b>
+            <b>CHECK THE RESULT · DOES YOUR SCREEN MATCH?</b>
             <p>{step.expect}</p>
           </section>
-          <details className="guided-production" aria-label="How this differs in production">
+          <details
+            className="guided-production"
+            aria-label="How this differs in production"
+          >
             <summary>How this works in production · optional</summary>
             <p>{productionPracticeFor(lessonId)}</p>
-            <small>Compare with real-world practice; do not run lab commands against company systems without approval.</small>
+            <small>
+              Compare with real-world practice; do not run lab commands against
+              company systems without approval.
+            </small>
           </details>
           <details className="guided-trouble">
             <summary>My screen is different / it did not work</summary>

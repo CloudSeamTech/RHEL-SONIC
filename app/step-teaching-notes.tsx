@@ -17,13 +17,19 @@ export function StepTeachingNotes({
   const note = explainStep({ lessonId, title, action, expected, command });
   return (
     <section className="coaching-brief" aria-label="Meaning of this step">
-      <p><strong>WHY THIS STEP:</strong> {note.reason}</p>
-      <p><strong>WHAT IT CHANGES OR CHECKS:</strong> {note.impact}</p>
+      <p>
+        <strong>Here’s why:</strong> {note.reason}
+      </p>
+      <p>
+        <strong>What this does:</strong> {note.impact}
+      </p>
       {note.commandNotes.length > 0 && (
         <details className="coaching-command">
           <summary>What the command and its options mean</summary>
           <ul>
-            {note.commandNotes.map((text) => <li key={text}>{text}</li>)}
+            {note.commandNotes.map((text) => (
+              <li key={text}>{text}</li>
+            ))}
           </ul>
         </details>
       )}

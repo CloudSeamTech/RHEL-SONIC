@@ -1,0 +1,134 @@
+{
+  "alma-plan": {
+    "welcome": "Thinking about using AlmaLinux every day? Let’s first check the apps and equipment you need, then try Linux inside a practice VM before changing your main computer.",
+    "why": "A virtual machine, or VM, is a computer running inside another computer. It lets you learn while keeping your current Windows setup in place.",
+    "needs": [
+      "You’ll need a Windows computer with VMware Workstation Pro and enough spare resources for a practice VM.",
+      "For this desktop exercise, plan 2 virtual CPU cores, 4 GB of memory minimum, 8 GB if your host can spare it, and a new 50 GB virtual disk.",
+      "Have a separate backup of important Windows files and a list of everyday apps, games, printers, and other devices you use."
+    ],
+    "firstMove": "Open your notes and list the things you use your computer for each day, such as browsing, documents, video calls, and games.",
+    "reassurance": "You don’t need to replace Windows to take this class. We’ll first find out what works for you inside a VM."
+  },
+  "alma-install": {
+    "welcome": "Let’s build your AlmaLinux practice desktop. We’ll make a new virtual computer, attach the installer, and choose the GNOME desktop so you have menus and windows to work with.",
+    "why": "Starting with a new virtual disk keeps your learning separate from the files on your real Windows drive.",
+    "needs": [
+      "You’ll need VMware Workstation Pro and the desktop resource plan from the previous class.",
+      "Download the official AlmaLinux 9 x86_64 DVD ISO and its matching checksum; the ISO is the installer image we attach like a virtual DVD.",
+      "Have a new 50 GB virtual disk for ALMA-DESKTOP, with 2 virtual CPU cores and your planned memory allocation."
+    ],
+    "firstMove": "On Windows, verify the downloaded installer’s checksum before opening VMware’s File → New Virtual Machine wizard.",
+    "reassurance": "In the installer, Server with GUI is the choice that includes GNOME. Check that only the new practice disk is selected before accepting any disk changes."
+  },
+  "alma-first-login": {
+    "welcome": "Welcome to your new desktop. Let’s make the screen, keyboard, sound, and lock screen comfortable, then update Linux and check the VMware guest tools.",
+    "why": "A few careful setup choices make your everyday computer easier to use and give us a known working starting point.",
+    "needs": [
+      "You’ll need the installed ALMA-DESKTOP VM with the AlmaLinux 9 GNOME desktop.",
+      "Sign in using the normal user you created during installation and keep that user’s password private.",
+      "Have a working internet connection through the VM’s NAT network and save any open work before the update and restart."
+    ],
+    "firstMove": "Open the system menu at the top-right of GNOME and select Settings. Start with Displays so the text is easy to read.",
+    "reassurance": "If the picture doesn’t resize with the VMware window yet, that’s something we’ll check with the guest tools. Don’t reinstall the desktop just for that."
+  },
+  "alma-terminal": {
+    "welcome": "Let’s get comfortable with the terminal one small task at a time. We’ll make a practice folder, create a tiny file, and learn how to find help when a command is unfamiliar.",
+    "why": "The terminal is another way to tell your computer what to do. Practicing in your own disposable folder makes the results easier to understand.",
+    "needs": [
+      "You’ll need your AlmaLinux GNOME desktop, signed in as your normal user.",
+      "We’ll use only a practice folder inside your home folder; no valuable files need to be changed.",
+      "Keep the class open beside Terminal so you can read one command and its explanation before trying it."
+    ],
+    "firstMove": "Click Activities, type Terminal, and open it. Start by checking your username and current folder.",
+    "reassurance": "It’s normal not to remember commands yet. Use the help examples, and press q when you need to leave a help page."
+  },
+  "alma-files": {
+    "welcome": "Now let’s use both Files and the terminal to organize the practice note you made. We’ll copy it, check its permissions, and try a small archive.",
+    "why": "Learning both views helps you connect the folders you click with the paths you type in commands.",
+    "needs": [
+      "You’ll need the DesktopPractice folder and notes.txt from the previous command lesson.",
+      "Use your normal AlmaLinux user and the GNOME Files app.",
+      "For the removable-storage step, use a separate USB data drive you are allowed to use; leave important files backed up elsewhere."
+    ],
+    "firstMove": "Open Activities → Files, then use Ctrl+L to enter ~/DesktopPractice and find notes.txt.",
+    "reassurance": "If the file isn’t there, check the folder first. Keep the original note and practice with copies so a wrong click is easy to undo."
+  },
+  "alma-apps": {
+    "welcome": "Let’s add an everyday app and learn where it comes from. We’ll use AlmaLinux’s package tools first, then look at a user-only Flatpak app from Flathub.",
+    "why": "Different app sources have different publishers and permissions. Checking those details helps you make a choice you understand.",
+    "needs": [
+      "You’ll need an updated AlmaLinux 9 GNOME desktop with internet access.",
+      "Use your normal user and keep its administrator password private for any approved system-package changes.",
+      "Be ready to read an app’s source and permissions before accepting a third-party install."
+    ],
+    "firstMove": "Open Activities → Terminal and check which software sources and Flatpak tools are already configured.",
+    "reassurance": "If an app isn’t available from one source, don’t add random repositories. We’ll check the intended source and exact app name together."
+  },
+  "alma-games": {
+    "welcome": "Let’s set up Steam and try one small game that your computer can actually run. After that, we’ll look at Proton, which helps some Windows games run on Linux.",
+    "why": "Game support depends on the title, graphics hardware, and sometimes anti-cheat software. A successful Steam install does not promise every game will work.",
+    "needs": [
+      "You’ll need the user-scoped Flatpak and Flathub setup from the apps lesson.",
+      "Have a Steam account and a small game you own or a free native Linux title; keep sign-in and Steam Guard codes private.",
+      "Use the VM for setup practice. For playing games, check the actual computer’s graphics support and the game’s current requirements."
+    ],
+    "firstMove": "Read the chosen game’s official Linux and graphics requirements before installing or downloading it.",
+    "reassurance": "If a game doesn’t run in the VM, that may be a graphics limit rather than something you did wrong. Record the result and check the game’s support notes."
+  },
+  "alma-network": {
+    "welcome": "Let’s connect the everyday things you need: your network, a printer, and an allowed file share. We’ll check what is already working before changing settings.",
+    "why": "Looking first helps us tell a network problem from a printer or name-lookup problem without changing several settings at once.",
+    "needs": [
+      "You’ll need your AlmaLinux GNOME desktop and a network you are allowed to use.",
+      "For printing, have a supported printer and its confirmed name or address.",
+      "For file sharing, have the exact permitted share address and an account allowed to open it; don’t enter secrets into the class page."
+    ],
+    "firstMove": "Open Settings → Network and inspect the active connection. In VMware, virtual Ethernet is normal even if Windows is on Wi-Fi.",
+    "reassurance": "If the printer or Bluetooth device isn’t visible inside the VM, check whether it has been connected to the guest. Don’t reset the whole network first."
+  },
+  "alma-wd-drive": {
+    "welcome": "Let’s add storage carefully and keep the files you already own. We’ll identify your Western Digital drive, open an existing volume safely, and use a separate blank practice disk for formatting lessons.",
+    "why": "A disk’s letter or Linux device name can change. Matching its model, serial number, and size helps prevent erasing the wrong drive.",
+    "needs": [
+      "You’ll need a separate, checked backup of any files on the WD drive and a successful sample restore.",
+      "Know whether your drive is external USB or internal SATA, its model and serial number, and whether it already contains files to keep.",
+      "For the formatting exercise, use a new empty virtual disk. Do not give the VM raw access to your Windows system disk."
+    ],
+    "firstMove": "Open Activities → Disks and compare the candidate drive’s model, serial number, and capacity with the physical label or new virtual-disk plan.",
+    "reassurance": "If the identity is uncertain, stop before clicking Format or Delete. Existing files can be mounted without formatting, and the blank-disk exercise is optional."
+  },
+  "alma-backup": {
+    "welcome": "Let’s make a backup of your everyday files and then bring one sample back. We’ll restore it into a different folder so your original stays safe.",
+    "why": "A backup is useful when you can get the files back. A sample restore helps prove that your copy can do the job.",
+    "needs": [
+      "You’ll need a separate storage device or approved backup destination with enough free space.",
+      "Keep the practice notes.txt and Everyday folder from the earlier classes.",
+      "Choose a restore-test folder in your home directory; we won’t overwrite the original files."
+    ],
+    "firstMove": "Open Files and list the folders you would miss if this desktop stopped working, starting with your own documents and practice files.",
+    "reassurance": "A VM snapshot is useful for a short experiment, but it isn’t a separate backup of your important files. We’ll keep those two jobs distinct."
+  },
+  "alma-troubleshoot": {
+    "welcome": "Something isn’t working? Let’s slow it down and gather a few clues. We’ll check the exact error, free space, memory, and relevant service logs before choosing a fix.",
+    "why": "Changing one thing at a time makes it easier to tell which action actually helped and how to undo it if needed.",
+    "needs": [
+      "You’ll need your normal AlmaLinux terminal and notes about the last working state.",
+      "Pick a real, harmless problem to inspect; you do not need to break anything for this class.",
+      "Have administrator access available only when a log or check requires it, and keep SELinux and the firewall enabled."
+    ],
+    "firstMove": "Write down what failed, when it started, the exact error, and the last change you remember.",
+    "reassurance": "If the first check doesn’t reveal the cause, that’s okay. Keep the observation and move to the next check instead of disabling protections or restarting everything."
+  },
+  "alma-real-terminal": {
+    "welcome": "Let’s connect the lesson to a real terminal on your computer. We’ll first prove that the local companion is running PowerShell on Windows, then use AlmaLinux’s own terminal or a checked SSH connection for Linux commands.",
+    "why": "The place where you type matters. Windows PowerShell, a WSL distribution, and your VMware AlmaLinux guest are different computers or environments.",
+    "needs": [
+      "You’ll need your Windows computer with Git, Node.js 22.13 or later, npm, and the SONIC-Academy repository.",
+      "Have your AlmaLinux VM running and know the normal user you created inside it.",
+      "Use two local PowerShell windows for the website and companion processes; keep the pairing token private and do not publish a public tunnel."
+    ],
+    "firstMove": "On Windows, open a normal PowerShell window in the repository folder. Keep the AlmaLinux guest’s GNOME Terminal available separately.",
+    "reassurance": "If a command gives a Windows result, check the selected terminal before changing it. We’ll prove where commands run using the computer name and clock."
+  }
+}

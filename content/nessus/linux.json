@@ -1,9 +1,9 @@
 {
   "id": "nessus-linux",
   "title": "Install Nessus on AlmaLinux 9",
-  "description": "Install Tenable Nessus10.12.5 on a dedicated AlmaLinux9 VM, secure private HTTPS access and verify scanner readiness one small step at a time.",
-  "baseline": "Nessus10.12.5 · Nessus-10.12.5-el9.x86_64.rpm · supported AlmaLinux9 x86_64 (current10.12 matrix9.6+) · VMware Workstation Pro",
-  "prerequisite": "A host able to run the planned scanner and private target VMs, supported AlmaLinux9 x86_64 ISO, verified scanner RPM, approved lab network and valid Nessus entitlement. No dedicated live lab or user license is accessed by this website.",
+  "description": "Let’s build your own Nessus 10.12.5 scanner on AlmaLinux 9, open its web page, and check that it is ready for the scanning class.",
+  "baseline": "We’ll use VMware Workstation Pro, supported AlmaLinux 9 on a 64-bit Intel/AMD VM, and Nessus 10.12.5.",
+  "prerequisite": "Before we start, let’s give Nessus its own practice computer inside VMware. That way you can learn without replacing Windows on your everyday PC. Here’s what we’ll use; the next lesson will help you check anything you’re missing.",
   "sources": [
     {
       "title": "Intro",
@@ -66,24 +66,24 @@
     {
       "id": "nessus-linux-start",
       "title": "Meet Your Vulnerability Scanner",
-      "description": "Explain what Nessus can check and write down permission to scan your practice machines.",
-      "what": "Nessus is like a building inspector for computers. It looks for known weak spots; a finding is a clue that you must check.",
-      "why": "A scan can help you fix weaknesses before someone misuses them, but it needs a clear boundary.",
+      "description": "First, let’s see what Nessus does and choose the practice computers you’ll use.",
+      "what": "Think of Nessus as a building inspector for computers. It looks for known weak spots and gives us clues to investigate. It does not repair every problem for us.",
+      "why": "When you understand what the scanner can and cannot tell you, you can make better decisions about what to fix. We’ll also make sure we inspect only the machines in your practice lab.",
       "bestPractices": [
-        "Scan only the two private practice VMs you own or have written permission to test. Record the owner, IPs, time window and stop contact.",
-        "Nessus is the scanner. Tenable Security Center collects and manages vulnerability information across scanners; installing Nessus does not install Security Center."
+        "Write down the two target VMs you own or have permission to test, who is responsible for them, their addresses, the allowed scan time and who to contact if something goes wrong.",
+        "Keep the names straight: Nessus does the scanning. Tenable Security Center is a separate product for managing scanners and their results; we are not installing it here."
       ],
       "commonMistakes": [
-        "An IP address being reachable does not mean you may scan it.",
-        "A Nessus finding is not proof that a computer was attacked."
+        "Being able to reach a computer does not give us permission to scan it.",
+        "A finding means we need to check a possible weakness. It does not mean someone has already broken into the computer."
       ],
       "troubleshooting": [
         {
-          "problem": "I do not know which computers I may scan.",
-          "fix": "Stop and get a written target list. Use a private lab, not your employer’s network."
+          "problem": "I’m not sure which computers I can scan.",
+          "fix": "Let’s settle that before using the tool. Get a written list from the lab owner or instructor, and use your private practice machines—not your employer’s network."
         }
       ],
-      "exercise": "Explain the inspector analogy, then write a two-machine scan permission note without credentials.",
+      "exercise": "Explain Nessus to someone using the building-inspector example. Then write a short note naming the two computers you may test. Leave passwords out of the note.",
       "quiz": [
         {
           "question": "What does a Nessus finding tell you?",
@@ -111,17 +111,17 @@
           "title": "Name the job before using a tool",
           "where": "Windows host · private lab notes",
           "actions": [
-            "Create a private notes file named Nessus-Lab-Plan.",
-            "Write: I will install one scanner, scan my approved AlmaLinux and Windows target VMs, fix one issue, and scan again.",
-            "Add a sentence: Scanning finds evidence; it does not automatically repair every problem."
+            "On your Windows computer, open Notepad and save a private file named Nessus-Lab-Plan. This will be our notebook for the class.",
+            "Write: I will install one scanner, scan my permitted AlmaLinux and Windows practice VMs, fix one issue, and scan again.",
+            "Add one reminder: A scan gives me information to review; it does not automatically fix every problem."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The plan describes inspection, review, repair and verification in that order.",
+          "expected": "Your notebook describes the order we’ll follow: scan, review, fix and check again.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Name the job before using a tool — capture needed",
-            "instructions": "Capture only the non-secret plan text. Do not include employer names or credentials."
+            "instructions": "When you reach this point, take a screenshot of just your plan text. Leave out employer names, passwords and contact details."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/GetStarted.htm"
@@ -131,17 +131,17 @@
           "title": "Draw the permission boundary",
           "where": "Windows host · private lab notes",
           "actions": [
-            "List the scanner and the two practice target VM names. Leave unknown IPs marked not assigned yet.",
-            "Record who owns each VM and the allowed test window.",
-            "Write a stop rule: stop the scan if a target becomes unstable or an unexpected address appears."
+            "Add three rows to your notebook: the Nessus scanner, the AlmaLinux target and the Windows target. A target is simply the computer we plan to inspect.",
+            "Write each VM’s name, its owner and when you may run the test. If you do not have an IP address yet, write not assigned yet instead of guessing.",
+            "Add our stop rule: stop the scan if a target becomes unstable or an unexpected address appears."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The allowed machines and stop condition are written down.",
+          "expected": "You have a short list of allowed machines and a clear reason to stop if the test goes off plan.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Draw the permission boundary — capture needed",
-            "instructions": "Capture the scope table with private example machine names and no contact details."
+            "instructions": "Capture your three-row machine list and stop rule using private practice names. Hide contact details."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/GetStarted.htm"
@@ -151,47 +151,51 @@
           "title": "Separate the product names",
           "where": "Windows host · browser and notes",
           "actions": [
-            "Open the official Get Started source below.",
-            "Write three labels: Nessus scanner, Nessus Agent, Tenable Security Center.",
-            "Mark this class as a standalone Nessus scanner installation. Do not use an agent installer or convert this scanner to Security Center management."
+            "Open the official Get Started link below. We’re checking product names, not entering a license yet.",
+            "In your notebook, write Nessus scanner, Nessus Agent and Tenable Security Center. These names describe different jobs.",
+            "Mark our build as a standalone Nessus scanner. Use the scanner installer; do not use an Agent installer or change it to Security Center management."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "Your plan names the scanner product and leaves management conversion out of this exercise.",
+          "expected": "Your notes identify the standalone scanner we are building, without adding a different management product.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Separate the product names — capture needed",
-            "instructions": "Capture your product comparison notes, not a license or activation page."
+            "instructions": "Take a screenshot of your product-comparison notes. We do not need a license or activation page in the picture."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/GetStarted.htm"
           ]
         }
       ],
-      "pass": "Your lab notes explain scanner versus Security Center and name only approved private targets."
+      "pass": "You’re ready to move on when your notes explain what Nessus does, how it differs from Security Center, and which private practice computers you may scan.",
+      "needs": [
+        "You only need your Windows computer, Notepad and a place to save private lab notes for this first lesson.",
+        "Have the names or planned roles of your three practice machines: one scanner and two targets. It is fine to mark addresses as not assigned yet."
+      ]
     },
     {
       "id": "nessus-linux-requirements",
       "title": "Check the Scanner Requirements",
-      "description": "Check AlmaLinux support, VM resources and the files before making changes.",
-      "what": "We check the computer, the package and the license plan before we begin. Think of this as reading a recipe before turning on the oven.",
-      "why": "The wrong CPU package or too little space can stop installation or plugin loading.",
+      "description": "Let’s check your computer, installation files and license plan before we build the scanner.",
+      "what": "We’re checking our ingredients before cooking: the right operating system, enough room to work and the correct Nessus installer.",
+      "why": "Finding a missing file or a memory shortage now is much easier than diagnosing a half-finished installation later.",
       "bestPractices": [
-        "Use a supported, patched AlmaLinux 9 release. Tenable’s 10.12 matrix currently lists AlmaLinux 9.6 and later in the 9.x line.",
-        "Use a fresh dedicated VM. Do not install over an existing Nessus Agent, Manager or scanner; competing nessusd processes can be stopped by installation.",
-        "Keep all private license files and activation codes outside the repository and academy notes."
+        "Choose a supported, patched AlmaLinux 9 release. Tenable’s current 10.12 table lists AlmaLinux 9.6 and later in the 9.x family; check the linked table if your image is different.",
+        "Start with a fresh VM for the scanner. Do not install over another Nessus Agent, Manager or scanner—installing can stop another nessusd process already on that machine.",
+        "Keep your private license and activation code in your approved password manager or other protected storage, outside GitHub and your class notes."
       ],
       "commonMistakes": [
-        "The x86_64 RPM does not run on an ARM VM.",
-        "The 30 GB scanner disk requirement is in addition to the operating system and does not cap future log or result growth."
+        "The x86_64 installer is for a 64-bit Intel/AMD VM. It will not run in an ARM VM.",
+        "Nessus needs at least 30 GB beyond the operating system. Results and logs can keep growing, so that is not a promise that the whole VM needs only 30 GB."
       ],
       "troubleshooting": [
         {
-          "problem": "The host cannot spare the required resources.",
-          "fix": "Do not oversubscribe it. Reduce other running VMs or use a larger authorized lab host before proceeding."
+          "problem": "My Windows computer cannot spare the resources.",
+          "fix": "Close or shut down other practice VMs and check again. If the host is still short of memory or disk space, use a more capable lab computer before continuing. Giving a VM more memory than the host can spare usually makes both slow."
         }
       ],
-      "exercise": "Compare the plan to today’s official hardware and software tables and record your review date.",
+      "exercise": "Compare your plan with Tenable’s hardware and software tables. Write down the resources you can actually provide and the date you checked the requirements.",
       "quiz": [
         {
           "question": "Which VM matches the supplied el9.x86_64 RPM?",
@@ -219,17 +223,17 @@
           "title": "Check the supported operating system",
           "where": "Windows host · browser",
           "actions": [
-            "Open Tenable’s Software Requirements source.",
-            "Find the Tenable Nessus 10.12 table and the AlmaLinux row.",
-            "Record supported AlmaLinux 9 minor versions and choose an x86_64 installation image. Recheck the matrix if your image differs."
+            "Open the Software Requirements link below in your browser.",
+            "Find the AlmaLinux row in the Nessus 10.12 table. Look for the supported 9.x versions and x86_64 architecture.",
+            "Write down the supported minor version you’ll install. For example, 9.6 is a minor version in the AlmaLinux 9 family. Recheck the table if your ISO is a different version."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The chosen OS release and CPU architecture appear in your notes.",
+          "expected": "Your notes name a supported AlmaLinux release and the Intel/AMD 64-bit image you plan to use.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Check the supported operating system — capture needed",
-            "instructions": "Capture the public support-table row with its page URL visible."
+            "instructions": "Capture the public AlmaLinux support-table row with the documentation address visible."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/SoftwareRequirements.htm"
@@ -239,17 +243,17 @@
           "title": "Reserve enough VM resources",
           "where": "Windows host · VMware Workstation Pro and notes",
           "actions": [
-            "Plan four virtual CPU cores and 8 GB RAM when your host can spare them. The standard scanner table lists four 2 GHz cores, 4 GB RAM minimum allocation, and 8 GB recommended.",
-            "Plan an 80 GB new virtual disk for this exercise. This is a teaching allocation: the scanner needs at least 30 GB beyond the OS, plus temporary space and future growth.",
-            "Check that the host has spare RAM, CPU and real free disk capacity. A growable virtual disk still consumes physical space as it fills."
+            "For our practice scanner, plan 4 virtual CPU cores and 8 GB RAM. CPU cores do the processing; RAM is the machine’s working space. Tenable lists 4 cores at 2 GHz, 4 GB RAM minimum and 8 GB recommended for a standard scanner.",
+            "Plan a new 80 GB virtual disk for this exercise. That gives the operating system, Nessus and its growing files room to work; Nessus itself needs at least 30 GB beyond the OS.",
+            "Check the physical Windows computer too. Leave it enough RAM, CPU and free disk space to keep running while the scanner and required target VMs are on. A growable virtual disk uses more real disk space as it fills."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The host can run the scanner plus the required targets without exhausting resources.",
+          "expected": "You can explain how the scanner and target VMs fit on your host without using all of its resources.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Reserve enough VM resources — capture needed",
-            "instructions": "Capture the VM resource plan and host free-space view without unrelated personal files."
+            "instructions": "Capture the VM resource plan and the Windows free-space view. Keep unrelated files out of the picture."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/HardwareRequirements.htm"
@@ -259,47 +263,51 @@
           "title": "Inventory the supplied files privately",
           "where": "Windows host · File Explorer",
           "actions": [
-            "Keep Nessus-10.12.5-el9.x86_64.rpm in a private lab installers folder. Confirm it is the scanner RPM from Tenable, not NessusAgent.",
-            "Record the installer origin and trusted vendor checksum. Record only that a license is available, not its contents.",
-            "Treat nessus-updates-10.12.5.tar.gz as unidentified until its purpose and matching signature are confirmed. A filename alone does not prove it contains plugins."
+            "In File Explorer, put Nessus-10.12.5-el9.x86_64.rpm in your private lab installers folder. An RPM is the Linux installation package. Check that Tenable supplied this scanner package, not NessusAgent.",
+            "Write down where it came from and the trusted vendor checksum—a long value used to check whether the file matches the original. Note that your license is available, but do not copy its contents.",
+            "Keep nessus-updates-10.12.5.tar.gz aside for now. Its name alone does not tell us whether it contains plugins or another update, and we still need to verify the matching signature."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The installer is identified; license secrets are separate; the update archive has not been blindly applied.",
+          "expected": "You know which file installs Nessus. Your license stays private, and the update archive has not been used without checking it.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Inventory the supplied files privately — capture needed",
-            "instructions": "Capture the RPM filename and non-secret origin/checksum record. Hide license files and private download URLs."
+            "instructions": "Capture the RPM name and your non-secret origin/checksum note. Hide license files and private download addresses."
           },
           "sources": [
             "https://docs.tenable.com/release-notes/Content/nessus/2026.htm"
           ]
         }
       ],
-      "pass": "The plan records supported AlmaLinux 9 x86_64, the resource allocation and a valid activation route."
+      "pass": "You have a supported AlmaLinux 9 x86_64 image, a workable resource plan and a registration route your license supports.",
+      "needs": [
+        "Open the official Tenable hardware and software links and your Windows storage/resource information.",
+        "Have your installer folder and license plan available; you can confirm that a private license exists without opening it for a screenshot."
+      ]
     },
     {
       "id": "nessus-linux-vm",
       "title": "Create the AlmaLinux Scanner VM",
-      "description": "Build a fresh AlmaLinux 9 VM in VMware Workstation Pro.",
-      "what": "We make a separate practice computer named NESSUS-ALMA09. It will run the scanner, not your daily desktop work.",
-      "why": "A dedicated VM keeps scanner changes separate and gives us a clean place to diagnose problems.",
+      "description": "We’ll create a fresh AlmaLinux practice computer in VMware Workstation Pro.",
+      "what": "Our new VM is called NESSUS-ALMA09. A VM is a computer running inside your Windows computer; this one will have its own Linux system and virtual disk.",
+      "why": "Keeping Nessus on its own practice machine makes changes easier to understand and keeps them away from your everyday work.",
       "bestPractices": [
-        "Use the current supported AlmaLinux 9 x86_64 ISO from the official project.",
-        "Keep the practice VM on the approved private VMware NAT network. Do not bridge it onto an unapproved office network.",
-        "Use a new blank virtual disk. Do not select a physical or shared data disk."
+        "Get the supported AlmaLinux 9 x86_64 ISO from the official AlmaLinux project. The ISO is the file we attach as an installation disc.",
+        "Use the private VMware NAT network from the lab-network lesson. NAT lets the VM use the planned network connection; do not bridge it onto an office network without permission.",
+        "Choose a new blank virtual disk for this VM. Leave physical disks and shared data disks alone."
       ],
       "commonMistakes": [
-        "Easy Install may skip choices you need to understand; use manual installation here.",
-        "The scanner VM and Linux target VM should be different machines for the final two-target lab."
+        "Use manual installation here. VMware Easy Install may skip choices we want to learn.",
+        "Keep the scanner and the Linux target separate. In the final scan lab, we need one scanner and two other target computers."
       ],
       "troubleshooting": [
         {
-          "problem": "The installer does not start.",
-          "fix": "Check VM power, ISO attachment, Connect at power on and the virtual firmware boot menu. Do not repartition the host."
+          "problem": "I don’t see the AlmaLinux installer.",
+          "fix": "Open this VM’s settings and check the ISO filename and Connect at power on. Then check its boot menu. We are fixing the VM’s virtual disc, not repartitioning the Windows computer."
         }
       ],
-      "exercise": "Power the VM off and on once, then explain which disk belongs to the VM and which disk belongs to Windows.",
+      "exercise": "Shut down and start your new VM once. Point out its virtual disk in VMware, then explain why it is different from your Windows system disk.",
       "quiz": [
         {
           "question": "Which disk should the installer use?",
@@ -327,17 +335,17 @@
           "title": "Open the VMware creation wizard",
           "where": "Physical Windows host · VMware Workstation Pro",
           "actions": [
-            "Click File → New Virtual Machine.",
-            "Choose Typical → Next.",
-            "Choose I will install the operating system later → Next. Select Linux and the closest supported Red Hat Enterprise Linux 9 64-bit guest profile."
+            "On your physical Windows computer, open VMware Workstation Pro and click File → New Virtual Machine.",
+            "Choose Typical, then Next. This gives us the standard wizard.",
+            "Choose I will install the operating system later → Next. Choose Linux and the closest supported Red Hat Enterprise Linux 9 64-bit guest profile. AlmaLinux uses this compatible family for our VM settings."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The wizard is preparing a new Linux VM and has not modified an existing guest.",
+          "expected": "The wizard is creating a new Linux VM. Your existing VMs have not been changed.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Open the VMware creation wizard — capture needed",
-            "instructions": "Capture the actual Workstation guest operating system selection page, with no unrelated VMs visible."
+            "instructions": "Capture the actual VMware guest operating-system selection page. Keep unrelated VM names out of the picture."
           },
           "sources": [
             "https://wiki.almalinux.org/documentation/installation-guide.html"
@@ -347,17 +355,17 @@
           "title": "Give the scanner its resources",
           "where": "Physical Windows host · Workstation VM wizard",
           "actions": [
-            "Name the VM NESSUS-ALMA09 and save it in your private lab folder.",
-            "Create a new 80 GB virtual disk. Do not choose a physical disk.",
-            "Open Customize Hardware. Set 8 GB RAM and four total virtual CPU cores; do not exceed what the host can spare."
+            "Name this VM NESSUS-ALMA09 and save it in your private lab folder so you can find it again.",
+            "Create a new 80 GB virtual disk. Choose the virtual disk option, not a physical disk.",
+            "Open Customize Hardware and give the VM 8 GB RAM and 4 total virtual CPU cores. Pause if your Windows host cannot spare those resources."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The VM summary shows the planned name, memory, CPU cores and new disk.",
+          "expected": "The VM summary shows NESSUS-ALMA09, the planned memory and CPU cores, and its new disk.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Give the scanner its resources — capture needed",
-            "instructions": "Capture the VM hardware summary showing RAM, processors and disk capacity."
+            "instructions": "Capture the VM hardware summary so we can read its memory, processors and disk size."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/HardwareRequirements.htm"
@@ -367,17 +375,17 @@
           "title": "Attach the installer and private network",
           "where": "Physical Windows host · Workstation VM Settings",
           "actions": [
-            "Select CD/DVD → Use ISO image file → Browse to the official supported AlmaLinux 9 x86_64 ISO. Enable Connect at power on.",
-            "Select Network Adapter → Custom and select the private NAT VMnet recorded in the earlier lab-network lesson.",
-            "Finish the wizard and power on the VM."
+            "Open CD/DVD → Use ISO image file → Browse. Choose your official supported AlmaLinux 9 x86_64 ISO and tick Connect at power on.",
+            "Open Network Adapter → Custom. Select the private NAT VMnet you recorded in the lab-network lesson; do not guess a different network.",
+            "Finish the wizard and power on the VM. We’re ready to install its operating system."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The AlmaLinux installer boots and the VM uses the intended private network.",
+          "expected": "The AlmaLinux installer starts, and VMware shows the private network you intended to use.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Attach the installer and private network — capture needed",
-            "instructions": "Capture the VM network and ISO settings, then the AlmaLinux boot screen; use two genuine captures if needed."
+            "instructions": "Capture the ISO and network settings, then the AlmaLinux boot screen. Use two genuine screenshots if one picture cannot show both."
           },
           "sources": [
             "https://wiki.almalinux.org/documentation/installation-guide.html"
@@ -387,48 +395,53 @@
           "title": "Install AlmaLinux on the new disk",
           "where": "NESSUS-ALMA09 virtual console · AlmaLinux installer",
           "actions": [
-            "Choose Install AlmaLinux, then your language. Open Installation Destination and confirm only the new VM disk is selected.",
-            "Select Server with GUI if you want the same GNOME terminal path used in this course; a dedicated minimal server can also run Nessus.",
-            "Create a non-root lab user with administrator privileges and a strong private password. Complete installation and reboot.",
-            "Disconnect the installer ISO if it boots again. Sign in, open Activities → Terminal, and confirm the terminal is inside NESSUS-ALMA09."
+            "Choose Install AlmaLinux and your language. Open Installation Destination and check that only the new VM disk is selected before continuing.",
+            "Choose Server with GUI if you want the desktop and GNOME Terminal used in our examples. Nessus can also run on a dedicated minimal server, but its screen will look different.",
+            "Create a non-root user with administrator privileges. This is your everyday lab administrator; give it a strong password you keep privately. Finish installation and reboot.",
+            "If the installer starts again, disconnect the ISO. Sign in to AlmaLinux, open Activities → Terminal, and check that you are working inside NESSUS-ALMA09."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "AlmaLinux starts from the virtual disk and your administrator can open a terminal.",
+          "expected": "You are at the AlmaLinux desktop on NESSUS-ALMA09 and can open Terminal using your lab account.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Install AlmaLinux on the new disk — capture needed",
-            "instructions": "Capture the completed AlmaLinux desktop and hostname view. Never capture the password-entry screen."
+            "instructions": "Capture the finished AlmaLinux desktop and hostname view. Do not capture password entry."
           },
           "sources": [
             "https://wiki.almalinux.org/documentation/installation-guide.html"
           ]
         }
       ],
-      "pass": "NESSUS-ALMA09 boots a supported AlmaLinux 9 installation and you can open a terminal as your lab administrator."
+      "pass": "NESSUS-ALMA09 starts AlmaLinux from its own virtual disk, and you can sign in with your lab administrator account and open Terminal.",
+      "needs": [
+        "Have VMware Workstation Pro and the official supported AlmaLinux 9 x86_64 ISO ready on Windows.",
+        "Make sure the host can spare 4 virtual CPU cores, 8 GB RAM and a new 80 GB virtual disk for this scanner, plus room for the other lab VMs.",
+        "Finish the private VMware network lesson first so you know which VMnet to select."
+      ]
     },
     {
       "id": "nessus-linux-network",
       "title": "Set the Scanner Name and Network",
-      "description": "Configure the approved private address, hostname, DNS and time.",
-      "what": "We give the scanner a name and a reliable address. DNS is the address book; the clock helps secure connections agree about time.",
-      "why": "Windows must reach the scanner, and online activation needs working DNS, time and approved internet access.",
+      "description": "Let’s give your scanner a recognizable name and an address that your Windows computer can reach.",
+      "what": "We’re setting up the scanner’s address book and return address. Its hostname is its name; its IP address is where other computers reach it. DNS translates names into addresses.",
+      "why": "The browser needs to find the right scanner. Online activation also needs working name lookup, a correct clock and the internet connection your lab allows.",
       "bestPractices": [
-        "Record actual network values before changing anything. Example addresses work only if your private VMnet really uses that subnet.",
-        "Use the VM console for network changes so a lost SSH connection does not lock you out.",
-        "Keep DNS and time servers aligned with the lab design; do not replace AD DNS with public DNS on a domain-dependent target."
+        "Write down the current settings before changing them. Our sample addresses work only on a lab that really uses that address range.",
+        "Make network changes from the VM console—the VMware screen—so you still have a way in if an SSH connection drops.",
+        "Use the lab’s planned DNS and time servers. A machine that relies on Active Directory should keep using the domain’s DNS, not an unrelated public replacement."
       ],
       "commonMistakes": [
-        "The VMware NAT gateway is not necessarily the Windows host’s VMnet adapter address.",
-        "Typing a hostname does not automatically create a DNS record."
+        "The VMware gateway and the Windows VMnet adapter are not necessarily the same address. Check both instead of guessing.",
+        "Giving Linux a hostname does not automatically add that name to a DNS server."
       ],
       "troubleshooting": [
         {
-          "problem": "The new address breaks access.",
-          "fix": "Use the VM console to reopen the same NetworkManager profile and restore the recorded settings; confirm the network adapter uses the expected VMnet."
+          "problem": "I changed the address and lost the connection.",
+          "fix": "Go back to the VMware console, reopen the same NetworkManager connection profile and restore the settings you wrote down. Also check that the VM’s network adapter still uses the planned VMnet."
         }
       ],
-      "exercise": "Record scanner address, subnet prefix, gateway, DNS, Windows management address and active connection name without secrets.",
+      "exercise": "Write a small address card for this scanner: name, IP, subnet prefix, gateway, DNS, Windows management address and Linux connection name. Explain what each item is for.",
       "quiz": [
         {
           "question": "What should replace the sample gateway?",
@@ -456,9 +469,9 @@
           "title": "Discover the current network first",
           "where": "NESSUS-ALMA09 · GNOME Terminal",
           "actions": [
-            "Run the inspection commands.",
-            "Write down the active connection name, interface, IPv4 address and default route.",
-            "On Windows run ipconfig and record the IPv4 address of the adapter for this VMnet. This is the management source address used later."
+            "In the scanner’s Terminal, run the inspection commands below. These show the settings we already have; they do not change them.",
+            "Write down the active connection name, network interface, IPv4 address and default route. The default route points toward the gateway used to reach other networks.",
+            "On Windows, open PowerShell and run ipconfig. Find the adapter for this private VMnet and write down its IPv4 address; later we’ll use it as the allowed management source."
           ],
           "command": "hostnamectl\nnmcli connection show --active\nip -br address\nip route",
           "breakdown": [
@@ -479,11 +492,11 @@
               "meaning": "Shows network routes and the default gateway."
             }
           ],
-          "expected": "You have the actual guest and host adapter values; command output will vary by lab.",
+          "expected": "You have the actual Linux and Windows network values in your notebook. Yours may differ from the examples.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Discover the current network first — capture needed",
-            "instructions": "Capture ip -br address and ip route with only private lab addresses visible."
+            "instructions": "Capture the ip -br address and ip route results, showing only the private lab addresses we need."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm"
@@ -493,15 +506,15 @@
           "title": "Set a clear scanner hostname",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Set the scanner name using the command below.",
-            "Run hostnamectl again and compare its Static hostname value.",
-            "Record a matching private DNS entry or hosts-file plan if you intend to browse by name. Do not assume this command publishes DNS."
+            "Run the hostname command below to name the scanner nessus-alma09.",
+            "Run hostnamectl again and find Static hostname. It should now show the name you chose.",
+            "If you want to browse by this name, record how you will add a matching private DNS or hosts-file entry. Setting the Linux name does not publish that entry for you."
           ],
           "command": "sudo hostnamectl set-hostname nessus-alma09\nhostnamectl",
           "breakdown": [
             {
               "term": "sudo",
-              "meaning": "Runs this administrative change with your permitted elevated privileges."
+              "meaning": "Asks Linux to run this one command with your permitted administrator rights. It may ask for your Linux password."
             },
             {
               "term": "hostnamectl set-hostname",
@@ -512,11 +525,11 @@
               "meaning": "The course example name; use your approved unique name if different."
             }
           ],
-          "expected": "The local hostname is nessus-alma09. Reopen the terminal if the prompt still shows its old name.",
+          "expected": "Static hostname shows nessus-alma09. If your Terminal prompt still uses the old name, close and reopen Terminal.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Set a clear scanner hostname — capture needed",
-            "instructions": "Capture hostnamectl after setting the name, with no credentials."
+            "instructions": "Capture hostnamectl showing the new name. Leave out anything unrelated to the lab."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/SoftwareRequirements.htm"
@@ -526,9 +539,9 @@
           "title": "Apply the approved private address",
           "where": "NESSUS-ALMA09 virtual console · Terminal",
           "actions": [
-            "Replace the four example network values and the connection name with the approved plan before running. The example assumes 192.168.77.0/24 with a gateway at .2.",
-            "Choose an unused scanner address; verify that .30 is reserved for this VM if using the example.",
-            "Apply the profile, then repeat ip -br address and ip route. Keep the VM console open while doing this."
+            "Read this example before running it. Replace Wired connection 1 and all four network values with your plan. Our example uses 192.168.77.0/24 and gateway 192.168.77.2; those are not universal settings.",
+            "Choose an unused scanner address. Use 192.168.77.30 only if your lab has reserved that address for this VM.",
+            "Apply the connection profile, then run ip -br address and ip route again. Keep the VMware console open while you check the result."
           ],
           "command": "sudo nmcli connection modify 'Wired connection 1' ipv4.method manual ipv4.addresses 192.168.77.30/24 ipv4.gateway 192.168.77.2 ipv4.dns 192.168.77.10\nsudo nmcli connection up 'Wired connection 1'\nip -br address\nip route",
           "breakdown": [
@@ -561,11 +574,11 @@
               "meaning": "Activates the modified profile and can briefly interrupt connectivity."
             }
           ],
-          "expected": "The interface has the approved static address and default route; DNS points to the planned resolver.",
+          "expected": "The interface shows your planned fixed IP address and gateway, and DNS uses your planned resolver.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Apply the approved private address — capture needed",
-            "instructions": "Capture the resulting private address and route. Do not capture unrelated interfaces or network secrets."
+            "instructions": "Capture the resulting private IP address and route. Hide unrelated interfaces or private network information."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm"
@@ -575,15 +588,15 @@
           "title": "Check DNS and the clock",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "For an online scanner, test the documented plugin hostname with getent. If your policy uses a proxy, use the approved proxy plan.",
-            "Check timedatectl and confirm the date, time zone and synchronization match the lab.",
-            "An air-gapped scanner will not resolve or reach internet feed services; record that as an intentional offline route rather than changing security policy."
+            "For an online scanner, run getent to check whether Linux can look up the documented plugin server name. Use the lab’s allowed proxy settings if your connection needs a proxy.",
+            "Run timedatectl and check the date, time zone and clock synchronization. A badly wrong clock can break secure connections.",
+            "If this scanner is deliberately offline, it cannot contact internet update services. Write down the offline route instead of trying to bypass the lab’s network rules."
           ],
           "command": "getent hosts plugins.nessus.org\ntimedatectl",
           "breakdown": [
             {
               "term": "getent hosts",
-              "meaning": "Asks the system’s configured name services to resolve a host."
+              "meaning": "Asks Linux’s configured name-lookup system to find addresses for the name that follows."
             },
             {
               "term": "plugins.nessus.org",
@@ -591,43 +604,47 @@
             },
             {
               "term": "timedatectl",
-              "meaning": "Shows system time and synchronization status."
+              "meaning": "Shows the clock, time zone and synchronization state so you can check whether the VM has the right time."
             }
           ],
-          "expected": "Online route: a DNS answer and a correct synchronized clock. Offline route: the offline activation plan is recorded.",
+          "expected": "For an online build, name lookup gives an address and the clock is correct and synchronized. For an offline build, your notes clearly identify the offline activation plan.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Check DNS and the clock — capture needed",
-            "instructions": "Capture the non-secret DNS and time results; do not capture a private proxy password."
+            "instructions": "Capture the useful DNS and clock results. Keep proxy passwords out of every screenshot."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm"
           ]
         }
       ],
-      "pass": "The scanner has its planned name/address, can resolve approved names, and the host can identify the correct private route."
+      "pass": "The scanner has the name and address you planned, and you can explain how your Windows computer reaches it. Name lookup works where your online or offline plan requires it.",
+      "needs": [
+        "Start NESSUS-ALMA09 and open its screen directly in VMware. Keep that console open while changing network settings.",
+        "Have the actual private VMnet address range, gateway, DNS server and Windows adapter address in your notebook. Do not borrow sample addresses unless they really match your lab."
+      ]
     },
     {
       "id": "nessus-linux-transfer",
       "title": "Copy the RPM from Windows",
-      "description": "Transfer the verified scanner installer to AlmaLinux using SCP.",
-      "what": "We copy the installer into your Linux home folder. SCP is a delivery truck that travels through an encrypted SSH connection.",
-      "why": "Copying the right file to the right machine avoids installing an agent or an installer for another operating system.",
+      "description": "We’ll copy the Nessus installer from Windows into your Linux home folder.",
+      "what": "SCP is a secure delivery tool. It carries the RPM through SSH, the encrypted connection between your Windows computer and the Linux scanner.",
+      "why": "Before we install anything, let’s make sure the right file arrived on the right computer without being changed.",
       "bestPractices": [
-        "Use the approved SSH path and confirm the server fingerprint through the VM console before accepting a new SSH key.",
-        "Copy only the installer for this step. Keep private licenses separate and do not use them as public evidence."
+        "On the first connection, compare the scanner’s SSH fingerprint with the one shown through its VM console. The fingerprint helps us recognize the machine we meant to reach.",
+        "For this step, copy only the installer. Keep your license files separate and private."
       ],
       "commonMistakes": [
-        "A Windows C:\\ path belongs on Windows, not in the Linux shell.",
-        "The Linux account in the command must already exist and be permitted to log in."
+        "A path beginning C:\\ is on Windows. Do not type that Windows path into the Linux shell.",
+        "Replace the sample Linux account with an account that already exists and is allowed to sign in."
       ],
       "troubleshooting": [
         {
-          "problem": "SCP times out.",
-          "fix": "Confirm sshd is running in the guest, TCP22 is allowed only from your management host, the VMnet is correct and you used the current scanner private IP."
+          "problem": "SCP waits and eventually times out.",
+          "fix": "Check that sshd is running in AlmaLinux, that the private network is correct and that TCP 22 is allowed from your Windows management computer. Then check the scanner IP you entered."
         }
       ],
-      "exercise": "Explain the local source path, remote account, remote host and remote destination in the SCP command.",
+      "exercise": "Point to each part of the SCP command and explain it: the Windows file, the Linux username, the scanner address and the destination folder.",
       "quiz": [
         {
           "question": "Where do you type the scp command in this lesson?",
@@ -655,10 +672,10 @@
           "title": "Prepare the encrypted transfer path",
           "where": "NESSUS-ALMA09 console · Terminal",
           "actions": [
-            "Check the SSH service using the commands below.",
-            "If openssh-server is missing, install it from the approved AlmaLinux repositories before starting sshd.",
-            "Keep SSH restricted to the Windows management source address using your existing private-lab firewall policy; do not expose it to the public internet.",
-            "In the VM console, display the SSH host public-key fingerprint. Compare this SHA-256 fingerprint with the first SCP connection prompt if that prompt uses ED25519. If it names a different algorithm, inspect that matching public host key instead; never accept an unexplained mismatch."
+            "At the scanner’s VM console, use the commands below to check the SSH service. SSH lets us securely sign in and transfer files.",
+            "If openssh-server is missing, install it from the lab’s approved AlmaLinux repositories, then start sshd as shown.",
+            "Keep SSH access limited to your Windows management address through the private-lab firewall plan. We do not need to expose SSH to the public internet.",
+            "Use the VM console to display the scanner’s SSH public host-key fingerprint. If the first SCP prompt says ED25519, compare its SHA-256 fingerprint with that ED25519 public host key. If it names another algorithm, inspect that matching public host key. Stop on a mismatch you cannot explain."
           ],
           "command": "sudo dnf install openssh-server\nsudo systemctl enable --now sshd\nsudo systemctl status sshd --no-pager\nsudo ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub",
           "breakdown": [
@@ -672,7 +689,7 @@
             },
             {
               "term": "--no-pager",
-              "meaning": "Prints the status directly instead of opening a scrolling viewer."
+              "meaning": "Keeps the result in your normal Terminal window instead of opening a separate scrollable viewer."
             },
             {
               "term": "ssh-keygen -lf",
@@ -683,11 +700,11 @@
               "meaning": "The server’s ED25519 public host key. Compare the same algorithm; never display or copy the private file without .pub."
             }
           ],
-          "expected": "The SSH service is available for the approved management host.",
+          "expected": "The SSH service is available to your permitted Windows management computer, and you have a trusted way to recognize its host key.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Prepare the encrypted transfer path — capture needed",
-            "instructions": "Capture the sshd status. Hide public addresses and any private key material."
+            "instructions": "Capture the sshd status. Do not show private keys or unrelated public addresses."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/SoftwareRequirements.htm"
@@ -697,9 +714,9 @@
           "title": "Copy the RPM from your Windows host",
           "where": "Physical Windows host · PowerShell",
           "actions": [
-            "Change the example path, Linux account and scanner IP to your recorded values.",
-            "Run scp. On a first connection, verify the fingerprint against the scanner’s console before accepting it.",
-            "Enter the Linux user’s password privately if prompted; no characters may appear while typing. Never paste a password into the academy."
+            "Back on the physical Windows computer, open PowerShell. Change the example Windows file path, Linux account and scanner IP to the values in your notes.",
+            "Run scp. If this is your first connection, compare the fingerprint with the VM console before you accept it.",
+            "If asked for the Linux account password, type it privately and press Enter. Seeing no characters while typing is normal. Do not paste the password into SONIC-Academy."
           ],
           "command": "scp \"C:\\SONIC-Lab\\Installers\\Nessus-10.12.5-el9.x86_64.rpm\" labadmin@192.168.77.30:~/",
           "breakdown": [
@@ -720,11 +737,11 @@
               "meaning": "Copies into that remote user’s home directory."
             }
           ],
-          "expected": "The transfer finishes without an error and returns to the Windows PowerShell prompt.",
+          "expected": "SCP finishes without an error and you are back at the Windows PowerShell prompt.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Copy the RPM from your Windows host — capture needed",
-            "instructions": "Capture only the transferred RPM filename and completed transfer; exclude passwords and host-identifying information."
+            "instructions": "Capture the RPM filename and completed transfer only. Leave out passwords and unrelated machine details."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/InstallNessusLinux.htm"
@@ -734,9 +751,9 @@
           "title": "Compare the transferred file",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "List the RPM and calculate its hash.",
-            "Compare the full hash with the trusted Tenable-provided value and the source file’s hash on Windows.",
-            "Stop if the name, size or hash is unexpected. Do not install a damaged or unidentified file."
+            "Return to Terminal on NESSUS-ALMA09. List the RPM and calculate its hash with the commands below.",
+            "Compare the entire hash—not just the first few characters—with the trusted Tenable value and the source file’s hash on Windows.",
+            "If the filename, size or hash is not what you expected, stop here. We’ll sort out the file before letting an installer change the VM."
           ],
           "command": "ls -lh ~/Nessus-10.12.5-el9.x86_64.rpm\nsha256sum ~/Nessus-10.12.5-el9.x86_64.rpm",
           "breakdown": [
@@ -753,40 +770,45 @@
               "meaning": "Calculates the file’s SHA-256 fingerprint; compare every character, not just its beginning."
             }
           ],
-          "expected": "The expected RPM exists and its complete hash agrees with the trusted source.",
+          "expected": "The correct RPM is present, and its whole hash agrees with the trusted source.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Compare the transferred file — capture needed",
-            "instructions": "Capture the RPM listing and hash comparison without showing license files."
+            "instructions": "Capture the RPM listing and hash comparison. Keep license files out of the view."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/InstallNessusLinux.htm"
           ]
         }
       ],
-      "pass": "The copied RPM is in the Linux user’s home directory and its SHA-256 hash matches the trusted installer value."
+      "pass": "The RPM is in your Linux account’s home folder, and its full SHA-256 hash matches the trusted installer value.",
+      "needs": [
+        "Have the verified Nessus-10.12.5-el9.x86_64.rpm file on Windows and its trusted vendor checksum to compare.",
+        "Start your AlmaLinux scanner, know its private address and have a permitted Linux sign-in account.",
+        "Open the scanner’s VMware console as well as Windows PowerShell so you can check the SSH host fingerprint before accepting it."
+      ]
     },
     {
       "id": "nessus-linux-install",
       "title": "Install the Nessus RPM",
-      "description": "Inspect the package and install it with AlmaLinux’s package manager.",
-      "what": "We let dnf place Nessus files in their proper locations and record the installed package.",
-      "why": "A package manager handles dependencies and makes the installed software easier to inspect later.",
+      "description": "Now that the file checks out, let’s install Nessus with AlmaLinux’s package manager.",
+      "what": "dnf is the package manager: it puts the application files in the right places and keeps a record of what was installed.",
+      "why": "Using the package manager lets us check the installed version later and see any missing supporting packages before we continue.",
       "bestPractices": [
-        "Use the matching verified EL9 x86_64 scanner RPM. Do not replace it with a similarly named Nessus Agent package.",
-        "Leave /opt/nessus as a real supported directory, not a symbolic link. Review any signature or dependency error rather than bypassing it."
+        "Use the verified EL9 x86_64 scanner RPM from our earlier check. A similarly named Nessus Agent package does a different job.",
+        "Keep /opt/nessus as a real supported directory, not a symbolic link pointing somewhere else. Read any signature or dependency error before proceeding."
       ],
       "commonMistakes": [
-        "Do not use --nogpgcheck, --nodeps or random download mirrors to force installation.",
-        "Copying a file is not the same as installing it."
+        "Do not force the install with --nogpgcheck, --nodeps or an installer from a random mirror. Those shortcuts hide checks we need.",
+        "Copying the RPM into Linux delivered the installer; it did not install Nessus yet."
       ],
       "troubleshooting": [
         {
-          "problem": "dnf reports a dependency or signature problem.",
-          "fix": "Read the full error, verify package origin and configured AlmaLinux repositories, and resolve the trusted package/key requirement. Stop rather than bypass verification."
+          "problem": "dnf reports a signature or dependency error.",
+          "fix": "Read the whole error with your instructor. Recheck the file’s trusted source and the configured AlmaLinux repositories, then resolve the correct package or trusted-key requirement. Do not bypass the failed check."
         }
       ],
-      "exercise": "Point to the package file, the installed package record and the installed administration command; explain why they are different.",
+      "exercise": "Show the downloaded RPM, the installed package record and the Nessus administration tool. Explain how an installer file differs from the application it installs.",
       "quiz": [
         {
           "question": "Why does the install command include ./?",
@@ -814,9 +836,9 @@
           "title": "Inspect before installing",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Change to the home directory containing the verified RPM.",
-            "Inspect its metadata and recheck the system architecture.",
-            "Confirm the package version is 10.12.5 and architecture is x86_64. Package metadata alone is not proof of authenticity; your earlier trusted hash check still matters."
+            "Open Terminal in the scanner and change to your home folder, where we copied the verified RPM.",
+            "Run the inspection commands to read the RPM’s details and check the machine’s CPU architecture again.",
+            "Look for version 10.12.5 and x86_64. These details tell us what the package claims to contain; they do not replace the trusted hash comparison we already made."
           ],
           "command": "cd ~\nuname -m\nrpm -qip ./Nessus-10.12.5-el9.x86_64.rpm",
           "breakdown": [
@@ -837,11 +859,11 @@
               "meaning": "The local scanner RPM in the current directory."
             }
           ],
-          "expected": "The metadata and architecture match the planned scanner package.",
+          "expected": "The package details match the version and architecture we planned to install.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Inspect before installing — capture needed",
-            "instructions": "Capture the package name/version/architecture and uname result; crop out personal file listings."
+            "instructions": "Capture the package name, version, architecture and uname result. Keep other personal files out of the view."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/InstallNessusLinux.htm"
@@ -851,15 +873,15 @@
           "title": "Install with dnf",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Run the install command and read the package transaction before confirming.",
-            "Approve only the expected Nessus package and legitimate dependencies from approved repositories.",
-            "Wait for dnf to return. Keep the actual success or error message in private evidence; this course does not manufacture it."
+            "Run the dnf install command below, then pause to read the proposed changes before answering its confirmation question.",
+            "Confirm that it lists the expected Nessus package and only legitimate supporting packages from the lab’s approved repositories.",
+            "Let dnf finish and return you to the prompt. Save the result you actually get; if it reports an error, we’ll diagnose it before moving on."
           ],
           "command": "sudo dnf install ./Nessus-10.12.5-el9.x86_64.rpm",
           "breakdown": [
             {
               "term": "sudo",
-              "meaning": "Requests authorized administrator privileges."
+              "meaning": "Asks Linux to run this one command with your permitted administrator rights. It may ask for your Linux password."
             },
             {
               "term": "dnf install",
@@ -870,11 +892,11 @@
               "meaning": "Uses this exact local EL9 x86_64 package, rather than searching for a different product."
             }
           ],
-          "expected": "dnf finishes without errors and records the package as installed.",
+          "expected": "dnf finishes without an unresolved error and adds Nessus to the installed package record.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Install with dnf — capture needed",
-            "instructions": "Capture the actual transaction summary and final result, with no proxy credentials."
+            "instructions": "Capture the actual transaction summary and final result. Hide any proxy credentials."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/InstallNessusLinux.htm"
@@ -884,15 +906,15 @@
           "title": "Check the installed version",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Query the installed package database.",
-            "Check that the Nessus administration binary exists.",
-            "Do not start scans yet; service configuration, activation and plugins are still ahead."
+            "Run the package query below to ask Linux which Nessus version is now installed.",
+            "Check that /opt/nessus/sbin/nessuscli exists. This is the tool we’ll use for some Nessus administration tasks.",
+            "We have installed the files, but we are not ready to scan yet. Next we’ll start the service, set up access and initialize plugins."
           ],
           "command": "rpm -q Nessus\nls -l /opt/nessus/sbin/nessuscli",
           "breakdown": [
             {
               "term": "rpm -q Nessus",
-              "meaning": "Asks the package database whether Nessus is installed and reports its version."
+              "meaning": "Asks the installed-package record which Nessus version is on this machine."
             },
             {
               "term": "ls -l",
@@ -903,40 +925,44 @@
               "meaning": "The Linux Nessus administration utility; this is an installed executable, not the original RPM."
             }
           ],
-          "expected": "rpm reports the installed Nessus version and the CLI file is present under /opt/nessus/sbin.",
+          "expected": "rpm identifies the installed Nessus version, and the Nessus administration file is present under /opt/nessus/sbin.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Check the installed version — capture needed",
-            "instructions": "Capture the actual package query and file path; do not invent a successful output example."
+            "instructions": "Capture your real package query and tool path. We want your result, not a copied example of success."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/InstallNessusLinux.htm"
           ]
         }
       ],
-      "pass": "The package database reports Nessus 10.12.5 for the expected architecture and the Nessus CLI file exists."
+      "pass": "The package record identifies Nessus 10.12.5 for the intended architecture, and the Nessus administration tool exists at its installed path.",
+      "needs": [
+        "Finish the file-transfer lesson so the verified RPM is in your Linux home folder.",
+        "Open Terminal on NESSUS-ALMA09 using an account that may run sudo. Have access to the approved package repositories or offline dependency plan."
+      ]
     },
     {
       "id": "nessus-linux-service",
       "title": "Start and Manage nessusd",
-      "description": "Start Nessus, enable it after reboot and inspect its listener.",
-      "what": "Nessus runs as a background service named nessusd. The web page depends on that service being alive.",
-      "why": "A browser cannot connect to an application that is stopped, even when the firewall is correct.",
+      "description": "Let’s start Nessus, check its background service and practice one careful restart.",
+      "what": "An application can keep working in the background even when no window is open. On Linux, the Nessus background service is named nessusd.",
+      "why": "The browser page needs this service. If the service is stopped, changing browser or firewall settings will not start it for us.",
       "bestPractices": [
-        "Check for active scans before stopping or restarting a scanner outside this fresh lab.",
-        "Use systemctl for the service and Nessus controls for individual scans; they are different jobs."
+        "Before stopping or restarting a scanner beyond this fresh lab, check that nobody has a scan running.",
+        "Use systemctl to manage the Linux service. Use Nessus’s own scan controls to start or stop an individual scan."
       ],
       "commonMistakes": [
-        "systemctl enable alone does not necessarily start a service immediately.",
-        "A running process does not prove that activation and plugin initialization are complete."
+        "enable sets the service to start at boot. By itself, it does not necessarily start the service immediately; that is why our command also uses --now.",
+        "A running service is one good sign. Activation and plugin loading still need their own checks."
       ],
       "troubleshooting": [
         {
-          "problem": "The service is failed.",
-          "fix": "Read systemctl status and journalctl. Check free space and installation errors before repeating restarts."
+          "problem": "The service says failed.",
+          "fix": "Read the status and journal messages before trying another restart. Check disk space and installation errors so we fix the cause instead of repeatedly interrupting the service."
         }
       ],
-      "exercise": "Stop and start the fresh lab service once before any scans exist, then explain what each state check proves.",
+      "exercise": "On this fresh scanner, before any scans exist, practice the controlled restart shown below. Explain which check tells you about startup after reboot and which tells you about right now.",
       "quiz": [
         {
           "question": "What does enable --now do?",
@@ -949,7 +975,7 @@
           "explanation": "enable sets boot behavior; --now also starts it immediately."
         },
         {
-          "question": "What does listening on TCP8834 prove?",
+          "question": "What does listening on TCP 8834 prove?",
           "options": [
             "Every target is patched.",
             "A process is accepting connections on that port.",
@@ -964,34 +990,34 @@
           "title": "Start and enable the service",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Start the Nessus service and enable startup after reboot.",
-            "Check both enabled and active states.",
-            "If active returns failed or inactive, pause here and use the diagnostic lesson."
+            "Run the first command to start Nessus now and arrange for it to start after a reboot.",
+            "Run the next two checks separately. One asks whether startup is enabled; the other asks whether Nessus is running right now.",
+            "If the current state is failed or inactive, pause and use the troubleshooting lesson. There is no need to rush past a service that has not started."
           ],
           "command": "sudo systemctl enable --now nessusd\nsystemctl is-enabled nessusd\nsystemctl is-active nessusd",
           "breakdown": [
             {
               "term": "systemctl",
-              "meaning": "Controls or queries systemd services."
+              "meaning": "Lets you ask about or manage a Linux background service. Think of it as the service control panel in Terminal."
             },
             {
               "term": "enable --now",
-              "meaning": "Enables the service at boot and starts it immediately."
+              "meaning": "Sets Nessus to start after boot and also starts it now, so we do not have to run a separate start command."
             },
             {
               "term": "nessusd",
-              "meaning": "The Nessus Linux service name."
+              "meaning": "The Linux service name for Nessus. Use this exact spelling when asking systemctl about it."
             },
             {
               "term": "is-enabled / is-active",
-              "meaning": "Checks boot configuration and current runtime state separately."
+              "meaning": "The first asks whether Nessus starts at boot; the second asks whether it is running right now."
             }
           ],
-          "expected": "The checks show enabled and active for this fresh installation.",
+          "expected": "For a successful fresh installation, the checks report enabled and active. Use the result on your own screen.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Start and enable the service — capture needed",
-            "instructions": "Capture the actual systemctl results and service name."
+            "instructions": "Capture your systemctl checks with the nessusd service name and their actual results."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm"
@@ -1001,15 +1027,15 @@
           "title": "Read the service and port state",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Read the service summary.",
-            "Inspect the local TCP8834 listener.",
-            "If no listener exists, wait briefly for startup and inspect logs; do not open more firewall ports to hide a stopped service."
+            "Read the service summary from systemctl status. Look for its current state and any error message.",
+            "Run the ss command to check whether an application is listening locally on TCP port 8834. A listening port is a place where the service can accept connections.",
+            "If no listener appears yet, give startup a little time and inspect the logs. Opening more firewall ports cannot fix a service that is not listening."
           ],
           "command": "sudo systemctl status nessusd --no-pager\nsudo ss -lntp 'sport = :8834'",
           "breakdown": [
             {
               "term": "--no-pager",
-              "meaning": "Prints the service summary without opening an interactive pager."
+              "meaning": "Keeps the result in your normal Terminal window instead of opening a separate scrollable viewer."
             },
             {
               "term": "ss -lntp",
@@ -1017,14 +1043,14 @@
             },
             {
               "term": "'sport = :8834'",
-              "meaning": "Filters to local source/listening port8834."
+              "meaning": "Filters to local source/listening port 8834."
             }
           ],
-          "expected": "The service is running and ss shows a listener on the intended local address/port.",
+          "expected": "Nessus is running, and ss shows the expected listener on its local address and port.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Read the service and port state — capture needed",
-            "instructions": "Capture the actual service summary and TCP8834 listener without unrelated connections."
+            "instructions": "Capture the service summary and TCP 8834 listener. Leave out unrelated network connections."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm"
@@ -1034,55 +1060,59 @@
           "title": "Practice a controlled service restart",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Confirm this fresh scanner has no running scans.",
-            "Restart nessusd once, then check its state.",
-            "Note that a service restart interrupts browser access and can interrupt scans; do not use it as the first response to every problem."
+            "Confirm that this new lab scanner has no scans running. A restart would interrupt them.",
+            "Run the restart command once, then check the service state again.",
+            "Notice that browser access may briefly stop while Nessus restarts. Treat a restart as a planned interruption, not a cure for every problem."
           ],
           "command": "sudo systemctl restart nessusd\nsystemctl is-active nessusd",
           "breakdown": [
             {
               "term": "restart",
-              "meaning": "Stops then starts the service; it can interrupt work."
+              "meaning": "Stops and starts the service. Expect a short interruption, so check for active scans first."
             },
             {
               "term": "is-active",
-              "meaning": "Checks whether the service is currently running."
+              "meaning": "Asks whether the service is running at this moment; it does not start a stopped service."
             }
           ],
-          "expected": "The service returns to active and the expected listener reappears.",
+          "expected": "The service returns to active, and its expected listener appears again.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Practice a controlled service restart — capture needed",
-            "instructions": "Capture the restart command and final state, not license information."
+            "instructions": "Capture the restart command and the service’s final state. We do not need any license information."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm"
           ]
         }
       ],
-      "pass": "nessusd is enabled, active and listening on the expected HTTPS port."
+      "pass": "You have checked that nessusd will start at boot, is running now and has a listener for the Nessus HTTPS port.",
+      "needs": [
+        "Finish the RPM installation and stay in Terminal on NESSUS-ALMA09.",
+        "Use your permitted sudo account. This should still be a fresh scanner with no scans running while we practice a restart."
+      ]
     },
     {
       "id": "nessus-linux-firewall",
       "title": "Allow Private HTTPS Access",
-      "description": "Allow the approved management computer to reach Nessus on TCP8834.",
-      "what": "The firewall is a door guard. We open one named door for the management computer, not for the whole internet.",
-      "why": "The web console controls a security tool and must not be exposed broadly.",
+      "description": "We’ll let your Windows management computer open the Nessus page without opening it to everyone.",
+      "what": "Think of the firewall as a door guard. We’ll allow one computer through one door: the Nessus HTTPS port, TCP 8834.",
+      "why": "This web page controls the scanner and may contain sensitive reports. It should be reachable only from the places you intend to manage it.",
       "bestPractices": [
-        "Use the actual active firewalld zone and the actual Windows management adapter IP.",
-        "Keep scanner outbound traffic and target-service permissions separate from inbound web-console access."
+        "Use the zone connected to the real VM interface and the actual Windows management adapter address. A firewalld zone is a named set of network rules.",
+        "Keep these jobs separate: this rule lets your browser reach Nessus; other rules control updates leaving the scanner and traffic between the scanner and its targets."
       ],
       "commonMistakes": [
-        "Opening TCP8834 does not open SSH, target SMB or every scanning port.",
-        "The NAT gateway and management host source IP are different things."
+        "Opening 8834 does not also open SSH or Windows SMB. Each service has its own connection needs.",
+        "Do not use the NAT gateway address just because it looks familiar. The allowed source must match the Windows computer making the connection."
       ],
       "troubleshooting": [
         {
-          "problem": "The rule appears but Windows still times out.",
-          "fix": "Check that the rule is in the zone bound to the active interface, the source matches Windows’ actual VMnet adapter and Nessus is listening."
+          "problem": "The rule is there, but Windows still times out.",
+          "fix": "Check the active interface’s zone, compare the allowed source with Windows’ actual VMnet address, and check that Nessus is listening. A correct rule in the wrong zone will not help this connection."
         }
       ],
-      "exercise": "Explain why a source-limited rule is narrower than allowing 8834 from every address.",
+      "exercise": "Explain the difference between letting one management address reach port 8834 and letting every address reach it. Show which choice your rule makes.",
       "quiz": [
         {
           "question": "Which source address belongs in this management rule?",
@@ -1095,7 +1125,7 @@
           "explanation": "Match the connecting management computer’s real address."
         },
         {
-          "question": "Does opening inbound8834 give scan permission for all targets?",
+          "question": "Does opening inbound 8834 give scan permission for all targets?",
           "options": [
             "Yes.",
             "Only if the scanner is Linux.",
@@ -1110,30 +1140,30 @@
           "title": "Find the active firewalld zone",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Inspect firewalld state and active zones.",
-            "Identify the zone containing the interface used by the Windows management host.",
-            "Record that zone name. Use it instead of public in the next example if different."
+            "In the scanner Terminal, run the two inspection commands below to check whether firewalld is running and which zones are in use.",
+            "Find the zone attached to the interface your Windows computer uses to reach this VM.",
+            "Write down that zone name. Our next example uses public; if yours is different, use your actual zone instead."
           ],
           "command": "sudo firewall-cmd --state\nsudo firewall-cmd --get-active-zones",
           "breakdown": [
             {
               "term": "firewall-cmd",
-              "meaning": "The firewalld administration client."
+              "meaning": "The Terminal tool we use to inspect or change firewalld, AlmaLinux’s network door guard."
             },
             {
               "term": "--state",
-              "meaning": "Reports whether firewalld is running."
+              "meaning": "Asks whether the firewall service is running, without changing its rules."
             },
             {
               "term": "--get-active-zones",
-              "meaning": "Lists zones currently associated with interfaces or sources."
+              "meaning": "Shows which named firewall rule sets are attached to the current network interfaces or sources."
             }
           ],
-          "expected": "firewalld is running and you know the active interface’s zone.",
+          "expected": "firewalld is running, and you can point to the zone used by the scanner’s active interface.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Find the active firewalld zone — capture needed",
-            "instructions": "Capture only firewalld state and active-zone/interface mapping."
+            "instructions": "Capture the firewalld state and the zone/interface mapping we need for this step."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm"
@@ -1143,16 +1173,16 @@
           "title": "Add the source-limited web rule",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Before running, replace public with the actual active zone and 192.168.77.1/32 with the approved Windows host’s real management IP and /32.",
-            "Add the permanent rule, then reload so it becomes active.",
-            "Do not configure a router port-forward or broad public allow rule for this exercise.",
-            "Inspect the full active-zone rules too. An existing open 8834 port/service rule or a trusted/accept-all zone can defeat the narrow source rule. Have the lab owner approve correction of any overlapping allowance; adding a restrictive-looking rule does not remove earlier broad access."
+            "Before running this example, replace public with your actual zone and 192.168.77.1/32 with your Windows management IP followed by /32. The /32 means one IPv4 address.",
+            "Add the permanent rule, then reload firewalld so the saved rule is used by the running firewall.",
+            "We do not need a router port-forward or a public allow-from-everywhere rule for this private exercise.",
+            "Read the full zone rules too. An existing broad 8834 allowance or a trusted/accept-all zone can still let other computers through. Ask the lab owner to approve any correction; adding a narrow rule does not remove an older broad one."
           ],
           "command": "sudo firewall-cmd --permanent --zone=public --add-rich-rule='rule family=\"ipv4\" source address=\"192.168.77.1/32\" port port=\"8834\" protocol=\"tcp\" accept'\nsudo firewall-cmd --reload\nsudo firewall-cmd --zone=public --list-rich-rules\nsudo firewall-cmd --zone=public --list-all",
           "breakdown": [
             {
               "term": "--permanent",
-              "meaning": "Saves the rule for future firewalld starts."
+              "meaning": "Saves the rule so it will still be there after firewalld restarts."
             },
             {
               "term": "--zone=public",
@@ -1176,22 +1206,22 @@
             },
             {
               "term": "--reload",
-              "meaning": "Loads permanent rules into the running firewall."
+              "meaning": "Makes the running firewall use its saved permanent rules."
             },
             {
               "term": "--list-rich-rules",
-              "meaning": "Shows the saved rule conditions in the selected zone."
+              "meaning": "Shows the detailed rules in the selected zone so you can check the source and port."
             },
             {
               "term": "--list-all",
               "meaning": "Shows the zone’s services, ports, sources and rich rules so you can spot a broader allowance. Replace public with the actual reviewed zone."
             }
           ],
-          "expected": "The approved source can use TCP8834 after the reload; other existing firewall rules still apply.",
+          "expected": "The intended Windows source can reach TCP 8834 after the reload. You have also checked the other zone rules that still apply.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Add the source-limited web rule — capture needed",
-            "instructions": "Capture the command with private training values and the resulting rich rule."
+            "instructions": "Capture the rule using private training values and the resulting firewall listing. Hide unrelated addresses."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm"
@@ -1201,59 +1231,64 @@
           "title": "Test the port from Windows",
           "where": "Physical Windows host · PowerShell",
           "actions": [
-            "Use the scanner’s recorded private IP.",
-            "Run Test-NetConnection and inspect TcpTestSucceeded.",
-            "If false, check service, listener, source rule and VMnet route in that order. A successful ping alone does not test TCP8834."
+            "On the physical Windows computer, open PowerShell and use your scanner’s recorded private IP in the example.",
+            "Run Test-NetConnection and find TcpTestSucceeded. This checks the TCP connection to 8834, not just whether the computer answers a ping.",
+            "If it says False, work back through the service, listener, source rule and VMnet route, in that order."
           ],
           "command": "Test-NetConnection -ComputerName 192.168.77.30 -Port 8834",
           "breakdown": [
             {
               "term": "Test-NetConnection",
-              "meaning": "PowerShell network connectivity test."
+              "meaning": "A Windows PowerShell tool that checks whether your computer can make a network connection."
             },
             {
               "term": "-ComputerName",
-              "meaning": "Selects the scanner’s private IP or resolvable hostname."
+              "meaning": "Names the scanner’s private IP address or a hostname that your computer can look up."
             },
             {
               "term": "-Port 8834",
-              "meaning": "Tests the Nessus HTTPS TCP port, not ICMP ping."
+              "meaning": "Checks the TCP port used by the Nessus HTTPS page. This is different from a ping test."
             }
           ],
-          "expected": "TcpTestSucceeded is True when the host can establish the intended TCP connection.",
+          "expected": "TcpTestSucceeded reads True when this Windows computer can make the intended TCP connection to the scanner.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Test the port from Windows — capture needed",
-            "instructions": "Capture Test-NetConnection for the private scanner address; hide unrelated network interfaces."
+            "instructions": "Capture Test-NetConnection for your private scanner address. Keep other network interfaces out of the view."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm"
           ]
         }
       ],
-      "pass": "The active interface’s zone has a TCP8834 rich rule limited to the approved management source."
+      "pass": "The active network zone has the intended TCP 8834 rule for your permitted Windows management address, and you have reviewed wider rules that could override the restriction.",
+      "needs": [
+        "Have the scanner’s private address and your Windows management adapter’s actual address in your notebook.",
+        "Check that nessusd is running and listening on TCP 8834 before changing a firewall rule.",
+        "Open AlmaLinux Terminal and Windows PowerShell; we’ll make the rule in Linux and test it from Windows."
+      ]
     },
     {
       "id": "nessus-linux-console",
       "title": "Open the Nessus Web Console",
-      "description": "Reach the scanner’s HTTPS setup page and identify its certificate.",
-      "what": "We use a browser to talk to the Nessus service. The browser is a window; it is not the scanner itself.",
-      "why": "You must confirm you reached your own scanner before entering an activation code or administrator password.",
+      "description": "Let’s open the Nessus page in your browser and check that it belongs to your scanner.",
+      "what": "The scanner is running inside AlmaLinux. Your Windows browser is just the window you use to manage it.",
+      "why": "We want to recognize our own scanner before entering a private activation code or password into any page.",
       "bestPractices": [
-        "Use HTTPS and the correct private address. Confirm the certificate belongs to this controlled lab before making a temporary browser exception.",
-        "Plan an approved trusted certificate for ongoing administration instead of teaching users to ignore warnings everywhere."
+        "Use the private HTTPS address you recorded. Check the certificate and target before making any temporary browser exception in this controlled lab.",
+        "For ongoing use, arrange a trusted certificate through the approved process. The lesson is not asking you to ignore warnings on other websites."
       ],
       "commonMistakes": [
-        "localhost on Windows means Windows, not the AlmaLinux VM.",
-        "HTTP and HTTPS are different schemes; use https:// with port8834."
+        "localhost means the computer running the browser. In a Windows browser, it means Windows—not your AlmaLinux VM.",
+        "Type https:// and the :8834 port. Plain http:// asks for a different kind of connection."
       ],
       "troubleshooting": [
         {
-          "problem": "The page cannot be reached.",
-          "fix": "Return to the previous port test; distinguish a timeout, connection refusal and certificate warning before changing settings."
+          "problem": "The page will not open.",
+          "fix": "Return to the Windows port test. Does it time out, refuse the connection or show a certificate warning? Those are different clues, so identify the one you have before changing settings."
         }
       ],
-      "exercise": "Explain the difference between the URL on the scanner itself and the URL on the Windows host.",
+      "exercise": "Write the address you would use in a browser inside the scanner VM, then the address you use on Windows. Explain why they can differ.",
       "quiz": [
         {
           "question": "Which Windows-host URL reaches the Alma scanner?",
@@ -1281,17 +1316,17 @@
           "title": "Build the correct URL",
           "where": "Physical Windows host · browser",
           "actions": [
-            "Read your scanner’s actual private IP from the network record.",
-            "Type https://192.168.77.30:8834 using your actual scanner address.",
-            "Do not use localhost here unless the browser is running inside the scanner VM."
+            "Look up the scanner’s actual private IP in your notebook.",
+            "In your Windows browser, type https://192.168.77.30:8834, replacing the sample address with your scanner’s address.",
+            "Do not use localhost in this Windows browser. That name would point back to Windows unless you were browsing from inside the scanner VM."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The browser either reaches Nessus or shows a certificate warning for that exact private address.",
+          "expected": "The browser reaches Nessus or shows a certificate warning for the exact private address you entered.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Build the correct URL — capture needed",
-            "instructions": "Capture only the address bar and certificate warning or Nessus welcome page, not private credentials."
+            "instructions": "Capture the address bar and the warning or welcome page. Keep credentials out of the picture."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
@@ -1301,17 +1336,17 @@
           "title": "Inspect the lab certificate",
           "where": "Physical Windows host · browser certificate viewer",
           "actions": [
-            "Open the browser’s certificate details from the warning or site-information control.",
-            "Compare the target address and certificate identity/fingerprint with your scanner console or trusted lab record.",
-            "Only for this confirmed private lab, follow your browser’s specific Advanced/Continue control if policy allows. Stop if the target or fingerprint is unexpected."
+            "Use the warning page or browser site-information button to open certificate details. The exact button wording depends on your browser.",
+            "Compare the address and certificate identity or fingerprint with your scanner console or a trusted lab record. We are checking which machine answered.",
+            "Only for this confirmed private lab, use your browser’s Advanced/Continue option if the lab policy permits it. Stop if the address or fingerprint is unexpected."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "You know why the initial self-signed certificate is untrusted and have verified the intended target.",
+          "expected": "You understand that the first certificate is self-signed and have checked that the connection is to your intended scanner.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Inspect the lab certificate — capture needed",
-            "instructions": "Capture non-secret certificate subject/issuer and fingerprint details from your own scanner."
+            "instructions": "Capture your scanner’s non-secret certificate subject, issuer and fingerprint details."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
@@ -1321,47 +1356,51 @@
           "title": "Identify the actual Nessus page",
           "where": "Physical Windows host · Nessus welcome page",
           "actions": [
-            "Confirm the page identifies Tenable Nessus.",
-            "Leave any activation-code and password fields empty until the next lesson.",
-            "Bookmark the correct private HTTPS address with the scanner’s name."
+            "Check that the page identifies Tenable Nessus.",
+            "Leave activation-code and password boxes empty for now. We’ll handle those privately in the next lesson.",
+            "Bookmark this private HTTPS address with the scanner’s name so you can find it again."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The scanner’s own setup page is open; no IIS installation is needed for this web interface.",
+          "expected": "The Nessus setup page is open. Nessus supplies this web interface itself; you do not need to install IIS.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Identify the actual Nessus page — capture needed",
-            "instructions": "Capture the empty Nessus welcome/setup page before entering any activation information."
+            "instructions": "Capture the empty welcome/setup page before you type any activation information."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
           ]
         }
       ],
-      "pass": "The Windows host browser displays the Nessus setup page for the intended scanner."
+      "pass": "Your Windows browser shows the Nessus setup page for the scanner you intended to open.",
+      "needs": [
+        "Finish the service and firewall checks so Windows can reach TCP 8834 on the scanner.",
+        "Have the scanner’s private address and a trusted way to compare its initial certificate details. Open a browser on Windows."
+      ]
     },
     {
       "id": "nessus-linux-activation",
       "title": "Activate and Initialize Plugins",
-      "description": "Choose your entitled edition and finish scanner setup privately.",
-      "what": "Activation tells Nessus which product you may use. Plugins are the inspection checklists it loads before scanning.",
-      "why": "A running service with no usable plugin set is not a ready vulnerability scanner.",
+      "description": "We’ll choose your licensed edition, create the scanner login and wait for its inspection checks to load.",
+      "what": "Activation tells Nessus which edition you may use. Plugins are its inspection checklists—the individual checks it needs before it can scan.",
+      "why": "A service can be running while the scanner is still getting ready. We’ll check the license route and plugin status instead of assuming it is ready just because a page opens.",
       "bestPractices": [
-        "Use the edition and activation route allowed by your private entitlement. The installer does not grant every template or feature.",
-        "Use a unique scanner administrator password and store it in an approved password manager.",
-        "Treat offline registration URLs, activation codes and license text as secrets; do not paste them into this academy."
+        "Choose the edition and registration route your license actually permits. The installer alone does not unlock every scan template or feature.",
+        "Use a unique password for the Nessus administrator and save it in your approved password manager.",
+        "Keep activation codes, offline registration addresses and license text private. Enter them only in the correct Nessus or Tenable page, not in the academy."
       ],
       "commonMistakes": [
-        "Nessus Essentials does not support offline installation.",
-        "Do not declare initialization failed just because it takes longer than a few minutes. Check its actual status and system resources."
+        "Nessus Essentials does not support offline installation. Choose a supported licensed route if the scanner will be offline.",
+        "Plugin loading can take longer than a few minutes. Read its status and check resources before deciding it has failed."
       ],
       "troubleshooting": [
         {
-          "problem": "Online activation or initialization fails.",
-          "fix": "Check the chosen entitlement, correct time, DNS, approved outbound443/proxy access and available disk space. For offline use the next lesson rather than trying internet feed commands."
+          "problem": "Activation or plugin loading fails online.",
+          "fix": "Check your edition and license, clock, DNS, available disk space and the allowed outbound HTTPS/proxy path. If you are building an offline scanner, use the next lesson’s offline process instead of trying online feed commands."
         }
       ],
-      "exercise": "Write a non-secret readiness note with product edition, installed version and plugin date; never include the activation code.",
+      "exercise": "Write down the edition, installed version and plugin date you actually see. Explain what plugins do, but leave the activation code out of your notes.",
       "quiz": [
         {
           "question": "What chooses which Nessus edition you may use?",
@@ -1389,17 +1428,17 @@
           "title": "Choose the allowed setup route",
           "where": "Physical Windows host · verified Nessus setup page",
           "actions": [
-            "Choose the Nessus product type that matches your approved license.",
-            "For online setup, follow the product registration form privately using your own valid entitlement.",
-            "For an authorized offline Pro/Expert/Manager installation, choose Register Offline and continue in the next lesson. Do not choose Essentials for an offline build."
+            "On the verified Nessus setup page, choose the product type that matches your actual license or registration option.",
+            "For an online setup, follow that edition’s registration form and enter your valid activation information privately.",
+            "For a permitted offline Pro, Expert or Manager installation, choose Register Offline and follow the next lesson. Do not choose Essentials for an offline build."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The selected edition and online/offline route match your entitlement.",
+          "expected": "The product and online/offline route match the license you have, rather than a feature you hope the installer includes.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Choose the allowed setup route — capture needed",
-            "instructions": "Capture the edition-choice page only before any code, license text or custom feed URL is visible."
+            "instructions": "Capture the edition-choice page before any activation code, license text or private feed address is visible."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/InstallNessusOffline.htm"
@@ -1409,17 +1448,17 @@
           "title": "Create the scanner administrator privately",
           "where": "Physical Windows host · Nessus setup page",
           "actions": [
-            "Create a dedicated Nessus administrator account when prompted. This is a scanner account, not automatically the Linux labadmin account.",
-            "Use a unique strong password and save it privately.",
-            "Finish the setup form and wait for plugin download/compilation or the approved offline import. Do not store secrets in class notes or screenshots."
+            "When prompted, create the Nessus administrator account. This is a login for the scanner; it is not automatically your Linux labadmin account.",
+            "Choose a unique strong password and put it in your password manager rather than your class notes.",
+            "Finish the form and let Nessus download and compile its plugins, or complete the supported offline import. Compiling means preparing the checks for use."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The scanner accepts its local administrator setup and begins initializing its plugin set.",
+          "expected": "Nessus accepts the administrator setup and begins preparing its plugin set.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Create the scanner administrator privately — capture needed",
-            "instructions": "Capture a sanitized initialization/progress screen with no usernames, passwords or registration material."
+            "instructions": "Capture a progress screen only after checking that no username, password or registration details are visible."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
@@ -1429,50 +1468,55 @@
           "title": "Confirm initialization finished",
           "where": "Physical Windows host · Nessus sign-in and settings",
           "actions": [
-            "Wait for the initialization page to finish, then sign in privately.",
-            "Open Settings → About/Software Update and inspect the installed product/version and plugin status. Labels can vary with edition.",
-            "If plugins are missing or initialization is still running, stop before creating scans and use the troubleshooting lesson."
+            "Wait until the initialization page finishes, then sign in privately.",
+            "Open Settings → About/Software Update and check the product, installed version and plugin status. The labels may vary with edition.",
+            "If plugins are missing or still loading, pause before creating scans. Use the troubleshooting lesson to find out what is holding them up."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The scanner shows its entitled product, version10.12.5 and a loaded plugin set. These are observations to verify, not prefilled results.",
+          "expected": "You can verify the licensed product, version 10.12.5 and a loaded plugin set on your own screen.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Confirm initialization finished — capture needed",
-            "instructions": "Capture only version and plugin status. Redact activation code, account information and private update URLs."
+            "instructions": "Capture just version and plugin status. Hide activation codes, account details and private update addresses."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
           ]
         }
       ],
-      "pass": "You can sign in, the entitled product is shown and plugin initialization finishes without an unresolved error."
+      "pass": "You can sign in to the intended edition, and plugin initialization has finished without an unresolved error.",
+      "needs": [
+        "Open the verified Nessus setup page and know which edition and registration route your license permits.",
+        "Have your private activation details and password manager ready. Keep them off screenshots and shared notes.",
+        "For an offline build, check that the edition supports offline installation and use the next lesson for its matching files."
+      ]
     },
     {
       "id": "nessus-linux-offline",
       "title": "Handle Offline License and Signed Updates",
-      "description": "Recognize the supplied archive and use the correct offline activation and signed plugin route.",
-      "what": "An offline scanner cannot fetch its own inspection checklists. An approved online computer must bring it the correct trusted files.",
-      "why": "Nessus10.12.5 requires signatures for manual plugin updates. A random archive or mismatched license must not be applied.",
+      "description": "If your scanner cannot use the internet, let’s check the license and signed update files it needs.",
+      "what": "An offline scanner cannot download its own plugins. We use an allowed internet-connected computer to get the right files and bring them over through the lab’s approved transfer process.",
+      "why": "Nessus 10.12.5 checks the signature on a manual plugin update. We need the correct archive and its matching trusted signature, not just a file with a convincing name.",
       "bestPractices": [
-        "Keep the license file, scanner challenge and custom feed URL private. Verify that the license is valid for this scanner and entitled edition.",
-        "Obtain the matching official plugin archive and signature together through the approved channel. Never rename an unrelated signature to make it look matched.",
-        "Follow a separate vendor procedure for application updates; a plugin archive is not automatically an application installer."
+        "Keep the license file, challenge code and private feed address protected. The license must be valid for this scanner and the edition you selected.",
+        "Get the official plugin archive and matching signature together from the permitted source. Renaming a different signature will not make it match.",
+        "Keep plugin updates separate from Nessus application updates. A plugin archive contains checks; it is not automatically a new application installer."
       ],
       "commonMistakes": [
-        "nessus-updates-10.12.5.tar.gz alone is not enough to identify its purpose or satisfy10.12.5 plugin signature verification.",
-        "A private Tenable license file is not a plugin signature."
+        "nessus-updates-10.12.5.tar.gz by itself does not prove what is inside or meet the 10.12.5 signature requirement.",
+        "Your private license file and a plugin signature do different jobs. One cannot replace the other."
       ],
       "troubleshooting": [
         {
-          "problem": "Only the archive is available, with no verified signature.",
-          "fix": "Stop the manual plugin import. Ask the authorized license administrator for the correct matched vendor archive/signature pair and verify the archive type."
+          "problem": "I have the archive but no matching signature.",
+          "fix": "Pause the import. Ask the license administrator for the correct Tenable archive/signature pair and confirm the archive’s purpose. We cannot safely finish this step with a guessed replacement."
         }
       ],
-      "exercise": "Create a non-secret artifact checklist: installer, licensed edition, scanner-bound license available, plugin archive type verified, matching signature available, readiness date.",
+      "exercise": "Make a checklist of the required items without opening secrets: installer identified, edition confirmed, scanner-matching license available, plugin archive type verified and matching signature available.",
       "quiz": [
         {
-          "question": "What is mandatory for manual Nessus10.12.5 plugin imports?",
+          "question": "What is mandatory for manual Nessus 10.12.5 plugin imports?",
           "options": [
             "Only a file whose name ends in tar.gz.",
             "A valid matching Tenable plugin signature as well as the archive.",
@@ -1497,17 +1541,17 @@
           "title": "Identify the files before importing",
           "where": "Windows host · private approved artifact inventory",
           "actions": [
-            "Check the provenance and vendor documentation/manifest for nessus-updates-10.12.5.tar.gz. Determine whether it is actually a Nessus plugin archive, application update or another package.",
-            "Check for its matching trusted signature file. The private license file does not replace that signature.",
-            "If the type or signature is unknown, write STOP — artifact verification needed and do not run an update command."
+            "Look up where nessus-updates-10.12.5.tar.gz came from and read its vendor description or manifest. Find out whether it is a plugin archive, an application update or another kind of package.",
+            "Check that you also have its matching trusted signature file. The private license file is not that signature.",
+            "If you cannot confirm the file type or signature, write STOP — artifact verification needed in your notebook and do not run an update command yet."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "Every artifact has a verified role; unknown files remain unapplied.",
+          "expected": "Every file has a known job, and anything still unidentified has been left unused.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Identify the files before importing — capture needed",
-            "instructions": "Capture only a non-secret checklist of artifact roles and verification state. Do not show license contents or private download URLs."
+            "instructions": "Capture only the checklist of file roles and checks. Hide license contents and private download addresses."
           },
           "sources": [
             "https://docs.tenable.com/release-notes/Content/nessus/2026.htm"
@@ -1517,9 +1561,9 @@
           "title": "Use the scanner-bound offline license",
           "where": "NESSUS-ALMA09 · offline setup and approved private registration computer",
           "actions": [
-            "For a new offline installation, choose Register Offline in setup and obtain this scanner’s challenge code.",
-            "On the approved online computer, use Tenable’s official offline registration page privately with the challenge and valid activation entitlement. Transfer the resulting scanner license through the approved secure process.",
-            "For an existing scanner being put into offline mode, use the register-offline command only after confirming the supplied license is for this scanner and edition. Replace the example secure path."
+            "For a new offline setup, choose Register Offline and get this scanner’s challenge code. Think of the challenge as part of the process for tying the license to this scanner.",
+            "On the allowed online computer, use Tenable’s official offline registration page with that challenge and valid activation entitlement. Transfer the resulting scanner license through the approved secure route.",
+            "For an existing scanner being changed to offline mode, use register-offline only after checking that the license belongs to this scanner and edition. Replace the sample file path with its protected local path."
           ],
           "command": "sudo /opt/nessus/sbin/nessuscli fetch --challenge\n# Existing scanner only; replace this path with its verified private license file:\nsudo /opt/nessus/sbin/nessuscli fetch --register-offline /secure/path/nessus.license",
           "breakdown": [
@@ -1544,11 +1588,11 @@
               "meaning": "A shell comment; the command below it is conditional, not something to run blindly."
             }
           ],
-          "expected": "Nessus accepts the correct offline license, or you stop on a mismatch; no license text is stored in the academy.",
+          "expected": "Nessus accepts the matching offline license, or you stop at the mismatch. No license text needs to be stored in SONIC-Academy.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Use the scanner-bound offline license — capture needed",
-            "instructions": "Capture only a sanitized registered/offline state after activation. Never capture the challenge, license text, activation code or custom update URL."
+            "instructions": "After registration, capture only a safely redacted offline/registered status. Never show the challenge, activation code, license text or private update address."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/InstallNessusOffline.htm"
@@ -1558,9 +1602,9 @@
           "title": "Import only a verified signed plugin pair",
           "where": "NESSUS-ALMA09 · Terminal or Nessus Software Update page",
           "actions": [
-            "Proceed only when the files are confirmed as the matched official Nessus plugin archive and signature for your offline scanner.",
-            "Replace both example paths in the command. Alternatively use Settings → Software Update → Manual Software Update → Upload your own plugin archive and signature file.",
-            "Wait for verification and initialization, then inspect plugin status/date. Do not bypass a signature failure. Online feed update commands are not the offline workflow."
+            "Continue only after the plugin archive and signature are confirmed as the matching official pair for this scanner.",
+            "Replace both example paths in the command below. You may instead use Settings → Software Update → Manual Software Update → Upload your own plugin archive and signature file.",
+            "Let Nessus verify and initialize the files, then check the plugin status and date. If signature verification fails, save the error privately and stop; do not bypass it or switch to an unrelated online update command."
           ],
           "command": "sudo /opt/nessus/sbin/nessuscli update /path/to/plugins.tar.gz /path/to/plugins.tar.gz.sig",
           "breakdown": [
@@ -1577,48 +1621,53 @@
               "meaning": "The matching trusted Tenable signature file required for these manual imports in10.12.5."
             }
           ],
-          "expected": "The signed import succeeds and plugins initialize, or you retain the error and stop without weakening verification.",
+          "expected": "The verified import finishes and plugins load, or you keep the error and leave the scanner unchanged until the missing requirement is resolved.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Import only a verified signed plugin pair — capture needed",
-            "instructions": "Capture the sanitized update result and plugin date, with archive paths redacted if they reveal private storage."
+            "instructions": "Capture the redacted update result and plugin date. Hide local paths if they reveal private storage."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/UpdatePluginsOffline.htm"
           ]
         }
       ],
-      "pass": "The offline route is either completed with the correct scanner-bound license and signed plugin pair, or explicitly paused with missing artifacts recorded."
+      "pass": "You either finish the supported offline setup with the correct license and signed plugin pair, or clearly record what is missing and leave the import paused.",
+      "needs": [
+        "Use this lesson if your scanner must work without an internet connection; an online scanner follows its normal supported update route.",
+        "You’ll need an entitled offline edition, an allowed online registration computer, and a license that matches this scanner. Essentials does not support this route.",
+        "Before importing plugins, have the verified official plugin archive and its matching signature together. The name nessus-updates-10.12.5.tar.gz alone is not enough."
+      ]
     },
     {
       "id": "nessus-linux-diagnose",
       "title": "Troubleshoot Without Disabling Protection",
-      "description": "Check service, disk, networking, firewall and SELinux in a sensible order.",
-      "what": "We test one layer at a time instead of guessing. A locked door and a sleeping service are different problems.",
-      "why": "Evidence prevents fixes that hide the real problem or weaken the scanner.",
+      "description": "If something is not working, let’s narrow it down one check at a time.",
+      "what": "We’ll work through the service, its listening port, the network and the update route. A stopped application and a blocked connection need different fixes.",
+      "why": "Following the clues helps us fix the real cause while leaving the firewall and SELinux protection in place.",
       "bestPractices": [
-        "Keep SELinux enforcing and firewall rules narrow. Review policy changes with the administrator instead of applying broad allow rules.",
-        "Keep diagnostic logs private; they may contain hostnames, network details and sensitive scan information."
+        "Keep SELinux enforcing and firewall access narrow. If a policy needs changing, review a specific correction with the administrator first.",
+        "Keep logs private. Even an ordinary error log may contain machine names, addresses or scan information."
       ],
       "commonMistakes": [
-        "Repeatedly restarting a busy scanner can interrupt work without fixing DNS, disk or entitlement issues.",
-        "Do not disable SELinux or the firewall just to make a browser page work."
+        "Restarting repeatedly can interrupt work while leaving the real DNS, disk or license problem untouched.",
+        "Turning off the firewall or SELinux is not our shortcut for getting a page to load."
       ],
       "troubleshooting": [
         {
-          "problem": "Browser timeout.",
-          "fix": "Check service and listener locally, then active firewall zone/source, VMnet route and host TCP test."
+          "problem": "My browser times out.",
+          "fix": "Check the service and listener on the VM first. Then check its active firewall zone, allowed source, private route and the Windows TCP test."
         },
         {
-          "problem": "Plugins do not finish loading.",
-          "fix": "Check disk and memory, time, DNS, entitlement and approved update path. Preserve the actual error."
+          "problem": "Plugins keep loading or fail.",
+          "fix": "Check free disk space, memory, time, DNS, your edition and the chosen update route. Write down the actual error so we can choose the next check."
         },
         {
-          "problem": "An SELinux denial appears.",
-          "fix": "Inspect its exact AVC, reproduce in a test VM and review a narrow policy fix; never blindly allow everything."
+          "problem": "I see an SELinux denial.",
+          "fix": "Read the specific denied action with your instructor. Test a narrow approved correction in a matching test VM; do not turn a broad allow-everything policy into the fix."
         }
       ],
-      "exercise": "Use one real or instructor-provided failure message and explain the next diagnostic check; do not intentionally damage a working scanner.",
+      "exercise": "Choose a real error or one your instructor supplies. Explain your next diagnostic check and why it fits that error. We do not need to break a working scanner to practice reading clues.",
       "quiz": [
         {
           "question": "The service is stopped. What should you inspect first?",
@@ -1646,38 +1695,38 @@
           "title": "Read service and storage evidence",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Run the status, journal and space checks.",
-            "Look for the first meaningful error, not just the last line.",
-            "Record the timestamp, error and available /opt space. Do not paste full diagnostics into a public issue."
+            "At the scanner Terminal, run the service, log, disk and memory checks below.",
+            "Look for the first meaningful error. The last line may be a consequence rather than the cause.",
+            "Write down the time, error and free space for /opt, where Nessus stores its files. Keep full logs private rather than pasting them into a public issue."
           ],
           "command": "sudo systemctl status nessusd --no-pager\nsudo journalctl -u nessusd -b --no-pager -n 80\ndf -h /opt\nfree -h",
           "breakdown": [
             {
               "term": "journalctl -u nessusd",
-              "meaning": "Selects log entries for the Nessus service."
+              "meaning": "Reads log messages for the Nessus service, instead of mixing them with every other service."
             },
             {
               "term": "-b",
-              "meaning": "Limits entries to the current boot."
+              "meaning": "Limits these log messages to the current boot of the VM."
             },
             {
               "term": "-n 80",
-              "meaning": "Shows the most recent80 entries rather than the full log."
+              "meaning": "Shows the newest 80 log entries, giving us a manageable place to start reading."
             },
             {
               "term": "df -h /opt",
-              "meaning": "Shows readable free space for the filesystem containing Nessus data."
+              "meaning": "Shows human-readable free space for the filesystem holding /opt, where Nessus keeps its files."
             },
             {
               "term": "free -h",
-              "meaning": "Shows readable memory usage and availability."
+              "meaning": "Shows available and used memory in readable units such as GiB."
             }
           ],
-          "expected": "You know whether the service failed, whether startup logged a specific cause and whether storage is full.",
+          "expected": "You can tell whether the service failed and whether a useful error, full disk or resource shortage points to the cause.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Read service and storage evidence — capture needed",
-            "instructions": "Capture a sanitized service error and filesystem capacity line, with sensitive paths removed."
+            "instructions": "Capture the relevant redacted service error and disk-space line, not a whole private log."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm"
@@ -1687,9 +1736,9 @@
           "title": "Separate local application and network tests",
           "where": "NESSUS-ALMA09 console, then Windows host PowerShell",
           "actions": [
-            "On Linux check the TCP8834 listener and the active firewall rules using the earlier commands.",
-            "On Windows rerun Test-NetConnection for the scanner’s current private address and port8834.",
-            "If IP access works but a hostname fails, inspect DNS. If TCP succeeds but the browser warns, inspect TLS rather than broadening the firewall."
+            "On Linux, check the TCP 8834 listener and firewall rules using the commands below.",
+            "On Windows, repeat Test-NetConnection using the scanner’s current private address and port 8834.",
+            "If the IP works but the name does not, look at DNS. If the TCP test works but the browser warns, look at the certificate. Do not widen the firewall to solve a certificate warning."
           ],
           "command": "sudo ss -lntp 'sport = :8834'\nsudo firewall-cmd --get-active-zones\nsudo firewall-cmd --zone=public --list-rich-rules",
           "breakdown": [
@@ -1703,14 +1752,14 @@
             },
             {
               "term": "--list-rich-rules",
-              "meaning": "Shows whether the approved source-limited rule is present."
+              "meaning": "Shows the detailed rules in the selected zone so you can check the source and port."
             }
           ],
-          "expected": "Your notes distinguish application listener, network route, DNS and certificate behavior.",
+          "expected": "Your notes separate the application, network, name lookup and certificate checks so you know which one needs attention.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Separate local application and network tests — capture needed",
-            "instructions": "Capture only the failing test and the next successful layer check, using private lab values."
+            "instructions": "Capture the failing check and the useful comparison check next to it. Use private lab values only."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/PortRequirements.htm"
@@ -1720,19 +1769,19 @@
           "title": "Investigate SELinux carefully",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Check the SELinux mode and recent access denials.",
-            "If sealert is not installed, install the approved AlmaLinux setroubleshoot-server package before using its report command.",
-            "Read the exact denied operation with an administrator. Test a narrowly scoped approved correction in a matching test VM, restart only when needed, and check the denial again. Do not blindly generate a broad policy."
+            "Check the SELinux mode and recent access-denial messages. SELinux is an extra set of rules about what programs may do.",
+            "If sealert is missing, install the approved AlmaLinux setroubleshoot-server package before trying its report command. On an offline machine, use the approved package/dependency plan.",
+            "Read the exact denied operation with your instructor. Try a narrow approved correction in a matching test VM, restart only when needed, and check again. Do not apply a broad policy without understanding it."
           ],
           "command": "getenforce\nsudo ausearch -m AVC,USER_AVC -ts recent\n# If approved repositories are available and sealert is missing:\nsudo dnf install setroubleshoot-server\nsudo sealert -a /var/log/audit/audit.log",
           "breakdown": [
             {
               "term": "getenforce",
-              "meaning": "Reports the SELinux mode."
+              "meaning": "Shows whether SELinux is enforcing its protection rules, permissive or disabled."
             },
             {
               "term": "ausearch",
-              "meaning": "Searches the Linux audit log."
+              "meaning": "Searches Linux’s audit log for the kinds of messages you ask for."
             },
             {
               "term": "-m AVC,USER_AVC",
@@ -1740,7 +1789,7 @@
             },
             {
               "term": "-ts recent",
-              "meaning": "Looks at recent events."
+              "meaning": "Limits the audit search to recent events so we start with the messages most likely to relate to our test."
             },
             {
               "term": "sealert -a",
@@ -1755,11 +1804,11 @@
               "meaning": "Installs the approved AlmaLinux package that supplies sealert; an offline host needs an approved dependency/media plan instead of an internet repository."
             }
           ],
-          "expected": "SELinux remains enforcing; you either have no related denial or a specific documented issue for review.",
+          "expected": "SELinux stays enforcing. You either find no related denial or have a specific issue written down for review.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Investigate SELinux carefully — capture needed",
-            "instructions": "Capture only a sanitized relevant AVC or a no-related-denials observation, not the complete audit log."
+            "instructions": "Capture only the relevant redacted denial or your no-related-denial observation. Keep the full audit log private."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/CustomizeSELinuxEnforcing.htm"
@@ -1769,46 +1818,51 @@
           "title": "Check the right update route",
           "where": "NESSUS-ALMA09 · Nessus settings and private notes",
           "actions": [
-            "Confirm online versus offline mode and the installed product/version.",
-            "For online use verify DNS, time and approved outbound443/proxy access. For offline use verify the correct license and matched signed plugin pair.",
-            "Record the exact error and stop condition. Do not post activation codes, license text, feed URLs or credentials."
+            "Check whether this scanner is configured for online or offline updates, and note its product and version.",
+            "For an online scanner, check DNS, time and the permitted outbound HTTPS port 443/proxy route. For an offline scanner, check its matching license and signed plugin pair.",
+            "Write down the exact error and what requirement must be fixed before you retry. Leave activation codes, license text, passwords and private feed addresses out of shared notes."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The proposed fix matches the actual update route and preserves signature checks.",
+          "expected": "Your proposed next step fits the scanner’s actual update route and keeps signature checks in place.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Check the right update route — capture needed",
-            "instructions": "Capture only sanitized mode/version/plugin state or error text."
+            "instructions": "Capture just the redacted update mode, version, plugin state or relevant error."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/OfflineMode.htm"
           ]
         }
       ],
-      "pass": "You can identify the failing layer and collect a small non-secret evidence bundle without weakening security controls."
+      "pass": "You can identify where the failure is happening and collect a small useful set of evidence while keeping protections enabled.",
+      "needs": [
+        "Keep the scanner’s VMware console available so you can inspect it even if the browser or SSH connection fails.",
+        "Have the exact error or a message supplied by your instructor, plus your current address, firewall and update-route notes.",
+        "Use a permitted administrator account and a private place to save useful log excerpts."
+      ]
     },
     {
       "id": "nessus-linux-validate",
       "title": "Prove the Scanner Is Ready",
-      "description": "Collect independent checks of the package, service, console and plugins.",
-      "what": "We check the whole chain. One green light is helpful; several independent checks tell a stronger story.",
-      "why": "This prevents a half-installed scanner from being marked ready for the administration course.",
+      "description": "Let’s put the checks together and make sure your scanner is really ready.",
+      "what": "We’ll check several parts of the setup: the installed package, the running service, browser access, activation and plugins. One green light is useful; the full chain is more convincing.",
+      "why": "It is easy to mistake an open welcome page for a finished installation. These checks help us spot anything still missing before the scanning class.",
       "bestPractices": [
-        "Record what you actually observed, including the date. Never copy example success text as evidence.",
-        "A ready scanner still needs target authorization, scan-policy review and credential planning before scanning."
+        "Record what your own screen shows and when you checked it. An example in a course is not evidence from your VM.",
+        "A ready scanner still needs a permitted target list, a reviewed scan policy and a credential plan before it scans anything."
       ],
       "commonMistakes": [
-        "An active service alone is not proof of loaded plugins.",
-        "A screenshot of the welcome page alone is not proof that activation completed."
+        "An active service does not tell us whether plugins finished loading.",
+        "The welcome page can appear before activation is complete, so it is only one part of our check."
       ],
       "troubleshooting": [
         {
-          "problem": "One readiness check fails.",
-          "fix": "Leave the installation incomplete, return to the matching diagnosis and repeat only the failed check after a documented correction."
+          "problem": "One check still fails.",
+          "fix": "That tells us which part needs more attention. Leave the installation incomplete, return to that lesson, make a documented correction and repeat the check. You do not need to redo a working step just to fill a page."
         }
       ],
-      "exercise": "Give a two-minute handoff explaining each readiness check and the next step without revealing secrets.",
+      "exercise": "Give a two-minute handoff: show each readiness check and explain what it proves. Keep the license and passwords out of the demonstration.",
       "quiz": [
         {
           "question": "Which set best proves installation readiness?",
@@ -1836,30 +1890,30 @@
           "title": "Verify package and service together",
           "where": "NESSUS-ALMA09 · Terminal",
           "actions": [
-            "Query the installed Nessus package.",
-            "Check enabled and active states.",
-            "Compare observed version and status with the plan; do not substitute the values below for real results."
+            "Ask the package manager which Nessus version is installed by running the first command below.",
+            "Check whether nessusd is enabled for boot and active right now. These are two separate questions.",
+            "Compare your results with the plan. We are looking for your actual installed version and service state, not a value copied from a lesson."
           ],
           "command": "rpm -q Nessus\nsystemctl is-enabled nessusd\nsystemctl is-active nessusd",
           "breakdown": [
             {
               "term": "rpm -q Nessus",
-              "meaning": "Reports the installed package version."
+              "meaning": "Asks the installed-package record which Nessus version is on this machine."
             },
             {
               "term": "is-enabled",
-              "meaning": "Checks that the service is configured to start at boot."
+              "meaning": "Asks whether Linux is set to start the service during boot; it does not prove it is running now."
             },
             {
               "term": "is-active",
-              "meaning": "Checks the service’s current running state."
+              "meaning": "Asks whether the service is running at this moment; it does not start a stopped service."
             }
           ],
-          "expected": "The installed package is the expected10.12.5 scanner and service startup/current state are correct.",
+          "expected": "Your VM reports the expected Nessus 10.12.5 package, and the service has the intended boot and current running states.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Verify package and service together — capture needed",
-            "instructions": "Capture these real readiness checks on the scanner terminal."
+            "instructions": "Capture the real package and service checks from the scanner Terminal."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/StartOrStopNessus.htm"
@@ -1869,17 +1923,17 @@
           "title": "Verify private console and plugin readiness",
           "where": "Windows host · Nessus browser settings",
           "actions": [
-            "Open the bookmarked private HTTPS URL and sign in.",
-            "Inspect the installed edition/version and plugin status/date in Settings.",
-            "Confirm that the firewall rule is limited to the approved management source, not broadly exposed."
+            "On Windows, open your bookmarked private HTTPS address and sign in to Nessus.",
+            "In Settings, check the product edition, installed version and plugin date/status. Wait if initialization is still running.",
+            "Review the management firewall rule too. It should name the allowed source, rather than expose the page to every address."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The private console is reachable and plugin initialization is finished for the licensed edition.",
+          "expected": "You can reach the intended private console, and plugin initialization is finished for your licensed edition.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Verify private console and plugin readiness — capture needed",
-            "instructions": "Capture only sanitized About/plugin information and the source-limited firewall record."
+            "instructions": "Capture the redacted version/plugin information and source-limited firewall record. Hide license and account details."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/ConfigureNessus.htm"
@@ -1889,47 +1943,51 @@
           "title": "Write the non-secret handoff",
           "where": "Windows host · private lab notes",
           "actions": [
-            "Record scanner hostname/IP, OS/architecture, installed Nessus version, activation route, plugin date and readiness date.",
-            "Record the source-limited management rule and who maintains certificates/updates.",
-            "Record any unresolved issue honestly and leave the lab incomplete if it blocks scanning."
+            "In your notebook, record the scanner name and IP, AlmaLinux version and architecture, Nessus version, activation route, plugin date and the date you checked readiness.",
+            "Write down the management rule and who is responsible for keeping certificates and updates healthy.",
+            "List any unresolved issue honestly. If it prevents scanning, leave the lab incomplete so the next person knows what still needs work."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "Another administrator can identify the scanner and its maintenance plan without receiving credentials in the report.",
+          "expected": "Someone else could find this scanner and understand its maintenance plan without receiving your passwords in the handoff.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Write the non-secret handoff — capture needed",
-            "instructions": "Capture the handoff checklist with license, custom feed URL, passwords and contacts excluded."
+            "instructions": "Capture the handoff checklist after hiding licenses, passwords, private feed addresses and contact details."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/GetStarted.htm"
           ]
         }
       ],
-      "pass": "Installed version, active service, restricted management reachability, valid activation and initialized plugins are all verified with private evidence."
+      "pass": "You have your own evidence for the installed version, running service, restricted browser access, valid activation and loaded plugins.",
+      "needs": [
+        "Have the installed scanner running, with its configured license route and plugins ready.",
+        "Open Linux Terminal and your Windows browser, and keep your installation and firewall notes nearby. We’ll compare several checks together."
+      ]
     },
     {
       "id": "nessus-linux-practical",
       "title": "Finish the AlmaLinux Installation Lab",
-      "description": "Demonstrate a clean installation and prepare the next authorized scanning exercise.",
-      "what": "Now you explain and demonstrate the work with your own evidence. You are showing that you understand the setup, not just that you can copy commands.",
-      "why": "An administrator must be able to repeat, explain and safely maintain a service.",
+      "description": "Your turn: show the scanner working and explain how you would look after it.",
+      "what": "We’ll use your own results to walk through the finished setup. The goal is to explain what you built, not just show that you copied a command.",
+      "why": "At work, another person may need to support the scanner after you. A clear demonstration and handoff make that much easier.",
       "bestPractices": [
-        "Keep scanner backups private because they can contain license/settings; follow Tenable’s backup procedure and storage controls.",
-        "Do not clone an activated scanner identity as a shortcut. Rebuilding or moving it needs the documented licensing/migration process.",
-        "Do not convert this scanner with fetch --security-center just to mention ACAS. That changes its management mode."
+        "Treat Nessus backups as private: they can contain settings and license information. Use Tenable’s backup procedure and approved protected storage.",
+        "Do not clone an activated scanner identity to make another scanner. Use the documented licensing and migration process when rebuilding or moving it.",
+        "Do not run fetch --security-center just to demonstrate an ACAS term. It changes the scanner’s management mode."
       ],
       "commonMistakes": [
-        "Do not claim completion using the course’s capture placeholders. Those are requests for evidence, not proof.",
-        "Do not make a deliberately vulnerable production host for the final scan exercise. Use approved private target VMs."
+        "A capture placeholder asks for a real screenshot; it does not prove that a lab step succeeded.",
+        "Keep practice targets separate from production. We do not need to weaken a work server to learn scanning."
       ],
       "troubleshooting": [
         {
-          "problem": "You cannot explain a command you ran.",
-          "fix": "Return to its command breakdown, identify its machine/context and repeat only a safe inspection check before continuing."
+          "problem": "I cannot explain a command I used.",
+          "fix": "That is a useful place to pause. Open its command breakdown, name the computer where it runs, and practice a safe read-only check before continuing."
         }
       ],
-      "exercise": "Build or review NESSUS-ALMA09, demonstrate its restricted HTTPS console, explain activation and signed offline plugin requirements, and hand off a secret-free readiness record. Do not launch target scans until Class03.",
+      "exercise": "Demonstrate NESSUS-ALMA09, its restricted HTTPS page and its readiness checks. Explain activation and the signed offline-update rule, then hand over notes without secrets. We’ll launch target scans in Class 03, after its preparation steps.",
       "quiz": [
         {
           "question": "What should your final evidence contain?",
@@ -1957,17 +2015,17 @@
           "title": "Demonstrate the installation chain",
           "where": "NESSUS-ALMA09 console and Windows host browser",
           "actions": [
-            "Show the VM resources and supported AlmaLinux version.",
-            "Show the installed package, service state and TCP8834 listener using earlier inspection commands.",
-            "Open the private HTTPS console and show sanitized loaded-plugin status. Explain each check in your own words."
+            "Show the VM’s resources and supported AlmaLinux version so your instructor can recognize the machine you built.",
+            "Use the earlier read-only commands to show the installed Nessus package, current service state and TCP 8834 listener.",
+            "Open the private HTTPS page and show the redacted loaded-plugin status. Explain what each check tells us as you go."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The instructor can follow the chain from VM to running and initialized application.",
+          "expected": "Your instructor can follow the setup from the VM through to a running, initialized Nessus application.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Demonstrate the installation chain — capture needed",
-            "instructions": "Capture a small genuine evidence set: VM summary, terminal readiness checks, restricted firewall rule and sanitized Nessus version/plugin view."
+            "instructions": "Take a small set of genuine screenshots: VM resources, Terminal readiness checks, restricted firewall rule and redacted Nessus version/plugin status."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/HardwareRequirements.htm"
@@ -1977,17 +2035,17 @@
           "title": "Explain one diagnosis and the update rule",
           "where": "Windows host · lab notes",
           "actions": [
-            "Choose one failure category: service, port, DNS, certificate, storage or SELinux. Explain the first two checks you would run.",
-            "Explain why a plugin tar.gz file without its trusted matching signature cannot be blindly imported on10.12.5.",
-            "Explain where the private license and password are stored without displaying either."
+            "Choose one kind of problem: service, port, DNS, certificate, storage or SELinux. Explain the first two checks you would make and why.",
+            "Explain why Nessus 10.12.5 needs a trusted matching signature when you manually import a plugin archive.",
+            "Describe where you keep the license and password without opening either secret."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "You can describe a specific diagnosis and the signed-update safety boundary.",
+          "expected": "You can explain a practical diagnosis and the two-file signed-plugin requirement in your own words.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Explain one diagnosis and the update rule — capture needed",
-            "instructions": "Capture your non-secret written explanation, not any license or private artifact content."
+            "instructions": "Capture your written explanation only. Do not open a private license or artifact just to make a picture."
           },
           "sources": [
             "https://docs.tenable.com/release-notes/Content/nessus/2026.htm"
@@ -1997,24 +2055,37 @@
           "title": "Prepare the handoff to scan administration",
           "where": "Windows host · approved lab plan",
           "actions": [
-            "Keep this scanner distinct from the AlmaLinux9 target and Windows Server2022 target VMs.",
-            "Record the two targets’ private addresses, owners and permitted test window. Confirm neither is a production system.",
-            "Open Class03 — Nessus Configuration, Scan Policies & Vulnerability Scanning. Review its scope/policy/credential steps before launching any scan."
+            "Keep this scanner separate from the AlmaLinux 9 target and the Windows Server 2022 target. Those are the two computers it will inspect later.",
+            "Record their private addresses, owners and allowed test window, and confirm neither is a production system.",
+            "Open Class 03, Nessus Configuration, Scan Policies & Vulnerability Scanning. We’ll review targets, policies and credentials there before clicking Launch."
           ],
           "command": "",
           "breakdown": [],
-          "expected": "The installation is finished and the next course has an explicit authorized two-target plan.",
+          "expected": "The scanner installation is finished, and you have a clear, permitted two-target plan for the next class.",
           "screenshot": {
             "status": "capture-needed",
             "title": "Prepare the handoff to scan administration — capture needed",
-            "instructions": "Capture the target scope checklist with private training addresses only and no credentials."
+            "instructions": "Capture the target checklist using private training addresses and no credentials."
           },
           "sources": [
             "https://docs.tenable.com/nessus/10_12/Content/GetStarted.htm"
           ]
         }
       ],
-      "pass": "All installation checks and knowledge checks are complete; evidence is genuine and sanitized; the next course has two approved target VMs to use."
+      "pass": "You have completed the installation and knowledge checks using real private evidence, and you have a permitted two-target plan ready for the scanning class.",
+      "needs": [
+        "Bring your working NESSUS-ALMA09 scanner and the real evidence collected in earlier lessons.",
+        "Have your permitted two-target plan ready for the next class; the scanner itself must remain separate from those target VMs.",
+        "Keep the license, private keys and passwords protected while you demonstrate the non-secret checks."
+      ]
     }
+  ],
+  "supplies": [
+    "Use a Windows computer with VMware Workstation Pro. It needs enough spare resources for the scanner and the target VMs while Windows keeps running.",
+    "For our scanner VM, plan 4 virtual CPU cores, 8 GB RAM and a new 80 GB virtual disk. RAM is working memory; the disk keeps files after shutdown. These are our teaching allocations, not a guarantee for every workload.",
+    "Download a supported AlmaLinux 9 x86_64 ISO from the official project. An ISO acts like an installation disc; x86_64 is for 64-bit Intel/AMD processors. Tenable’s current support table lists AlmaLinux 9.6 and later in the 9.x family.",
+    "Have Nessus-10.12.5-el9.x86_64.rpm from Tenable ready on Windows. This RPM is the Linux installation package for the Nessus scanner; it is not the Nessus Agent installer.",
+    "Use the private VMware lab network from the network-setup lesson and keep a notebook of its actual addresses. We’ll keep the scanner separate from the AlmaLinux and Windows computers it will inspect.",
+    "Have a valid Nessus registration option or license for your chosen edition. If the scanner must work offline, check that the edition supports it and get the matching scanner license, plugin archive and signature; Nessus Essentials does not support offline installation."
   ]
 }

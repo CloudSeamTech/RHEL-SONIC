@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { welcomeFor } from '@/lib/lesson-welcome';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import course from '@/content/alma/desktop-lessons.json';
 import { ConsoleReaderShell } from '../console-reader-shell';
@@ -52,7 +53,7 @@ export function AlmaDesktop() {
           </span>
           <p>{course.title}</p>
           <h1>{lesson.title}</h1>
-          <p>{lesson.description}</p>
+          <p>{welcomeFor(id)?.welcome ?? lesson.description}</p>
           <small>
             {course.baseline} · {completed.length}/{course.lessons.length}{' '}
             classes self-verified
