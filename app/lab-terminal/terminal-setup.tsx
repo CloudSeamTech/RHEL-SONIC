@@ -31,53 +31,48 @@ export function TerminalSetup() {
       <p>If you opened Node.js and see only a <code>&gt;</code> prompt, close it. Open <strong>Windows PowerShell</strong> from Start instead. Do not type the <code>PS C:\…&gt;</code> prompt itself; copy only the command.</p>
       <ol>
         <li>
-          <h3>Install Node.js — npm comes with it</h3>
-          <p>
-            Node.js runs the local app. npm downloads the packages it needs.
-            You install both together; there is no separate npm installer to find.
-          </p>
-          <ol>
-            <li>Open <a href="https://nodejs.org/en/download" target="_blank" rel="noreferrer">the official Node.js download page</a>.</li>
-            <li>Choose Node.js 24 LTS and Windows Installer (.msi). Most Intel/AMD Windows PCs use x64; choose the installer matching your PC.</li>
-            <li>Open the downloaded installer. Select Next, accept the license, and keep the default install folder.</li>
-            <li>On Custom Setup, keep npm package manager and Add to PATH selected. PATH lets PowerShell find the commands.</li>
-            <li>If offered automatic tools for native modules, leave that optional box unchecked for now. We’ll cover build tools below if they are needed.</li>
-            <li>Select Install, approve the Windows prompt if you have administrator permission, then select Finish.</li>
-          </ol>
-          <p>Already installed? The app requires Node.js 22.13 or newer. Node.js 24 LTS is the recommended starting point for this guide.</p>
+          <h3>Step 1: Open PowerShell and check Windows Package Manager</h3>
+          <p>Press the Windows key, type <strong>Windows PowerShell</strong>, and select Open. Use your normal account. This is window 1. Click beside its <code>PS</code> prompt, then paste this command and press Enter.</p>
+          <SetupCommands windowName="PowerShell window 1" commands={'winget --version'} />
+          <p><strong>Why:</strong> winget installs programs from PowerShell. A version number means it is ready.</p>
+          <details><summary>Windows says winget is not recognized?</summary>
+            <p>First close and reopen PowerShell and try again. Still missing? Run this command to open Microsoft Store’s App Installer page, then select Install or Update. App Installer supplies winget; you only need this Store step when it is missing. Reopen PowerShell afterward and check again.</p>
+            <SetupCommands windowName="PowerShell window 1" commands={'Start-Process "ms-windows-store://pdp/?ProductId=9NBLGGH4NNS1"'} />
+            <p>If your organization blocks Microsoft Store, ask its IT team to provide App Installer. Do not continue until <code>winget --version</code> works.</p>
+          </details>
         </li>
         <li>
-          <h3>Install Git for Windows</h3>
-          <p>Git downloads the SONIC-Academy project from GitHub.</p>
-          <ol>
-            <li>Open <a href="https://git-scm.com/downloads/win" target="_blank" rel="noreferrer">the official Git for Windows download page</a> and download the installer for your PC.</li>
-            <li>Run the installer. Keep the default options. If asked about PATH, choose Git from the command line and also from 3rd-party software.</li>
-            <li>Select Install, then Finish. You do not need to open Git Bash or create a GitHub account for this public project.</li>
-          </ol>
+          <h3>Step 2: Install Node.js and npm</h3>
+          <SetupCommands windowName="PowerShell window 1" commands={'winget install --id OpenJS.NodeJS.LTS --exact --source winget'} />
+          <p><strong>Why:</strong> Node.js runs the local website. Its installer includes npm, which installs the website’s packages. There is no separate npm download or npm account.</p>
+          <p>Read and accept any package agreements if you agree, and approve the installer’s Windows prompt if you have administrator permission. Wait for “Successfully installed.” If winget reports it is already installed, check its version in the next steps. The app needs Node.js 22.13 or newer.</p>
         </li>
         <li>
-          <h3>Open a fresh PowerShell window and check the tools</h3>
-          <p>
-            Close PowerShell windows that were open during installation. Press
-            the Windows key, type Windows PowerShell, and open it normally.
-            Run each line separately:
-          </p>
+          <h3>Step 3: Install Git</h3>
+          <SetupCommands windowName="PowerShell window 1" commands={'winget install --id Git.Git --exact --source winget'} />
+          <p><strong>Why:</strong> Git copies the SONIC-Academy files from GitHub onto your PC. Wait for installation to finish. You do not need a GitHub account for this public project.</p>
+        </li>
+        <li>
+          <h3>Step 4: Refresh PATH so PowerShell can find the new tools</h3>
+          <SetupCommands windowName="PowerShell window 1" commands={"$env:Path = [System.Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path', 'User')"} />
+          <p><strong>Why:</strong> PATH is Windows’ list of places to look for programs. This reloads the saved list into this PowerShell window after installation. It does not erase or rewrite your saved environment variables.</p>
+          <p><strong>What you’ll see:</strong> Usually nothing prints; the prompt returns. That is normal. Opening a fresh PowerShell window also loads the updated PATH.</p>
+        </li>
+        <li>
+          <h3>Step 5: Check that Node.js, npm, and Git work</h3>
           <SetupCommands windowName="PowerShell window 1" commands={'node --version\nnpm.cmd --version\ngit --version'} />
-          <p>
-            You should see a Node version such as v24.x.x, an npm version number,
-            and git version followed by a number. Your patch numbers may differ.
-            If a command says it is not recognized, close and reopen PowerShell;
-            if it still fails, rerun that installer and check its Add to PATH option.
-          </p>
-          <p>
-            We use <code>npm.cmd</code> throughout this Windows guide. It runs the
-            npm supplied with Node.js and avoids the common “npm.ps1 cannot be
-            loaded because running scripts is disabled” message. You do not need
-            to change PowerShell’s execution policy for these npm commands.
-          </p>
+          <p><strong>Why:</strong> These checks confirm the tools are ready before we download the app. Each line should print a version number. Node must be 22.13 or newer.</p>
+          <p>If a command is not recognized, close and reopen PowerShell and retry. If it still fails, stop and check the installation message. We use <code>npm.cmd</code> to avoid the common npm.ps1 script-policy error without changing your execution policy.</p>
         </li>
         <li>
-          <h3>Download the app into your own user folder</h3>
+          <h3>Step 6: Optional: install Visual Studio Code</h3>
+          <p>You can keep using Windows PowerShell. VS Code is a free editor that also gives you a terminal beside your files.</p>
+          <SetupCommands windowName="PowerShell window 1" commands={'winget install --id Microsoft.VisualStudioCode --exact --source winget'} />
+          <p>After installation, open Visual Studio Code from Start. Select <strong>Terminal → New Terminal</strong>. Check that the terminal profile is PowerShell; use the arrow beside the + button to choose it if needed.</p>
+          <p>Paste the same commands below into that terminal with Ctrl+V, then Enter. After downloading the project, choose <strong>File → Open Folder</strong> and select the SONIC-Academy folder inside your Windows user folder. Use <strong>Terminal → New Terminal</strong> again when you need window 2. Leave both service terminals running.</p>
+        </li>
+        <li>
+          <h3>Step 7: Download the app into your own user folder</h3>
           <p>In that PowerShell window, run these lines one at a time:</p>
           <SetupCommands windowName="PowerShell window 1" commands={'Set-Location $env:USERPROFILE\ngit clone --branch main https://github.com/CloudSeamTech/SONIC-Academy.git\nSet-Location .\\SONIC-Academy\nnpm.cmd ci'} />
           <p><strong>What each line does:</strong> First go to your user folder, then download the project, enter its folder, and finally install its packages. Run <code>npm.cmd ci</code> only inside the SONIC-Academy folder, where <code>package.json</code> is stored.</p>
@@ -90,7 +85,7 @@ export function TerminalSetup() {
           </p>
         </li>
         <li>
-          <h3>Start the website locally — keep window 1 open</h3>
+          <h3>Step 8: Start the website locally — keep window 1 open</h3>
           <SetupCommands windowName="PowerShell window 1" commands={'npm.cmd run dev'} />
           <p>
             Look for the Local address printed by the app, usually
@@ -100,7 +95,7 @@ export function TerminalSetup() {
           </p>
         </li>
         <li>
-          <h3>Start the companion — keep window 2 open</h3>
+          <h3>Step 9: Start the companion — keep window 2 open</h3>
           <p>Open a second Windows PowerShell window. Run:</p>
           <SetupCommands windowName="PowerShell window 2" commands={'Set-Location "$env:USERPROFILE\\SONIC-Academy"\nnpm.cmd run companion:install\nnpm.cmd run companion:start'} />
           <p>
@@ -125,7 +120,7 @@ export function TerminalSetup() {
           </details>
         </li>
         <li>
-          <h3>Connect from the local website</h3>
+          <h3>Step 10: Connect from the local website</h3>
           <p>
             Open <code>http://localhost:3000/migration#view=terminal</code> in
             your browser. If window 1 printed another port, use that port instead.
@@ -140,7 +135,7 @@ export function TerminalSetup() {
           <p>If the page will not open, check that window 1 is still running. If connection fails, check window 2 and copy its current token again.</p>
         </li>
         <li>
-          <h3>Run your first two commands</h3>
+          <h3>Step 11: Run your first two commands</h3>
           <p>Type <code>Get-Date</code> and select Run. Then run <code>$env:COMPUTERNAME</code>.</p>
           <p>
             You should see your PC’s date and computer name from the real local
@@ -150,7 +145,7 @@ export function TerminalSetup() {
           </p>
         </li>
         <li>
-          <h3>Close the session when you finish</h3>
+          <h3>Step 12: Close the session when you finish</h3>
           <p>
             Select Disconnect terminal. In each PowerShell window, press Ctrl+C
             to stop its service. Keep the app and companion local; no router
