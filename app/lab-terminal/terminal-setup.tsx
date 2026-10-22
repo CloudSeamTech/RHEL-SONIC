@@ -1,4 +1,3 @@
-import Link from 'next/link';
 
 export function TerminalSetup() {
   return (
@@ -136,7 +135,7 @@ export function TerminalSetup() {
           </p>
         </li>
       </ol>
-      <Link href="/alma#lesson=alma-real-terminal">Follow the guided real-terminal class →</Link>
+      <a href="/alma#lesson=alma-real-terminal">Follow the guided real-terminal class →</a>
     </details>
   );
 }
