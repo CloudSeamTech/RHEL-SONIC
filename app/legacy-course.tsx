@@ -568,7 +568,7 @@ export default function Home() {
                 <h2>{display.title}</h2>
                 <p className="task-phase">{lesson.phase}</p>
                 <LabOverview summary={lesson.objective} steps={lesson.walkthrough?.map(item => item.title) ?? [display.title]} outcome={lesson.walkthrough?.at(-1)?.expected ?? lesson.objective} />
-                <LessonWelcome lessonId={lesson.id} />
+                <LessonWelcome lessonId={lesson.id} showIntro={false} />
                 <details
                   className="lab-brief"
                   aria-label="What, why, and production context"

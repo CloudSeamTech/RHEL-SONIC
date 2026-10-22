@@ -444,6 +444,7 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
         </header>
         <LabOverview summary={lesson.what} steps={lesson.steps.map(item => item.title)} outcome={lesson.pass} />
         <LessonWelcome
+          showIntro={false}
           content={{
             welcome: index === 0 ? course.prerequisite : lesson.what,
             why: lesson.why,
