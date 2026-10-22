@@ -124,7 +124,8 @@ test('Learn It and Do the Job use the same lesson IDs without duplicate lesson s
 
 test('hosted terminal says copy/help and cannot construct a non-loopback companion connection', () => {
   assert.match(terminalSource, /Hosted SONIC cannot execute commands/);
-  assert.match(terminalSource, /Nothing shown below is fake terminal output/);
+  assert.match(terminalSource, /PowerShell runs on your PC/);
+  assert.match(terminalSource, /Set up to run/);
   assert.match(
     terminalSource,
     /companionWebSocketUrl\(window\.location\.hostname\)/,

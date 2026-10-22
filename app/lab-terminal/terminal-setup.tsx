@@ -8,14 +8,15 @@ export function TerminalSetup() {
         on your Windows PC plus its local companion. It does not run inside this
         hosted website.
       </p>
+      <p><strong>First time?</strong> Follow these steps on your Windows PC. Keep both PowerShell windows open while you use the terminal.</p>
       <ol>
         <li>
           Install Git and Node.js 22.13+ with npm. Use your normal Windows
-          account. In PowerShell clone the curriculum branch and start SONIC:
+          account. In PowerShell download the current SONIC-Academy classes and start the local app:
           <pre>
             <code>
               {
-                'git clone --branch curriculum/friendly-teaching-azure-maintenance https://github.com/CloudSeamTech/SONIC-Academy.git\ncd SONIC-Academy\nnpm ci\nnpm run dev'
+                'git clone --branch main https://github.com/CloudSeamTech/SONIC-Academy.git\ncd SONIC-Academy\nnpm ci\nnpm run dev'
               }
             </code>
           </pre>
@@ -61,6 +62,9 @@ export function TerminalSetup() {
           checks.
         </li>
       </ol>
+      <p>Once both windows are running, open the local app below. The hosted page will stay in copy mode.</p>
+      <a href="http://localhost:3000/migration#view=terminal" target="_blank" rel="noreferrer">Open local terminal on this PC ↗</a>
+      <p>If your app printed another port, use that address instead. If the page will not open, check that <code>npm run dev</code> is still running.</p>
       <Link href="/alma#lesson=alma-real-terminal">
         Follow the guided real-terminal class →
       </Link>

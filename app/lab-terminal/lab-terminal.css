@@ -203,3 +203,29 @@
 .terminal-setup li { margin: 16px 0; line-height: 1.7; }
 .terminal-setup pre { max-width: 100%; overflow: auto; padding: 12px; background: #000; font-family: var(--font-ibm-plex-mono), monospace; }
 .terminal-setup a { color: #21c5db; }
+
+/* Terminal fills the lesson workspace instead of inheriting a narrow grid cell. */
+.console-reader .reader-workspace > main:has(> .lab-terminal-experience) { display: block !important; width: 100%; }
+.console-reader .lab-terminal-experience { width: 100%; min-width: 0; padding: 0; }
+.console-reader .terminal-titlebar { padding: 24px 0; flex-wrap: wrap; }
+.console-reader .terminal-layout { grid-template-columns: minmax(0, 1fr) 270px; }
+.console-reader .terminal-feedback { margin: 0; padding: 14px 18px; border-top: 1px solid #242424; color: #dfb656; }
+.console-reader .terminal-input-row { grid-template-columns: auto minmax(0, 1fr) auto auto; }
+.console-reader .terminal-input-row textarea { width: 100%; min-width: 0; }
+.console-reader .copy-mode button { padding: 12px 18px; margin: 14px auto 0; }
+.console-reader .terminal-setup { padding: 20px 24px; scroll-margin-top: 20px; }
+.console-reader .terminal-setup li { margin-block: 18px; }
+.console-reader .terminal-setup a { display: inline-block; padding-block: 12px; }
+@media (max-width: 1050px) {
+ .console-reader .terminal-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 650px) {
+ .console-reader .terminal-input-row { grid-template-columns: auto minmax(0, 1fr); }
+ .console-reader .terminal-input-row button { grid-column: auto; padding: 10px; }
+ .console-reader .terminal-guide { display: block; }
+ .console-reader .terminal-setup { padding: 16px; }
+ .console-reader .terminal-tabs { flex-wrap: wrap; }
+ .console-reader .terminal-tabs button { min-width: 0; width: 100%; }
+ .console-reader .copy-mode { height: auto; min-height: 350px; }
+}
+.console-reader .terminal-setup ol { list-style: decimal; padding-left: 26px; }
