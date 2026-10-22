@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
-import { IBM_Plex_Mono } from 'next/font/google';
+import { JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import './sonic.css';
 
-const geistMono = IBM_Plex_Mono({
+const geistMono = JetBrains_Mono({
   variable: '--font-ibm-plex-mono',
   subsets: ['latin'],
   weight: ['400', '500', '700'],
-  style: ['normal', 'italic'],
+  style: ['normal'],
 });
 
 export const metadata: Metadata = {
