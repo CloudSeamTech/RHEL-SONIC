@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SONIC-Academy</title>
+<meta name="description" content="Open the SONIC-Academy enterprise IT learning console.">
+<link rel="canonical" href="https://sonic-academy-cloud-seam.vercel.app/">
+<script>
+  // GitHub Pages serves this entry point; the interactive application runs on Vercel.
+  const academy = new URL('https://sonic-academy-cloud-seam.vercel.app/');
+  const coursePath = location.pathname.replace(/^\/(?:SONIC-Academy|RHEL-SONIC)(?=\/|$)/i, '');
+  academy.pathname = coursePath || '/';
+  academy.search = location.search;
+  academy.hash = location.hash;
+  location.replace(academy.href);
+</script>
+<noscript><meta http-equiv="refresh" content="0;url=https://sonic-academy-cloud-seam.vercel.app/"></noscript>
+<style>
+body{margin:0;background:#000;color:#eaeaea;font:18px system-ui,sans-serif;line-height:1.6;display:grid;min-height:100vh;place-items:center}
+main{max-width:36rem;margin:24px;padding:28px;border:1px solid #242424;background:#080808}
+h1{font-size:24px;margin:0 0 12px}p{color:#898989}a{color:#21c5db}
+</style>
+</head>
+<body><main><h1>SONIC-Academy</h1><p>Opening your learning console…</p><a href="https://sonic-academy-cloud-seam.vercel.app/">Open SONIC-Academy</a></main></body>
+</html>
