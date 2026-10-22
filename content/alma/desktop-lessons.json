@@ -774,11 +774,11 @@
             "screenshots": []
           },
           {
-            "title": "Start SONIC locally on Windows",
-            "action": "In Windows PowerShell clone the repo if needed, select the published curriculum branch, install app dependencies, then start the local server. Use the URL it prints; do not expose it with a public tunnel.",
+            "title": "Install Node.js and Git, then start the local app",
+            "action": "On your Windows host, first follow the linked terminal setup guide above this lesson. Download Node.js 24 LTS using its official Windows .msi installer; keep npm package manager and Add to PATH selected. Install Git for Windows from its official site, keeping command-line PATH access enabled. Close old PowerShell windows and open a new one. Run node --version, npm.cmd --version and git --version separately; all three must show version numbers before continuing. Then run the command block below one line at a time. Stop if a SONIC-Academy folder already exists; save its work before updating that checkout. Leave the server window open.",
             "expect": "SONIC opens on localhost, normally port 3000.",
-            "trouble": "If you already have a checkout, save your work before switching branches. See the in-app terminal setup guide for complete clone commands.",
-            "command": "git clone --branch curriculum/alma-desktop-operations https://github.com/CloudSeamTech/RHEL-SONIC.git\ncd RHEL-SONIC\nnpm ci\nnpm run dev",
+            "trouble": "If node or git is not recognized, reopen PowerShell after installation and check the installer PATH option. npm is bundled with Node.js. Use npm.cmd if PowerShell blocks npm.ps1; do not lower the execution policy to work around it.",
+            "command": "Set-Location $env:USERPROFILE\ngit clone --branch main https://github.com/CloudSeamTech/SONIC-Academy.git\nSet-Location .\\SONIC-Academy\nnpm.cmd ci\nnpm.cmd run dev",
             "evidence": "Save your own screenshot or notes showing the target, action, and observed result. Exclude passwords and private information.",
             "screenshots": []
           },
@@ -787,7 +787,7 @@
             "action": "From the same repository root in a second PowerShell window install the companion dependencies and start it. Keep this process open. The random pairing token is private and stays on your computer.",
             "expect": "The companion prints a loopback address and pairing token.",
             "trouble": "node-pty may require Visual Studio Build Tools Desktop development with C++ and Python if no matching native binary is available. Follow the actual installation error; do not disable security software.",
-            "command": "npm run companion:install\nnpm run companion:start",
+            "command": "npm.cmd run companion:install\nnpm.cmd run companion:start",
             "evidence": "Save your own screenshot or notes showing the target, action, and observed result. Exclude passwords and private information.",
             "screenshots": []
           },

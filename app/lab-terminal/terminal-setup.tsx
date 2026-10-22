@@ -1,73 +1,142 @@
 import Link from 'next/link';
+
 export function TerminalSetup() {
   return (
     <details className="terminal-setup guided-reference">
-      <summary>Get real terminal output · Windows local setup</summary>
+      <summary>Get real terminal output · start here on Windows</summary>
       <p>
-        The hosted site supplies command help. Real execution uses SONIC running
-        on your Windows PC plus its local companion. It does not run inside this
-        hosted website.
+        We’ll install the tools first, then connect the terminal to your own PC.
+        Use your Windows 10 host, not a server VM. You don’t need an npm account
+        or a paid subscription. Opening this website does not install anything.
       </p>
-      <p><strong>First time?</strong> Follow these steps on your Windows PC. Keep both PowerShell windows open while you use the terminal.</p>
       <ol>
         <li>
-          Install Git and Node.js 22.13+ with npm. Use your normal Windows
-          account. In PowerShell download the current SONIC-Academy classes and start the local app:
-          <pre>
-            <code>
-              {
-                'git clone --branch main https://github.com/CloudSeamTech/SONIC-Academy.git\ncd SONIC-Academy\nnpm ci\nnpm run dev'
-              }
-            </code>
-          </pre>
+          <h3>Install Node.js — npm comes with it</h3>
           <p>
-            If you already have the repository, save existing work before
-            switching branches. Leave this window open.
+            Node.js runs the local app. npm downloads the packages it needs.
+            You install both together; there is no separate npm installer to find.
+          </p>
+          <ol>
+            <li>Open <a href="https://nodejs.org/en/download" target="_blank" rel="noreferrer">the official Node.js download page</a>.</li>
+            <li>Choose Node.js 24 LTS and Windows Installer (.msi). Most Intel/AMD Windows PCs use x64; choose the installer matching your PC.</li>
+            <li>Open the downloaded installer. Select Next, accept the license, and keep the default install folder.</li>
+            <li>On Custom Setup, keep npm package manager and Add to PATH selected. PATH lets PowerShell find the commands.</li>
+            <li>If offered automatic tools for native modules, leave that optional box unchecked for now. We’ll cover build tools below if they are needed.</li>
+            <li>Select Install, approve the Windows prompt if you have administrator permission, then select Finish.</li>
+          </ol>
+          <p>Already installed? The app requires Node.js 22.13 or newer. Node.js 24 LTS is the recommended starting point for this guide.</p>
+        </li>
+        <li>
+          <h3>Install Git for Windows</h3>
+          <p>Git downloads the SONIC-Academy project from GitHub.</p>
+          <ol>
+            <li>Open <a href="https://git-scm.com/downloads/win" target="_blank" rel="noreferrer">the official Git for Windows download page</a> and download the installer for your PC.</li>
+            <li>Run the installer. Keep the default options. If asked about PATH, choose Git from the command line and also from 3rd-party software.</li>
+            <li>Select Install, then Finish. You do not need to open Git Bash or create a GitHub account for this public project.</li>
+          </ol>
+        </li>
+        <li>
+          <h3>Open a fresh PowerShell window and check the tools</h3>
+          <p>
+            Close PowerShell windows that were open during installation. Press
+            the Windows key, type Windows PowerShell, and open it normally.
+            Run each line separately:
+          </p>
+          <pre><code>{'node --version\nnpm.cmd --version\ngit --version'}</code></pre>
+          <p>
+            You should see a Node version such as v24.x.x, an npm version number,
+            and git version followed by a number. Your patch numbers may differ.
+            If a command says it is not recognized, close and reopen PowerShell;
+            if it still fails, rerun that installer and check its Add to PATH option.
+          </p>
+          <p>
+            We use <code>npm.cmd</code> throughout this Windows guide. It runs the
+            npm supplied with Node.js and avoids the common “npm.ps1 cannot be
+            loaded because running scripts is disabled” message. You do not need
+            to change PowerShell’s execution policy for these npm commands.
           </p>
         </li>
         <li>
-          In a second PowerShell window, change to the same repository folder
-          and start the companion:
-          <pre>
-            <code>{'npm run companion:install\nnpm run companion:start'}</code>
-          </pre>
+          <h3>Download the app into your own user folder</h3>
+          <p>In that PowerShell window, run these lines one at a time:</p>
+          <pre><code>{'Set-Location $env:USERPROFILE\ngit clone --branch main https://github.com/CloudSeamTech/SONIC-Academy.git\nSet-Location .\\SONIC-Academy\nnpm.cmd ci'}</code></pre>
           <p>
-            If node-pty needs compilation, follow its installation error;
-            Windows may need Python and Visual Studio Build Tools with Desktop
-            development with C++. Do not disable your security tools.
+            Wait until the PowerShell prompt returns without an install error.
+            This first download can take several minutes. If a SONIC-Academy
+            folder already exists, stop rather than deleting it or cloning over
+            your work. Open that existing checkout and save your changes before updating it.
           </p>
         </li>
         <li>
-          Open <code>http://localhost:3000/migration#view=terminal</code> (or
-          the local port printed by SONIC). Choose Windows PowerShell, paste the
-          companion token into the local-only field and select Connect locally.
-          Keep the token private.
+          <h3>Start the website locally — keep window 1 open</h3>
+          <pre><code>{'npm.cmd run dev'}</code></pre>
+          <p>
+            Look for the Local address printed by the app, usually
+            <code> http://localhost:3000</code>. This window stays busy serving
+            the app; that is normal. Leave it open. If Windows asks about firewall
+            access, do not enable public-network access for this local-only setup.
+          </p>
         </li>
         <li>
-          Run <code>Get-Date</code> and <code>$env:COMPUTERNAME</code>. The
-          output must come from your Windows PC. The WSL tab runs an installed
-          WSL distro; it is separate from a VMware AlmaLinux VM.
+          <h3>Start the companion — keep window 2 open</h3>
+          <p>Open a second Windows PowerShell window. Run:</p>
+          <pre><code>{'Set-Location "$env:USERPROFILE\\SONIC-Academy"\nnpm.cmd run companion:install\nnpm.cmd run companion:start'}</code></pre>
+          <p>
+            The companion should print its local listening address and a one-time
+            token. Leave this window open too. The token connects your browser to
+            your PC; keep it private and never paste it into chat or GitHub.
+          </p>
+          <details>
+            <summary>Installation failed with node-gyp, Python, or C++ errors?</summary>
+            <p>
+              Some PCs need tools to build the companion’s terminal package.
+              First read the actual error; you do not need these extra downloads
+              when installation already succeeded.
+            </p>
+            <ol>
+              <li>Install a supported Python 3 release from <a href="https://www.python.org/downloads/windows/" target="_blank" rel="noreferrer">Python’s Windows downloads</a>. Include the Python launcher and PATH option if offered.</li>
+              <li>Install <a href="https://aka.ms/vs/17/release/vs_BuildTools.exe" target="_blank" rel="noreferrer">Microsoft Visual Studio 2022 Build Tools</a>. In its installer, select Desktop development with C++ and keep its recommended MSVC and Windows SDK components.</li>
+              <li>Finish installation and restart Windows if requested. Open fresh PowerShell windows and return to the project folder.</li>
+              <li>Retry <code>npm.cmd run companion:install</code>, then <code>npm.cmd run companion:start</code>. Restart window 1’s local app if you closed it.</li>
+            </ol>
+            <p>If it still fails, keep the exact error for troubleshooting. Do not disable antivirus or broadly change execution policies to force installation.</p>
+          </details>
         </li>
         <li>
-          For AlmaLinux, use GNOME Terminal directly, or a verified SSH
-          connection from Windows PowerShell. Check the guest’s host-key
-          fingerprint before connecting. Use native PowerShell for full
-          interactive SSH; this panel displays basic text and does not implement
-          every full-screen terminal behavior.
+          <h3>Connect from the local website</h3>
+          <p>
+            Open <code>http://localhost:3000/migration#view=terminal</code> in
+            your browser. If window 1 printed another port, use that port instead.
+            Use the localhost page for this step; the hosted website stays in copy mode.
+          </p>
+          <p>
+            Choose Windows PowerShell, copy the one-time token from window 2 into
+            the One-time companion token field, and select Connect locally. Wait
+            for LOCAL · CONNECTED before trying a command.
+          </p>
+          <a href="http://localhost:3000/migration#view=terminal" target="_blank" rel="noreferrer">Open local terminal on this PC ↗</a>
+          <p>If the page will not open, check that window 1 is still running. If connection fails, check window 2 and copy its current token again.</p>
         </li>
         <li>
-          Disconnect in SONIC, then press Ctrl+C in the companion window when
-          finished. Stop the local dev server separately. Keep both services
-          local; do not publish a remote shell or change the companion’s origin
-          checks.
+          <h3>Run your first two commands</h3>
+          <p>Type <code>Get-Date</code> and select Run. Then run <code>$env:COMPUTERNAME</code>.</p>
+          <p>
+            You should see your PC’s date and computer name from the real local
+            session. The WSL tab needs an installed WSL distribution; it does not
+            connect to your VMware AlmaLinux VM. For that VM, use GNOME Terminal
+            directly or a verified SSH connection from native PowerShell.
+          </p>
+        </li>
+        <li>
+          <h3>Close the session when you finish</h3>
+          <p>
+            Select Disconnect terminal. In each PowerShell window, press Ctrl+C
+            to stop its service. Keep the app and companion local; no router
+            port-forwarding is needed.
+          </p>
         </li>
       </ol>
-      <p>Once both windows are running, open the local app below. The hosted page will stay in copy mode.</p>
-      <a href="http://localhost:3000/migration#view=terminal" target="_blank" rel="noreferrer">Open local terminal on this PC ↗</a>
-      <p>If your app printed another port, use that address instead. If the page will not open, check that <code>npm run dev</code> is still running.</p>
-      <Link href="/alma#lesson=alma-real-terminal">
-        Follow the guided real-terminal class →
-      </Link>
+      <Link href="/alma#lesson=alma-real-terminal">Follow the guided real-terminal class →</Link>
     </details>
   );
 }

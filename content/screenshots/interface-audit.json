@@ -12788,13 +12788,13 @@
     {
       "stepId": "alma-real-terminal:guided:2",
       "lessonTitle": "Connect to Real AlmaLinux Terminal Output",
-      "title": "Start SONIC locally on Windows",
+      "title": "Install Node.js and Git, then start the local app",
       "track": "AlmaLinux desktop",
       "where": "AlmaLinux 9 GNOME desktop → Activities → Terminal, unless the step names Windows or VMware Workstation Pro.",
-      "action": "In Windows PowerShell clone the repo if needed, select the published curriculum branch, install app dependencies, then start the local server. Use the URL it prints; do not expose it with a public tunnel.",
-      "command": "git clone --branch curriculum/alma-desktop-operations https://github.com/CloudSeamTech/RHEL-SONIC.git\ncd RHEL-SONIC\nnpm ci\nnpm run dev",
+      "action": "On your Windows host, first follow the linked terminal setup guide above this lesson. Download Node.js 24 LTS using its official Windows .msi installer; keep npm package manager and Add to PATH selected. Install Git for Windows from its official site, keeping command-line PATH access enabled. Close old PowerShell windows and open a new one. Run node --version, npm.cmd --version and git --version separately; all three must show version numbers before continuing. Then run the command block below one line at a time. Stop if a SONIC-Academy folder already exists; save its work before updating that checkout. Leave the server window open.",
+      "command": "Set-Location $env:USERPROFILE\ngit clone --branch main https://github.com/CloudSeamTech/SONIC-Academy.git\nSet-Location .\\SONIC-Academy\nnpm.cmd ci\nnpm.cmd run dev",
       "expected": "SONIC opens on localhost, normally port 3000.",
-      "instructionHash": "66ec34f32933240052bc2f146bc5a9681b4f5643fc50e1273700ebb5b87c7013",
+      "instructionHash": "c7d61c034dc4661aad2416c777dbe6036b553cf29d1b78ecbd49997a45f24a75",
       "status": "partial-vendor-reference",
       "references": [
         "win-powershell-tabs"
@@ -12808,9 +12808,9 @@
       "track": "AlmaLinux desktop",
       "where": "AlmaLinux 9 GNOME desktop → Activities → Terminal, unless the step names Windows or VMware Workstation Pro.",
       "action": "From the same repository root in a second PowerShell window install the companion dependencies and start it. Keep this process open. The random pairing token is private and stays on your computer.",
-      "command": "npm run companion:install\nnpm run companion:start",
+      "command": "npm.cmd run companion:install\nnpm.cmd run companion:start",
       "expected": "The companion prints a loopback address and pairing token.",
-      "instructionHash": "69fdfa55e22f053015d0fe74274f73948955e78f7652449e2676a0ac51a06430",
+      "instructionHash": "eadc76911d33bdf95181b3622e9d985f2b39a3c4b1b748fc28291ce073d3935e",
       "status": "partial-vendor-reference",
       "references": [
         "win-powershell-tabs"

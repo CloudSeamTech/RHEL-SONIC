@@ -12778,7 +12778,7 @@
     },
     {
       "stepId": "alma-real-terminal:guided:2",
-      "instructionHash": "66ec34f32933240052bc2f146bc5a9681b4f5643fc50e1273700ebb5b87c7013",
+      "instructionHash": "c7d61c034dc4661aad2416c777dbe6036b553cf29d1b78ecbd49997a45f24a75",
       "assetIds": [
         "win-powershell-tabs"
       ],
@@ -12790,7 +12790,7 @@
     },
     {
       "stepId": "alma-real-terminal:guided:3",
-      "instructionHash": "69fdfa55e22f053015d0fe74274f73948955e78f7652449e2676a0ac51a06430",
+      "instructionHash": "eadc76911d33bdf95181b3622e9d985f2b39a3c4b1b748fc28291ce073d3935e",
       "assetIds": [
         "win-powershell-tabs"
       ],
