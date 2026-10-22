@@ -37,7 +37,7 @@ export function LearningConsole({
           learningPathways.find((path) => path.id === initialPathId)!,
         )[0].id,
   );
-  const [expanded, setExpanded] = useState<string[]>([initialPathId]);
+  const [expanded, setExpanded] = useState<string[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [migrationCompleted, setMigrationCompleted] = useState<string[]>([]);
   const [tool, setTool] = useState<'terminal' | 'progress'>('terminal');
@@ -182,9 +182,7 @@ export function LearningConsole({
                   {path.sections.map((group) => (
                     <details
                       key={group.title}
-                      open={group.lessons.some(
-                        (lesson) => lesson.id === selected.id,
-                      )}
+
                     >
                       <summary>
                         {group.title}
@@ -306,47 +304,24 @@ export function LearningConsole({
         <div className="console-middle">
           <section className="console-panel">
             <header className="console-panel-head">
-              <span className="console-green">COURSE MODULES</span>
+              <span className="console-green">CHOOSE A LAB</span>
               <span>{number(available.length)} AVAILABLE</span>
             </header>
             <div className="console-module-list">
               {pathway.sections.map((group) => (
-                <div key={group.title}>
-                  <h2>
-                    {group.title}
-                    <span>{group.optional ? 'OPTIONAL' : 'CORE'}</span>
-                  </h2>
-                  {group.optional && (
-                    <p className="console-extension-note">
-                      {pathway.id === 'windows'
-                        ? 'After SQL01 backup / restore; complete WSUS before MECM updates.'
-                        : 'After SQL backup / restore and Azure foundations; two healthy cluster nodes required.'}
-                    </p>
-                  )}
+                <details className="console-lab-group" key={`${pathway.id}:${group.title}`}>
+                  <summary>{group.title}</summary>
                   {group.lessons.map((lesson) => (
                     <button
                       key={lesson.id}
-                      className={
-                        'console-lesson-row' +
-                        (selected.id === lesson.id ? ' active' : '')
-                      }
+                      className={'console-lesson-row' + (selected.id === lesson.id ? ' active' : '')}
                       onClick={() => setSelectedId(lesson.id)}
                       aria-pressed={selected.id === lesson.id}
                     >
-                      <span className="console-row-number">
-                        {number(available.indexOf(lesson) + 1)}
-                      </span>
                       <span>{lesson.title}</span>
-                      <small>
-                        {selected.id === lesson.id
-                          ? 'SELECTED ●'
-                          : completed.includes(lesson.id)
-                            ? 'VERIFIED ✓'
-                            : 'OPEN ›'}
-                      </small>
                     </button>
                   ))}
-                </div>
+                </details>
               ))}
             </div>
           </section>
@@ -371,6 +346,7 @@ export function LearningConsole({
                     : 'Finish core SQL recovery and Azure foundations first.'}
                 </p>
               )}
+              <details className="console-preview-steps"><summary>View the lab steps</summary>
               <ol className="console-steps">
                 {selected.steps.map((step, index) => (
                   <li key={step}>
@@ -379,6 +355,7 @@ export function LearningConsole({
                   </li>
                 ))}
               </ol>
+              </details>
               <a className="console-action" href={selected.href}>
                 OPEN GUIDED LAB <span>→</span>
               </a>
