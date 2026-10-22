@@ -1,4 +1,4 @@
-/* A single Linux-console typeface across the academy, at existing readable sizes. */
+/* JetBrains Mono gives a geometric, modern terminal typeface across the academy, at existing readable sizes. */
 body {
   --font-space-grotesk: var(--font-ibm-plex-mono), monospace;
   --font-geist-sans: var(--font-ibm-plex-mono), monospace;
@@ -9,3 +9,6 @@ body {
 body, body :is(h1,h2,h3,h4,h5,h6,p,a,button,input,select,textarea,summary,label,li,dd,dt,span,strong,b,small,div,section,article,header,nav,aside,footer,pre,code,td,th,legend,output) {
   font-family: var(--font-ibm-plex-mono), "Liberation Mono", Consolas, monospace !important;
 }
+
+/* Keep the interface upright; titles retain their bold weight. */
+body :is(h1,h2,h3,h4,h5,h6,summary,.console-brand,.console-panel-heading,.console-nav-label) { font-style: normal !important; }

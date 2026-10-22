@@ -38,7 +38,7 @@ body .learning-console :is(h1,h2,h3,h4,h5,h6),
 body .learning-console .reader-workspace :is(h1,h2,h3,h4,h5,h6),
 body .learning-console :is(.console-brand a, .guided-heading, .guided-action > b, .guided-expected > b, .guided-final > b, .guided-screenshot figcaption > strong, .sonic-action-panel > summary > strong, .console-panel-heading, .console-nav-label) {
   font-weight: 700 !important;
-  font-style: italic !important;
+  font-style: normal !important;
 }
 @media (min-width: 1600px) {
   body .console-reader .reader-workspace .guided-step {
@@ -65,11 +65,11 @@ body .learning-console :is(.console-brand a, .guided-heading, .guided-action > b
 
 body .learning-console :is(.console-panel-head > span:first-child, .console-metric > div > span:first-child, .console-lesson-row > span:nth-child(2), .console-sidebar summary) {
   font-weight: 700 !important;
-  font-style: italic !important;
+  font-style: normal !important;
 }
 body .learning-console .console-middle { gap: 28px; }
 body .learning-console .console-middle > .console-panel { border: 0; background: #000; }
 body .learning-console .console-overview-body,
 body .learning-console .console-module-list { padding-inline: 0; }
 body .learning-console .console-terminal { border: 0; border-top: 1px solid #242424; }
-body .console-reader .reader-workspace summary { font-weight: 700; font-style: italic; }
+body .console-reader .reader-workspace summary { font-weight: 700; font-style: normal; }

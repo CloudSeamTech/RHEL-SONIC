@@ -245,3 +245,18 @@ body .console-reader .terminal-expanded pre.terminal-output { height: 85vh; }
  body .console-reader .terminal-console pre.terminal-output { min-height: 400px; padding: 16px; }
  .setup-command-line { align-items: stretch; flex-direction: column; }
 }
+
+/* Portrait proportions keep output tall without stretching across the workspace. */
+body .console-reader .terminal-layout { max-width: 1140px; width: 100%; margin-inline: auto; grid-template-columns: minmax(0, 1fr) 250px; }
+body .console-reader .terminal-console pre.terminal-output,
+body .console-reader .terminal-console .copy-mode { height: 85vh; min-height: 680px; }
+body .console-reader .terminal-expanded .terminal-layout { grid-template-columns: minmax(0, 1fr); }
+body .console-reader .terminal-expanded .terminal-console pre.terminal-output,
+body .console-reader .terminal-expanded .terminal-console .copy-mode { height: 95vh; min-height: 760px; }
+@media (max-width: 1050px) {
+ body .console-reader .terminal-layout { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 650px) {
+ body .console-reader .terminal-console pre.terminal-output,
+ body .console-reader .terminal-console .copy-mode { height: 75vh; min-height: 480px; }
+}
