@@ -1,4 +1,4 @@
-import { maintenanceCourse } from '../lib/guided-courses.ts';
+import { helpdeskCourse, maintenanceCourse } from '../lib/guided-courses.ts';
 import { welcomeFor } from '../lib/lesson-welcome.ts';
 import { nessusCourses, nessusCourseHref } from '../lib/nessus-curriculum.ts';
 import almaCourse from '../content/alma/desktop-lessons.json' with { type: 'json' };
@@ -10,7 +10,7 @@ export type ConsoleLesson = {
   title: string;
   description: string;
   href: string;
-  source: 'linux' | 'migration' | 'alma' | 'nessus' | 'azure-lab';
+  source: 'linux' | 'migration' | 'alma' | 'nessus' | 'azure-lab' | 'helpdesk';
   metadata: string;
   steps: string[];
 };
@@ -40,27 +40,27 @@ const titles: Record<string, [string, string]> = {
   ],
   'lab-04': [
     'Build DC01',
-    'Install Windows Server on AG-DC01, configure its address, and create agency.test with AD DS and DNS.',
+    'Install Windows Server on AG-DC01, configure its address, and create cloudseam.tech with AD DS and DNS.',
   ],
   'lab-07': [
     'Add DC02',
-    'Build AG-DC02 in agency.test and verify Active Directory replication.',
+    'Build AG-DC02 in cloudseam.tech and verify Active Directory replication.',
   ],
   'lab-05': [
     'Create Users & Policy',
-    'Create test users, organizational units, and a Group Policy in agency.test.',
+    'Create test users, organizational units, and a Group Policy in cloudseam.tech.',
   ],
   'lab-06': [
     'Build and Join APP01',
-    'Join APP01 to agency.test and install an IIS test website.',
+    'Join APP01 to cloudseam.tech and install an IIS test website.',
   ],
   'lab-08': [
     'Build the Destination Domain',
-    'Create DEST-DC01 and a separate destination.test forest.',
+    'Create DEST-DC01 and a separate migrate.cloudseam.tech forest.',
   ],
   'lab-09': [
     'Configure DNS Between Forests',
-    'Configure DNS resolution between agency.test and destination.test.',
+    'Configure DNS resolution between cloudseam.tech and migrate.cloudseam.tech.',
   ],
   'lab-10': [
     'Move a Group Policy',
@@ -68,7 +68,7 @@ const titles: Record<string, [string, string]> = {
   ],
   'lab-11': [
     'Move APP01 to the New Domain',
-    'Move APP01 to destination.test and verify its application and policies.',
+    'Move APP01 to migrate.cloudseam.tech and verify its application and policies.',
   ],
   'lab-12': [
     'Test the Rollback Plan',
@@ -80,7 +80,7 @@ const titles: Record<string, [string, string]> = {
   ],
   'sql-02': [
     'Build SQL01',
-    'Create the SQL01 Windows server and join it to agency.test.',
+    'Create the SQL01 Windows server and join it to cloudseam.tech.',
   ],
   'sql-03': [
     'Install SQL Server',
@@ -291,7 +291,16 @@ export const learningPathways: LearningPathway[] = [
         lessons: migration(['lab-04', 'lab-07', 'lab-05', 'lab-06']),
       },
       {
-        title: '03 / MECM Extension',
+        title: '03 / Build an IIS Help Desk',
+        lessons: helpdeskCourse.lessons.map((lesson) => ({
+          id: lesson.id, title: lesson.title, description: lesson.description,
+          href: `/helpdesk#lesson=${lesson.id}`, source: 'helpdesk' as const,
+          metadata: 'APP01 / cloudseam.tech / IIS + osTicket',
+          steps: lesson.steps.map((step) => step.title),
+        })),
+      },
+      {
+        title: '04 / MECM Extension',
         optional: true,
         lessons: migration([
           'lab-13',
@@ -307,7 +316,7 @@ export const learningPathways: LearningPathway[] = [
   {
     id: 'sql',
     title: 'SQL Server',
-    prerequisite: 'After Windows / AD · SQL01 needs agency.test',
+    prerequisite: 'After Windows / AD · SQL01 needs cloudseam.tech',
     sections: [
       {
         title: '01 / Install and Recover SQL',
@@ -452,7 +461,7 @@ export const pathwayLessons = (pathway: LearningPathway) =>
 // Core lesson pagination follows the prerequisite route. Optional extensions
 // stay within their own sequence instead of interrupting the core route.
 export function lessonSequenceFor(id: string): ConsoleLesson[] {
-  if (id.startsWith('nessus-') || id.startsWith('azure-maint-')) {
+  if (id.startsWith('helpdesk-') || id.startsWith('nessus-') || id.startsWith('azure-maint-')) {
     const pathway = learningPathways.find((path) =>
       path.sections.some((section) =>
         section.lessons.some((lesson) => lesson.id === id),
@@ -460,7 +469,7 @@ export function lessonSequenceFor(id: string): ConsoleLesson[] {
     );
     return pathway
       ? pathwayLessons(pathway).filter((lesson) =>
-          id.startsWith('azure-maint-')
+          id.startsWith('helpdesk-') ? lesson.source === 'helpdesk' : id.startsWith('azure-maint-')
             ? lesson.source === 'azure-lab'
             : lesson.source === 'nessus',
         )

@@ -87,7 +87,7 @@ export const migrationTasks = [
   },
   {
     id: 'build-agency-domain-controller',
-    title: 'Build AG-DC01 and create agency.test',
+    title: 'Build AG-DC01 and create cloudseam.tech',
     description:
       'Create the first Windows Server VM, give it the approved private address, install AD DS, and promote it safely.',
     lessonId: 'lab-04',
@@ -96,7 +96,7 @@ export const migrationTasks = [
   },
   {
     id: 'build-app01',
-    title: 'Build APP01, join agency.test, and install IIS',
+    title: 'Build APP01, join cloudseam.tech, and install IIS',
     description:
       'Create the exact member server that will later move to the destination domain and prove its test website and policy.',
     lessonId: 'lab-06',
@@ -105,7 +105,7 @@ export const migrationTasks = [
   },
   {
     id: 'build-destination-domain-controller',
-    title: 'Build DEST-DC01 and create destination.test',
+    title: 'Build DEST-DC01 and create migrate.cloudseam.tech',
     description:
       'Create the new Windows identity environment before moving DNS, policy, or the APP01 workload.',
     lessonId: 'lab-08',
@@ -114,7 +114,7 @@ export const migrationTasks = [
   },
   {
     id: 'move-app01',
-    title: 'Move APP01 from agency.test to destination.test',
+    title: 'Move APP01 from cloudseam.tech to migrate.cloudseam.tech',
     description:
       'Prove the before state, change the domain membership, verify the new identity and policy, and retain a rollback path.',
     lessonId: 'lab-11',

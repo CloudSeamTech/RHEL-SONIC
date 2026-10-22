@@ -1,4 +1,4 @@
-import { maintenanceCourse } from '../lib/guided-courses.ts';
+import { helpdeskCourse, maintenanceCourse } from '../lib/guided-courses.ts';
 import { nessusLessons } from '../lib/nessus-curriculum.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -24,13 +24,14 @@ test('pathways retain every existing lesson exactly once with its original reade
         ...alma.lessons,
         ...nessusLessons,
         ...maintenanceCourse.lessons,
+        ...helpdeskCourse.lessons,
       ].map((lesson) => lesson.id),
     ),
   );
   for (const lesson of entries) {
     assert.equal(
       lesson.href,
-      `${['nessus', 'azure-lab'].includes(lesson.source) ? lesson.href.split('#')[0] : lesson.source === 'alma' ? '/alma' : lesson.source === 'linux' ? '/' : '/migration'}#lesson=${lesson.id}`,
+      `${['nessus', 'azure-lab', 'helpdesk'].includes(lesson.source) ? lesson.href.split('#')[0] : lesson.source === 'alma' ? '/alma' : lesson.source === 'linux' ? '/' : '/migration'}#lesson=${lesson.id}`,
     );
     assert.ok(lesson.title && lesson.description && lesson.steps.length);
   }
@@ -85,7 +86,7 @@ test('core route builds the domain controllers before SQL, then Azure and migrat
   assert.ok(optional.includes('mecm-01') && optional.includes('ha-01'));
   assert.ok(!core.includes('mecm-01') && !core.includes('ha-01'));
   const sequence = lessonSequenceFor('lab-06').map((lesson) => lesson.id);
-  assert.equal(sequence[sequence.indexOf('lab-06') + 1], 'sql-01');
+  assert.equal(sequence[sequence.indexOf('lab-06') + 1], 'helpdesk-plan');
   assert.equal(sequence[sequence.indexOf('sql-05') + 1], 'az-01');
   assert.deepEqual(
     lessonSequenceFor('ha-01').map((lesson) => lesson.id),

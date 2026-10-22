@@ -22,7 +22,7 @@ export const migrationCurriculum: CurriculumLesson[] = catalog.lessons.flatMap((
   const header = parts[0];
   const steps = parts.slice(1);
   const role = lesson.id === 'lab-04' || lesson.id === 'lab-08'
-    ? `Create the ${lesson.id === 'lab-04' ? 'agency.test' : 'destination.test'} Forest`
+    ? `Create the ${lesson.id === 'lab-04' ? 'cloudseam.tech' : 'migrate.cloudseam.tech'} Forest`
     : lesson.id === 'lab-07' ? 'Add the Second Domain Controller'
     : lesson.id === 'lab-06' ? 'Join APP01 and Install IIS' : 'Join SQL01 to the Domain';
   const slices = [
@@ -40,10 +40,10 @@ export const migrationCurriculum: CurriculumLesson[] = catalog.lessons.flatMap((
       where: `${machine} guest · Windows Server 2019 administrative tools`,
       before: `Complete “Install Windows Server 2019 on ${machine}” first. VMware VM creation and Windows installation are separate earlier lessons.`,
       pass: header.match(/\*\*PASS\*\* ([^\n]+)/)?.[1] ?? '',
-      description: lesson.id === 'lab-04' ? 'Install AD DS and DNS on the prepared AG-DC01 server and create agency.test.'
+      description: lesson.id === 'lab-04' ? 'Install AD DS and DNS on the prepared AG-DC01 server and create cloudseam.tech.'
         : lesson.id === 'lab-07' ? 'Promote the prepared AG-DC02 server and verify replication with AG-DC01.'
-        : lesson.id === 'lab-08' ? 'Install AD DS on the prepared DEST-DC01 server and create destination.test.'
-        : `Join the prepared ${machine} server to agency.test${lesson.id === 'lab-06' ? ' and install the IIS test website' : ''}.` },
+        : lesson.id === 'lab-08' ? 'Install AD DS on the prepared DEST-DC01 server and create migrate.cloudseam.tech.'
+        : `Join the prepared ${machine} server to cloudseam.tech${lesson.id === 'lab-06' ? ' and install the IIS test website' : ''}.` },
   ];
   return slices.map((part) => {
     const scopedHeader = header

@@ -31,7 +31,8 @@ export function ConsoleReaderShell({
         <div className="console-session">
           <b>learner@sonic:~$</b> lesson
           <br />
-          --guided-mode
+          --guided-mode<br />
+          <span>Lab domain: cloudseam.tech</span>
         </div>
         <div className="console-nav-label">SYSTEM</div>
         <a className="console-nav" href="/">

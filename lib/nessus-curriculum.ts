@@ -10,7 +10,7 @@ export type NessusStep = {
   breakdown: { term: string; meaning: string }[];
   expected: string;
   screenshot: {
-    status: 'capture-needed' | 'reference';
+    status: 'capture-needed' | 'reference' | 'illustration';
     title: string;
     instructions: string;
     assetId?: string;
