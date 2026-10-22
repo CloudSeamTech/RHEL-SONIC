@@ -3419,7 +3419,7 @@
     },
     {
       "stepId": "lab-04:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "assetIds": [
         "win-update-settings"
       ],
@@ -3906,7 +3906,7 @@
     },
     {
       "stepId": "lab-06:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "assetIds": [
         "win-update-settings"
       ],
@@ -4232,7 +4232,7 @@
     },
     {
       "stepId": "lab-07:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "assetIds": [
         "win-update-settings"
       ],
@@ -4669,7 +4669,7 @@
     },
     {
       "stepId": "lab-08:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "assetIds": [
         "win-update-settings"
       ],
@@ -5660,7 +5660,7 @@
     },
     {
       "stepId": "sql-02:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "assetIds": [
         "win-update-settings"
       ],

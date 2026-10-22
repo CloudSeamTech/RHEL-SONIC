@@ -248,11 +248,11 @@
     },
     {
       "stepId": "lab-04:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/lab-04--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/lab-04--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "75e9d018bccf73edf2557f90432797f63a30b1a56d7a5e973d707ad805f88ab6"
+      "fileHash": "be664d732b9225c893059151f9fdb44a64c0ba21e5808c1cd1d1d22fce7244cd"
     },
     {
       "stepId": "lab-04:guided:18",
@@ -568,11 +568,11 @@
     },
     {
       "stepId": "lab-06:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/lab-06--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/lab-06--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "cce78fca0453a499d1184c9fe041c9bd3e02ca1361c9fbc98d351f35ecdf70c0"
+      "fileHash": "65921b637d3efd4897931216a0c24ce3c9efa1ae717f84d9f857fee1e72c13e1"
     },
     {
       "stepId": "lab-06:guided:18",
@@ -784,11 +784,11 @@
     },
     {
       "stepId": "lab-07:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/lab-07--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/lab-07--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "2401d783ad0129a6f86aed3c2b4d875acc37a52bfb607019eedb95b581b7a2fe"
+      "fileHash": "18890543889ae043e57bba496c289ab3887461158986c19a64f11e21366c3805"
     },
     {
       "stepId": "lab-07:guided:18",
@@ -1072,11 +1072,11 @@
     },
     {
       "stepId": "lab-08:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/lab-08--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/lab-08--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "6eb08b8caea31b4d514438c037d0efd5c003d346f25f1f1f0c0f8f0c284b28bd"
+      "fileHash": "9b503fc18537ecafb452a9ae151784f5805a32858011ff16a927b635396300fd"
     },
     {
       "stepId": "lab-08:guided:18",
@@ -1720,11 +1720,11 @@
     },
     {
       "stepId": "sql-02:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/sql-02--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/sql-02--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "48a4a8732174a0bf26e4e80111e608d707581fc16fee87cd827b509134fa19e1"
+      "fileHash": "ec3c1fc56b93c40ff67a56259e08c418b5f971fa0b9c0ba158f4053373958342"
     },
     {
       "stepId": "sql-02:guided:18",

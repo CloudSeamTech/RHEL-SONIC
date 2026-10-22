@@ -494,10 +494,10 @@
       "title": "Patch the new Server 2019 guest",
       "track": "Windows / AD / SQL / Azure / migrations",
       "where": "Physical host Workstation Pro, then DC01 guest / Server 2019 Desktop Experience / local Administrator, then CLOUDSEAM domain Administrator.",
-      "action": "Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.",
+      "action": "This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.",
       "command": "",
       "expected": "Windows has completed its pending restarts.",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "status": "partial-vendor-reference",
       "references": [
         "win-update-settings"
@@ -1127,10 +1127,10 @@
       "title": "Patch the new Server 2019 guest",
       "track": "Windows / AD / SQL / Azure / migrations",
       "where": "Physical host Workstation Pro, then APP01 Server 2019 guest / local Administrator, then authorized domain account.",
-      "action": "Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.",
+      "action": "This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.",
       "command": "",
       "expected": "Windows has completed its pending restarts.",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "status": "partial-vendor-reference",
       "references": [
         "win-update-settings"
@@ -1547,10 +1547,10 @@
       "title": "Patch the new Server 2019 guest",
       "track": "Windows / AD / SQL / Azure / migrations",
       "where": "Physical host Workstation Pro, then DC02 Server 2019 guest / local Administrator and cloudseam.tech Domain Admin.",
-      "action": "Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.",
+      "action": "This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.",
       "command": "",
       "expected": "Windows has completed its pending restarts.",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "status": "partial-vendor-reference",
       "references": [
         "win-update-settings"
@@ -2114,10 +2114,10 @@
       "title": "Patch the new Server 2019 guest",
       "track": "Windows / AD / SQL / Azure / migrations",
       "where": "Physical host Workstation Pro, then DEST-DC01 Server 2019 guest / local Administrator for a new migrate.cloudseam.tech forest.",
-      "action": "Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.",
+      "action": "This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.",
       "command": "",
       "expected": "Windows has completed its pending restarts.",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "status": "partial-vendor-reference",
       "references": [
         "win-update-settings"
@@ -3405,10 +3405,10 @@
       "title": "Patch the new Server 2019 guest",
       "track": "Windows / AD / SQL / Azure / migrations",
       "where": "Physical host Workstation Pro, then SQL01 Server 2019 member guest / local Administrator and authorized domain join account.",
-      "action": "Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.",
+      "action": "This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.",
       "command": "",
       "expected": "Windows has completed its pending restarts.",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
       "status": "partial-vendor-reference",
       "references": [
         "win-update-settings"

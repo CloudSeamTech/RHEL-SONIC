@@ -663,7 +663,7 @@ Create the first Windows server, then make it the owner of the cloudseam.tech fo
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
@@ -1252,7 +1252,7 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
@@ -1632,7 +1632,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, DC02
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
@@ -2112,7 +2112,7 @@ Build the other school. Its directory must remain completely separate from cloud
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
@@ -3428,7 +3428,7 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
