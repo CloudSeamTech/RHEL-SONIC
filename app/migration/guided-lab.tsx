@@ -8,6 +8,7 @@ import { BeginnerActions, BeginnerWords } from '../beginner-actions';
 import { productionPracticeFor } from '@/lib/lab-production-practice';
 import { explainStep } from '@/lib/step-coaching';
 import { checkTeachingFor } from '@/lib/reference-check-teaching';
+import { LabOverview } from '../lab-overview';
 import { LessonWelcome } from '../lesson-welcome';
 import { welcomeFor } from '@/lib/lesson-welcome';
 import { InstructionScreenshots } from '../instruction-screenshots';
@@ -95,6 +96,7 @@ export function GuidedLab({
           {checked.length} of {guide.steps.length} steps checked
         </span>
       </header>
+      <LabOverview summary={purpose ?? welcome?.welcome} steps={guide.steps.map(item => item.title)} outcome={guide.pass} />
       <LessonWelcome content={welcome} showIntro={false} />
       {purpose && !welcome && (
         <section className="guided-purpose">
@@ -137,10 +139,10 @@ export function GuidedLab({
           <h3>{currentTitle}</h3>
           <div className="guided-step-content">
           <p className="coaching-why">
-            <strong>Here’s why:</strong> {coaching.reason}
+            <strong>Why this matters:</strong> {coaching.reason}
           </p>
           <div className="guided-action">
-            <b>LET’S TRY IT · IN YOUR PRACTICE LAB</b>
+            <b>Follow these actions in order</b>
             <BeginnerActions text={currentAction} />
           </div>
           <p className="coaching-effect">
@@ -184,7 +186,7 @@ export function GuidedLab({
             </section>
           )}
           <section className="guided-expected">
-            <b>CHECK THE RESULT · DOES YOUR SCREEN MATCH?</b>
+            <b>What you should see</b>
             <p>{step.expect}</p>
           </section>
           <details

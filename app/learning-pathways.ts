@@ -39,11 +39,11 @@ const titles: Record<string, [string, string]> = {
     'Create the isolated VMnet2 host-only network for your Windows lab servers.',
   ],
   'lab-04': [
-    'Build DC01',
+    'Set Up Active Directory and DNS on DC01',
     'Install Windows Server on DC01, configure its address, and create cloudseam.tech with AD DS and DNS.',
   ],
   'lab-07': [
-    'Add DC02',
+    'Add DC02 and Check Active Directory Replication',
     'Build DC02 in cloudseam.tech and verify Active Directory replication.',
   ],
   'lab-05': [
@@ -59,7 +59,7 @@ const titles: Record<string, [string, string]> = {
     'Create DEST-DC01 and a separate migrate.cloudseam.tech forest.',
   ],
   'lab-09': [
-    'Configure DNS Between Forests',
+    'Connect Two Domains with DNS Forwarders',
     'Configure DNS resolution between cloudseam.tech and migrate.cloudseam.tech.',
   ],
   'lab-10': [
