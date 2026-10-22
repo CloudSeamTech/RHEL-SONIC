@@ -20,7 +20,10 @@
     "pictures:generate": "node --experimental-strip-types tools/generate-step-pictures.mjs",
     "pictures:check": "node --experimental-strip-types --test tests/step-pictures.test.mjs",
     "nessus:captures": "node tools/nessus-capture-inventory.mjs",
-    "teaching:review": "node tools/teaching-review.mjs"
+    "teaching:review": "node tools/teaching-review.mjs",
+    "screenshots:interfaces": "node tools/audit-interface-screenshots.mjs",
+    "screenshots:interfaces-check": "node tools/audit-interface-screenshots.mjs --require-references",
+    "screenshots:targets-check": "node tools/audit-interface-screenshots.mjs --require-complete"
   },
   "dependencies": {
     "react": "19.2.6",
