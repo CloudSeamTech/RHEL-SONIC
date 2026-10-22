@@ -100,6 +100,10 @@ export function LabTerminal() {
 
   useEffect(() => {
     const localReady = window.setTimeout(() => {
+      if (new URLSearchParams(window.location.hash.slice(1)).get('setup') === '1') {
+        const details = setupRef.current?.querySelector('details');
+        if (details) details.open = true;
+      }
       if (loopback) {
         setStatus('disconnected');
         setMessage('Companion not connected. No command has run.');
