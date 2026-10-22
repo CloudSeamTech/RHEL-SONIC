@@ -90,6 +90,7 @@ export function LabTerminal() {
   } | null>(null);
   const socket = useRef<WebSocket | null>(null);
   const outputRef = useRef<HTMLPreElement>(null);
+  const setupRef = useRef<HTMLDivElement>(null);
   const selectedCapability = capabilities.find((item) => item.id === selected);
   const examples = commandHelp.filter((item) => item.shellId === selected);
   const contextualHelp = useMemo(
@@ -115,8 +116,9 @@ export function LabTerminal() {
   }, [output]);
 
   const send = (value: ClientMessage) => {
-    if (socket.current?.readyState === WebSocket.OPEN)
-      socket.current.send(JSON.stringify(value));
+    if (socket.current?.readyState !== WebSocket.OPEN) return false;
+    socket.current.send(JSON.stringify(value));
+    return true;
   };
 
   const disconnect = (reason = 'Disconnected. No command is running.') => {
@@ -150,7 +152,15 @@ export function LabTerminal() {
         } satisfies ClientMessage),
       );
     nextSocket.onmessage = (event) => {
-      const response = JSON.parse(event.data) as ServerMessage;
+      if (socket.current !== nextSocket) return;
+      let response: ServerMessage;
+      try {
+        response = JSON.parse(event.data) as ServerMessage;
+      } catch {
+        setStatus('error');
+        setMessage('The companion sent an unreadable response. Disconnect and reconnect before trying again.');
+        return;
+      }
       if (response.type === 'authenticated') {
         setCapabilities(response.shells);
         const capability = response.shells.find((item) => item.id === selected);
@@ -198,22 +208,27 @@ export function LabTerminal() {
           (current) =>
             `${current}\n[process exited with code ${String(response.exitCode)}]\n`,
         );
-        setStatus('ready');
-        setMessage(`Shell exited with code ${String(response.exitCode)}.`);
+        setStatus('disconnected');
+        setMessage(`Shell exited with code ${String(response.exitCode)}. Connect again to start a new session.`);
       } else if (response.type === 'error') {
         setStatus('error');
         setMessage(`${response.code}: ${response.message}`);
       }
     };
     nextSocket.onerror = () => {
+      if (socket.current !== nextSocket) return;
       setStatus('error');
       setMessage(
         'The localhost companion could not be reached or rejected the connection. Nothing was executed.',
       );
     };
     nextSocket.onclose = () => {
+      if (socket.current !== nextSocket) return;
       socket.current = null;
-      setStatus((current) => (current === 'copy' ? current : 'disconnected'));
+      setStatus((current) => current === 'error' ? 'error' : 'disconnected');
+      setMessage((current) => current.includes('could not be reached') || current.includes('token')
+        ? current
+        : 'The terminal connection closed. No more commands can run. Start the companion and connect again.');
     };
   };
 
@@ -226,19 +241,55 @@ export function LabTerminal() {
     setPending(null);
   };
 
+  const showSetup = () => {
+    setMessage(loopback
+      ? 'Start the companion in a second PowerShell window, paste its one-time token, then choose Connect locally. No command has run.'
+      : 'To run real commands, open SONIC on your own PC and connect its companion. Follow the setup steps now shown below. No command has run.');
+    const details = setupRef.current?.querySelector('details');
+    if (details) {
+      details.open = true;
+      details.querySelector('summary')?.focus();
+      details.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    }
+  };
+
+  const copyCommand = async (value: string) => {
+    if (!value.trim()) {
+      setMessage('Type a command or choose one of the examples first.');
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(value);
+      setMessage('Command copied. Open PowerShell on your PC, paste it, and press Enter there. Copying does not run it.');
+    } catch {
+      setMessage('Your browser blocked clipboard access. Select the command in the input box and press Ctrl+C to copy it.');
+    }
+  };
+
   const execute = (value: string) => {
-    if (!value.trim() || status !== 'ready') return;
+    if (!value.trim()) return;
+    if (status !== 'ready' || !send({ type: 'run', command: value })) {
+      setStatus(loopback ? 'disconnected' : 'copy');
+      setPending(null);
+      setMessage('There is no live terminal connection. Nothing ran. Connect the local companion first.');
+      return;
+    }
     setOutput((current) => `${current}\n> ${value}\n`);
-    send({ type: 'run', command: value });
     setStatus('running');
-    setMessage(
-      'Command is running locally. Output below is streamed from the real process.',
-    );
+    setMessage('Command is running locally. Output below is streamed from the real process.');
     setCommand('');
     setPending(null);
   };
 
   const requestExecution = () => {
+    if (status !== 'ready') {
+      showSetup();
+      return;
+    }
+    if (!command.trim()) {
+      setMessage('Type a command or choose Load command below. Try Get-Date first.');
+      return;
+    }
     const risk = classifyCommand(command);
     if (risk === 'read-only') execute(command);
     else setPending({ command, risk });
@@ -276,7 +327,7 @@ export function LabTerminal() {
           </p>
         </div>
       </aside>
-      <TerminalSetup />
+      <div ref={setupRef}><TerminalSetup /></div>
       <nav className="terminal-tabs" aria-label="Terminal shells">
         {shells.map((shell) => (
           <button
@@ -306,7 +357,7 @@ export function LabTerminal() {
           <header>
             <span>{shells.find((item) => item.id === selected)?.label}</span>
             <div>
-              {status === 'ready' && (
+              {(status === 'ready' || status === 'running') && (
                 <button onClick={() => send({ type: 'cancel' })}>
                   <Square size={13} /> Ctrl+C / cancel
                 </button>
@@ -323,15 +374,16 @@ export function LabTerminal() {
           {status === 'copy' ? (
             <div className="copy-mode">
               <CircleSlash size={35} />
-              <h2>LOCAL EXECUTION IS OFF</h2>
+              <h2>Connect your PC to run commands</h2>
               <p>
-                This hosted page cannot reach your PowerShell, Azure CLI, or
-                WSL. Nothing shown below is fake terminal output.
+                This website is your guide. PowerShell runs on your PC, so we
+                need to connect the local app before this panel can show real results.
               </p>
               <p>
-                Copy an approved command, read its explanation, and run it in
-                the named shell—or use the documented local companion.
+                You can copy a command into your own terminal now, or follow
+                the setup below to see its output here.
               </p>
+              <button type="button" onClick={showSetup}>Set up real terminal</button>
             </div>
           ) : (
             <pre ref={outputRef} className="terminal-output" aria-live="polite">
@@ -339,6 +391,7 @@ export function LabTerminal() {
                 'No output yet. Connect, then run an approved command.\n'}
             </pre>
           )}
+          <p className="terminal-feedback" role="status" aria-live="polite">{message}</p>
           <div className="terminal-input-row">
             <span>&gt;</span>
             <textarea
@@ -349,11 +402,17 @@ export function LabTerminal() {
                   ? 'Type a command. Enter is sent only when you choose Run.'
                   : status === 'running'
                     ? 'Type a response only if the running command is prompting.'
-                    : 'Connect the local companion to enable input.'
+                    : 'Type a command to copy, or choose Set up to run.'
               }
-              disabled={status !== 'ready' && status !== 'running'}
+              aria-label="Terminal command"
+              disabled={status === 'connecting'}
               rows={2}
             />
+            {status !== 'running' && status !== 'ready' && (
+              <button type="button" disabled={!command.trim()} onClick={() => copyCommand(command)}>
+                <Copy size={14} /> Copy
+              </button>
+            )}
             {status === 'running' ? (
               <button
                 disabled={!command}
@@ -366,10 +425,10 @@ export function LabTerminal() {
               </button>
             ) : (
               <button
-                disabled={status !== 'ready' || !command.trim()}
+                disabled={status === 'connecting' || (status === 'ready' && !command.trim())}
                 onClick={requestExecution}
               >
-                <Play size={14} fill="currentColor" /> Run
+                <Play size={14} fill="currentColor" /> {status === 'ready' ? 'Run' : 'Set up to run'}
               </button>
             )}
           </div>
@@ -408,6 +467,9 @@ export function LabTerminal() {
                 <Plug size={14} /> Connect locally
               </button>
             </section>
+          )}
+          {(status === 'ready' || status === 'running') && (
+            <section><button type="button" onClick={() => disconnect()}>Disconnect terminal</button></section>
           )}
           <section>
             <span className="eyebrow">QUESTION</span>
@@ -478,7 +540,8 @@ export function LabTerminal() {
                 onClick={async () => {
                   setCommand(example.command);
                   if (status !== 'ready')
-                    await navigator.clipboard.writeText(example.command);
+                    await copyCommand(example.command);
+                  else setMessage('Command loaded. Choose Run when you are ready.');
                 }}
               >
                 <Copy size={13} />
