@@ -1,3 +1,22 @@
+'use client';
+
+import { useState } from 'react';
+
+function SetupCommands({ commands, windowName }: { commands: string; windowName: string }) {
+  const [notice, setNotice] = useState('');
+  return <div className="setup-commands">
+    <p><strong>Where to paste:</strong> {windowName}, beside the <code>PS C:\…&gt;</code> prompt. Copy one line, click inside that PowerShell window, press Ctrl+V, then Enter. Wait for the prompt to return before the next line. The final <code>run dev</code> and <code>companion:start</code> commands keep running; leave those windows open.</p>
+    {commands.split('\n').map((line, index) => <div className="setup-command-line" key={line}>
+      <pre><code>{line}</code></pre>
+      <button type="button" aria-label={`Copy command ${index + 1}: ${line}`} onClick={async () => {
+        try { await navigator.clipboard.writeText(line); setNotice(`Command ${index + 1} copied. Paste it into ${windowName} and press Enter.`); }
+        catch { setNotice('Copy was blocked. Select the command text, press Ctrl+C, then paste it into PowerShell with Ctrl+V.'); }
+      }}>Copy line {index + 1}</button>
+    </div>)}
+    <p role="status" aria-live="polite">{notice}</p>
+  </div>;
+}
+
 
 export function TerminalSetup() {
   return (
@@ -8,6 +27,8 @@ export function TerminalSetup() {
         Use your Windows 10 host, not a server VM. You don’t need an npm account
         or a paid subscription. Opening this website does not install anything.
       </p>
+      <p><strong>Your workspace:</strong> Keep this guide open in your browser. The setup commands below go into the separate Windows PowerShell app on your PC, not the browser address bar or this website’s command field. You’ll use two PowerShell windows: window 1 runs the website, and window 2 runs the companion.</p>
+      <p>If you opened Node.js and see only a <code>&gt;</code> prompt, close it. Open <strong>Windows PowerShell</strong> from Start instead. Do not type the <code>PS C:\…&gt;</code> prompt itself; copy only the command.</p>
       <ol>
         <li>
           <h3>Install Node.js — npm comes with it</h3>
@@ -41,7 +62,7 @@ export function TerminalSetup() {
             the Windows key, type Windows PowerShell, and open it normally.
             Run each line separately:
           </p>
-          <pre><code>{'node --version\nnpm.cmd --version\ngit --version'}</code></pre>
+          <SetupCommands windowName="PowerShell window 1" commands={'node --version\nnpm.cmd --version\ngit --version'} />
           <p>
             You should see a Node version such as v24.x.x, an npm version number,
             and git version followed by a number. Your patch numbers may differ.
@@ -58,7 +79,9 @@ export function TerminalSetup() {
         <li>
           <h3>Download the app into your own user folder</h3>
           <p>In that PowerShell window, run these lines one at a time:</p>
-          <pre><code>{'Set-Location $env:USERPROFILE\ngit clone --branch main https://github.com/CloudSeamTech/SONIC-Academy.git\nSet-Location .\\SONIC-Academy\nnpm.cmd ci'}</code></pre>
+          <SetupCommands windowName="PowerShell window 1" commands={'Set-Location $env:USERPROFILE\ngit clone --branch main https://github.com/CloudSeamTech/SONIC-Academy.git\nSet-Location .\\SONIC-Academy\nnpm.cmd ci'} />
+          <p><strong>What each line does:</strong> First go to your user folder, then download the project, enter its folder, and finally install its packages. Run <code>npm.cmd ci</code> only inside the SONIC-Academy folder, where <code>package.json</code> is stored.</p>
+          <p><strong>If you see ENOENT or “could not read package.json”:</strong> you are in the wrong folder. Run <code>Set-Location "$env:USERPROFILE\SONIC-Academy"</code>, then retry <code>npm.cmd ci</code>. If that folder does not exist, finish the download step first.</p>
           <p>
             Wait until the PowerShell prompt returns without an install error.
             This first download can take several minutes. If a SONIC-Academy
@@ -68,10 +91,10 @@ export function TerminalSetup() {
         </li>
         <li>
           <h3>Start the website locally — keep window 1 open</h3>
-          <pre><code>{'npm.cmd run dev'}</code></pre>
+          <SetupCommands windowName="PowerShell window 1" commands={'npm.cmd run dev'} />
           <p>
             Look for the Local address printed by the app, usually
-            <code> http://localhost:3000</code>. This window stays busy serving
+            <code> http://localhost:3000</code>. For this command, do not wait for the PowerShell prompt to return or paste more commands into window 1. This window stays busy serving
             the app; that is normal. Leave it open. If Windows asks about firewall
             access, do not enable public-network access for this local-only setup.
           </p>
@@ -79,10 +102,10 @@ export function TerminalSetup() {
         <li>
           <h3>Start the companion — keep window 2 open</h3>
           <p>Open a second Windows PowerShell window. Run:</p>
-          <pre><code>{'Set-Location "$env:USERPROFILE\\SONIC-Academy"\nnpm.cmd run companion:install\nnpm.cmd run companion:start'}</code></pre>
+          <SetupCommands windowName="PowerShell window 2" commands={'Set-Location "$env:USERPROFILE\\SONIC-Academy"\nnpm.cmd run companion:install\nnpm.cmd run companion:start'} />
           <p>
             The companion should print its local listening address and a one-time
-            token. Leave this window open too. The token connects your browser to
+            token. This command also keeps running; do not wait for its prompt to return. Leave this window open too. The token connects your browser to
             your PC; keep it private and never paste it into chat or GitHub.
           </p>
           <details>
