@@ -59,7 +59,7 @@ export function AlmaDesktop() {
             classes self-verified
           </small>
         </header>
-        {id === 'alma-real-terminal' && <p><Link href="/migration#view=terminal&setup=1">Start here: install Node.js, npm and Git with the Windows setup guide →</Link></p>}
+        {id === 'alma-real-terminal' && <p><a href="/migration#view=terminal&setup=1">Start here: install Node.js, npm and Git with the Windows setup guide →</a></p>}
         <details className="guided-reference alma-course-index">
           <summary>Pick a class · start at 1</summary>
           {[...new Set(course.lessons.map((item) => item.section))].map(
