@@ -727,3 +727,10 @@ body {
 .learning-console .console-subnav button {
   font-size: 11px;
 }
+
+/* Home is a compact directory; detailed steps stay inside each lab. */
+.learning-console .console-lab-group { border-bottom: 1px solid #242424; }
+.learning-console .console-lab-group > summary { cursor: pointer; padding: 18px 12px; font-size: 16px; font-weight: 700; color: #eaeaea; }
+.learning-console .console-lab-group .console-lesson-row { display: block; width: 100%; text-align: left; min-height: 44px; padding: 12px 18px; font-size: 14px; }
+.learning-console .console-preview-steps { margin-block: 18px; }
+.learning-console .console-preview-steps > summary { cursor: pointer; color: #898989; padding-block: 10px; }
