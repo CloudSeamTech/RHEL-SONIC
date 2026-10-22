@@ -126,7 +126,7 @@
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
     "credit": "SONIC-Academy \u00b7 original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
-    "sha256": "bf0ef5bfcc26817607c0effc57979744a860de0f360bb4bf7f5008f799d86956"
+    "sha256": "9ae5b88ffe2ecee2596d05f9e83cb5f91be1a281dc7a8380d4e878f826cfea02"
   },
   {
     "id": "helpdesk-iis-3",
@@ -146,7 +146,7 @@
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
     "credit": "SONIC-Academy \u00b7 original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
-    "sha256": "9aa69f5eff01dd5de8a973cf9e685166fdefe91228ba50c28231cdef6cdfdce5"
+    "sha256": "6c802739ac63a9b5ef386809388ab8b9a2dea1851bdd35dd183db8f26d27d0f0"
   },
   {
     "id": "helpdesk-php-3",
@@ -156,7 +156,7 @@
     "source": "https://docs.osticket.com/en/latest/Getting%20Started/Installation.html",
     "credit": "SONIC-Academy \u00b7 original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
-    "sha256": "d963d335803be9f54e54e4480afeb7f8fa2ce24c8fcdc6c17110438def72074d"
+    "sha256": "afed1d97aee8665673757e0b9646c988baf4fa4927d675c46f68511485c81301"
   },
   {
     "id": "helpdesk-database-1",
@@ -317,5 +317,55 @@
     "credit": "SONIC-Academy \u00b7 original teaching diagram",
     "note": "An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.",
     "sha256": "ce836fbd5ca6c4566369b179e5a09ff6e6f0ffdad8277dc45d57c41215c0186f"
+  },
+  {
+    "id": "helpdesk-php-update-2",
+    "src": "/helpdesk/helpdesk-php-update-2.svg",
+    "title": "Protect the app before changing PHP",
+    "platform": "Illustrated action guide",
+    "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
+    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
+    "sha256": "16b1c290608b0ab8b1343181269b87f9fe0bc01fbf2bc682d9ab2529ead3bdf3"
+  },
+  {
+    "id": "helpdesk-php-update-3",
+    "src": "/helpdesk/helpdesk-php-update-3.svg",
+    "title": "Download and stage the fixed runtime",
+    "platform": "Illustrated action guide",
+    "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
+    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
+    "sha256": "9a16d99d01816f4c2cc9d1fc1c46f024d1ea3bba94a8cfc8d3e404c3c403487f"
+  },
+  {
+    "id": "helpdesk-php-update-4",
+    "src": "/helpdesk/helpdesk-php-update-4.svg",
+    "title": "Try the update on an isolated copy first",
+    "platform": "Illustrated action guide",
+    "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
+    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
+    "sha256": "bf39257b9781c63f8ef17ee9be70345491f6d6eed1a36d3a47483f0576c225ea"
+  },
+  {
+    "id": "helpdesk-php-update-6",
+    "src": "/helpdesk/helpdesk-php-update-6.svg",
+    "title": "Check the web runtime and reopen carefully",
+    "platform": "Illustrated action guide",
+    "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
+    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
+    "sha256": "6dca1f290ee3c47190f33918932e7c59208aff958978d2556cd50a324dda1bed"
+  },
+  {
+    "id": "helpdesk-php-update-7",
+    "src": "/helpdesk/helpdesk-php-update-7.svg",
+    "title": "Roll back safely when a check fails",
+    "platform": "Illustrated action guide",
+    "source": "https://www.php.net/archive/2026.php#2026-10-21-1",
+    "credit": "SONIC-Academy \u00b7 original teaching diagram",
+    "note": "Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.",
+    "sha256": "e062d058bf68e8add2c1421751100a1732fbffc01e70eca0552139c7792db9a7"
   }
 ]

@@ -249,3 +249,43 @@ SONIC-Academy · original teaching diagram
 Source: https://docs.osticket.com/en/latest/Getting%20Started/Installation.html
 
 An original diagram of this step, not a software screenshot or proof of success. Follow the written directions and check your actual machine.
+
+## helpdesk-php-update-2
+
+SONIC-Academy · original teaching diagram
+
+Source: https://www.php.net/archive/2026.php#2026-10-21-1
+
+Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.
+
+## helpdesk-php-update-3
+
+SONIC-Academy · original teaching diagram
+
+Source: https://www.php.net/archive/2026.php#2026-10-21-1
+
+Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.
+
+## helpdesk-php-update-4
+
+SONIC-Academy · original teaching diagram
+
+Source: https://www.php.net/archive/2026.php#2026-10-21-1
+
+Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.
+
+## helpdesk-php-update-6
+
+SONIC-Academy · original teaching diagram
+
+Source: https://www.php.net/archive/2026.php#2026-10-21-1
+
+Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.
+
+## helpdesk-php-update-7
+
+SONIC-Academy · original teaching diagram
+
+Source: https://www.php.net/archive/2026.php#2026-10-21-1
+
+Original action diagram, not a screenshot or proof of a live PHP update. Check the actual private machine and current vendor advisories.
