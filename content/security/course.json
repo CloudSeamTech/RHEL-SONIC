@@ -1,0 +1,1789 @@
+{
+  "id": "budget-cloud-security",
+  "title": "Cloud and Endpoint Security on a Budget",
+  "description": "Protect local practice servers, learn Defender through Azure Arc, and explore licensed cloud VDI without mistaking a budget for a spending cap.",
+  "baseline": "cloudseam.tech \u00b7 VMware-first free Wazuh path \u00b7 optional metered/trial Defender for Servers P1 \u00b7 optional licensed personal AVD \u00b7 $25 goal, not a guaranteed cap",
+  "prerequisite": "Let\u2019s build a small security desk you can afford to practise with. Start with your existing VMware machines and free Wazuh. We\u2019ll inspect Azure costs before turning on Defender, then keep the licensed cloud-desktop exercises clearly optional.",
+  "supplies": [
+    "Your existing VMware host, validly licensed practice Windows Server 2019 APP01, AlmaLinux endpoint and a private management client.",
+    "Capacity for the current Wazuh appliance baseline: 4 vCPU, 8 GiB RAM, 50 GB storage. Local hardware/power are not free.",
+    "An active Azure subscription, scoped permissions and an accepted plan quote or eligible trial only for Microsoft exercises.",
+    "A cost worksheet and cleanup calendar covering Azure usage, fixed licenses, tax and delayed meters. No subscription is created or charged by this website.",
+    "A backup and VMware console recovery path; optional VDI requires separate actual AVD/Windows and client-protection entitlements."
+  ],
+  "sources": [
+    {
+      "title": "Arc \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-arc/servers/onboard-portal"
+    },
+    {
+      "title": "Plans \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/tutorial-enable-servers-plan"
+    },
+    {
+      "title": "Scope \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan"
+    },
+    {
+      "title": "Integration \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint"
+    },
+    {
+      "title": "Billing \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-servers"
+    },
+    {
+      "title": "Off \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/disable-plans"
+    },
+    {
+      "title": "Budget \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+    },
+    {
+      "title": "Tags \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources"
+    },
+    {
+      "title": "Wazuh \u00b7 official documentation",
+      "url": "https://documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html"
+    },
+    {
+      "title": "Agent \u00b7 official documentation",
+      "url": "https://documentation.wazuh.com/current/installation-guide/wazuh-agent/index.html"
+    },
+    {
+      "title": "Fim \u00b7 official documentation",
+      "url": "https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/basic-settings.html"
+    },
+    {
+      "title": "Avd \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop"
+    },
+    {
+      "title": "License \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites"
+    },
+    {
+      "title": "Scale \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scaling-plan"
+    },
+    {
+      "title": "Detect \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/defender-endpoint/run-detection-test"
+    },
+    {
+      "title": "Isolate \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/defender-endpoint/respond-machine-alerts"
+    },
+    {
+      "title": "Posture \u00b7 official documentation",
+      "url": "https://learn.microsoft.com/en-us/azure/defender-for-cloud/tutorial-enable-cspm-plan"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "sec-plan",
+      "title": "Choose Your $25 Security Lab",
+      "description": "Choose a free local baseline and record the costs before enabling Microsoft services.",
+      "what": "Let\u2019s choose a free local baseline and record the costs before enabling Microsoft services.",
+      "why": "We want real security skills without accidentally paying for a fleet of cloud computers.",
+      "needs": [
+        "Your VMware host and existing validly licensed practice Windows Server 2019 APP01",
+        "An AlmaLinux practice endpoint and sufficient host resources for a Wazuh appliance",
+        "A spending worksheet; an Azure subscription is needed only for the Microsoft exercises"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Record your machines, domain, current monthly commitments, estimated charges and early stop threshold.",
+      "exercise": "Record your machines, domain, current monthly commitments, estimated charges and early stop threshold.",
+      "quiz": [
+        {
+          "question": "What is the $25 figure?",
+          "options": [
+            "A spending goal that needs monitoring and cleanup",
+            "An automatic Azure spending cap",
+            "A prepaid Defender license"
+          ],
+          "answer": 0,
+          "explanation": "A spending goal that needs monitoring and cleanup is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Separate the three products",
+          "where": "Your lab notes",
+          "actions": [
+            "Write three lines: Wazuh is free monitoring software; Defender for Endpoint is Microsoft endpoint detection and response; Defender for Cloud includes free posture checks plus separately priced protection plans. Built-in Defender Antivirus is not the same as the paid endpoint portal.",
+            "Our low-cost Microsoft route protects a server through Defender for Servers Plan 1 and Azure Arc. It does not require renting Azure VDI, and the server plan does not license Windows 11 client desktops.",
+            "Use APP01 as the first server pilot, an AlmaLinux endpoint for Wazuh, and a local Wazuh manager. Keep DC01/DC02 dedicated to directory services."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your inventory separates local compute, endpoint software and Azure protection.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Separate the three products",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-plan-1"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint"
+          ]
+        },
+        {
+          "title": "Write a spending stop rule",
+          "where": "Your worksheet and Azure pricing calculator",
+          "actions": [
+            "The goal is at most $25 per month across services and licenses, not a prepaid package or a guaranteed Azure cap. Inventory existing commitments first.",
+            "Price the actual Defender plan/scope, any Azure VM hours, disks, logs, storage and external Microsoft licenses before enabling them. Leave a buffer: for example, stop optional practice at a $10 forecast rather than planning to use every dollar. Rates, billing delay, tax and usage can exceed an estimate.",
+            "Start with local VMware/Wazuh and no new cloud VMs. Trials are optional and eligibility is not guaranteed. If no acceptable trial or priced paid plan is available, finish the free lessons and stop before activation."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You have a written estimate, early stop threshold and the choice to continue free.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Write a spending stop rule",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-plan-2"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-servers"
+          ]
+        },
+        {
+          "title": "Record names and recovery access",
+          "where": "VMware and your notes",
+          "actions": [
+            "Primary AD domain: cloudseam.tech. APP01 is the member-server pilot; a cloud identity is separate from this AD domain unless you deliberately configure it.",
+            "Record each private IP, OS version, agent state and an approved backup. Open the VMware console before response exercises so you can recover a guest even if its network is isolated.",
+            "Do not put a public IP on your practice servers or open inbound RDP to the internet for these exercises. Azure Arc uses outbound service connectivity; it does not move the VM into Azure."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your pilot and recovery method are named before security changes.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Record names and recovery access",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-plan-3"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-arc/servers/onboard-portal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-identity",
+      "title": "Secure Your Azure Identity",
+      "description": "Find the correct tenant and subscription, then separate administration from investigation.",
+      "what": "Let\u2019s find the correct tenant and subscription, then separate administration from investigation.",
+      "why": "A security engineer needs to know whose environment they are changing and how much access each task needs.",
+      "needs": [
+        "A working Microsoft account and an active eligible Azure subscription for cloud steps",
+        "A separate practice operator account where your tenant permits it"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Show the correct lab subscription, MFA approach, reader/operator roles and empty resource group.",
+      "exercise": "Show the correct lab subscription, MFA approach, reader/operator roles and empty resource group.",
+      "quiz": [
+        {
+          "question": "Does a resource group restrict a subscription-wide Defender plan?",
+          "options": [
+            "No; the subscription switch can affect eligible servers outside that group",
+            "Yes, automatically",
+            "Only if the group is named Lab"
+          ],
+          "answer": 0,
+          "explanation": "No; the subscription switch can affect eligible servers outside that group is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Find the right directory and subscription",
+          "where": "portal.azure.com \u00b7 account menu and Subscriptions",
+          "actions": [
+            "Sign in to the Azure portal. Open the account/directory menu and record the tenant. Search Subscriptions and select the exact lab subscription; confirm it is active before trying to deploy anything.",
+            "If your subscription must be restored or created, use Microsoft\u2019s billing/signup process and read its offer and payment terms yourself. Do not create subscriptions to evade trial limits, and do not assume an old offer restarts.",
+            "Use a dedicated lab subscription with no business resources for the subscription-wide portal demonstration. A new resource group by itself does not limit a subscription-wide Defender switch."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can identify the exact tenant, active subscription and intended lab boundary.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Find the right directory and subscription",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-identity-1"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+            "https://learn.microsoft.com/en-us/azure/azure-arc/servers/onboard-portal"
+          ]
+        },
+        {
+          "title": "Protect sign-in and reduce routine privileges",
+          "where": "Microsoft Entra admin center and Azure Access control (IAM)",
+          "actions": [
+            "Enable or verify MFA using the free Security defaults where appropriate for your practice tenant. Do not change an organization-wide policy in a tenant you do not administer. Conditional Access and Intune have separate license requirements.",
+            "Use a scoped onboarding role for Arc and the documented security permissions for Defender configuration. For daily reading, use a reader/security-reader role rather than retaining Owner or Global Administrator for everything.",
+            "Cloud sign-in names can initially use your tenant.onmicrosoft.com domain. Verifying cloudseam.tech in Entra is a separate public-DNS ownership step; do not replace nameservers or mail records, and do not assume AD DS has synchronized automatically."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your sign-in is protected and daily investigation has narrower permissions than setup.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Protect sign-in and reduce routine privileges",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-identity-2"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-arc/servers/onboard-portal",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites"
+          ]
+        },
+        {
+          "title": "Create only the lab resource group",
+          "where": "Azure portal \u2192 Resource groups \u2192 Create",
+          "actions": [
+            "Choose the recorded lab subscription. Enter rg-cloudseam-security-lab and an appropriate region for metadata, then Review + create \u2192 Create. A resource group alone does not rent a VM.",
+            "Open its Overview and confirm the subscription. Avoid creating a VPN Gateway, Bastion, Log Analytics workspace or managed domain just to follow this local-server lab. Those services can add charges.",
+            "Record the group for inventory and later cleanup. Keep shared production resources out of it."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The lab group exists with no unexpected paid infrastructure.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Create only the lab resource group",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-identity-3"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets",
+            "https://learn.microsoft.com/en-us/azure/azure-arc/servers/onboard-portal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-cost",
+      "title": "Use Tags, Budgets and Cost Checks",
+      "description": "Label the lab, create alerts and learn which actions actually reduce costs.",
+      "what": "Let\u2019s label the lab, create alerts and learn which actions actually reduce costs.",
+      "why": "Tags help you find waste and assign responsibility. They do not change the price of a VM or stop it by themselves.",
+      "needs": [
+        "Correct lab subscription and resource group",
+        "Access to Azure Cost Management for that billing offer"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Show a tagged lab resource and budget, then explain why tagging alone saves no money.",
+      "exercise": "Show a tagged lab resource and budget, then explain why tagging alone saves no money.",
+      "quiz": [
+        {
+          "question": "What makes an ExpiresOn tag stop charges?",
+          "options": [
+            "Nothing unless verified automation or a person acts on it",
+            "The tag itself",
+            "The word Lab in its value"
+          ],
+          "answer": 0,
+          "explanation": "Nothing unless verified automation or a person acts on it is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Tag the resources you can identify",
+          "where": "Azure portal \u2192 lab resource \u2192 Tags",
+          "actions": [
+            "Add Environment=Lab, Project=SONIC-Academy, Owner=Learner01 and ExpiresOn with your planned cleanup date. Select Apply/Save. Do not place secrets or sensitive personal data in tags.",
+            "Repeat on the individual Arc resources, VMs, disks and workspaces you create. Resource-group tags are not automatically inherited by resource objects; a deliberately configured policy can copy them. Cost Management tag inheritance affects reporting and is a separate feature.",
+            "ExpiresOn is a reminder until you build and verify automation that reads it. Start VM on Connect and autoscale also require actual configuration and permissions."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The actual lab resources carry useful, non-secret tags.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Tag the resources you can identify",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-cost-1"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+          ]
+        },
+        {
+          "title": "Create a budget and early alerts",
+          "where": "Azure portal \u2192 Cost Management + Billing \u2192 Cost Management \u2192 Budgets",
+          "actions": [
+            "Select the exact subscription scope. Choose Add/Create budget, name CloudSeam-Security-Lab, set a monthly reset and amount 25 in your billing currency. If that is not USD, adjust the amount to your real spending goal.",
+            "Set actual-cost alerts at 40%, 60% and 80%, plus a forecast alert where your offer supports it. Enter your own monitored email or approved action group and save. Test that notifications reach you.",
+            "A budget is an alert, not a hard spending cap or guaranteed shutdown. Cost data and alerts can be delayed, and external Microsoft 365 subscriptions may be billed separately. Do not wait for a final $25 alert before acting."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The budget and monitored early notifications are recorded.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Create a budget and early alerts",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-budget-alert"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+          ]
+        },
+        {
+          "title": "Explain where the savings come from",
+          "where": "Azure portal \u2192 Cost Management \u2192 Cost analysis",
+          "actions": [
+            "Filter or group costs by Project/Environment and inspect individual resources. Some meters do not support tags; check the untagged entries as well.",
+            "Imagine an old disk tagged Owner=Learner01 and ExpiresOn last week. The tag makes it findable; confirming it is unused and deleting it is what removes future storage charges. Record evidence before deleting anything.",
+            "Use this estimate: total = fixed licenses + compute rate \u00d7 active hours + protection charges + disks/storage/logs/network. A hypothetical $0.10/hour VM costs $4 for 40 hours versus $73 for 730 hours, before all other charges. That is arithmetic, not an Azure quote."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can identify a cost owner and the real stop/delete action behind a saving.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Explain where the savings come from",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-budget"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources",
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-wazuh",
+      "title": "Build the Free Local Monitoring Desk",
+      "description": "Run the Wazuh appliance in VMware and protect its management access.",
+      "what": "Let\u2019s run the Wazuh appliance in VMware and protect its management access.",
+      "why": "This gives you a monitoring console you can keep using without an endpoint software subscription.",
+      "needs": [
+        "Local VMware capacity; the current Wazuh appliance baseline is 4 vCPU, 8 GiB RAM and 50 GB storage",
+        "A permitted private VMnet and access to official Wazuh downloads"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Open the private Wazuh dashboard with changed credentials and explain its role.",
+      "exercise": "Open the private Wazuh dashboard with changed credentials and explain its role.",
+      "quiz": [
+        {
+          "question": "Does free Wazuh activate Microsoft Defender for Endpoint?",
+          "options": [
+            "No; Microsoft licensing and onboarding are separate",
+            "Yes, when an agent connects",
+            "Only on Windows Server"
+          ],
+          "answer": 0,
+          "explanation": "No; Microsoft licensing and onboarding are separate is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Download and import the official appliance",
+          "where": "Physical host \u2192 official Wazuh documentation \u2192 VMware Workstation Pro",
+          "actions": [
+            "Open the linked Wazuh VMware appliance instructions. Download the current supported OVA and compare its published hash. Use a release package, not an unverified tutorial download.",
+            "In Workstation choose File \u2192 Open, select the OVA, name the imported VM SEC-MON01 and choose a local storage folder with sufficient free space. Review the documented 4-core/8-GB/50-GB baseline before powering it on.",
+            "Attach it to the same approved private/NAT lab VMnet as your practice endpoints. Do not bridge it onto a workplace network or publish its dashboard to the internet."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The appliance is imported on the intended private network.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Download and import the official appliance",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-wazuh-1"
+          },
+          "sources": [
+            "https://documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html"
+          ]
+        },
+        {
+          "title": "Secure the console before adding agents",
+          "where": "SEC-MON01 VMware console and private browser",
+          "actions": [
+            "Use the current appliance documentation for initial console/dashboard credentials. Change the documented default passwords immediately, including the appropriate dashboard/indexer/API credentials using Wazuh\u2019s supported password-change workflow; do not simply edit one password and break component authentication.",
+            "Record the actual private IP and supported network configuration. Browse to the dashboard over the private network and validate its certificate identity with your console record. Restrict dashboard access to your management machine.",
+            "Keep this manager local. Renting an always-on cloud manager can consume your $25 budget even when endpoint agent software is free. Local power, storage and hardware are still real costs."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The private dashboard works with changed credentials and a recorded recovery method.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Secure the console before adding agents",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-wazuh-settings"
+          },
+          "sources": [
+            "https://documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html"
+          ]
+        },
+        {
+          "title": "Record what Wazuh does and does not replace",
+          "where": "Wazuh dashboard and your notes",
+          "actions": [
+            "Identify the agent inventory, vulnerability/configuration views and file-integrity events. These teach useful monitoring and investigation skills.",
+            "Wazuh does not grant a Microsoft Defender license and is not a feature-for-feature replacement for Microsoft EDR, cloud posture or the AVD service. We will compare the tools without pretending they are identical.",
+            "Back up the supported Wazuh configuration and protected credentials. Keep its version and maintenance record alongside APP01\u2019s recovery notes."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can describe the free monitoring role and its boundaries.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Record what Wazuh does and does not replace",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-wazuh-agents"
+          },
+          "sources": [
+            "https://documentation.wazuh.com/current/deployment-options/virtual-machine/virtual-machine.html",
+            "https://documentation.wazuh.com/current/installation-guide/wazuh-agent/index.html"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-agents",
+      "title": "Connect Endpoints and Check the Baseline",
+      "description": "Add a practice Windows server and AlmaLinux endpoint to Wazuh and verify useful telemetry.",
+      "what": "Let\u2019s add a practice Windows server and AlmaLinux endpoint to Wazuh and verify useful telemetry.",
+      "why": "An installed agent is useful only if it reports the right machine and the events you expect.",
+      "needs": [
+        "Private SEC-MON01 dashboard and valid admin access to practice endpoints",
+        "Patched APP01 and AlmaLinux; existing software licenses remain your responsibility"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Show current agent check-in and a harmless file-change event with a matching host/path/time.",
+      "exercise": "Show current agent check-in and a harmless file-change event with a matching host/path/time.",
+      "quiz": [
+        {
+          "question": "What proves collection works?",
+          "options": [
+            "A real matching event from the intended endpoint",
+            "An installer success message alone",
+            "A stock screenshot"
+          ],
+          "answer": 0,
+          "explanation": "A real matching event from the intended endpoint is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Install the matching Wazuh agents",
+          "where": "Wazuh dashboard \u2192 agent deployment, then each practice VM",
+          "actions": [
+            "Choose Deploy new agent in the dashboard. Select the correct Windows or Linux package/architecture and enter SEC-MON01\u2019s actual private address. Use the generated current-release instructions on that one authorized endpoint.",
+            "Review the installer/source and any enrollment settings before running the generated command with the required local privileges. Do not publish enrollment secrets or paste commands from an unknown blog.",
+            "Verify the appropriate Wazuh service is running and that the dashboard reports the correct hostname, agent ID, OS and recent check-in. Fix private routing and the documented agent ports rather than turning off all firewalls."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "APP01 and the AlmaLinux guest appear with recent agent activity.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Install the matching Wazuh agents",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-wazuh-agents"
+          },
+          "sources": [
+            "https://documentation.wazuh.com/current/installation-guide/wazuh-agent/index.html"
+          ]
+        },
+        {
+          "title": "Check basic protection before testing alerts",
+          "where": "APP01 PowerShell and AlmaLinux terminal",
+          "actions": [
+            "On APP01 inspect Defender Antivirus, Windows Firewall and update state. Built-in Antivirus is not proof of EDR onboarding; if another AV is present, inspect its supported coexistence mode before changing anything.",
+            "On AlmaLinux check the existing patch, firewall and SELinux lessons. Keep SELinux enforcing and permit only the documented lab traffic. Do not assume this distro is supported by Microsoft EDR merely because Wazuh supports its agent.",
+            "Record a recoverable baseline and one specific weakness to fix later. Do not deliberately expose RDP or install real malware to make a dashboard look busy."
+          ],
+          "command": "Get-MpComputerStatus | Select-Object AMRunningMode,AntivirusEnabled,RealTimeProtectionEnabled\nGet-NetFirewallProfile | Select-Object Name,Enabled",
+          "breakdown": [],
+          "expected": "Your baseline records actual protection and patch state, with no blanket security disabling.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Check basic protection before testing alerts",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-agents-2"
+          },
+          "sources": [
+            "https://documentation.wazuh.com/current/installation-guide/wazuh-agent/index.html",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint"
+          ]
+        },
+        {
+          "title": "Create one harmless file-integrity event",
+          "where": "APP01 Wazuh agent configuration and private dashboard",
+          "actions": [
+            "Create C:\\SecurityLab. Back up the Wazuh agent configuration and add that directory to the existing syscheck configuration using Wazuh\u2019s linked Windows FIM instructions; do not duplicate the full syscheck block. Use realtime monitoring where supported.",
+            "Restart only the Wazuh agent after validating configuration, wait for its baseline and change a harmless text file in that directory using the command below. No executable or malware is involved.",
+            "Find the resulting event in Wazuh. Record agent, path, time and action; a missing event is a collection/configuration problem to investigate, not permission to mark the exercise passed."
+          ],
+          "command": "New-Item -ItemType Directory -Force C:\\SecurityLab\nSet-Content -LiteralPath C:\\SecurityLab\\practice.txt -Value \"CloudSeam harmless practice change\"",
+          "breakdown": [],
+          "expected": "The file change produces a matching event for APP01.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Create one harmless file-integrity event",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-wazuh-fim-events"
+          },
+          "sources": [
+            "https://documentation.wazuh.com/current/user-manual/capabilities/file-integrity/basic-settings.html"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-arc",
+      "title": "Connect One VMware Server to Azure Arc",
+      "description": "Register APP01 as an Azure Arc server without moving its compute into Azure.",
+      "what": "Let\u2019s register APP01 as an Azure Arc server without moving its compute into Azure.",
+      "why": "Arc is the bridge between your local server and Azure management. Connecting it can also expose it to enabled subscription-wide paid plans.",
+      "needs": [
+        "An active dedicated lab subscription or a reviewed selective deployment design",
+        "APP01 Windows Server 2019 and current Arc support/prerequisite checks",
+        "MFA-protected operator with the documented scoped onboarding role"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Verify APP01 is Connected in Arc with the intended tenant, group and tags.",
+      "exercise": "Verify APP01 is Connected in Arc with the intended tenant, group and tags.",
+      "quiz": [
+        {
+          "question": "Did Arc move APP01 into an Azure VM?",
+          "options": [
+            "No; the server still runs in VMware",
+            "Yes, automatically",
+            "Only when its tag says Cloud"
+          ],
+          "answer": 0,
+          "explanation": "No; the server still runs in VMware is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Review existing plan scope before connecting",
+          "where": "Azure portal \u2192 Microsoft Defender for Cloud \u2192 Environment settings \u2192 lab subscription",
+          "actions": [
+            "Open Defender plans and inventory every plan already enabled. Record any subscription-wide Server protection, paid CSPM or automation that could apply as soon as a new Arc server appears.",
+            "For this portal-only demonstration, use a dedicated lab subscription containing no business servers and only your intended pilot. If you cannot establish that boundary, stop before the subscription-wide activation lesson and use a separately reviewed resource-level Plan 1 deployment. A new resource group is not isolation from subscription billing.",
+            "Do not use tenant-wide direct Defender onboarding for this one-server exercise; Microsoft documents that it can include existing and future eligible servers across the tenant."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your connection will not silently enroll unrelated servers in a paid plan.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Review existing plan scope before connecting",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-servers-on"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-servers"
+          ]
+        },
+        {
+          "title": "Generate the Arc onboarding script",
+          "where": "Azure portal \u2192 Azure Arc \u2192 Infrastructure \u2192 Machines",
+          "actions": [
+            "Choose Onboard/Create \u2192 Onboard existing machines (older portals may say Add/Create \u2192 Add a single server). Select the exact lab subscription/group, metadata region and Windows operating system.",
+            "Use the public service endpoint for outbound Arc connectivity if your lab policy allows it; this does not mean opening inbound RDP. Do not create a private endpoint, gateway or VPN solely to complete this budget lab. Choose manual authentication for this single machine.",
+            "Add the lab tags. If the selected server contains SQL Server and automatic SQL onboarding is not intended, review the Arc SQL guidance and its opt-out tag before connecting. APP01 is the non-SQL pilot here. Review the summary and download the current script."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The reviewed script targets the correct subscription/group, OS and connectivity.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Generate the Arc onboarding script",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-arc-connected"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-arc/servers/onboard-portal"
+          ]
+        },
+        {
+          "title": "Run and verify on APP01",
+          "where": "APP01 \u00b7 elevated 64-bit Windows PowerShell, then Azure Arc Machines",
+          "actions": [
+            "Read the downloaded script and confirm its tenant/subscription before running it on APP01. Sign in using the scoped onboarding identity. Do not upload the script or credentials to SONIC-Academy.",
+            "Run the read-only status check below after onboarding. In Azure Arc \u2192 Machines open APP01 and confirm Connected, the expected OS, resource group and tags. The VM still runs in VMware; no Azure VM has been rented by this connection itself.",
+            "Fix documented outbound DNS/HTTPS/agent requirements if disconnected. Arc Connected does not by itself mean Defender EDR is healthy. Review optional services separately for charges."
+          ],
+          "command": "& \"$env:ProgramFiles\\AzureConnectedMachineAgent\\azcmagent.exe\" show",
+          "breakdown": [],
+          "expected": "APP01 is the one intended Arc machine and its connection is healthy.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Run and verify on APP01",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-arc-connected"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/azure-arc/servers/onboard-portal",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-servers"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-defender",
+      "title": "Turn On Defender in the Azure Portal",
+      "description": "Enable only the intended Defender for Servers plan after checking trial terms, price and scope.",
+      "what": "Let\u2019s enable only the intended Defender for Servers plan after checking trial terms, price and scope.",
+      "why": "This is the spending gate: a portal switch can protect and bill more machines than the one you are looking at.",
+      "needs": [
+        "Completed cost, scope and Arc checks",
+        "One-server dedicated lab subscription; otherwise stop and use a reviewed granular deployment",
+        "Current plan quote or an eligible trial shown by Microsoft, with a cleanup date"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Record Plan 1, actual trial/price, server scope, persisted settings and the cleanup reminder\u2014or a deliberate no-purchase stop.",
+      "exercise": "Record Plan 1, actual trial/price, server scope, persisted settings and the cleanup reminder\u2014or a deliberate no-purchase stop.",
+      "quiz": [
+        {
+          "question": "What must you inspect after turning Servers On?",
+          "options": [
+            "The default plan, effective scope, cost/trial and final saved Plan 1 setting",
+            "Only the resource-group name",
+            "Whether every paid plan is On"
+          ],
+          "answer": 0,
+          "explanation": "The default plan, effective scope, cost/trial and final saved Plan 1 setting is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Open the exact subscription and read the offer",
+          "where": "Azure portal \u2192 Microsoft Defender for Cloud \u2192 Environment settings",
+          "actions": [
+            "Select your recorded lab subscription and open Defender plans. Confirm again that it contains only intended eligible lab servers, including any connected/previously onboarded machines.",
+            "Read the current pricing and trial status before any Save. If an eligible trial is offered, record the actual start/end and a reminder several days before expiry. A 30-day trial, when applicable, starts at activation and cannot be paused; turning a VM off does not reset it. If the trial was already used, assume paid metering unless Microsoft says otherwise.",
+            "Keep paid Defender CSPM, Storage, Databases and other plans Off unless you separately priced them. Foundational CSPM is the free posture tier; the paid Defender CSPM switch is a different product. Do not choose Enable all."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You have an explicit acceptable price/trial, scope and cleanup date before activation.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Open the exact subscription and read the offer",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-servers-on"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/tutorial-enable-servers-plan",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/tutorial-enable-cspm-plan"
+          ]
+        },
+        {
+          "title": "Choose Servers Plan 1, not the default Plan 2",
+          "where": "Same subscription \u2192 Defender plans \u2192 Servers",
+          "actions": [
+            "Only after the previous checks, set Servers to On. Microsoft\u2019s documented default can be Plan 2; do not save that default without reviewing it.",
+            "Select Change plans, choose Plan 1, then Confirm. Read the final selection and check that unrelated paid plans remain Off.",
+            "Select Save only when the scope, current rate/trial and estimate fit your plan. Reopen the page and verify Servers Plan 1 is the persisted setting. If you do not accept the offered cost or scope, cancel instead and continue the free Wazuh path."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The intended lab subscription shows Servers Plan 1 only, or activation was deliberately cancelled.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Choose Servers Plan 1, not the default Plan 2",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-plan-one"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/tutorial-enable-servers-plan",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan"
+          ]
+        },
+        {
+          "title": "Check what the switch actually enabled",
+          "where": "Defender for Cloud subscription settings and inventory",
+          "actions": [
+            "Defender for Servers Plan 1 provides endpoint protection through its Defender for Endpoint integration for supported SERVER operating systems. It is not the similarly named client Defender for Endpoint Plan 1, and it does not license Windows 11 VDI clients.",
+            "Review provisioning/integration status for the Windows pilot and use the current Microsoft server onboarding guidance if automatic provisioning does not complete. Current integration defaults may not show an older tutorial\u2019s separate toggle. Do not stack unrelated onboarding packages from several tenants.",
+            "Recheck inventory and cost scope. Resource-level Plan 1 is available for granular deployments, but the basic subscription switch affects eligible servers across that subscription, including future additions. If that scope is wrong, stop and reverse it before adding any other server."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can explain the selected plan, server entitlement, provisioning state and billing boundary.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Check what the switch actually enabled",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-change-plan"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/tutorial-enable-servers-plan"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-endpoint",
+      "title": "Verify Defender for Endpoint Is Reporting",
+      "description": "Confirm the sensor, device identity and a vendor-approved test before trusting the portal.",
+      "what": "Let\u2019s confirm the sensor, device identity and a vendor-approved test before trusting the portal.",
+      "why": "A device can be discovered in Defender inventory before its endpoint sensor actually reports.",
+      "needs": [
+        "A supported Windows Server pilot with accepted Defender for Servers entitlement",
+        "Access to the Defender portal with the appropriate scoped security role"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Show a healthy onboarded device and its actual approved test alert, or record the unresolved gate honestly.",
+      "exercise": "Show a healthy onboarded device and its actual approved test alert, or record the unresolved gate honestly.",
+      "quiz": [
+        {
+          "question": "Does a discovered device prove the EDR sensor is working?",
+          "options": [
+            "No; verify onboarding, recent reporting and the actual test alert",
+            "Yes, if its hostname is correct",
+            "Yes, if Arc is Connected"
+          ],
+          "answer": 0,
+          "explanation": "No; verify onboarding, recent reporting and the actual test alert is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Find the same device in the Defender portal",
+          "where": "security.microsoft.com \u2192 Assets/Devices or device inventory",
+          "actions": [
+            "Use the same Entra tenant as the lab subscription. Match APP01 by its real hostname, OS and device identity, and inspect its onboarding/sensor state and recent activity. Portal navigation varies by experience.",
+            "A Can be onboarded or discovered record is not successful onboarding. Wait for the actual supported sensor provisioning and recent reporting; inspect failures rather than enabling extra paid plans to make a health view appear.",
+            "Record local Defender Antivirus mode separately from EDR health. Keep other security tools in their documented coexistence configuration."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The intended device is onboarded and recently reporting, not merely discovered.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Find the same device in the Defender portal",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-alert-tree"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint"
+          ]
+        },
+        {
+          "title": "Run Microsoft\u2019s documented safe onboarding test",
+          "where": "APP01 VMware console and the linked Microsoft detection-test article",
+          "actions": [
+            "Open Microsoft\u2019s current Run a detection test article from the source link. Read the command and its purpose before copying the vendor-provided test onto APP01 only. The documented test simulates a suspicious pattern; it is not permission to download live malware.",
+            "Keep the VMware console open. Use only the current approved test on your authorized pilot; do not add blanket AV exclusions or change machine-wide execution policy to force an alert.",
+            "Wait for telemetry and find the corresponding test alert. Microsoft describes about ten minutes for the documented test, but treat delayed or missing reporting as a check to investigate, not as a success."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "A real vendor-test alert or a documented unresolved reporting failure is recorded.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Run Microsoft\u2019s documented safe onboarding test",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-endpoint-2"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/defender-endpoint/run-detection-test"
+          ]
+        },
+        {
+          "title": "Record evidence without inventing a success",
+          "where": "Defender device page, alert page and your private notes",
+          "actions": [
+            "Record device ID, test time, alert ID/name, sensor health and the relationship to your intended test. Use fake identifiers when sharing class evidence.",
+            "Compare the cloud alert with the expected test and local state. If it is missing, check tenant, supported OS, agent deployment, time and documented outbound endpoints. The Arc Connected badge is not the missing EDR proof.",
+            "Keep a short evidence note describing what was actually observed. A sample screenshot on this site is not your endpoint result."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can show the real event path from the pilot to the security portal.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Record evidence without inventing a success",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-alert-tree"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint",
+            "https://learn.microsoft.com/en-us/defender-endpoint/run-detection-test"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-incident",
+      "title": "Investigate and Contain a Practice Incident",
+      "description": "Trace one alert, contain only the pilot when supported and recover its connectivity.",
+      "what": "Let\u2019s trace one alert, contain only the pilot when supported and recover its connectivity.",
+      "why": "Security engineering is a repeatable decision process: verify, scope, contain, recover and document.",
+      "needs": [
+        "A known harmless test event and authorized practice server",
+        "VMware console access and the correct licensed response permissions"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Create a short incident record with evidence, scope, supported containment outcome and verified recovery.",
+      "exercise": "Create a short incident record with evidence, scope, supported containment outcome and verified recovery.",
+      "quiz": [
+        {
+          "question": "Which device is appropriate for the first isolation exercise?",
+          "options": [
+            "The disposable member-server pilot with VMware console access",
+            "A domain controller",
+            "The only monitoring manager"
+          ],
+          "answer": 0,
+          "explanation": "The disposable member-server pilot with VMware console access is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Triage the alert before acting",
+          "where": "Microsoft Defender alert and device timeline",
+          "actions": [
+            "Open the practice alert. Read its severity, detection time, affected host/user and evidence/process tree. Match it to the test you actually ran.",
+            "Write a small incident note: what happened, what evidence supports it, which machines are affected and what is still unknown. Do not classify every unexpected alert as a false positive.",
+            "Search the available device timeline around the test timestamp. Use only features included in your active plan; a missing hunting feature is not a reason to buy a different tier during the exercise."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your incident note separates observed facts, expected test behavior and unanswered questions.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Triage the alert before acting",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-alert-tree"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint",
+            "https://learn.microsoft.com/en-us/defender-endpoint/respond-machine-alerts"
+          ]
+        },
+        {
+          "title": "Practise containment with a recovery path",
+          "where": "Defender device page and APP01 VMware console",
+          "actions": [
+            "Verify device isolation is supported for this OS/agent and your plan, and that your role permits it. Open the VMware console first. Use a disposable member-server pilot, never DC01, DC02 or the monitoring manager.",
+            "If the action is available and approved for this lab, choose Isolate device, add the practice reason and confirm. Expect ordinary guest connectivity and its web application to be disrupted while the Defender control channel is maintained where supported.",
+            "Observe the action result and task history. If isolation is unavailable, record the limitation and practise a separately documented local containment exercise instead; do not pretend it is the same Microsoft response action."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The supported containment action has a recorded result and the local console remains available.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Practise containment with a recovery path",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-incident-2"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/defender-endpoint/respond-machine-alerts"
+          ]
+        },
+        {
+          "title": "Release, verify and close the practice case",
+          "where": "Same device page, VMware console and private client",
+          "actions": [
+            "Use Release from isolation when the test is complete, review the action status and verify connectivity returns. If release fails, keep using the documented console/support recovery path rather than uninstalling random agents.",
+            "Re-test DNS/domain trust where appropriate, the help desk health check and current agent reporting. Containment is not successful recovery until required services work again.",
+            "Resolve/classify the known test using its actual evidence, noting that it was an authorized exercise. Record lessons and any missing control before closing the case."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The device and its required application recover and the case contains a real evidence trail.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Release, verify and close the practice case",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-incident-3"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/defender-endpoint/respond-machine-alerts",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-harden",
+      "title": "Fix One Weakness and Verify the Change",
+      "description": "Pilot one security improvement, recheck telemetry and roll back an unsuccessful change safely.",
+      "what": "Let\u2019s pilot one security improvement, recheck telemetry and roll back an unsuccessful change safely.",
+      "why": "A recommendation matters when you turn it into a tested fix without breaking the business service.",
+      "needs": [
+        "A protected backup and the maintenance/rollback classes",
+        "One real recommendation or baseline weakness from your lab"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Show one pilot change with before/after evidence and the application acceptance result.",
+      "exercise": "Show one pilot change with before/after evidence and the application acceptance result.",
+      "quiz": [
+        {
+          "question": "What should happen when the pilot fails?",
+          "options": [
+            "Stop rollout and use the documented safe recovery decision",
+            "Update every other machine immediately",
+            "Mark the recommendation complete anyway"
+          ],
+          "answer": 0,
+          "explanation": "Stop rollout and use the documented safe recovery decision is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Choose a small, evidence-based fix",
+          "where": "Defender recommendations or Wazuh configuration assessment",
+          "actions": [
+            "Select one real finding: for example, a missing supported security update or a narrowly scoped firewall/antivirus setting. Read the affected resource and recommendation before choosing a change.",
+            "Record the current setting, expected security improvement, application checks and exact recovery method. Choose the pilot first and schedule a short maintenance window.",
+            "For attack-surface-reduction rules, use an appropriate audit-first pilot with the documented management method and plan capability. Do not flip every rule to Block on all servers or assume free posture recommendations enforce policies."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "One bounded change has a baseline, owner, acceptance checks and rollback decision.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Choose a small, evidence-based fix",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-harden-1"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/tutorial-enable-cspm-plan"
+          ]
+        },
+        {
+          "title": "Apply on the pilot and check the application",
+          "where": "APP01 console and your approved management tool",
+          "actions": [
+            "Follow the existing Windows/RHEL maintenance or PHP rollback class for the selected update. Use a supported management channel available in your license, not an Intune menu you do not own.",
+            "Apply only to the pilot, restart it only if required and check the actual application, network and endpoint agent. Do not begin a fleet rollout when a pilot check fails.",
+            "A Linux EDR extension needs Microsoft\u2019s current supported distro/version/architecture matrix. AlmaLinux remains the Wazuh path unless the exact distro is explicitly supported; use a supported Ubuntu/RHEL practice server for a later Microsoft Linux exercise."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The intended change is applied on one supported pilot and real acceptance checks are recorded.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Apply on the pilot and check the application",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-harden-2"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/tutorial-enable-servers-plan"
+          ]
+        },
+        {
+          "title": "Verify improvement and recover on failure",
+          "where": "Security portal, app test and change record",
+          "actions": [
+            "Re-run the relevant assessment or safe check and inspect its timestamp. Assessment results can lag the local change; verify the actual setting too.",
+            "If a change breaks the app, stop rollout and use the recorded recovery plan. Do not return a known-vulnerable PHP build to service just to restore the login page; the patched-candidate/keep-offline decision still applies.",
+            "Record the security and application outcomes separately. A closed alert or a higher score is not proof that every weakness was fixed."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The weakness has a verified outcome or a controlled failure/recovery record.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Verify improvement and recover on failure",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-harden-3"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/tutorial-enable-cspm-plan",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-cleanup",
+      "title": "Turn Off Paid Plans and Verify Billing",
+      "description": "Stop optional protection and remove only unneeded lab resources while preserving evidence.",
+      "what": "Let\u2019s stop optional protection and remove only unneeded lab resources while preserving evidence.",
+      "why": "Logging out, powering off a guest or deleting one resource is not a universal cancellation process.",
+      "needs": [
+        "An inventory of every enabled plan, scope, override and external subscription",
+        "Saved evidence and no remaining need for the disposable lab services"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Record the saved Off state, override/policy checks, offboarding outcome and remaining billable resources or subscriptions.",
+      "exercise": "Record the saved Off state, override/policy checks, offboarding outcome and remaining billable resources or subscriptions.",
+      "quiz": [
+        {
+          "question": "Does deleting the lab resource group cancel a Microsoft 365 subscription?",
+          "options": [
+            "No; cancel or change that subscription through its own billing process",
+            "Yes, if its name contains Lab",
+            "Only after a reboot"
+          ],
+          "answer": 0,
+          "explanation": "No; cancel or change that subscription through its own billing process is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Turn the plan Off in the portal",
+          "where": "Azure portal \u2192 Defender for Cloud \u2192 Environment settings \u2192 lab subscription",
+          "actions": [
+            "Find Servers and choose Off. Follow Continue if shown, then Save. Reopen the page and confirm the saved setting. Keep the free Foundational CSPM layer if you want it; do not confuse it with the paid Defender CSPM switch.",
+            "Inspect resource-level overrides, relevant Policy assignments/remediations and any legacy workspace-level Plan 2 settings. Turning off the subscription plan does not necessarily remove a per-resource override or a policy that enables it again.",
+            "Review every other paid Defender plan you enabled. This is a dedicated practice environment: removing protection from a business server needs a separate approved replacement plan."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The effective paid lab settings and policies are checked, not just one switch.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Turn the plan Off in the portal",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-servers-on"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/disable-plans",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/plan-defender-for-servers-select-plan"
+          ]
+        },
+        {
+          "title": "Offboard intentionally and preserve basic protection",
+          "where": "Defender portal, Azure Arc machine and local console",
+          "actions": [
+            "Follow current Microsoft offboarding guidance for the actual onboarding method and portal experience. Verify whether automatic offboarding applies; do not assume a saved Off switch instantly removes installed agents or every tenant association.",
+            "If retiring the lab connection, use the documented Arc disconnect procedure on the correct server after reviewing its extensions and dependencies, then reconcile the cloud resource. Do not just delete a portal record and assume the local agent or protection is gone.",
+            "Keep required local Antivirus/firewall active, and keep Wazuh if that is your continuing monitoring path. Historical portal records may remain; verify actual sensor state and billing separately."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The intended lab agents/connections have a documented end state without disabling unrelated baseline protection.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Offboard intentionally and preserve basic protection",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-cleanup-2"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/disable-plans",
+            "https://learn.microsoft.com/en-us/azure/azure-arc/servers/onboard-portal",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-servers"
+          ]
+        },
+        {
+          "title": "Check the bill, not just the power button",
+          "where": "Azure Cost Management and your separate Microsoft subscriptions",
+          "actions": [
+            "For Azure VMs created in optional exercises, use Stop/Deallocate in Azure and verify Stopped (deallocated); a guest shutdown can remain billed. Disks, snapshots, logs, backups and other services can still charge. For Arc, connected-state server metering and delayed heartbeats follow the current billing rules; do not infer zero costs from closing the console.",
+            "Delete only disposable resources after checking backups/dependencies. Inspect resource-group contents individually; deleting this group does not cancel subscription-wide plans, tenant-wide onboarding or external Microsoft 365 subscriptions. Stop recurring licenses/trials through their own billing pages before their conversion/renewal date if not continuing.",
+            "Review costs again after usage records settle and check the next invoice. Record what remains enabled, what can still charge and any unresolved meter; budget alerts can lag and are not a hard cap."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The bill and remaining resources agree with your cleanup record, or a discrepancy is being investigated.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Check the bill, not just the power button",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-budget"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-servers",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/disable-plans",
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-routine",
+      "title": "Work Like a Security Engineer",
+      "description": "Build a small daily checklist for coverage, incidents, changes and spending.",
+      "what": "Let\u2019s build a small daily checklist for coverage, incidents, changes and spending.",
+      "why": "The job is maintaining evidence and reliable controls, not collecting screenshots of green dashboards.",
+      "needs": [
+        "A working free monitoring path or an accepted Microsoft protection plan",
+        "Your previous incident, change and cost records"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Write a daily checklist covering coverage, alert triage, pilot changes/recovery and cost/expiry review.",
+      "exercise": "Write a daily checklist covering coverage, alert triage, pilot changes/recovery and cost/expiry review.",
+      "quiz": [
+        {
+          "question": "What is a useful daily security outcome?",
+          "options": [
+            "An evidence-based coverage, incident, change and cost record",
+            "A screenshot of a score alone",
+            "A portal with no visible alerts"
+          ],
+          "answer": 0,
+          "explanation": "An evidence-based coverage, incident, change and cost record is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Check coverage and health first",
+          "where": "Your inventory, Wazuh and any active Defender portal",
+          "actions": [
+            "Compare expected machines with recent reporting. Look for missing agents, stale check-ins, duplicate records, unsupported versions and failed onboarding.",
+            "Separate Arc connection, Antivirus state and EDR sensor reporting in the record. A healthy badge in one product does not prove all three.",
+            "Prioritize a missing critical server before chasing a cosmetic score improvement. Use reader access for routine inspection."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your coverage record shows actual expected versus reporting endpoints.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Check coverage and health first",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-wazuh-agents"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint",
+            "https://documentation.wazuh.com/current/installation-guide/wazuh-agent/index.html"
+          ]
+        },
+        {
+          "title": "Review alerts and controlled changes",
+          "where": "Your case notes and maintenance calendar",
+          "actions": [
+            "Triage new alerts, identify real affected assets and capture evidence. Escalate uncertain activity rather than dismissing it to clear a queue.",
+            "Review pilot patch results, configuration drift and recovery readiness. Follow a rolling change process only after the pilot passes.",
+            "For the class portfolio, keep sanitized incident/change summaries and screenshots of actual work, with secrets and personal data removed. Label simulated exercises honestly."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your daily record explains the decision and outcome, not just alert counts.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Review alerts and controlled changes",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-alert-tree"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint"
+          ]
+        },
+        {
+          "title": "Check cost and upcoming expiry dates",
+          "where": "Cost Management, license billing and your calendar",
+          "actions": [
+            "Review the current/forecast cost against your early stop threshold, untagged charges and cleanup dates. Check actual trial and license renewal dates separately.",
+            "Find unused resources by tags, confirm ownership and make the actual stop/deallocate/delete or cancellation decision. Tags alone have done no cost-saving work.",
+            "Keep the free local practice running if you choose not to maintain a paid Microsoft plan. Document the resulting feature/coverage difference instead of implying the paid service remains active."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Your practice has an ongoing monitoring, change, recovery and cost routine.",
+          "screenshot": {
+            "status": "reference",
+            "title": "Check cost and upcoming expiry dates",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "security-budget-alert"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets",
+            "https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/tag-resources"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-vdi-license",
+      "title": "Decide Whether Cloud VDI Fits",
+      "description": "Check actual Windows/AVD and endpoint entitlements before renting a desktop.",
+      "what": "Optional licensed VDI extension. Let\u2019s check actual Windows/AVD and endpoint entitlements before renting a desktop.",
+      "why": "A server protected through Defender for Servers is not a license for Windows 11 VDI or its client EDR.",
+      "needs": [
+        "Optional extension only: an acceptable total cost and valid AVD/Windows user entitlement",
+        "A supported endpoint license/trial for the chosen client OS, plus a calendar/cleanup plan"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Record an actual eligible license/trial, client protection entitlement and full estimate, or choose to stop the optional branch.",
+      "exercise": "Record an actual eligible license/trial, client protection entitlement and full estimate, or choose to stop the optional branch.",
+      "quiz": [
+        {
+          "question": "Does Defender for Servers license Windows 11 VDI clients?",
+          "options": [
+            "No; check separate client and AVD/Windows entitlements",
+            "Yes, when connected to Arc",
+            "Only with a Lab tag"
+          ],
+          "answer": 0,
+          "explanation": "No; check separate client and AVD/Windows entitlements is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Separate VDI from the free VMware lab",
+          "where": "Your planning worksheet",
+          "actions": [
+            "A remote desktop in VMware teaches administration but is not Azure Virtual Desktop. AVD includes host pools, application groups, workspaces, user entitlement and Azure session-host infrastructure.",
+            "This optional branch uses one personal Windows 11 Enterprise single-session host and one assigned learner, not several always-on desktops or a multi-session fleet. Avoid managed AD DS, VPN Gateway and FSLogix shared profile storage in this first Entra-joined personal-host exercise.",
+            "The free local baseline remains available if the licensed cloud design does not fit. Do not relabel a server\u2019s two administrative RDP sessions as a licensed user VDI service."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You can describe which system is being built and why the optional branch costs more.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Separate VDI from the free VMware lab",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-license-1"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop"
+          ]
+        },
+        {
+          "title": "Check the actual entitlement and trial terms",
+          "where": "Microsoft 365 admin/licensing pages and the AVD prerequisites link",
+          "actions": [
+            "Review Microsoft\u2019s current eligible AVD licenses for each user and the matching Windows/hosting rights. Verify your actual assigned subscription, qualifying OS requirements and expiry with the license terms. A Defender-only user license does not provide Windows or AVD rights.",
+            "Business Premium is an example of an eligible bundle, not a mandatory purchase. An eligible trial can be evaluated only under its actual terms. Annual advertised prices are commitments, not a one-month lab price, and cloud resources may still bill during a license trial.",
+            "Verify a supported CLIENT endpoint protection entitlement for the Windows 11 host. Defender for Servers Plan 1 covers server OSs; it does not turn that client host into a covered server. Do not use external-user AVD pricing as a workaround for your own internal lab identity."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Actual user and client-security entitlements, dates and allowed use are documented\u2014or deployment stops.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Check the actual entitlement and trial terms",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-license-2"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint"
+          ]
+        },
+        {
+          "title": "Re-price the complete desktop before continuing",
+          "where": "Azure pricing calculator and your license billing record",
+          "actions": [
+            "Calculate the one host\u2019s current regional hourly rate \u00d7 planned hours, disk/storage/network/log charges, endpoint protection and any fixed license cost. Leave room for billing delay and tax. Do not assume $25 buys an all-in bundle.",
+            "If the estimate or license commitment exceeds your accepted limit, stop here and keep practising locally. A valid trial is temporary; write the end-of-trial offboarding and resource cleanup date before activation.",
+            "Keep cash spending and theoretical post-trial price as separate worksheet fields so free credits do not hide the ongoing cost. No desktop is deployed by this lesson or by this website."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You have an acceptable licensed design and cleanup date, or a clear no-deployment choice.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Re-price the complete desktop before continuing",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-license-3"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop",
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-vdi-build",
+      "title": "Build One Licensed Personal Desktop",
+      "description": "Create a small Entra-joined AVD desktop only after the license and cost gate passes.",
+      "what": "Optional licensed VDI extension. Let\u2019s create a small Entra-joined AVD desktop only after the license and cost gate passes.",
+      "why": "A single personal host is a manageable first VDI lab and avoids extra infrastructure unrelated to the security goal.",
+      "needs": [
+        "Passed optional VDI entitlement, scope and cost checks",
+        "One cloud learner identity and documented AVD deployment roles",
+        "Azure capacity/quota, supported image/size and required outbound service access"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Verify one assigned personal desktop, private access and the separate client protection entitlement without claiming server coverage for it.",
+      "exercise": "Verify one assigned personal desktop, private access and the separate client protection entitlement without claiming server coverage for it.",
+      "quiz": [
+        {
+          "question": "How many session hosts does this first optional lab create?",
+          "options": [
+            "One, after the license and cost gate passes",
+            "As many as the quota allows",
+            "One for every local Windows account"
+          ],
+          "answer": 0,
+          "explanation": "One, after the license and cost gate passes is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Create the host pool basics",
+          "where": "Azure portal \u2192 Azure Virtual Desktop \u2192 Host pools \u2192 Create",
+          "actions": [
+            "Before the wizard, open Azure Subscriptions \u2192 your lab subscription \u2192 Resource providers. Check Microsoft.DesktopVirtualization. If it is NotRegistered, have the authorized setup operator select Register and wait for Registered; registration needs the documented subscription permission. Do not give the daily reader account Owner just to skip this check.",
+            "Select the approved subscription and a separate disposable VDI resource group. Enter a clear host pool name such as hp-cloudseam-personal-lab and an allowed region.",
+            "Choose Personal rather than Pooled. Use automatic personal assignment for this one learner, or an explicitly documented direct-assignment method. Keep this a small lab/validation pool if the wizard offers that setting.",
+            "Read the final cost/entitlement gate again before you add a billable VM. The wizard labels can change; use the linked deployment guide for your current portal."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The host pool draft is for one personal learner in the intended group.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Create the host pool basics",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-build-1"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites"
+          ]
+        },
+        {
+          "title": "Choose exactly one supported session host",
+          "where": "Create host pool \u2192 Virtual machines/session hosts",
+          "actions": [
+            "Choose Add virtual machines = Yes, count = 1, a clear name prefix and the approved region. Record the actual generated VM name; do not assume the prefix is the complete hostname.",
+            "Select a supported Windows 11 Enterprise single-session image and a currently supported x64 VM size adequate for Windows and the security agent. Review the actual hourly rate and disk tier; do not choose a tiny unsupported size just because its number is lower.",
+            "Confirm the eligible Windows license declaration only if the learner really has the required rights. Do not select a costly marketplace software image, extra data disks or availability infrastructure without repricing."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The draft has one supported host/image, recorded costs and truthful license declarations.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Choose exactly one supported session host",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-build-2"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites"
+          ]
+        },
+        {
+          "title": "Set network and identity deliberately",
+          "where": "Create host pool \u2192 networking and domain join",
+          "actions": [
+            "Use the approved lab VNet/subnet with required outbound AVD/Entra/Microsoft service connectivity. Do not assign a public IP to the session host or open internet-facing 3389. AVD\u2019s supported reverse-connect access is not the same as exposing RDP directly.",
+            "Choose Microsoft Entra ID join for this first exercise and confirm the required sign-in extension/deployment options in the current wizard. Use the generated .onmicrosoft.com learner identity if cloudseam.tech has not separately been verified in this tenant. Do not try to create another AD forest with the same name.",
+            "Leave Intune enrollment off unless its entitlement and enrollment design were explicitly included. This exercise does not require renting Entra Domain Services or connecting your home AD through a paid VPN gateway."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The host has a supported identity/network design without public RDP or surprise identity services.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Set network and identity deliberately",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-build-3"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites"
+          ]
+        },
+        {
+          "title": "Register the desktop and finish the deployment",
+          "where": "Create host pool \u2192 Workspace \u2192 Review + create",
+          "actions": [
+            "Create or select the lab workspace and register the desktop application group. Record the actual workspace and application-group names.",
+            "Review all fields, image, count, region, identity, tags and estimated charges. Choose Create only after that review and the earlier cost/license gate; otherwise cancel.",
+            "Wait for deployment completion and inspect the session-host status in the host pool. Fix deployment/agent errors rather than repeatedly creating more VMs."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Exactly one intended session host is deployed and available in its pool.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Register the desktop and finish the deployment",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-build-4"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop"
+          ]
+        },
+        {
+          "title": "Assign the learner and test sign-in",
+          "where": "AVD application group \u2192 Assignments; VM Access control (IAM)",
+          "actions": [
+            "Assign the intended Entra learner to the desktop application group using the supported Desktop Virtualization User assignment. For an Entra-joined host, grant the required Virtual Machine User Login permission at the appropriate narrow scope; admin sign-in is a different role.",
+            "If using direct personal assignment, assign that specific session host to the learner. Use a supported Windows App or AVD web client to subscribe/sign in to the workspace with the licensed learner identity.",
+            "Confirm the desktop starts without opening public 3389. If it fails, check application-group assignment, VM login permissions, identity, MFA/session requirements and session-host health. Do not fix it by making every learner an administrator."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The assigned learner opens the intended personal desktop with scoped access.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Assign the learner and test sign-in",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-build-5"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites"
+          ]
+        },
+        {
+          "title": "Record the security and cost baseline",
+          "where": "Inside the desktop, Azure inventory and your worksheet",
+          "actions": [
+            "Record OS/build, assigned user, VM/disk names, private network, sign-in method and actual running state. Confirm a tested way to manage/recover the host before security experiments.",
+            "Onboard client EDR only with the exact supported client license/plan and current VDI guidance for this persistent personal host. Do not use the server Arc/Plan 1 exercise as a substitute for that license.",
+            "Keep this first host persistent. Non-persistent multi-session images need a separate image/VDI onboarding design to avoid duplicate identities and inherited enrollment secrets. Add that only after this personal-host baseline works."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You have a functioning licensed desktop and a separately verified client-security plan.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Record the security and cost baseline",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-build-6"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sec-vdi-control",
+      "title": "Secure and Stop the Cloud Desktop",
+      "description": "Verify client protection, configure controlled uptime and clean up at the end of the trial.",
+      "what": "Optional licensed VDI extension. Let\u2019s verify client protection, configure controlled uptime and clean up at the end of the trial.",
+      "why": "Cloud VDI adds identity, user access, image and lifecycle controls\u2014and its licenses do not stop billing when you log out.",
+      "needs": [
+        "A working optional personal desktop with supported client protection entitlement",
+        "Recovery access and current AVD scaling permissions"
+      ],
+      "bestPractices": [
+        "Use only your isolated CloudSeam practice machines. Record scope, a recovery method and the expected result before changing anything.",
+        "Protect secrets and use fake learner/ticket data in screenshots. Never upload onboarding secrets or passwords to the Academy.",
+        "A checkbox records your notes. It does not prove that a security sensor is healthy or that billing stopped."
+      ],
+      "commonMistakes": [
+        "Treating a $25 budget or an ExpiresOn tag as an automatic spending cap.",
+        "Turning on every paid plan or a whole production subscription to protect one test server.",
+        "Confusing a discovered device with a healthy onboarded endpoint."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The portal or result differs from the picture.",
+          "fix": "Confirm the selected tenant, subscription, resource and current official source. Record the exact message. Stop at a scope, license, billing or health mismatch instead of enabling more services."
+        }
+      ],
+      "pass": "Show supported protection, observed deallocation behavior and a complete resource/license end-of-trial record.",
+      "exercise": "Show supported protection, observed deallocation behavior and a complete resource/license end-of-trial record.",
+      "quiz": [
+        {
+          "question": "Does deallocating a desktop cancel its monthly user license?",
+          "options": [
+            "No; license billing is a separate lifecycle",
+            "Yes, immediately",
+            "Only when it is tagged ExpiresOn"
+          ],
+          "answer": 0,
+          "explanation": "No; license billing is a separate lifecycle is the intended practice for this class."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Pilot client protection without locking out the learner",
+          "where": "Client security portal and the assigned desktop",
+          "actions": [
+            "Verify this host\u2019s actual client EDR onboarding and recent reporting, using the supported licensed product\u2019s current steps. Use a vendor-approved safe test and record its actual result. Server and client portals/features can differ.",
+            "Apply one pilot policy through a licensed/supported management channel. Test sign-in, desktop launch and necessary applications. If using Conditional Access or Intune, confirm the needed licenses and a tested administrator recovery account before enforcement.",
+            "Do not isolate the only remote session host as your first response exercise without a separate supported recovery path. The earlier containment practice belongs on the VMware member-server console pilot."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "Client protection is verified without accidentally removing all recovery access.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Pilot client protection without locking out the learner",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-control-1"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/integration-defender-for-endpoint",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/prerequisites",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop"
+          ]
+        },
+        {
+          "title": "Start only when needed and deallocate after use",
+          "where": "Azure Virtual Desktop \u2192 scaling plan/host pool settings",
+          "actions": [
+            "Review the supported personal-host scaling-plan guide. Configure a limited practice schedule and the required service-principal RBAC scope; a schedule without permissions cannot stop the host.",
+            "Enable Start VM on Connect where appropriate for your host-pool design and verify its permissions. Test signing out, deallocation and a later connection that starts the host. It is not a universal timer and user sessions can affect scale-down.",
+            "Until tested automation works, manually Stop/Deallocate the actual VM in Azure after saving work and signing out. Verify Stopped (deallocated). Guest shutdown/disconnect is not enough, and disk and license costs can continue."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "You observe the real power transition and know which remaining meters still charge.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "Start only when needed and deallocate after use",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-control-2"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/autoscale-scaling-plan",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/faq-defender-for-servers"
+          ]
+        },
+        {
+          "title": "End the extension before renewal surprises",
+          "where": "Azure inventory, Cost Management and the separate license billing portal",
+          "actions": [
+            "Export only approved sanitized learning evidence. Before trial expiry, decide whether to buy/renew the actual user and client licenses; disable recurring billing/cancel through the provider\u2019s process if not continuing. Do not assume deleting a VM cancels a license.",
+            "Remove the disposable VDI host, disks, workspace/application group/host pool and any extra resources only after confirming nothing shared depends on them. Recheck for orphan disks, snapshots, diagnostic workspaces and other meters.",
+            "Review delayed usage and the next invoice, update the inventory and keep the local free practice path if the ongoing licensed cloud cost exceeds the goal. Record that this optional VDI environment was retired rather than pretending it remains protected."
+          ],
+          "command": "",
+          "breakdown": [],
+          "expected": "The extension has a verified end state for both Azure resources and separate licenses.",
+          "screenshot": {
+            "status": "illustration",
+            "title": "End the extension before renewal surprises",
+            "instructions": "Use the written lab values. Original vendor images show example interfaces; labeled diagrams are not screenshots or results.",
+            "assetId": "sec-vdi-control-3"
+          },
+          "sources": [
+            "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/tutorial-acm-create-budgets",
+            "https://learn.microsoft.com/en-us/azure/defender-for-cloud/disable-plans",
+            "https://learn.microsoft.com/en-us/azure/virtual-desktop/deploy-azure-virtual-desktop"
+          ]
+        }
+      ]
+    }
+  ]
+}

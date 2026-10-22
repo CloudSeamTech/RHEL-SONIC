@@ -1,4 +1,4 @@
-import { helpdeskCourse, maintenanceCourse } from '../lib/guided-courses.ts';
+import { securityCourse, helpdeskCourse, maintenanceCourse } from '../lib/guided-courses.ts';
 import { welcomeFor } from '../lib/lesson-welcome.ts';
 import { nessusCourses, nessusCourseHref } from '../lib/nessus-curriculum.ts';
 import almaCourse from '../content/alma/desktop-lessons.json' with { type: 'json' };
@@ -10,7 +10,7 @@ export type ConsoleLesson = {
   title: string;
   description: string;
   href: string;
-  source: 'linux' | 'migration' | 'alma' | 'nessus' | 'azure-lab' | 'helpdesk';
+  source: 'linux' | 'migration' | 'alma' | 'nessus' | 'azure-lab' | 'helpdesk' | 'security-lab';
   metadata: string;
   steps: string[];
 };
@@ -276,6 +276,13 @@ function migration(ids: string[]): ConsoleLesson[] {
   });
 }
 
+function securityLesson(lesson: (typeof securityCourse.lessons)[number]): ConsoleLesson {
+  return {id: lesson.id, title: lesson.title, description: lesson.description,
+    href: `/security#lesson=${lesson.id}`, source: 'security-lab',
+    metadata: 'VMware-first / Azure Arc / Defender cost and license gates',
+    steps: lesson.steps.map((step) => step.title)};
+}
+
 export const learningPathways: LearningPathway[] = [
   {
     id: 'windows',
@@ -349,6 +356,14 @@ export const learningPathways: LearningPathway[] = [
           metadata: 'Azure Portal / Windows and RHEL practice servers',
           steps: lesson.steps.map((step) => step.title),
         })),
+      },
+      {
+        title: '03 / Endpoint Security on a Budget',
+        lessons: securityCourse.lessons.slice(0, 12).map(securityLesson),
+      },
+      {
+        title: '04 / Optional Licensed Cloud VDI', optional: true,
+        lessons: securityCourse.lessons.slice(12).map(securityLesson),
       },
     ],
   },
@@ -461,6 +476,7 @@ export const pathwayLessons = (pathway: LearningPathway) =>
 // Core lesson pagination follows the prerequisite route. Optional extensions
 // stay within their own sequence instead of interrupting the core route.
 export function lessonSequenceFor(id: string): ConsoleLesson[] {
+  if (id.startsWith('sec-')) return securityCourse.lessons.map(securityLesson);
   if (id.startsWith('helpdesk-') || id.startsWith('nessus-') || id.startsWith('azure-maint-')) {
     const pathway = learningPathways.find((path) =>
       path.sections.some((section) =>

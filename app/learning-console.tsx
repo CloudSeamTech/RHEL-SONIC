@@ -102,7 +102,9 @@ export function LearningConsole({
   }
   const linux = linuxLessons.find((lesson) => lesson.id === selected.id);
   const command =
-    selected.source === 'nessus'
+    selected.source === 'security-lab'
+      ? 'Get-MpComputerStatus | Select-Object AntivirusEnabled,RealTimeProtectionEnabled'
+      : selected.source === 'nessus'
       ? pathId === 'nessus-windows'
         ? "Get-Service -DisplayName 'Tenable Nessus'"
         : 'systemctl status nessusd --no-pager'
