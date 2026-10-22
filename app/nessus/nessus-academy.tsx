@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { LessonWelcome } from '../lesson-welcome';
 import { MaintenanceRehearsal } from '../azure-operations/maintenance-rehearsal';
+import { SecurityBudget } from '../security/security-budget';
 import { CourseScreenshot } from '../course-screenshot';
 import { guidedCourses, guidedCourseHref } from '@/lib/guided-courses';
 import { ConsoleReaderShell } from '../console-reader-shell';
@@ -388,7 +389,8 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
   const course = guidedCourses.find((item) => item.id === courseId)!;
   const isMaintenance = course.id === 'azure-maintenance';
   const isHelpdesk = course.id === 'iis-helpdesk';
-  const relatedCourses = isMaintenance || isHelpdesk ? [course] : nessusCourses;
+  const isSecurity = course.id === 'budget-cloud-security';
+  const relatedCourses = isMaintenance || isHelpdesk || isSecurity ? [course] : nessusCourses;
   const [id, setId] = useState(course.lessons[0].id);
   const [notice, setNotice] = useState('');
   const progress = JSON.parse(
@@ -433,10 +435,10 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
       <main className="alma-reader nessus-reader">
         <nav
           className={
-            'nessus-course-switcher' + (isMaintenance || isHelpdesk ? ' single-course' : '')
+            'nessus-course-switcher' + (isMaintenance || isHelpdesk || isSecurity ? ' single-course' : '')
           }
           aria-label={
-            isMaintenance ? 'Azure maintenance course' : isHelpdesk ? 'IIS help desk course' : 'Nessus courses'
+            isSecurity ? 'Cloud security course' : isMaintenance ? 'Azure maintenance course' : isHelpdesk ? 'IIS help desk course' : 'Nessus courses'
           }
         >
           {relatedCourses.map((item, i) => (
@@ -452,7 +454,7 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
         </nav>
         <header className="alma-header">
           <span className="eyebrow">
-            {isMaintenance ? 'AZURE SERVER MAINTENANCE' : isHelpdesk ? 'IIS / CLOUDSEAM HELP DESK' : 'NESSUS 10.12.5'} /
+            {isSecurity ? 'CLOUD AND ENDPOINT SECURITY' : isMaintenance ? 'AZURE SERVER MAINTENANCE' : isHelpdesk ? 'IIS / CLOUDSEAM HELP DESK' : 'NESSUS 10.12.5'} /
             LESSON {index + 1} OF {course.lessons.length}
           </span>
           <p>{course.title}</p>
@@ -502,6 +504,7 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
           ].includes(lesson.id) && (
             <MaintenanceRehearsal key={`practice-${lesson.id}`} />
           )}
+        {isSecurity && ['sec-plan','sec-cost','sec-vdi-license'].includes(lesson.id) && <SecurityBudget />}
         <LessonReader
           key={lesson.id}
           lesson={lesson}

@@ -1,0 +1,8 @@
+.security-budget{border:1px solid #242424;background:#080808;padding:20px;margin:20px 0;min-width:0}
+.security-budget h2{font-size:20px;color:#eaeaea;margin:12px 0}.security-budget p{color:#aaa;line-height:1.65}
+.security-budget-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:18px 0}
+.security-budget label{display:flex;flex-direction:column;gap:8px;min-width:0}.security-budget label strong{font-size:13px;font-weight:500}
+.security-budget input{width:100%;box-sizing:border-box;background:#050505;border:1px solid #404040;color:#eaeaea;padding:10px;font:inherit}
+.security-budget input:focus-visible{outline:2px solid #21c5db;outline-offset:2px}.security-budget small{color:#898989;line-height:1.5}
+.security-budget output{display:block;border-top:1px solid #242424;padding:16px 0;color:#dfb656;line-height:1.65}
+@media(max-width:650px){.security-budget-fields{grid-template-columns:1fr}.security-budget{padding:14px}}
