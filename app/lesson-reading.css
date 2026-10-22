@@ -1,8 +1,8 @@
 /* One shared reading rhythm for every curriculum. Dashboard stays compact. */
-.console-reader .reader-workspace { padding: 28px clamp(16px, 3vw, 46px); }
+.console-reader .reader-workspace { padding: 32px clamp(24px, 3vw, 56px); }
 .console-reader .reader-workspace > main,
 .console-reader .reader-workspace .migration-lesson {
-  max-width: 920px !important;
+  max-width: 1120px !important;
   margin-inline: auto !important;
   width: 100%;
 }
@@ -25,7 +25,7 @@
 .console-reader .reader-workspace :is(.guided-lab, .teacher-welcome, .nessus-exercise, .nessus-quiz, .alma-verify) {
   border: 0 !important;
   border-top: 1px solid #242424 !important;
-  padding: 24px 0 !important;
+  padding: 28px 32px !important;
   margin: 24px 0 !important;
   background: #000 !important;
 }
@@ -52,7 +52,7 @@
 .console-reader .reader-workspace .lesson-layout { display: flex !important; flex-direction: column; gap: 16px; }
 .console-reader .reader-workspace .lesson-index { position: static; width: 100%; max-height: none; border: 1px solid #242424; padding: 12px 18px; }
 .console-reader .reader-workspace .lesson-content { padding: 0 !important; min-width: 0; width: 100%; }
-.console-reader .reader-workspace .lesson-hero { display: block; border: 0; padding: 20px 0 !important; }
+.console-reader .reader-workspace .lesson-hero { display: block; padding: 28px 32px !important; }
 .console-reader .reader-workspace .stage-progress { display: none; }
 .console-reader .reader-workspace .lesson-context { display: none; }
 .console-reader .reader-workspace .nessus-advice { display: block; }
@@ -68,7 +68,7 @@
   .console-reader .reader-workspace .guided-screenshot img { max-height: 360px; }
   .console-reader .reader-workspace .sonic-action-body { padding: 14px; }
 }
-.console-reader .reader-workspace .teacher-welcome { padding-block: 12px !important; margin-block: 12px !important; }
+.console-reader .reader-workspace .teacher-welcome { padding: 24px 32px !important; margin-block: 16px !important; }
 .console-reader .reader-workspace .guided-start-hint { margin-block: 12px; }
 .console-reader .reader-workspace .guided-context { padding-block: 0; }
 .console-reader .reader-workspace .guided-context > div { padding-block: 4px; }
@@ -84,9 +84,44 @@
 .console-reader .reader-workspace .lesson-hero > div > p { margin-block: 10px; }
 .console-reader .reader-workspace .teacher-welcome summary { padding-block: 6px; }
 .console-reader .reader-workspace .guided-heading h2 { font-size: 23px !important; }
-.console-reader .reader-workspace .lesson-hero { margin-block: 12px !important; padding-block: 12px !important; }
+.console-reader .reader-workspace .lesson-hero { margin-block: 20px !important; }
 .console-reader .reader-workspace .lesson-content { margin-block: 16px; }
-.console-reader .reader-workspace .guided-lab { margin-block: 12px !important; padding-block: 16px !important; }
+.console-reader .reader-workspace .guided-lab { max-width: none; width: 100%; margin-block: 24px !important; padding: 28px 32px !important; }
 .console-reader .reader-workspace .you-are-here { position: static; min-height: 32px; margin: 0; padding: 4px 0; border: 0; }
 .console-reader .reader-workspace .guided-heading .eyebrow { display: none; }
 .console-reader .reader-workspace .guided-step-picker { font-size: 16px !important; }
+
+/* Panel borders frame the lesson; all content follows the same inner gutter. */
+.console-reader .reader-workspace .guided-lab > .teacher-welcome {
+  padding: 12px 0 !important;
+  margin-block: 12px !important;
+}
+.console-reader .reader-workspace .alma-header {
+  padding: 28px 32px;
+  border: 1px solid #242424;
+  margin-block: 20px;
+}
+.console-reader .reader-workspace .lesson-layout > .lesson-content {
+  padding: 28px 32px !important;
+}
+.console-reader .reader-workspace .you-are-here { padding: 8px 4px; gap: 10px; }
+.console-reader .reader-workspace .guided-heading { gap: 16px; padding-bottom: 20px; }
+.console-reader .reader-workspace .guided-step { padding-top: 28px; }
+.console-reader .reader-workspace .guided-step-picker { margin-block: 20px; }
+.console-reader .reader-workspace .guided-screenshot figcaption { padding: 16px 20px; }
+.console-reader .reader-workspace .step-picture { padding: 18px; }
+@media (min-width: 1600px) {
+  .console-reader .reader-workspace { padding-inline: 64px; }
+}
+@media (max-width: 650px) {
+  .console-reader .reader-workspace { padding: 20px 14px; }
+  .console-reader .reader-workspace :is(.lesson-hero, .guided-lab, .teacher-welcome, .nessus-exercise, .nessus-quiz, .alma-verify),
+  .console-reader .reader-workspace .lesson-layout > .lesson-content {
+    padding: 22px 20px !important;
+  }
+  .console-reader .reader-workspace .alma-header { padding: 22px 20px; }
+  .console-reader .reader-workspace .guided-lab > .teacher-welcome { padding: 12px 0 !important; }
+  .console-reader .reader-workspace .step-picture { padding: 12px; }
+  .console-reader .reader-workspace .guided-screenshot figcaption { padding: 12px; }
+  .console-reader .reader-workspace .you-are-here { gap: 8px; }
+}
