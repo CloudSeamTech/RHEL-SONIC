@@ -231,6 +231,7 @@ function LessonReader({
               STEP {index + 1} OF {lesson.steps.length}
             </div>
             <h3>{step.title}</h3>
+            <div className="guided-step-content">
             <div className="nessus-location">
               <b>WHERE TO WORK</b>
               <p>{step.where}</p>
@@ -251,7 +252,6 @@ function LessonReader({
                 Expected observation, not recorded output from your environment.
               </small>
             </section>
-            <CourseScreenshot screenshot={step.screenshot} />
             <details className="nessus-explanation">
               <summary>Official reference for this step</summary>
               {step.sources.map((url) => (
@@ -279,6 +279,8 @@ function LessonReader({
                 Next step →
               </button>
             </nav>
+            </div>
+            <div className="guided-visuals"><CourseScreenshot screenshot={step.screenshot} /></div>
           </section>
         </div>
       </section>
