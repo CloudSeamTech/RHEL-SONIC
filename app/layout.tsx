@@ -6,7 +6,8 @@ import './sonic.css';
 const geistMono = IBM_Plex_Mono({
   variable: '--font-ibm-plex-mono',
   subsets: ['latin'],
-  weight: ['400', '500'],
+  weight: ['400', '500', '700'],
+  style: ['normal', 'italic'],
 });
 
 export const metadata: Metadata = {
@@ -35,3 +36,5 @@ export default function RootLayout({
 import './sonic-design-system.css';
 
 import './terminal-typography.css';
+
+import './full-workspace.css';

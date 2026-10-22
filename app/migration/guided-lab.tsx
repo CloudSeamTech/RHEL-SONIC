@@ -135,6 +135,7 @@ export function GuidedLab({
             STEP {index + 1} OF {guide.steps.length}
           </div>
           <h3>{currentTitle}</h3>
+          <div className="guided-step-content">
           <p className="coaching-why">
             <strong>Here’s why:</strong> {coaching.reason}
           </p>
@@ -182,15 +183,6 @@ export function GuidedLab({
               )}
             </section>
           )}
-          <section
-            className="guided-visuals"
-            aria-label="Pictures and screen references for this step"
-          >
-            <h4 className="guided-visuals-heading">See it on screen</h4>
-            <InstructionScreenshots
-              stepId={`${screenshotLessonId}:guided:${index + stepOffset + 1}`}
-            />
-          </section>
           <section className="guided-expected">
             <b>CHECK THE RESULT · DOES YOUR SCREEN MATCH?</b>
             <p>{step.expect}</p>
@@ -241,6 +233,16 @@ export function GuidedLab({
               Next step →
             </button>
           </nav>
+          </div>
+          <section
+            className="guided-visuals"
+            aria-label="Pictures and screen references for this step"
+          >
+            <h4 className="guided-visuals-heading">See it on screen</h4>
+            <InstructionScreenshots
+              stepId={`${screenshotLessonId}:guided:${index + stepOffset + 1}`}
+            />
+          </section>
         </article>
       </div>
       <details className="guided-extra-help">

@@ -1,0 +1,75 @@
+/* Use the available workspace; padding belongs at the page edge, not in nested cards. */
+body .console-reader .reader-workspace {
+  padding: 28px clamp(20px, 2vw, 40px) !important;
+}
+body .console-reader .reader-workspace > main,
+body .console-reader .reader-workspace .migration-lesson,
+body .console-reader .reader-workspace .alma-reader,
+body .console-reader .reader-workspace .lab-terminal-experience {
+  max-width: none !important;
+  width: 100%;
+  margin-inline: 0 !important;
+}
+body .console-reader .reader-workspace :is(.lesson-hero, .alma-header, .guided-lab, .teacher-welcome, .lesson-content, .nessus-exercise, .nessus-quiz, .alma-verify),
+body .console-reader .reader-workspace .lesson-layout > .lesson-content {
+  border: 0 !important;
+  background: #000 !important;
+  padding: 20px 0 !important;
+}
+body .console-reader .reader-workspace :is(.guided-visuals, .step-picture, .guided-screenshot, .nessus-location, .guided-final) {
+  border: 0 !important;
+  background: #000 !important;
+}
+body .console-reader .reader-workspace .step-picture { padding: 0; }
+body .console-reader .reader-workspace .guided-screenshot figcaption { padding-inline: 0; }
+body .console-reader .reader-workspace .guided-screenshot { margin-block: 20px; }
+body .console-reader .reader-workspace .guided-heading { border-bottom: 1px solid #242424; }
+body .console-reader .reader-workspace .guided-lab > .teacher-welcome { padding-block: 8px !important; }
+body .console-reader .reader-workspace .guided-step { margin: 0; width: 100%; }
+body .console-reader .reader-workspace .sonic-walkthrough > ol > li { border: 0; border-top: 1px solid #242424; background: #000 !important; }
+body .console-reader .reader-workspace .sonic-action-body { padding-inline: 0; }
+body .console-reader .reader-workspace .sonic-action-panel > summary { padding-inline: 0; }
+body .learning-console .console-main { padding: 28px clamp(20px, 2vw, 40px); }
+body .learning-console .console-middle { min-height: min(65vh, 720px); }
+body .learning-console .console-module-list { max-height: min(60vh, 660px); }
+body .learning-console :is(.console-modules, .console-overview, .console-terminal) { border-color: #242424; }
+/* Titles have one consistent distinction from normal instructional text. */
+body .learning-console :is(h1,h2,h3,h4,h5,h6),
+body .learning-console .reader-workspace :is(h1,h2,h3,h4,h5,h6),
+body .learning-console :is(.console-brand a, .guided-heading, .guided-action > b, .guided-expected > b, .guided-final > b, .guided-screenshot figcaption > strong, .sonic-action-panel > summary > strong, .console-panel-heading, .console-nav-label) {
+  font-weight: 700 !important;
+  font-style: italic !important;
+}
+@media (min-width: 1600px) {
+  body .console-reader .reader-workspace .guided-step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(32px, 3vw, 72px);
+    align-items: start;
+  }
+  body .console-reader .reader-workspace .guided-step > * { min-width: 0; }
+  body .console-reader .reader-workspace .guided-step > .guided-step-content { grid-column: 1; grid-row: 3; }
+  body .console-reader .reader-workspace .guided-step > :is(.guided-step-number, h3) { grid-column: 1 / -1; }
+  body .console-reader .reader-workspace .guided-step > .guided-visuals {
+    grid-column: 2;
+    grid-row: 3;
+    margin-top: 0;
+  }
+  body .console-reader .reader-workspace .guided-screenshot img { max-height: 760px; }
+}
+@media (max-width: 650px) {
+  body .console-reader .reader-workspace,
+  body .learning-console .console-main { padding: 20px 18px !important; }
+  body .console-reader .reader-workspace :is(.lesson-hero,.alma-header,.guided-lab,.teacher-welcome,.lesson-content) { padding-block: 16px !important; }
+}
+
+body .learning-console :is(.console-panel-head > span:first-child, .console-metric > div > span:first-child, .console-lesson-row > span:nth-child(2), .console-sidebar summary) {
+  font-weight: 700 !important;
+  font-style: italic !important;
+}
+body .learning-console .console-middle { gap: 28px; }
+body .learning-console .console-middle > .console-panel { border: 0; background: #000; }
+body .learning-console .console-overview-body,
+body .learning-console .console-module-list { padding-inline: 0; }
+body .learning-console .console-terminal { border: 0; border-top: 1px solid #242424; }
+body .console-reader .reader-workspace summary { font-weight: 700; font-style: italic; }
