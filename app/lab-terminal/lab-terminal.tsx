@@ -83,6 +83,7 @@ export function LabTerminal() {
   const [capabilities, setCapabilities] = useState<ShellCapability[]>([]);
   const [distro, setDistro] = useState('');
   const [output, setOutput] = useState('');
+  const [expanded, setExpanded] = useState(false);
   const [command, setCommand] = useState('');
   const [pending, setPending] = useState<{
     command: string;
@@ -300,7 +301,7 @@ export function LabTerminal() {
   };
 
   return (
-    <section className="lab-terminal-experience">
+    <section className={`lab-terminal-experience${expanded ? ' terminal-expanded' : ''}`}>
       <header className="terminal-titlebar">
         <div>
           <span className="eyebrow">OPT-IN / LOCAL USER CONTEXT</span>
@@ -361,6 +362,7 @@ export function LabTerminal() {
           <header>
             <span>{shells.find((item) => item.id === selected)?.label}</span>
             <div>
+              <button type="button" aria-pressed={expanded} onClick={() => setExpanded(!expanded)}>{expanded ? 'Standard view' : 'Expand terminal'}</button>
               {(status === 'ready' || status === 'running') && (
                 <button onClick={() => send({ type: 'cancel' })}>
                   <Square size={13} /> Ctrl+C / cancel

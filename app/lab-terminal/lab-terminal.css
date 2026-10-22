@@ -229,3 +229,19 @@
  .console-reader .copy-mode { height: auto; min-height: 350px; }
 }
 .console-reader .terminal-setup ol { list-style: decimal; padding-left: 26px; }
+
+/* More room for real output; lesson text keeps its readable size. */
+body .console-reader .terminal-console pre.terminal-output {
+  height: 70vh; min-height: 540px; font-size: 13px !important;
+  line-height: 1.5 !important; padding: 20px 24px;
+}
+body .console-reader .terminal-expanded .terminal-layout { grid-template-columns: minmax(0, 1fr); }
+body .console-reader .terminal-expanded .terminal-guide { display: none; }
+body .console-reader .terminal-expanded pre.terminal-output { height: 85vh; }
+.setup-command-line { display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #242424; padding: 10px 0; min-width: 0; }
+.setup-command-line pre { flex: 1; min-width: 0; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.setup-command-line button { flex-shrink: 0; padding: 10px 14px; border: 1px solid #242424; color: #21c5db; background: #101010; cursor: pointer; }
+@media (max-width: 650px) {
+ body .console-reader .terminal-console pre.terminal-output { min-height: 400px; padding: 16px; }
+ .setup-command-line { align-items: stretch; flex-direction: column; }
+}
