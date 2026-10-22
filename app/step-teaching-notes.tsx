@@ -18,7 +18,7 @@ export function StepTeachingNotes({
   return (
     <section className="coaching-brief" aria-label="Meaning of this step">
       <p>
-        <strong>Here’s why:</strong> {note.reason}
+        <strong>Why this matters:</strong> {note.reason}
       </p>
       <p>
         <strong>What this does:</strong> {note.impact}

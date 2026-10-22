@@ -5,7 +5,7 @@ import { useState } from 'react';
 function SetupCommands({ commands, windowName }: { commands: string; windowName: string }) {
   const [notice, setNotice] = useState('');
   return <div className="setup-commands">
-    <p><strong>Where to paste:</strong> {windowName}, beside the <code>PS C:\…&gt;</code> prompt. Copy one line, click inside that PowerShell window, press Ctrl+V, then Enter. Wait for the prompt to return before the next line. The final <code>run dev</code> and <code>companion:start</code> commands keep running; leave those windows open.</p>
+    <p><strong>Where to paste:</strong> {windowName}, beside the <code>PS C:\…&gt;</code> prompt. Select <strong>Copy line 1</strong> below. Click inside that PowerShell window, press Ctrl+V, then Enter. If there are more lines, select <strong>Copy line 2</strong> next, and continue in order. Wait for the prompt to return before the next line. The final <code>run dev</code> and <code>companion:start</code> commands keep running; leave those windows open.</p>
     {commands.split('\n').map((line, index) => <div className="setup-command-line" key={line}>
       <pre><code>{line}</code></pre>
       <button type="button" aria-label={`Copy command ${index + 1}: ${line}`} onClick={async () => {

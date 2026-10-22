@@ -20,6 +20,10 @@ type Topic = {
 
 // Order is intentional: a specific check takes priority over broad concepts.
 const topics: Topic[] = [
+  { find: /subnet ip|subnet mask|10\.50\.0\.0|255\.255\.255\.0/i, reason: '10.50.0.0 names our lab network. The mask 255.255.255.0 makes it a /24 network: DC01 at 10.50.0.10 and DC02 at 10.50.0.11 can share it. Keep both servers on VMnet2.', impact: 'Saving these values defines the private network. It does not give the servers their addresses; you set each server’s address in its Windows network settings later.' },
+  { find: /use local dhcp|disable dhcp|dhcp.*off|dhcp.*clear/i, reason: 'DHCP hands out IP addresses automatically. We turn VMware DHCP off on VMnet2 so each practice server keeps the address you choose.', impact: 'Clearing the checkbox stops VMware from handing out addresses on VMnet2. Reopen the editor after saving and check that the box is still cleared.' },
+  { find: /repadmin|replication|dcdiag/i, reason: 'DC01 and DC02 need matching domain information. These checks help you spot a problem with how the two domain controllers share updates.', impact: 'Read the results on your own servers. A failed check needs troubleshooting; running a check does not fix replication by itself.' },
+
   { find: /restore verifyonly|verify.*\.bak/i, reason: 'Check that SQL Server can read the structure of the backup before treating it as a recovery candidate.', impact: 'RESTORE VERIFYONLY performs a backup-media check; it does not restore the database and does not prove application recovery.' },
   { find: /restore.*(database|backup)|restore.test|restored tickets|restore the backup/i, reason: 'A backup is only useful if the data can be restored and validated on a separate target.', impact: 'A restore creates or overwrites the selected target database. Check its name, data, logins and integrity before any production cutover.' },
   { find: /backup.*(database|sql|\.bak)|sql.*backup|back up.*database/i, reason: 'Keep a recoverable copy of the database before making changes or moving it to another server.', impact: 'A SQL backup writes a backup set to the named destination. It does not automatically migrate SQL logins, jobs or server configuration.' },
@@ -245,7 +249,7 @@ export function explainStep(input: {
     .map(([, note]) => note);
   const commandNotes = [...new Set(notes)].slice(0, 8);
   return {
-    reason: matched?.reason || 'This step supports the lesson objective by establishing or checking the specific state described in the action and expected result. Read that target before proceeding.',
+    reason: matched?.reason || `We’re working toward this result: ${input.expected}`,
     impact: matched?.impact || (input.command && readOnly
       ? 'Treat this command as an observation first. Compare the actual output with the required result; do not assume the command repaired anything.'
       : 'The effect depends on the selected control and target. Work only in the specified practice system and do not assume a change was successful until it is verified.'),

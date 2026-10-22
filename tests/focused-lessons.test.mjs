@@ -19,7 +19,7 @@ test('every migration and AlmaLinux lesson has a production comparison, not an e
 test('lesson readers put the action before optional pictures, and retain real checks', () => {
   const guided = readFileSync('app/migration/guided-lab.tsx', 'utf8');
   assert.ok(guided.indexOf('className="guided-action"') < guided.indexOf('className="guided-visuals"'));
-  assert.match(guided, /CHECK THE RESULT/);
+  assert.match(guided, /What you should see/);
   assert.match(guided, /productionPracticeFor\(lessonId\)/);
   assert.match(guided, /<section\s+className="guided-visuals"[^>]*>/);
   const linux = readFileSync('app/sonic-ui.tsx', 'utf8');

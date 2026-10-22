@@ -1,4 +1,5 @@
 'use client';
+import { LabOverview } from './lab-overview';
 import { LessonWelcome } from './lesson-welcome';
 import { welcomeFor } from '@/lib/lesson-welcome';
 import { SessionGuide } from './session-guide';
@@ -566,7 +567,8 @@ export default function Home() {
                 </p>
                 <h2>{display.title}</h2>
                 <p className="task-phase">{lesson.phase}</p>
-                <LessonWelcome lessonId={lesson.id} />
+                <LabOverview summary={lesson.objective} steps={lesson.walkthrough?.map(item => item.title) ?? [display.title]} outcome={lesson.walkthrough?.at(-1)?.expected ?? lesson.objective} />
+                <LessonWelcome lessonId={lesson.id} showIntro={false} />
                 <details
                   className="lab-brief"
                   aria-label="What, why, and production context"

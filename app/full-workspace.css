@@ -73,3 +73,17 @@ body .learning-console .console-overview-body,
 body .learning-console .console-module-list { padding-inline: 0; }
 body .learning-console .console-terminal { border: 0; border-top: 1px solid #242424; }
 body .console-reader .reader-workspace summary { font-weight: 700; font-style: normal; }
+
+/* Visible teaching notes separate explanation and observation from the actions. */
+body .console-reader .reader-workspace :is(.teaching-callout,.coaching-why,.coaching-brief,.guided-expected,.walkthrough-check,.terminal-setup .setup-commands + p) {
+ background: #202020 !important; border: 0 !important; border-left: 3px solid #898989 !important;
+ padding: 22px 26px !important; margin-block: 24px !important; border-radius: 0 10px 10px 0;
+ color: #eaeaea; line-height: 1.8;
+}
+body .console-reader .reader-workspace :is(.teaching-callout,.guided-expected) :is(h3,h4,b) { display: block; margin: 0 0 12px; color: #eaeaea; }
+body .console-reader .reader-workspace .lab-overview { padding-block: 22px; margin-bottom: 24px; border-bottom: 1px solid #242424; }
+body .console-reader .reader-workspace .lab-overview ol { list-style: decimal; padding-left: 28px; }
+body .console-reader .reader-workspace .lab-overview li { margin-block: 10px; }
+body .console-reader .reader-workspace .terminal-setup > ol { list-style: none; padding-left: 0; }
+body .console-reader .reader-workspace .terminal-setup > ol > li { padding-block: 24px; border-top: 1px solid #242424; }
+@media(max-width:650px) { body .console-reader .reader-workspace :is(.teaching-callout,.coaching-why,.coaching-brief,.guided-expected,.walkthrough-check) { padding: 18px !important; } }

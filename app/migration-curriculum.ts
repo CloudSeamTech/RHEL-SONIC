@@ -22,8 +22,8 @@ export const migrationCurriculum: CurriculumLesson[] = catalog.lessons.flatMap((
   const header = parts[0];
   const steps = parts.slice(1);
   const role = lesson.id === 'lab-04' || lesson.id === 'lab-08'
-    ? `Create the ${lesson.id === 'lab-04' ? 'cloudseam.tech' : 'migrate.cloudseam.tech'} Forest`
-    : lesson.id === 'lab-07' ? 'Add the Second Domain Controller'
+    ? `Set Up Active Directory and DNS on ${machine}`
+    : lesson.id === 'lab-07' ? 'Add DC02 and Check Active Directory Replication'
     : lesson.id === 'lab-06' ? 'Join APP01 and Install IIS' : 'Join SQL01 to the Domain';
   const slices = [
     { id: `${lesson.id}-vmware`, title: `Create the ${machine} VMware VM`, start: 0, end: 10,

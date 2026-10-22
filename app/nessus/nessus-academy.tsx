@@ -1,4 +1,5 @@
 'use client';
+import { LabOverview } from '../lab-overview';
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { LessonWelcome } from '../lesson-welcome';
@@ -53,8 +54,8 @@ function CommandExample({ step }: { step: NessusStep }) {
         </section>
       )}
       {step.breakdown.length > 0 && (
-        <details className="nessus-explanation">
-          <summary>What do these commands and settings mean?</summary>
+        <details className="nessus-explanation teaching-callout" open>
+          <summary>Understand these commands and settings</summary>
           <dl className="nessus-breakdown">
             {step.breakdown.map((item, i) => (
               <div key={i}>
@@ -246,7 +247,7 @@ function LessonReader({
             </section>
             <CommandExample key={`${lesson.id}:${index}`} step={step} />
             <section className="guided-expected">
-              <h4>Here’s what you should see</h4>
+              <h4>What you should see</h4>
               <p>{step.expected}</p>
               <small>
                 Expected observation, not recorded output from your environment.
@@ -441,7 +442,9 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
             self-verified
           </small>
         </header>
+        <LabOverview summary={lesson.what} steps={lesson.steps.map(item => item.title)} outcome={lesson.pass} />
         <LessonWelcome
+          showIntro={false}
           content={{
             welcome: index === 0 ? course.prerequisite : lesson.what,
             why: lesson.why,

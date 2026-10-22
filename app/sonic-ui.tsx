@@ -212,7 +212,7 @@ export function SonicTerminal({
         <code>{command}</code>
       </pre>
       <div className="terminal-output">
-        <span>EXPECTED RESULT / REFERENCE</span>
+        <span>What you should see · example to compare with your result</span>
         <p>{expected}</p>
       </div>
       <output aria-live="polite">{message}</output>
@@ -302,7 +302,7 @@ export function SonicWalkthrough({
             )}
             {!step.command && (
               <p className="walkthrough-check">
-                <strong>CHECK THE RESULT BEFORE CONTINUING</strong>
+                <strong>What you should see</strong>
                 <br />
                 {step.expected}
               </p>
