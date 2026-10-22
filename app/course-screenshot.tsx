@@ -5,7 +5,8 @@ import { useRef } from 'react';
 import azureReferences from '@/content/azure/maintenance-references.json';
 import helpdeskReferences from '@/content/helpdesk/references.json';
 import securityReferences from '@/content/security/references.json';
-const references = [...azureReferences, ...helpdeskReferences, ...securityReferences];
+import landingZoneReferences from '@/content/landing-zone/references.json';
+const references = [...azureReferences, ...helpdeskReferences, ...securityReferences, ...landingZoneReferences];
 import type { NessusStep } from '@/lib/nessus-curriculum';
 export function CourseScreenshot({
   screenshot,

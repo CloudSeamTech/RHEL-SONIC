@@ -1,4 +1,4 @@
-import { securityCourse, helpdeskCourse, maintenanceCourse } from '../lib/guided-courses.ts';
+import { landingZoneCourse, securityCourse, helpdeskCourse, maintenanceCourse } from '../lib/guided-courses.ts';
 import { welcomeFor } from '../lib/lesson-welcome.ts';
 import { nessusCourses, nessusCourseHref } from '../lib/nessus-curriculum.ts';
 import almaCourse from '../content/alma/desktop-lessons.json' with { type: 'json' };
@@ -10,7 +10,7 @@ export type ConsoleLesson = {
   title: string;
   description: string;
   href: string;
-  source: 'linux' | 'migration' | 'alma' | 'nessus' | 'azure-lab' | 'helpdesk' | 'security-lab';
+  source: 'linux' | 'migration' | 'alma' | 'nessus' | 'azure-lab' | 'helpdesk' | 'security-lab' | 'landing-zone';
   metadata: string;
   steps: string[];
 };
@@ -342,11 +342,20 @@ export const learningPathways: LearningPathway[] = [
     prerequisite: 'After Windows / AD · review costs first',
     sections: [
       {
-        title: '01 / Build the Destination',
+        title: '01 / Build Your First Landing Zone',
+        lessons: landingZoneCourse.lessons.map((lesson) => ({
+          id: lesson.id, title: lesson.title, description: lesson.description,
+          href: `/landing-zone#lesson=${lesson.id}`, source: 'landing-zone' as const,
+          metadata: 'Azure portal / cloudseam.tech / synthetic practice data',
+          steps: lesson.steps.map((step) => step.title),
+        })),
+      },
+      {
+        title: '02 / Build the Destination',
         lessons: migration(['az-01', 'lab-14', 'lab-15', 'lab-16']),
       },
       {
-        title: '02 / Update, Back Up and Recover Servers',
+        title: '03 / Update, Back Up and Recover Servers',
         lessons: maintenanceCourse.lessons.map((lesson) => ({
           id: lesson.id,
           title: lesson.title,
@@ -358,11 +367,11 @@ export const learningPathways: LearningPathway[] = [
         })),
       },
       {
-        title: '03 / Endpoint Security on a Budget',
+        title: '04 / Endpoint Security on a Budget',
         lessons: securityCourse.lessons.slice(0, 12).map(securityLesson),
       },
       {
-        title: '04 / Optional Licensed Cloud VDI', optional: true,
+        title: '05 / Optional Licensed Cloud VDI', optional: true,
         lessons: securityCourse.lessons.slice(12).map(securityLesson),
       },
     ],
@@ -476,6 +485,7 @@ export const pathwayLessons = (pathway: LearningPathway) =>
 // Core lesson pagination follows the prerequisite route. Optional extensions
 // stay within their own sequence instead of interrupting the core route.
 export function lessonSequenceFor(id: string): ConsoleLesson[] {
+  if (id.startsWith('lz-')) return pathwayLessons(learningPathways.find(p => p.id === 'azure')!).filter(l => l.source === 'landing-zone');
   if (id.startsWith('sec-')) return securityCourse.lessons.map(securityLesson);
   if (id.startsWith('helpdesk-') || id.startsWith('nessus-') || id.startsWith('azure-maint-')) {
     const pathway = learningPathways.find((path) =>
@@ -501,7 +511,7 @@ export function lessonSequenceFor(id: string): ConsoleLesson[] {
     )
     .flatMap((pathway) => pathway.sections)
     .filter((section) =>
-      section.lessons.every((lesson) => lesson.source !== 'azure-lab'),
+      section.lessons.every((lesson) => !['azure-lab', 'landing-zone'].includes(lesson.source)),
     );
   const optional = sections.find(
     (section) =>

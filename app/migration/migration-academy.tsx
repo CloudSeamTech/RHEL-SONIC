@@ -397,9 +397,7 @@ function LessonView({
           </span>
           <h1>{display.title}</h1>
           <p>{display.description}</p>
-          <p>
-            <b>Named workspace:</b> {lesson.surface}
-          </p>
+
         </div>
         <div className="stage-progress">
           <strong>
@@ -415,6 +413,24 @@ function LessonView({
           </span>
         </div>
       </header>
+      <div className="lesson-content">
+        {guide && (
+          <GuidedLab
+            key={lesson.id}
+            lessonId={lesson.id}
+            guide={guide}
+            purpose={display.description}
+            screenshotLessonId={lesson.screenshotLessonId} stepOffset={lesson.stepOffset}
+          />
+        )}
+        {!lesson.separated && <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />}
+        <details className="guided-reference" open={!guide}>
+          <summary>Full lesson reference, commands, and background</summary>
+          {blocks.map((block, index) => (
+            <ContentBlock key={index} block={block} />
+          ))}
+        </details>
+      </div>
       <details className="guided-reference lesson-project-background">
         <summary>More background about the project (optional)</summary>
         <section className="migration-pane pane-mission">
@@ -450,26 +466,8 @@ function LessonView({
           </span>
         </section>
       </details>
-      <div className="lesson-content">
-        {guide && (
-          <GuidedLab
-            key={lesson.id}
-            lessonId={lesson.id}
-            guide={guide}
-            purpose={display.description}
-            screenshotLessonId={lesson.screenshotLessonId} stepOffset={lesson.stepOffset}
-          />
-        )}
-        {!lesson.separated && <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />}
-        <details className="guided-reference" open={!guide}>
-          <summary>Full lesson reference, commands, and background</summary>
-          {blocks.map((block, index) => (
-            <ContentBlock key={index} block={block} />
-          ))}
-        </details>
-      </div>
       <details className="engineer-detail">
-        <summary>LEVEL 3 · ENGINEER DETAIL / SOURCE TRACE</summary>
+        <summary>Original workbook · optional reference</summary>
         <p>
           Authoritative workbook section{' '}
           <b>
@@ -481,7 +479,7 @@ function LessonView({
         </p>
       </details>
       <section className="migration-pane pane-warning">
-        <span className="pane-label">BUDGET + CHANGE GATE</span>
+        <span className="pane-label">BEFORE YOU CHANGE ANYTHING</span>
         <p>
           For Azure work, review estimated cost and approved limits before
           Create. For state-changing work, record the rollback first. SONIC does
@@ -610,13 +608,13 @@ export function MigrationAcademy() {
             onClick={() => setMode('learn')}
             aria-current={mode === 'learn' ? 'page' : undefined}
           >
-            All Projects
+            All classes
           </button>
           <button
             onClick={() => setMode('job')}
             aria-current={mode === 'job' ? 'page' : undefined}
           >
-            Exact Jobs
+            Learning paths
           </button>
           <button
             onClick={() => setMode('terminal')}

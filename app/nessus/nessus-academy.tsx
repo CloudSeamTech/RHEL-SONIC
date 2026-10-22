@@ -191,16 +191,6 @@ function LessonReader({
   };
   return (
     <article className="nessus-lesson">
-      <div className="nessus-purpose">
-        <section>
-          <span className="eyebrow">WHAT WE’RE DOING</span>
-          <p>{lesson.what}</p>
-        </section>
-        <section>
-          <span className="eyebrow">WHY WE’RE DOING IT</span>
-          <p>{lesson.why}</p>
-        </section>
-      </div>
       <section className="guided-lab" aria-label="Guided walkthrough">
         <header className="guided-heading">
           <h2>Let’s do this together</h2>
@@ -231,23 +221,6 @@ function LessonReader({
           </select>
         </label>
         <div className="guided-workspace">
-          <nav className="guided-step-list" aria-label="Walkthrough steps">
-            {lesson.steps.map((item, i) => (
-              <button
-                type="button"
-                key={i}
-                aria-current={index === i ? 'step' : undefined}
-                onClick={() => choose(i)}
-              >
-                <span>
-                  {progress.checked.includes(`${lesson.id}:step:${i}`)
-                    ? '✓'
-                    : String(i + 1).padStart(2, '0')}
-                </span>
-                {item.title}
-              </button>
-            ))}
-          </nav>
           <section
             ref={panel}
             className="guided-step"
@@ -387,10 +360,11 @@ function LessonReader({
 
 export function NessusAcademy({ courseId }: { courseId: string }) {
   const course = guidedCourses.find((item) => item.id === courseId)!;
+  const isLandingZone = course.id === 'azure-landing-zone';
   const isMaintenance = course.id === 'azure-maintenance';
   const isHelpdesk = course.id === 'iis-helpdesk';
   const isSecurity = course.id === 'budget-cloud-security';
-  const relatedCourses = isMaintenance || isHelpdesk || isSecurity ? [course] : nessusCourses;
+  const relatedCourses = isLandingZone || isMaintenance || isHelpdesk || isSecurity ? [course] : nessusCourses;
   const [id, setId] = useState(course.lessons[0].id);
   const [notice, setNotice] = useState('');
   const progress = JSON.parse(
@@ -435,10 +409,10 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
       <main className="alma-reader nessus-reader">
         <nav
           className={
-            'nessus-course-switcher' + (isMaintenance || isHelpdesk || isSecurity ? ' single-course' : '')
+            'nessus-course-switcher' + (isLandingZone || isMaintenance || isHelpdesk || isSecurity ? ' single-course' : '')
           }
           aria-label={
-            isSecurity ? 'Cloud security course' : isMaintenance ? 'Azure maintenance course' : isHelpdesk ? 'IIS help desk course' : 'Nessus courses'
+            isLandingZone ? 'Azure landing zone course' : isSecurity ? 'Cloud security course' : isMaintenance ? 'Azure maintenance course' : isHelpdesk ? 'IIS help desk course' : 'Nessus courses'
           }
         >
           {relatedCourses.map((item, i) => (
@@ -454,7 +428,7 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
         </nav>
         <header className="alma-header">
           <span className="eyebrow">
-            {isSecurity ? 'CLOUD AND ENDPOINT SECURITY' : isMaintenance ? 'AZURE SERVER MAINTENANCE' : isHelpdesk ? 'IIS / CLOUDSEAM HELP DESK' : 'NESSUS 10.12.5'} /
+            {isLandingZone ? 'YOUR FIRST AZURE LANDING ZONE' : isSecurity ? 'CLOUD AND ENDPOINT SECURITY' : isMaintenance ? 'AZURE SERVER MAINTENANCE' : isHelpdesk ? 'IIS / CLOUDSEAM HELP DESK' : 'NESSUS 10.12.5'} /
             LESSON {index + 1} OF {course.lessons.length}
           </span>
           <p>{course.title}</p>

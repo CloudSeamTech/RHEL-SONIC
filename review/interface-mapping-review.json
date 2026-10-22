@@ -1,12 +1,6 @@
 {
   "fallback": [
     {
-      "stepId": "lab-01:guided:1",
-      "title": "Record the named outcome",
-      "actions": "# Understand the map",
-      "where": "Physical Windows host / lab worksheet; read-only planning."
-    },
-    {
       "stepId": "move-01:guided:3",
       "title": "Pick one cutover and rollback point PER service. Never shut down all origina",
       "actions": "Pick one cutover and rollback point PER service. Never shut down all original services before testing a pilot.",

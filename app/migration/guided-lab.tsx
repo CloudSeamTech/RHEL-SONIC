@@ -95,11 +95,7 @@ export function GuidedLab({
           {checked.length} of {guide.steps.length} steps checked
         </span>
       </header>
-      <p className="guided-start-hint">
-        Take your time with one step. Try the small actions, then compare your
-        screen with the check below. You can go back whenever you need to.
-      </p>
-      <LessonWelcome content={welcome} />
+      <LessonWelcome content={welcome} showIntro={false} />
       {purpose && !welcome && (
         <section className="guided-purpose">
           <b>WHAT WE ARE BUILDING · WHY IT MATTERS</b>
@@ -112,15 +108,8 @@ export function GuidedLab({
           <dt>WHERE TO WORK</dt>
           <dd>{guide.where}</dd>
         </div>
-        <div>
-          <dt>BEFORE YOU START</dt>
-          <dd>{welcome?.firstMove ?? guide.before}</dd>
-        </div>
+
       </dl>
-      <details className="guided-extra-help">
-        <summary>Need the exact lab details?</summary>
-        <p>{guide.before}</p>
-      </details>
       <label className="guided-step-picker">
         Choose a step
         <select
@@ -136,25 +125,6 @@ export function GuidedLab({
         </select>
       </label>
       <div className="guided-workspace">
-        <details className="guided-step-navigation">
-          <summary>
-            Jump to a different step · {guide.steps.length} steps
-          </summary>
-          <nav className="guided-step-list" aria-label="Walkthrough steps">
-            {guide.steps.map((item, n) => (
-              <button
-                key={`${n}-${item.title}`}
-                onClick={() => select(n)}
-                aria-current={n === index ? 'step' : undefined}
-              >
-                <span>
-                  {checked.includes(n) ? '✓' : String(n + 1).padStart(2, '0')}
-                </span>
-                {checkTeachingFor(lessonId, n + 1)?.title ?? item.title}
-              </button>
-            ))}
-          </nav>
-        </details>
         <article
           ref={panel}
           tabIndex={-1}
@@ -273,6 +243,10 @@ export function GuidedLab({
           </nav>
         </article>
       </div>
+      <details className="guided-extra-help">
+        <summary>More setup details</summary>
+        <p>{guide.before}</p>
+      </details>
       <section className="guided-final">
         <b>Final pass check</b>
         <p>{guide.pass}</p>

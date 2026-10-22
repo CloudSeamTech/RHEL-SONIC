@@ -7,31 +7,27 @@ import './lesson-welcome.css';
 export function LessonWelcome({
   lessonId,
   content,
+  showIntro = true,
 }: {
   lessonId?: string;
   content?: Welcome;
+  showIntro?: boolean;
 }) {
   const welcome = content ?? (lessonId ? welcomeFor(lessonId) : undefined);
   if (!welcome) return null;
   return (
     <section className="teacher-welcome" aria-label="Let’s get ready">
       <span className="eyebrow">LET’S GET READY</span>
-      <p className="teacher-intro">{welcome.welcome}</p>
-      <h3>Here’s what you’ll need</h3>
-      <ul>
-        {welcome.needs.map((item, i) => (
-          <li key={i}>{item}</li>
-        ))}
-      </ul>
-      <p className="teacher-first">
-        <strong>Start here: </strong>
-        {welcome.firstMove}
-      </p>
-      <details>
-        <summary>Why are we doing this?</summary>
-        <p>{welcome.why}</p>
+      {showIntro && <p className="teacher-intro">{welcome.welcome}</p>}
+      <details className="teacher-preparation">
+        <summary>Before you start · what you’ll need</summary>
+        <ul>
+          {welcome.needs.map((item, i) => <li key={i}>{item}</li>)}
+        </ul>
+        <p><strong>Your first move: </strong>{welcome.firstMove}</p>
+        <p><strong>Why this matters: </strong>{welcome.why}</p>
+        <p>{welcome.reassurance}</p>
       </details>
-      <p className="teacher-reassurance">{welcome.reassurance}</p>
     </section>
   );
 }

@@ -1,0 +1,92 @@
+/* One shared reading rhythm for every curriculum. Dashboard stays compact. */
+.console-reader .reader-workspace { padding: 28px clamp(16px, 3vw, 46px); }
+.console-reader .reader-workspace > main,
+.console-reader .reader-workspace .migration-lesson {
+  max-width: 920px !important;
+  margin-inline: auto !important;
+  width: 100%;
+}
+.console-reader .reader-workspace :is(p, li, dd, label) {
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+  font-size: 18px !important;
+  line-height: 1.8 !important;
+  color: #d2d2d2;
+  overflow-wrap: anywhere;
+}
+.console-reader .reader-workspace h1 { font-size: clamp(30px, 3vw, 40px) !important; line-height: 1.25 !important; }
+.console-reader .reader-workspace h2 { font-size: 27px !important; margin-block: 18px; }
+.console-reader .reader-workspace h3 { font-size: 23px !important; }
+.console-reader .reader-workspace h4 { font-size: 19px !important; margin-block: 16px 8px; }
+.console-reader .reader-workspace :is(summary, button, select, input) { font-size: 16px !important; }
+.console-reader .reader-workspace :is(button, select, summary) { min-height: 44px; }
+.console-reader .reader-workspace summary { cursor: pointer; padding-block: 10px; line-height: 1.5; }
+.console-reader .reader-workspace :is(pre, pre code) { font-size: 16px !important; line-height: 1.75 !important; white-space: pre; overflow-x: auto; }
+.console-reader .reader-workspace :is(.eyebrow, .guided-step-number, small) { font-size: 13px !important; line-height: 1.6 !important; }
+.console-reader .reader-workspace :is(.guided-lab, .teacher-welcome, .nessus-exercise, .nessus-quiz, .alma-verify) {
+  border: 0 !important;
+  border-top: 1px solid #242424 !important;
+  padding: 24px 0 !important;
+  margin: 24px 0 !important;
+  background: #000 !important;
+}
+.console-reader .reader-workspace .teacher-intro { margin: 0 0 12px; }
+.console-reader .reader-workspace .teacher-welcome > .eyebrow { display: none; }
+.console-reader .reader-workspace .teacher-welcome details { padding: 0; border: 0; background: #000 !important; }
+.console-reader .reader-workspace .guided-workspace { display: block; }
+.console-reader .reader-workspace .guided-step { padding: 24px 0; background: #000 !important; }
+.console-reader .reader-workspace .guided-heading { padding: 0 0 14px; flex-wrap: wrap; }
+.console-reader .reader-workspace .guided-heading h2 { margin: 0; }
+.console-reader .reader-workspace .guided-step-picker { display: flex !important; gap: 10px; flex-direction: column; padding: 16px 0; }
+.console-reader .reader-workspace .guided-step-picker select { display: block !important; width: 100%; padding: 12px; border: 1px solid #343434; background: #101010; color: #eaeaea; white-space: normal; }
+.console-reader .reader-workspace :is(.guided-action, .nessus-location, .guided-context, .guided-expected) { border: 0; padding: 12px 0; background: #000 !important; }
+.console-reader .reader-workspace .guided-action ol { list-style: decimal; padding-left: 28px; }
+.console-reader .reader-workspace .guided-action li { padding-left: 6px; margin-block: 16px; }
+.console-reader .reader-workspace .guided-expected { border-left: 2px solid #35d778; padding: 8px 18px; margin: 20px 0; }
+.console-reader .reader-workspace .nessus-location p { font-family: var(--font-space-grotesk), Arial, sans-serif; }
+.console-reader .reader-workspace .guided-screenshot { margin: 24px 0; }
+.console-reader .reader-workspace .guided-screenshot figcaption p { font-size: 15px !important; }
+.console-reader .reader-workspace .guided-screenshot figcaption small { display: block; }
+.console-reader .reader-workspace .guided-screenshot img { max-height: 560px; object-fit: contain; }
+.console-reader .reader-workspace .guided-pagination { gap: 12px; flex-wrap: wrap; padding-block: 18px; }
+.console-reader .reader-workspace .guided-pagination button { padding: 12px 18px; }
+.console-reader .reader-workspace .lesson-layout { display: flex !important; flex-direction: column; gap: 16px; }
+.console-reader .reader-workspace .lesson-index { position: static; width: 100%; max-height: none; border: 1px solid #242424; padding: 12px 18px; }
+.console-reader .reader-workspace .lesson-content { padding: 0 !important; min-width: 0; width: 100%; }
+.console-reader .reader-workspace .lesson-hero { display: block; border: 0; padding: 20px 0 !important; }
+.console-reader .reader-workspace .stage-progress { display: none; }
+.console-reader .reader-workspace .lesson-context { display: none; }
+.console-reader .reader-workspace .nessus-advice { display: block; }
+.console-reader .reader-workspace .nessus-advice details { margin-block: 8px; }
+.console-reader .reader-workspace .sonic-action-body { padding: 20px; }
+.console-reader .reader-workspace .guided-check { display: flex; align-items: start; gap: 12px; margin: 24px 0; }
+.console-reader .reader-workspace input[type='checkbox'],
+.console-reader .reader-workspace input[type='radio'] { min-width: 20px; min-height: 20px; margin-top: 6px; accent-color: #21c5db; }
+@media (max-width: 650px) {
+  .console-reader .reader-workspace { padding: 18px 16px; }
+  .console-reader .reader-workspace :is(p, li, dd, label) { font-size: 18px !important; }
+  .console-reader .reader-workspace h1 { font-size: 30px !important; }
+  .console-reader .reader-workspace .guided-screenshot img { max-height: 360px; }
+  .console-reader .reader-workspace .sonic-action-body { padding: 14px; }
+}
+.console-reader .reader-workspace .teacher-welcome { padding-block: 12px !important; margin-block: 12px !important; }
+.console-reader .reader-workspace .guided-start-hint { margin-block: 12px; }
+.console-reader .reader-workspace .guided-context { padding-block: 0; }
+.console-reader .reader-workspace .guided-context > div { padding-block: 4px; }
+.console-reader .reader-workspace .guided-extra-help { padding: 0 12px; margin-block: 8px; }
+.console-reader .reader-workspace .guided-check { background: #080808 !important; border: 1px solid #242424; padding: 14px; }
+.console-reader .reader-workspace .guided-pagination button:not(:disabled) { border-color: #3d3d3d !important; }
+.console-reader .console-sidebar :is(summary, .reader-lesson-link, .console-nav) { font-size: 14px; line-height: 1.6; }
+.console-reader .reader-workspace .nessus-quiz fieldset { padding-block: 20px; }
+.console-reader .reader-workspace .nessus-quiz legend { font-size: 19px; line-height: 1.6; }
+.console-reader .reader-workspace .guided-context { display: block; }
+.console-reader .reader-workspace .guided-step-picker { margin: 12px 0; padding: 8px 0; align-items: stretch; }
+.console-reader .reader-workspace .guided-step { max-width: none; }
+.console-reader .reader-workspace .lesson-hero > div > p { margin-block: 10px; }
+.console-reader .reader-workspace .teacher-welcome summary { padding-block: 6px; }
+.console-reader .reader-workspace .guided-heading h2 { font-size: 23px !important; }
+.console-reader .reader-workspace .lesson-hero { margin-block: 12px !important; padding-block: 12px !important; }
+.console-reader .reader-workspace .lesson-content { margin-block: 16px; }
+.console-reader .reader-workspace .guided-lab { margin-block: 12px !important; padding-block: 16px !important; }
+.console-reader .reader-workspace .you-are-here { position: static; min-height: 32px; margin: 0; padding: 4px 0; border: 0; }
+.console-reader .reader-workspace .guided-heading .eyebrow { display: none; }
+.console-reader .reader-workspace .guided-step-picker { font-size: 16px !important; }
