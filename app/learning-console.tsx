@@ -7,6 +7,11 @@ import {
   almaServerSnapshot,
   subscribeAlma,
 } from '@/lib/alma-progress';
+import {
+  nessusSnapshot,
+  nessusServerSnapshot,
+  subscribeNessus,
+} from '@/lib/nessus-progress';
 import { migrationLessons } from './migration-course';
 import { readMigrationProgress } from '@/lib/migration-progress';
 import { snapshot, serverSnapshot, subscribe } from '@/lib/progress-store';
@@ -39,6 +44,9 @@ export function LearningConsole({
   const almaCompleted = JSON.parse(
     useSyncExternalStore(subscribeAlma, almaSnapshot, almaServerSnapshot),
   ) as string[];
+  const nessusProgress = JSON.parse(
+    useSyncExternalStore(subscribeNessus, nessusSnapshot, nessusServerSnapshot),
+  ) as { verified: string[] };
   const linuxProgress = JSON.parse(
     useSyncExternalStore(subscribe, snapshot, serverSnapshot),
   ) as { completed: string[] };
@@ -61,11 +69,13 @@ export function LearningConsole({
   const selected =
     available.find((lesson) => lesson.id === selectedId) ?? available[0];
   const completed =
-    selected.source === 'alma'
-      ? almaCompleted
-      : selected.source === 'linux'
-        ? linuxProgress.completed
-        : migrationCompleted;
+    selected.source === 'nessus'
+      ? nessusProgress.verified
+      : selected.source === 'alma'
+        ? almaCompleted
+        : selected.source === 'linux'
+          ? linuxProgress.completed
+          : migrationCompleted;
   const next = available.find((lesson) => !completed.includes(lesson.id));
   const section = pathway.sections.find((item) =>
     item.lessons.some((lesson) => lesson.id === selected.id),
@@ -92,17 +102,21 @@ export function LearningConsole({
   }
   const linux = linuxLessons.find((lesson) => lesson.id === selected.id);
   const command =
-    selected.source === 'alma'
-      ? 'cat /etc/os-release'
-      : selected.id === 'lab-04'
-        ? 'Get-ADDomain -Identity agency.test'
-        : selected.id === 'lab-07'
-          ? 'repadmin /replsummary'
-          : selected.id.startsWith('sql-')
-            ? "RESTORE VERIFYONLY FROM DISK = N'C:\\LabBackups\\Practice.bak';"
-            : selected.source === 'linux'
-              ? (linux?.command.split('\n')[0] ?? 'systemctl status sshd')
-              : 'Get-ComputerInfo | Select-Object CsName, WindowsProductName';
+    selected.source === 'nessus'
+      ? pathId === 'nessus-windows'
+        ? "Get-Service -DisplayName 'Tenable Nessus'"
+        : 'systemctl status nessusd --no-pager'
+      : selected.source === 'alma'
+        ? 'cat /etc/os-release'
+        : selected.id === 'lab-04'
+          ? 'Get-ADDomain -Identity agency.test'
+          : selected.id === 'lab-07'
+            ? 'repadmin /replsummary'
+            : selected.id.startsWith('sql-')
+              ? "RESTORE VERIFYONLY FROM DISK = N'C:\\LabBackups\\Practice.bak';"
+              : selected.source === 'linux'
+                ? (linux?.command.split('\n')[0] ?? 'systemctl status sshd')
+                : 'Get-ComputerInfo | Select-Object CsName, WindowsProductName';
   return (
     <div className="learning-console">
       <a className="console-skip" href="#console-main">
@@ -113,7 +127,7 @@ export function LearningConsole({
         aria-label="Learning navigation"
       >
         <div className="console-brand">
-          <a href="/">SONIC Academy</a>
+          <a href="/">SONIC-Academy</a>
           <small>ENTERPRISE IT LEARNING CONSOLE</small>
         </div>
         <div className="console-session">
@@ -428,7 +442,8 @@ export function LearningConsole({
                 </p>
                 <p>
                   <time>[EXAMPLE]</time> <b className="console-cyan">[NEXT]</b>{' '}
-                  {selected.steps[2]}
+                  {selected.steps[2] ??
+                    selected.steps[selected.steps.length - 1]}
                 </p>
                 <p>
                   <time>[EXAMPLE]</time> <b className="console-amber">[HINT]</b>{' '}
@@ -449,7 +464,7 @@ export function LearningConsole({
           </div>
         </section>
         <footer className="console-footer">
-          <span>SONIC Academy // LEARN · PRACTICE · VERIFY</span>
+          <span>SONIC-Academy // LEARN · PRACTICE · VERIFY</span>
           <span>WINDOWS / AD → SQL → AZURE → MIGRATIONS</span>
         </footer>
       </main>

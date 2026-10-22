@@ -1,0 +1,46 @@
+import linux from '../content/nessus/linux.json' with { type: 'json' };
+import windows from '../content/nessus/windows.json' with { type: 'json' };
+import scanning from '../content/nessus/scanning.json' with { type: 'json' };
+
+export type NessusStep = {
+  title: string;
+  where: string;
+  actions: string[];
+  command?: string;
+  breakdown: { term: string; meaning: string }[];
+  expected: string;
+  screenshot: { status: 'capture-needed'; title: string; instructions: string };
+  sources: string[];
+};
+export type NessusLesson = {
+  id: string;
+  title: string;
+  description: string;
+  what: string;
+  why: string;
+  bestPractices: string[];
+  commonMistakes: string[];
+  troubleshooting: { problem: string; fix: string }[];
+  pass: string;
+  exercise: string;
+  quiz: {
+    question: string;
+    options: string[];
+    answer: number;
+    explanation: string;
+  }[];
+  steps: NessusStep[];
+};
+export type NessusCourse = {
+  id: string;
+  title: string;
+  description: string;
+  baseline: string;
+  prerequisite: string;
+  sources: { title: string; url: string }[];
+  lessons: NessusLesson[];
+};
+export const nessusCourses = [linux, windows, scanning] as NessusCourse[];
+export const nessusCourseHref = (id: string) =>
+  `/nessus/${id.replace('nessus-', '')}`;
+export const nessusLessons = nessusCourses.flatMap((course) => course.lessons);

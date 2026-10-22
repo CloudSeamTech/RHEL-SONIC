@@ -49,3 +49,11 @@ id_ed25519*
 
 # Incremental TypeScript compiler cache
 *.tsbuildinfo
+
+# Private training materials stay outside the curriculum repository
+/training-private/
+Nessus-*.rpm
+Nessus-*.msi
+nessus-updates*.tar.gz
+nessus*.license
+nessus*.lic

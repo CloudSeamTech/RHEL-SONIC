@@ -25,7 +25,7 @@ export function ConsoleReaderShell({
         aria-label="Learning navigation"
       >
         <div className="console-brand">
-          <a href="/">SONIC Academy</a>
+          <a href="/">SONIC-Academy</a>
           <small>ENTERPRISE IT LEARNING CONSOLE</small>
         </div>
         <div className="console-session">
