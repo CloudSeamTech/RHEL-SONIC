@@ -54,8 +54,8 @@ The complete course has a working local path and a separate Azure extension. You
 
 | **Route**               | **Machines**                            | **You finish with**                                                 |
 |-------------------------|-----------------------------------------|---------------------------------------------------------------------|
-| Core (recommended)      | AG-DC01, DEST-DC01, APP01 (3 local VMs) | Two distinct domains, test GPO transfer, member-server domain move. |
-| Agency replica (add-on) | Add AG-DC02 (4 local VMs)               | Real same-domain AD replication practice.                           |
+| Core (recommended)      | DC01, DEST-DC01, APP01 (3 local VMs) | Two distinct domains, test GPO transfer, member-server domain move. |
+| Agency replica (add-on) | Add DC02 (4 local VMs)               | Real same-domain AD replication practice.                           |
 | Patching (add-on)       | Add WSUS01 (5 local VMs)                | Understand patch-server dependency and WSUS sizing.                 |
 | Azure extension         | Azure AZ-DC01 (+ approved private VPN)  | Separate AD domain in Azure and a planned cloud cutover.            |
 
@@ -146,10 +146,10 @@ First understand what each computer represents. You are building a tiny version 
 
 | **OLD AGENCY / SOURCE**                 | **NEW ENTERPRISE / DESTINATION**                          |
 |-----------------------------------------|-----------------------------------------------------------|
-| AG-DC01 \| cloudseam.tech \| 192.168.77.10 | DEST-DC01 \| migrate.cloudseam.tech \| 192.168.77.40            |
-| AG-DC02 (optional) \| 192.168.77.11     | AZ-DC01 (later) \| azure.cloudseam.tech \| Azure private IP |
-| APP01 \| 192.168.77.30 \| IIS website   | APP01 after domain change: migrate.cloudseam.tech               |
-| WSUS01 (optional) \| 192.168.77.50      | Your cloud deployment is a separate, later exercise       |
+| DC01 \| cloudseam.tech \| 10.50.0.10 | DEST-DC01 \| migrate.cloudseam.tech \| 10.50.0.40            |
+| DC02 (optional) \| 10.50.0.11     | AZ-DC01 (later) \| azure.cloudseam.tech \| Azure private IP |
+| APP01 \| 10.50.0.30 \| IIS website   | APP01 after domain change: migrate.cloudseam.tech               |
+| WSUS01 (optional) \| 10.50.0.50      | Your cloud deployment is a separate, later exercise       |
 
 <table>
 <colgroup>
@@ -175,7 +175,7 @@ First understand what each computer represents. You are building a tiny version 
 
 **Trust =** An approved way for two forests to recognize identities; it does not copy user accounts.
 
-**NAT / VMnet =** A private practice network in VMware; NAT lets VMs share outbound internet access without publishing their private addresses.
+**Host-only / VMnet2 =** An isolated VMware network for the practice servers. It has no internet gateway. Temporary NAT is used only before isolation for guest updates and activation.
 
 **/24 =** Short way to write subnet mask 255.255.255.0.
 
@@ -326,154 +326,114 @@ You need the right installer and enough resources before doing any domain work.
 
 **EVIDENCE** Capture the host has enough free resources for the next required pair of VMs. Record the target computer and date.
 
-LAB 03 / NETWORKING
+LAB 03 / PRIVATE LAB NETWORK
 
+# Build the isolated VMnet2 network
 
-# Build one safe VMware network
+We will give the practice servers their own network. VMnet2 is host-only: the two servers can talk to each other, but they have no route to your physical LAN or the internet. Your Windows host may also reach them through its VMware host adapter; this is not a production security boundary against the host itself.
 
-Every local VM needs to communicate, but none of the AD services should be exposed to the internet.
+| Server | Address | Mask | Preferred DNS | Default gateway |
+|---|---|---|---|---|
+| DC01 | 10.50.0.10 | 255.255.255.0 (/24) | 10.50.0.10 after promotion | Leave blank |
+| DC02 | 10.50.0.11 | 255.255.255.0 (/24) | 10.50.0.10 initially | Leave blank |
+| APP01 | 10.50.0.30 | 255.255.255.0 (/24) | 10.50.0.10 | Leave blank |
+| DEST-DC01 | 10.50.0.40 | 255.255.255.0 (/24) | 10.50.0.40 after promotion | Leave blank |
+| WSUS01 (optional) | 10.50.0.50 | 255.255.255.0 (/24) | 10.50.0.10 | Leave blank |
+| SQL01 | 10.50.0.60 | 255.255.255.0 (/24) | 10.50.0.10 | Leave blank |
+| MECM01 (optional) | 10.50.0.70 | 255.255.255.0 (/24) | 10.50.0.10 | Leave blank |
 
-**\[ \]** In VMware Workstation Pro, open Edit \> Virtual Network Editor. Choose Change Settings if shown.
+The host adapter normally uses an unused address such as 10.50.0.1. Check it; never give it .10 or .11. APP01 consistently uses .30 in this course.
 
-**\[ \]** Pick an unused custom VMnet (for example VMnet2) and choose NAT. If you already use VMnet2 for something important, choose another unused VMnet.
-
-**\[ \]** Set the subnet IP to 192.168.77.0 and mask to 255.255.255.0. Confirm the NAT gateway address shown by VMware; often it ends in .2, but use your actual value.
-
-**\[ \]** Open DHCP Settings. Ensure its address pool does NOT include the static lab addresses .10, .11, .30, .40, and .50. Adjust the DHCP range if needed.
-
-**\[ \]** Create a VM network adapter in each VM connected to that SAME custom NAT VMnet. Do not bridge to a real office or managed network.
-
-**\[ \]** For each Windows VM: press Win+R, type ncpa.cpl, right-click Ethernet \> Properties \> Internet Protocol Version 4 \> Properties. Use the static addresses from the next table.
-
-| **Server**     | **IP / mask**     | **Preferred DNS**       | **Gateway**             |
-|----------------|-------------------|-------------------------|-------------------------|
-| AG-DC01        | 192.168.77.10 /24 | 192.168.77.10           | Your VMware NAT gateway |
-| AG-DC02        | 192.168.77.11 /24 | 192.168.77.10 initially | Your VMware NAT gateway |
-| APP01          | 192.168.77.30 /24 | 192.168.77.10           | Your VMware NAT gateway |
-| DEST-DC01      | 192.168.77.40 /24 | 192.168.77.40           | Your VMware NAT gateway |
-| WSUS01 (later) | 192.168.77.50 /24 | 192.168.77.10           | Your VMware NAT gateway |
-
-> ipconfig /all
-> ping 192.168.77.10
-
-<table>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p><strong>WHY THIS MATTERS</strong></p>
-<p>The computers can talk to each other on this private lab network. DNS tells the agency members to ask AG-DC01 about cloudseam.tech. Later, the destination domain has its own DNS authority.</p></th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-
-<table>
-<colgroup>
-<col style="width: 100%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th><p><strong>IF IT DOES NOT WORK</strong></p>
-<p>If your real VMnet uses a different subnet, record that subnet and change ALL example IPs consistently. Do not reuse an existing home, VPN, Azure, or corporate subnet.</p></th>
-</tr>
-</thead>
-<tbody>
-</tbody>
-</table>
-
-**Actual VMnet number / NAT gateway** \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+Download the Server 2019 ISO on the host first. The guest build lessons explain temporary NAT for activation/updates before isolation. Do not add a second internet adapter to a domain controller. A later WSUS/MECM online synchronization or Azure VPN exercise needs its own approved internet/routing plan; this isolated network does not supply one. Use a current public address only for a later, explicitly required Azure allowlist; it never belongs on these DC adapters.
 
 ## Guided walkthrough
 
-**WHERE** Physical Windows host / Workstation Pro Virtual Network Editor; authorized host administrator.
+**WHERE** Windows 10 host / VMware Workstation Pro / Virtual Network Editor.
 
-**BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
+**BEFORE** Finish the installer/resource checks. Check that 10.50.0.0/24 does not overlap a home, VPN or other lab route. If VMnet2 already supports unrelated machines, stop and resolve that conflict before editing it.
 
-**PASS** Compare your recorded result with the named lesson evidence before marking verified.
+**PASS** VMnet2 is Host-only, subnet 10.50.0.0/24, VMware DHCP off. Once both guest build lessons are complete, DC01 is 10.50.0.10 and DC02 is 10.50.0.11 and they reply to each other.
 
-**ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
+**ROLLBACK** Save the previous network settings. If this is the wrong VMnet, cancel without applying. Remove only this new lab network after its guests are powered off; do not change networks used by other machines.
 
-### Step 01: Open the network editor
+### Step 01: Open Virtual Network Editor
 
-**DO** On the physical host open Workstation Pro > Edit > Virtual Network Editor. Click Change Settings if shown and approve the local Windows administrator prompt.
+**DO** On Windows 10 open VMware Workstation Pro. Choose Edit > Virtual Network Editor. Select Change Settings if shown and approve your administrator prompt.
 
-**EXPECT** You can edit virtual-network settings.
+**EXPECT** The editor lets you change virtual networks.
 
-**IF STUCK** If Change Settings is unavailable, close the editor and start Workstation with your authorized administrator account.
+**IF STUCK** Close the editor and reopen it with your authorized administrator account if its controls are locked.
 
-**EVIDENCE** Capture you can edit virtual-network settings. Record the target computer and date.
+**EVIDENCE** Save a picture of the editable network list.
 
-### Step 02: Create a dedicated NAT VMnet
+### Step 02: Create VMnet2 as Host-only
 
-**DO** Click Add Network. Choose an unused VMnet, for example VMnet2. Select NAT. Do not edit the VMnet used by unrelated VMs.
+**DO** Select Add Network, choose VMnet2 and confirm. Select VMnet2 in the list, then select Host-only. Keep Connect a host virtual adapter to this network checked. Do not select NAT or Bridged.
 
-**EXPECT** A dedicated NAT network appears in the list.
+**EXPECT** VMnet2 is listed as Host-only. It has no NAT gateway or connection to your physical LAN.
 
-**IF STUCK** NAT provides outbound access and a host virtual adapter; it is not a VPN to Azure and not bridged to your physical LAN.
+**IF STUCK** If VMnet2 already exists, check that it belongs only to this lab before changing it. Do not edit another project's network.
 
-**EVIDENCE** Capture a dedicated NAT network appears in the list. Record the target computer and date.
+**EVIDENCE** Capture VMnet2 and the Host-only selection.
 
-### Step 03: Set a non-overlapping subnet
+### Step 03: Set the private address range
 
-**DO** For the example plan set Subnet IP to 192.168.77.0 and Subnet mask to 255.255.255.0 only after checking it does not overlap your host, home router, VPN, or Azure address range.
+**DO** With VMnet2 selected, enter Subnet IP 10.50.0.0 and Subnet mask 255.255.255.0. This /24 is the shared address range for DC01 and DC02.
 
-**EXPECT** Your chosen lab subnet is private and does not overlap another route you use.
+**EXPECT** The editor displays 10.50.0.0 and 255.255.255.0 for VMnet2.
 
-**IF STUCK** If there is an overlap, choose another private /24 and update every subsequent example address consistently.
+**IF STUCK** Stop if this range conflicts with an existing host or VPN route. Resolve the overlap before building the guests; do not quietly mix address plans.
 
-**EVIDENCE** Capture your chosen lab subnet is private and does not overlap another route you use. Record the target computer and date.
+**EVIDENCE** Capture the subnet and mask fields.
 
-### Step 04: Record the actual NAT gateway
+### Step 04: Turn off VMware DHCP
 
-**DO** Click NAT Settings. Read the Gateway IP and write it down exactly, then close the dialog. Do not assume it ends in .1 or .2.
+**DO** Clear Use local DHCP service to distribute IP addresses to VMs. We will type fixed addresses into the servers ourselves. Select Apply, then OK.
 
-**EXPECT** Your worksheet has VMnet name, subnet, mask, and gateway.
+**EXPECT** VMnet2 is saved as Host-only with DHCP off. There is no default gateway to record for this isolated network.
 
-**IF STUCK** A DC IP is not automatically the NAT gateway. Using the wrong value can allow local AD tests while breaking outbound connectivity.
+**IF STUCK** Do not open NAT Settings. DHCP supplies automatic addresses; turning it off means a new unconfigured guest may initially show 169.254.x.x. Its later static-address step fixes that.
 
-**EVIDENCE** Capture your worksheet has VMnet name, subnet, mask, and gateway. Record the target computer and date.
+**EVIDENCE** Reopen the editor and capture the saved DHCP-off setting.
 
-### Step 05: Reserve the static lab addresses
+### Step 05: Write the two-server plan
 
-**DO** Open DHCP Settings and reserve a static range outside its lease pool, or disable VMware DHCP for this dedicated static-only lab. Plan .10 AG-DC01, .11 AG-DC02, .20 APP01, .60 SQL01, and .70 MECM01 within the chosen /24. Apply and close.
+**DO** In your notes write DC01 = 10.50.0.10/24 and DC02 = 10.50.0.11/24. Use mask 255.255.255.0 and leave Default gateway blank on both. DC02 will use DC01 at 10.50.0.10 for DNS. Confirm the VMware host adapter does not already use .10 or .11.
 
-**EXPECT** No static server address overlaps a DHCP lease or another server.
+**EXPECT** Each server has its own address on 10.50.0.0/24. The public internet address is not in either server's adapter settings.
 
-**IF STUCK** Do not disable DHCP on a network other VMs depend on. If the gateway or host adapter uses a planned address, pick a different unused one and update the plan.
+**IF STUCK** These are private guest addresses. Do not substitute your router's public address, home gateway or a public DNS server for the planned AD settings.
 
-**EVIDENCE** Capture no static server address overlaps a DHCP lease or another server. Record the target computer and date.
+**EVIDENCE** Save your address table before creating the VMs.
 
-### Step 06: Attach each guest to this VMnet
+### Step 06: Connect the guests to VMnet2
 
-**DO** With a lab VM powered off, right-click it > Settings > Network Adapter. Choose Custom and your recorded VMnet. Enable Connect at power on.
+**DO** When each guest VM exists and is powered off, select it > VM > Settings > Network Adapter. Choose Custom: Specific virtual network > VMnet2 and enable Connect at power on. Keep one network adapter. Return here to check this after any temporary NAT update session.
 
-**EXPECT** All on-prem lab servers use the same dedicated VMnet.
+**EXPECT** Both guest adapters use the same VMnet2. After their static-address lessons, their live consoles show DC01 10.50.0.10/24 and DC02 10.50.0.11/24. The DC02 Windows lesson proves replies in both directions before promotion.
 
-**IF STUCK** A host-only or different VMnet can make server discovery fail even when Windows settings look correct.
+**IF STUCK** If a new guest has 169.254.x.x, finish its static IPv4 settings. Do not turn VMware DHCP back on or choose Bridged to make a ping pass.
 
-**EVIDENCE** Capture all on-prem lab servers use the same dedicated VMnet. Record the target computer and date.
+**EVIDENCE** Save the two network-adapter settings and, after the guest lessons, both consoles with their successful ping replies.
 
 LAB 04 / FIRST DOMAIN CONTROLLER
 
 
-# Make AG-DC01: the agency begins
+# Make DC01: the agency begins
 
 Create the first Windows server, then make it the owner of the cloudseam.tech forest.
 
 **\[ \]** VMware: File \> New Virtual Machine \> Typical \> Installer disc image file (ISO). Pick the Windows Server ISO.
 
-**\[ \]** Choose Windows Server 2019 Standard (Desktop Experience), if offered. Select 2 vCPUs, 4 GB RAM, ~60 GB thin disk, and your custom NAT VMnet.
+**\[ \]** Choose Windows Server 2019 Standard (Desktop Experience), if offered. Select 2 vCPUs, 4 GB RAM, ~60 GB thin disk, and your VMnet2 host-only network.
 
 **\[ \]** Install Windows. Set a strong local Administrator password and keep it securely outside the workbook.
 
-**\[ \]** In the VM: right-click Start \> System \> Rename this PC (advanced), or run sysdm.cpl \> Computer Name \> Change. Name it AG-DC01. Restart.
+**\[ \]** In the VM: right-click Start \> System \> Rename this PC (advanced), or run sysdm.cpl \> Computer Name \> Change. Name it DC01. Restart.
 
-**\[ \]** Set the static IP to 192.168.77.10, subnet mask 255.255.255.0, VMware gateway, and preferred DNS 192.168.77.10.
+**\[ \]** Set the static IP to 10.50.0.10, subnet mask 255.255.255.0, no default gateway, and preferred DNS 10.50.0.10.
 
-**\[ \]** Open Server Manager \> Manage \> Add Roles and Features \> Role-based or feature-based installation \> select AG-DC01 \> Active Directory Domain Services. Install.
+**\[ \]** Open Server Manager \> Manage \> Add Roles and Features \> Role-based or feature-based installation \> select DC01 \> Active Directory Domain Services. Install.
 
 **\[ \]** In Server Manager, select the flag notification \> Promote this server to a domain controller \> Add a new forest.
 
@@ -485,7 +445,7 @@ Create the first Windows server, then make it the owner of the cloudseam.tech fo
 > ipconfig /all
 > Get-ADDomain \| Select-Object DNSRoot,NetBIOSName
 
-**PASS CHECK** hostname = AG-DC01; the Active Directory domain DNS root shows cloudseam.tech.
+**PASS CHECK** hostname = DC01; the Active Directory domain DNS root shows cloudseam.tech.
 
 <table>
 <colgroup>
@@ -519,11 +479,11 @@ Create the first Windows server, then make it the owner of the cloudseam.tech fo
 
 ## Guided walkthrough
 
-**WHERE** Physical host Workstation Pro, then AG-DC01 guest / Server 2019 Desktop Experience / local Administrator, then CLOUDSEAM domain Administrator.
+**WHERE** Physical host Workstation Pro, then DC01 guest / Server 2019 Desktop Experience / local Administrator, then CLOUDSEAM domain Administrator.
 
-**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual VMnet2 host-only subnet and blank default gateway and unused static addresses. Replica/member builds also require working DC01 DNS. Example addresses apply only to the non-overlapping 10.50.0.0/24 lab plan.
 
-**PASS** hostname = AG-DC01; the Active Directory domain DNS root shows cloudseam.tech.
+**PASS** hostname = DC01; the Active Directory domain DNS root shows cloudseam.tech.
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
@@ -575,13 +535,13 @@ Create the first Windows server, then make it the owner of the cloudseam.tech fo
 
 ### Step 05: Name the VM
 
-**DO** Enter AG-DC01 as the virtual machine name. Browse to a folder with enough free space, such as your dedicated SONIC lab folder, then Next.
+**DO** Enter DC01 as the virtual machine name. Browse to a folder with enough free space, such as your dedicated SONIC lab folder, then Next.
 
-**EXPECT** The summary uses AG-DC01 and a location you can find again.
+**EXPECT** The summary uses DC01 and a location you can find again.
 
 **IF STUCK** The VMware name and the Windows computer name are different settings; we will rename Windows after installation.
 
-**EVIDENCE** Capture the summary uses AG-DC01 and a location you can find again. Record the target computer and date.
+**EVIDENCE** Capture the summary uses DC01 and a location you can find again. Record the target computer and date.
 
 **SCREENSHOTS** workstation-6
 
@@ -621,7 +581,7 @@ Create the first Windows server, then make it the owner of the cloudseam.tech fo
 
 ### Step 09: Attach the private VMnet
 
-**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and VMnet2 (Host-only) from LAB 03. Enable Connected and Connect at power on.
 
 **EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
 
@@ -703,23 +663,23 @@ Create the first Windows server, then make it the owner of the cloudseam.tech fo
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
-**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+**IF STUCK** VMnet2 has no internet route. Before AD promotion/domain join, power off this fresh guest, temporarily change its single adapter to NAT, obtain automatic IPv4/DNS, apply updates/activate, shut down, return the adapter to Custom VMnet2, and restore its planned static IPv4/DNS with a blank gateway. Keep one adapter only. Never bridge the guest or add an internet adapter to a domain controller.
 
 **EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
 
 ### Step 18: Rename Windows
 
-**DO** Inside the guest press Win+R, enter sysdm.cpl, and press Enter. On Computer Name choose Change. Enter AG-DC01, confirm OK, and restart when prompted.
+**DO** Inside the guest press Win+R, enter sysdm.cpl, and press Enter. On Computer Name choose Change. Enter DC01, confirm OK, and restart when prompted.
 
-**EXPECT** After signing in again, hostname returns AG-DC01.
+**EXPECT** After signing in again, hostname returns DC01.
 
 **IF STUCK** Renaming the entry in the Workstation library does not rename Windows.
 
-**EVIDENCE** Capture after signing in again, hostname returns AG-DC01. Record the target computer and date.
+**EVIDENCE** Capture after signing in again, hostname returns DC01. Record the target computer and date.
 
 **COMMAND**
 > hostname
@@ -736,13 +696,13 @@ Create the first Windows server, then make it the owner of the cloudseam.tech fo
 
 ### Step 20: Enter the lab address
 
-**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.10; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+**DO** For the example LAB 03 network only, choose Use the following IP address: 10.50.0.10; subnet mask 255.255.255.0; leave Default gateway blank (VMnet2 is host-only). Set preferred DNS to 10.50.0.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
 
-**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+**EXPECT** ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2.
 
-**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+**IF STUCK** Do not enter a gateway on isolated VMnet2 or use a public DNS server as an AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
 
-**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+**EVIDENCE** Capture ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2. Record the target computer and date.
 
 **COMMAND**
 > ipconfig /all
@@ -751,11 +711,11 @@ Create the first Windows server, then make it the owner of the cloudseam.tech fo
 
 **DO** Open Start, search Windows PowerShell, right-click it > Run as administrator. Run the read-only inventory below in this VM.
 
-**EXPECT** WindowsProductName identifies Windows Server 2019; hostname identifies AG-DC01.
+**EXPECT** WindowsProductName identifies Windows Server 2019; hostname identifies DC01.
 
 **IF STUCK** If the version is 2022 or 2025, you have not built the requested source baseline. Do not present that as a 2019-to-2022 upgrade.
 
-**EVIDENCE** Capture windowsProductName identifies Windows Server 2019; hostname identifies AG-DC01. Record the target computer and date.
+**EVIDENCE** Capture windowsProductName identifies Windows Server 2019; hostname identifies DC01. Record the target computer and date.
 
 **COMMAND**
 > hostname
@@ -896,7 +856,7 @@ LAB 05 / IDENTITY + RULES
 
 Give the agency realistic things to migrate. Use only fake people and fake data.
 
-**\[ \]** On AG-DC01 open Server Manager \> Tools \> Active Directory Users and Computers.
+**\[ \]** On DC01 open Server Manager \> Tools \> Active Directory Users and Computers.
 
 **\[ \]** Right-click cloudseam.tech \> New \> Organizational Unit. Create an OU named Operations. Create an OU named Security too.
 
@@ -951,7 +911,7 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 ## Guided walkthrough
 
-**WHERE** AG-DC01 guest / Server Manager, ADUC, and GPMC / authorized cloudseam.tech administrator.
+**WHERE** DC01 guest / Server Manager, ADUC, and GPMC / authorized cloudseam.tech administrator.
 
 **BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
 
@@ -961,13 +921,13 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 ### Step 01: Open Active Directory Users and Computers
 
-**DO** Inside AG-DC01 open Server Manager > Tools > Active Directory Users and Computers. Expand cloudseam.tech in the left pane.
+**DO** Inside DC01 open Server Manager > Tools > Active Directory Users and Computers. Expand cloudseam.tech in the left pane.
 
-**EXPECT** You are managing the cloudseam.tech directory on AG-DC01.
+**EXPECT** You are managing the cloudseam.tech directory on DC01.
 
 **IF STUCK** If Tools lacks this console, verify AD DS management tools were installed; do not create users on the physical host.
 
-**EVIDENCE** Capture you are managing the cloudseam.tech directory on AG-DC01. Record the target computer and date.
+**EVIDENCE** Capture you are managing the cloudseam.tech directory on DC01. Record the target computer and date.
 
 ### Step 02: Create the Operations OU
 
@@ -1031,11 +991,11 @@ Give the agency realistic things to migrate. Use only fake people and fake data.
 
 ### Step 08: Verify the objects
 
-**DO** On AG-DC01 run these read-only checks and capture ADUC plus the GPO link.
+**DO** On DC01 run these read-only checks and capture ADUC plus the GPO link.
 
 **EXPECT** The user, group membership, and GPO are returned.
 
-**IF STUCK** If Get-GPO is missing, open elevated Windows PowerShell on AG-DC01 with Group Policy Management installed.
+**IF STUCK** If Get-GPO is missing, open elevated Windows PowerShell on DC01 with Group Policy Management installed.
 
 **EVIDENCE** Capture the user, group membership, and GPO are returned. Record the target computer and date.
 
@@ -1053,13 +1013,13 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 **\[ \]** VMware: create another Windows Server Desktop Experience VM named APP01, 2 vCPUs, 4 GB RAM, ~60 GB thin disk, on your lab NAT VMnet.
 
-**\[ \]** Set its IP to 192.168.77.30/24, gateway to your NAT address, and preferred DNS to 192.168.77.10 (AG-DC01).
+**\[ \]** Set its IP to 10.50.0.30/24, gateway to your NAT address, and preferred DNS to 10.50.0.10 (DC01).
 
 **\[ \]** Open Windows PowerShell as Administrator. Run the DNS and network checks below.
 
 **\[ \]** Press Win+R \> sysdm.cpl \> Computer Name \> Change \> Domain, enter cloudseam.tech. Provide authorized cloudseam.tech admin credentials. Restart.
 
-**\[ \]** On AG-DC01 \> Active Directory Users and Computers, find APP01 in Computers and move the computer object into the Operations OU.
+**\[ \]** On DC01 \> Active Directory Users and Computers, find APP01 in Computers and move the computer object into the Operations OU.
 
 **\[ \]** On APP01 open elevated Windows PowerShell and install IIS using the command below.
 
@@ -1067,8 +1027,8 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 **\[ \]** Open http://localhost on APP01. You should see your custom webpage.
 
-> nslookup cloudseam.tech 192.168.77.10
-> Test-NetConnection 192.168.77.10 -Port 53
+> nslookup cloudseam.tech 10.50.0.10
+> Test-NetConnection 10.50.0.10 -Port 53
 > Install-WindowsFeature Web-Server -IncludeManagementTools
 > Set-Content C:\inetpub\wwwroot\index.html "\<h1\>Agency app is alive\</h1\>"
 > gpupdate /force
@@ -1097,7 +1057,7 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 <thead>
 <tr class="header">
 <th><p><strong>IF IT DOES NOT WORK</strong></p>
-<p>If domain join fails, verify APP01 DNS points to AG-DC01, not to your home router or 8.8.8.8. Use nslookup -type=SRV _ldap._tcp.dc._msdcs.cloudseam.tech 192.168.77.10.</p></th>
+<p>If domain join fails, verify APP01 DNS points to DC01, not to your home router or 8.8.8.8. Use nslookup -type=SRV _ldap._tcp.dc._msdcs.cloudseam.tech 10.50.0.10.</p></th>
 </tr>
 </thead>
 <tbody>
@@ -1110,7 +1070,7 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 **WHERE** Physical host Workstation Pro, then APP01 Server 2019 guest / local Administrator, then authorized domain account.
 
-**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual VMnet2 host-only subnet and blank default gateway and unused static addresses. Replica/member builds also require working DC01 DNS. Example addresses apply only to the non-overlapping 10.50.0.0/24 lab plan.
 
 **PASS** APP01 belongs to cloudseam.tech; localhost website works; gpresult lists LAB-Operations-Banner as applied.
 
@@ -1210,7 +1170,7 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 ### Step 09: Attach the private VMnet
 
-**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and VMnet2 (Host-only) from LAB 03. Enable Connected and Connect at power on.
 
 **EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
 
@@ -1292,11 +1252,11 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
-**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+**IF STUCK** VMnet2 has no internet route. Before AD promotion/domain join, power off this fresh guest, temporarily change its single adapter to NAT, obtain automatic IPv4/DNS, apply updates/activate, shut down, return the adapter to Custom VMnet2, and restore its planned static IPv4/DNS with a blank gateway. Keep one adapter only. Never bridge the guest or add an internet adapter to a domain controller.
 
 **EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
 
@@ -1325,13 +1285,13 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 
 ### Step 20: Enter the lab address
 
-**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.20; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+**DO** For the example LAB 03 network only, choose Use the following IP address: 10.50.0.30; subnet mask 255.255.255.0; leave Default gateway blank (VMnet2 is host-only). Set preferred DNS to 10.50.0.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
 
-**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+**EXPECT** ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2.
 
-**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+**IF STUCK** Do not enter a gateway on isolated VMnet2 or use a public DNS server as an AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
 
-**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+**EVIDENCE** Capture ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2. Record the target computer and date.
 
 **COMMAND**
 > ipconfig /all
@@ -1430,13 +1390,13 @@ APP01 is a normal domain member, not a domain controller. We will install a tiny
 LAB 07 / OPTIONAL REPLICA
 
 
-# Add AG-DC02: copy the same domain
+# Add DC02: copy the same domain
 
-This exercise demonstrates AD replication. Unlike a new destination forest, AG-DC02 stays in the cloudseam.tech domain.
+This exercise demonstrates AD replication. Unlike a new destination forest, DC02 stays in the cloudseam.tech domain.
 
-**\[ \]** Create AG-DC02 (Windows Server Desktop Experience) on the same lab network. Name it AG-DC02.
+**\[ \]** Create DC02 (Windows Server Desktop Experience) on the same lab network. Name it DC02.
 
-**\[ \]** Assign 192.168.77.11/24; preferred DNS 192.168.77.10; VMware NAT gateway.
+**\[ \]** Assign 10.50.0.11/24; preferred DNS 10.50.0.10; VMware NAT gateway.
 
 **\[ \]** Open sysdm.cpl \> Computer Name \> Change \> Domain, enter cloudseam.tech. Restart.
 
@@ -1448,7 +1408,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 **\[ \]** After reboot, open PowerShell as Administrator on either DC and run the commands below.
 
-**\[ \]** Confirm the Operations OU, test.analyst, and GPO appear when you connect the admin consoles to AG-DC02.
+**\[ \]** Confirm the Operations OU, test.analyst, and GPO appear when you connect the admin consoles to DC02.
 
 > repadmin /replsummary
 > dcdiag /test:dns
@@ -1488,9 +1448,9 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ## Guided walkthrough
 
-**WHERE** Physical host Workstation Pro, then AG-DC02 Server 2019 guest / local Administrator and cloudseam.tech Domain Admin.
+**WHERE** Physical host Workstation Pro, then DC02 Server 2019 guest / local Administrator and cloudseam.tech Domain Admin.
 
-**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual VMnet2 host-only subnet and blank default gateway and unused static addresses. Replica/member builds also require working DC01 DNS. Example addresses apply only to the non-overlapping 10.50.0.0/24 lab plan.
 
 **PASS** Two DC names appear; replication shows no persistent errors; user/GPO objects match.
 
@@ -1544,13 +1504,13 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 05: Name the VM
 
-**DO** Enter AG-DC02 as the virtual machine name. Browse to a folder with enough free space, such as your dedicated SONIC lab folder, then Next.
+**DO** Enter DC02 as the virtual machine name. Browse to a folder with enough free space, such as your dedicated SONIC lab folder, then Next.
 
-**EXPECT** The summary uses AG-DC02 and a location you can find again.
+**EXPECT** The summary uses DC02 and a location you can find again.
 
 **IF STUCK** The VMware name and the Windows computer name are different settings; we will rename Windows after installation.
 
-**EVIDENCE** Capture the summary uses AG-DC02 and a location you can find again. Record the target computer and date.
+**EVIDENCE** Capture the summary uses DC02 and a location you can find again. Record the target computer and date.
 
 **SCREENSHOTS** workstation-6
 
@@ -1590,7 +1550,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 09: Attach the private VMnet
 
-**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and VMnet2 (Host-only) from LAB 03. Enable Connected and Connect at power on.
 
 **EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
 
@@ -1672,23 +1632,23 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
-**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+**IF STUCK** VMnet2 has no internet route. Before AD promotion/domain join, power off this fresh guest, temporarily change its single adapter to NAT, obtain automatic IPv4/DNS, apply updates/activate, shut down, return the adapter to Custom VMnet2, and restore its planned static IPv4/DNS with a blank gateway. Keep one adapter only. Never bridge the guest or add an internet adapter to a domain controller.
 
 **EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
 
 ### Step 18: Rename Windows
 
-**DO** Inside the guest press Win+R, enter sysdm.cpl, and press Enter. On Computer Name choose Change. Enter AG-DC02, confirm OK, and restart when prompted.
+**DO** Inside the guest press Win+R, enter sysdm.cpl, and press Enter. On Computer Name choose Change. Enter DC02, confirm OK, and restart when prompted.
 
-**EXPECT** After signing in again, hostname returns AG-DC02.
+**EXPECT** After signing in again, hostname returns DC02.
 
 **IF STUCK** Renaming the entry in the Workstation library does not rename Windows.
 
-**EVIDENCE** Capture after signing in again, hostname returns AG-DC02. Record the target computer and date.
+**EVIDENCE** Capture after signing in again, hostname returns DC02. Record the target computer and date.
 
 **COMMAND**
 > hostname
@@ -1705,35 +1665,35 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 20: Enter the lab address
 
-**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.11; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+**DO** For the example LAB 03 network only, choose Use the following IP address: 10.50.0.11; subnet mask 255.255.255.0; leave Default gateway blank (VMnet2 is host-only). Set preferred DNS to 10.50.0.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
 
-**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+**EXPECT** ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2.
 
-**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+**IF STUCK** Do not enter a gateway on isolated VMnet2 or use a public DNS server as an AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
 
-**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+**EVIDENCE** Capture ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2. Record the target computer and date.
 
 **COMMAND**
 > ipconfig /all
 
-### Step 21: Confirm this is Server 2019
+### Step 21: Prove the two private servers can talk
 
-**DO** Open Start, search Windows PowerShell, right-click it > Run as administrator. Run the read-only inventory below in this VM.
+**DO** Start both VMs on VMnet2. On DC01 and DC02 open Windows PowerShell as administrator. On each, run New-NetFirewallRule -DisplayName 'CloudSeam lab ping' -Direction Inbound -Protocol ICMPv4 -IcmpType 8 -RemoteAddress 10.50.0.0/24 -Action Allow -Profile Any once to permit lab-only echo requests. Keep Windows Firewall on. On DC01 run ipconfig and then ping 10.50.0.11. On DC02 run the commands below. Do not promote DC02 until replies work in both directions.
 
-**EXPECT** WindowsProductName identifies Windows Server 2019; hostname identifies AG-DC02.
+**EXPECT** DC01's console shows 10.50.0.10 with mask 255.255.255.0 and replies from 10.50.0.11. DC02 shows 10.50.0.11 with the same mask and replies from 10.50.0.10. Both default gateways are blank. Ping proves reachability, not AD replication.
 
-**IF STUCK** If the version is 2022 or 2025, you have not built the requested source baseline. Do not present that as a 2019-to-2022 upgrade.
+**IF STUCK** Check both adapters are Custom VMnet2, each static address is unique, and the scoped ICMP rule exists on both guests. A 169.254 address means the static configuration is incomplete. Do not disable the firewall or bridge the guests. To undo this lab rule on either guest, use Remove-NetFirewallRule -DisplayName 'CloudSeam lab ping'.
 
-**EVIDENCE** Capture windowsProductName identifies Windows Server 2019; hostname identifies AG-DC02. Record the target computer and date.
+**EVIDENCE** Keep two screenshots: each live console must show its own private address and a successful ping to the other server. Never use the public address for this check.
 
 **COMMAND**
 > hostname
-> Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber
-> DISM /online /Get-CurrentEdition
+> ipconfig
+> ping 10.50.0.10
 
 ### Step 22: Check domain DNS before joining
 
-**DO** In AG-DC02, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for cloudseam.tech.
+**DO** In DC02, open Windows PowerShell and run the checks below. Preferred DNS must be a reachable DC for cloudseam.tech.
 
 **EXPECT** The domain resolves and the DC’s LDAP SRV records are returned.
 
@@ -1747,7 +1707,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 23: Join the domain
 
-**DO** Inside AG-DC02 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter cloudseam.tech, click OK, and supply your authorized lab join credentials.
+**DO** Inside DC02 press Win+R > sysdm.cpl. On Computer Name select Change. Select Domain, enter cloudseam.tech, click OK, and supply your authorized lab join credentials.
 
 **EXPECT** Windows welcomes the computer to cloudseam.tech and requests a restart.
 
@@ -1757,7 +1717,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 24: Restart and verify membership
 
-**DO** Restart AG-DC02. Sign in using Other user and an authorized account in cloudseam.tech. Run the checks below in Windows PowerShell.
+**DO** Restart DC02. Sign in using Other user and an authorized account in cloudseam.tech. Run the checks below in Windows PowerShell.
 
 **EXPECT** The reported domain is cloudseam.tech and the secure-channel test returns True.
 
@@ -1838,7 +1798,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 31: Review DNS and additional options
 
-**DO** On Additional Options choose AG-DC01 as the replication source if offered; confirm DNS resolves cloudseam.tech before continuing.
+**DO** On Additional Options choose DC01 as the replication source if offered; confirm DNS resolves cloudseam.tech before continuing.
 
 **EXPECT** The wizard advances without a blocking validation error.
 
@@ -1897,7 +1857,7 @@ This exercise demonstrates AD replication. Unlike a new destination forest, AG-D
 
 ### Step 36: Prove replication
 
-**DO** On AG-DC02 run the read-only checks. On AG-DC01 create a harmless test OU in ADUC and confirm it appears when ADUC is explicitly connected to AG-DC02.
+**DO** On DC02 run the read-only checks. On DC01 create a harmless test OU in ADUC and confirm it appears when ADUC is explicitly connected to DC02.
 
 **EXPECT** Both DCs are listed and replication reports no unexplained failures.
 
@@ -1919,7 +1879,7 @@ Build the other school. Its directory must remain completely separate from cloud
 
 **\[ \]** Create a new Windows Server Desktop Experience VM named DEST-DC01. Use 2 vCPUs, 4 GB RAM, ~60 GB thin disk, same lab NAT VMnet.
 
-**\[ \]** Set static IP 192.168.77.40/24, preferred DNS 192.168.77.40, gateway to your NAT address.
+**\[ \]** Set static IP 10.50.0.40/24, preferred DNS 10.50.0.40, gateway to your NAT address.
 
 **\[ \]** In Server Manager \> Manage \> Add Roles and Features, install Active Directory Domain Services.
 
@@ -1970,7 +1930,7 @@ Build the other school. Its directory must remain completely separate from cloud
 
 **WHERE** Physical host Workstation Pro, then DEST-DC01 Server 2019 guest / local Administrator for a new migrate.cloudseam.tech forest.
 
-**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual VMnet2 host-only subnet and blank default gateway and unused static addresses. Replica/member builds also require working DC01 DNS. Example addresses apply only to the non-overlapping 10.50.0.0/24 lab plan.
 
 **PASS** DEST-DC01 shows migrate.cloudseam.tech; the account SID differs from cloudseam.tech's test.analyst SID.
 
@@ -2070,7 +2030,7 @@ Build the other school. Its directory must remain completely separate from cloud
 
 ### Step 09: Attach the private VMnet
 
-**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and VMnet2 (Host-only) from LAB 03. Enable Connected and Connect at power on.
 
 **EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
 
@@ -2152,11 +2112,11 @@ Build the other school. Its directory must remain completely separate from cloud
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
-**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+**IF STUCK** VMnet2 has no internet route. Before AD promotion/domain join, power off this fresh guest, temporarily change its single adapter to NAT, obtain automatic IPv4/DNS, apply updates/activate, shut down, return the adapter to Custom VMnet2, and restore its planned static IPv4/DNS with a blank gateway. Keep one adapter only. Never bridge the guest or add an internet adapter to a domain controller.
 
 **EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
 
@@ -2185,13 +2145,13 @@ Build the other school. Its directory must remain completely separate from cloud
 
 ### Step 20: Enter the lab address
 
-**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.30; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.30. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+**DO** For the example LAB 03 network only, choose Use the following IP address: 10.50.0.30; subnet mask 255.255.255.0; leave Default gateway blank (VMnet2 is host-only). Set preferred DNS to 10.50.0.30. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
 
-**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+**EXPECT** ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2.
 
-**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+**IF STUCK** Do not enter a gateway on isolated VMnet2 or use a public DNS server as an AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
 
-**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+**EVIDENCE** Capture ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2. Record the target computer and date.
 
 **COMMAND**
 > ipconfig /all
@@ -2345,11 +2305,11 @@ LAB 09 / DNS + OPTIONAL TRUST
 
 For a cross-forest lab, each DC must resolve the other forest. You can transfer GPO backups without a trust.
 
-**\[ \]** On AG-DC01, open Server Manager \> Tools \> DNS. Expand AG-DC01.
+**\[ \]** On DC01, open Server Manager \> Tools \> DNS. Expand DC01.
 
-**\[ \]** Right-click Conditional Forwarders \> New Conditional Forwarder. DNS domain: migrate.cloudseam.tech. Master server IP: 192.168.77.40. Select OK.
+**\[ \]** Right-click Conditional Forwarders \> New Conditional Forwarder. DNS domain: migrate.cloudseam.tech. Master server IP: 10.50.0.40. Select OK.
 
-**\[ \]** On DEST-DC01, open DNS \> Conditional Forwarders \> New Conditional Forwarder. DNS domain: cloudseam.tech. Master server IP: 192.168.77.10.
+**\[ \]** On DEST-DC01, open DNS \> Conditional Forwarders \> New Conditional Forwarder. DNS domain: cloudseam.tech. Master server IP: 10.50.0.10.
 
 **\[ \]** On both DCs run nslookup with the other domain name and its explicit local DNS server.
 
@@ -2357,8 +2317,8 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 **\[ \]** Enter the other forest name and review the wizard. For a local-only lab you may configure a two-way forest trust with controlled test credentials, then validate it in both directions. Skip this step if you only intend to import GPO backups and rejoin one server.
 
-> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.migrate.cloudseam.tech 192.168.77.10
-> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.cloudseam.tech 192.168.77.40
+> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.migrate.cloudseam.tech 10.50.0.10
+> nslookup -type=SRV \_ldap.\_tcp.dc.\_msdcs.cloudseam.tech 10.50.0.40
 
 **PASS CHECK** Each query returns an SRV record for the opposite forest; trust is optional, not a prerequisite for the rest of the exercises.
 
@@ -2394,7 +2354,7 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 ## Guided walkthrough
 
-**WHERE** AG-DC01 and DEST-DC01 / DNS Manager / authorized administrator in each separate forest.
+**WHERE** DC01 and DEST-DC01 / DNS Manager / authorized administrator in each separate forest.
 
 **BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
 
@@ -2402,9 +2362,9 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
-### Step 01: On AG-DC01, open Server Manager / Tools
+### Step 01: On DC01, open Server Manager / Tools
 
-**DO** On AG-DC01, open Server Manager > Tools > DNS. Expand AG-DC01.
+**DO** On DC01, open Server Manager > Tools > DNS. Expand DC01.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2414,7 +2374,7 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 ### Step 02: Right-click Conditional Forwarders / New Conditional Forwarder. DNS domain:
 
-**DO** Right-click Conditional Forwarders > New Conditional Forwarder. DNS domain: migrate.cloudseam.tech. Master server IP: 192.168.77.40. Select OK.
+**DO** Right-click Conditional Forwarders > New Conditional Forwarder. DNS domain: migrate.cloudseam.tech. Master server IP: 10.50.0.40. Select OK.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2424,7 +2384,7 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 
 ### Step 03: On DEST-DC01, open DNS / Conditional Forwarders
 
-**DO** On DEST-DC01, open DNS > Conditional Forwarders > New Conditional Forwarder. DNS domain: cloudseam.tech. Master server IP: 192.168.77.10.
+**DO** On DEST-DC01, open DNS > Conditional Forwarders > New Conditional Forwarder. DNS domain: cloudseam.tech. Master server IP: 10.50.0.10.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2473,8 +2433,8 @@ For a cross-forest lab, each DC must resolve the other forest. You can transfer 
 **EVIDENCE** Capture each query returns an SRV record for the opposite forest; trust is optional, not a prerequisite for the rest of the exercises. Record the target computer and date.
 
 **COMMAND**
-> nslookup -type=SRV _ldap._tcp.dc._msdcs.migrate.cloudseam.tech 192.168.77.10
-> nslookup -type=SRV _ldap._tcp.dc._msdcs.cloudseam.tech 192.168.77.40
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.migrate.cloudseam.tech 10.50.0.10
+> nslookup -type=SRV _ldap._tcp.dc._msdcs.cloudseam.tech 10.50.0.40
 
 LAB 10 / POLICY MIGRATION
 
@@ -2483,7 +2443,7 @@ LAB 10 / POLICY MIGRATION
 
 This lesson is the answer to “How do I move the agency’s Group Policies into a different domain?”
 
-**\[ \]** On AG-DC01 open Group Policy Management. Expand cloudseam.tech \> Group Policy Objects.
+**\[ \]** On DC01 open Group Policy Management. Expand cloudseam.tech \> Group Policy Objects.
 
 **\[ \]** Right-click LAB-Operations-Banner \> Back Up. Choose a folder like C:\GPOBackups. Give the backup a description.
 
@@ -2537,7 +2497,7 @@ This lesson is the answer to “How do I move the agency’s Group Policies into
 
 ## Guided walkthrough
 
-**WHERE** AG-DC01 and DEST-DC01 / Group Policy Management / authorized administrator in each forest.
+**WHERE** DC01 and DEST-DC01 / Group Policy Management / authorized administrator in each forest.
 
 **BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
 
@@ -2545,9 +2505,9 @@ This lesson is the answer to “How do I move the agency’s Group Policies into
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
-### Step 01: On AG-DC01 open Group Policy Management. Expand cloudseam.tech / Group Policy O
+### Step 01: On DC01 open Group Policy Management. Expand cloudseam.tech / Group Policy O
 
-**DO** On AG-DC01 open Group Policy Management. Expand cloudseam.tech > Group Policy Objects.
+**DO** On DC01 open Group Policy Management. Expand cloudseam.tech > Group Policy Objects.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2677,9 +2637,9 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 **\[ \]** On APP01, open sysdm.cpl \> Computer Name \> Change \> Workgroup. Enter LAB-TEMP. Supply agency admin credentials if asked; reboot.
 
-**\[ \]** Log in with APP01\Administrator (local). Change APP01 DNS from 192.168.77.10 to 192.168.77.40 in the IPv4 adapter settings. Keep its own IP as 192.168.77.30.
+**\[ \]** Log in with APP01\Administrator (local). Change APP01 DNS from 10.50.0.10 to 10.50.0.40 in the IPv4 adapter settings. Keep its own IP as 10.50.0.30.
 
-**\[ \]** Run nslookup migrate.cloudseam.tech 192.168.77.40 and the destination AD SRV record check from Lesson 9.
+**\[ \]** Run nslookup migrate.cloudseam.tech 10.50.0.40 and the destination AD SRV record check from Lesson 9.
 
 **\[ \]** Open sysdm.cpl \> Computer Name \> Change \> Domain. Enter migrate.cloudseam.tech. Provide destination domain join credentials; reboot.
 
@@ -2690,7 +2650,7 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 > hostname
 > (Get-CimInstance Win32_ComputerSystem).Domain
 > Get-Service W3SVC
-> Test-NetConnection 192.168.77.40 -Port 53
+> Test-NetConnection 10.50.0.40 -Port 53
 > gpupdate /force
 > gpresult /r /scope computer
 
@@ -2776,9 +2736,9 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 05: Log in with APP01\Administrator (local). Change APP01 DNS from 192.168.77.10
+### Step 05: Log in with APP01\Administrator (local). Change APP01 DNS from 10.50.0.10
 
-**DO** Log in with APP01\Administrator (local). Change APP01 DNS from 192.168.77.10 to 192.168.77.40 in the IPv4 adapter settings. Keep its own IP as 192.168.77.30.
+**DO** Log in with APP01\Administrator (local). Change APP01 DNS from 10.50.0.10 to 10.50.0.40 in the IPv4 adapter settings. Keep its own IP as 10.50.0.30.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2786,9 +2746,9 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 
 **EVIDENCE** Capture the named action finishes without an error; the next screen or check described in the action is available. Record the target computer and date.
 
-### Step 06: Run nslookup migrate.cloudseam.tech 192.168.77.40 and the destination AD SRV recor
+### Step 06: Run nslookup migrate.cloudseam.tech 10.50.0.40 and the destination AD SRV recor
 
-**DO** Run nslookup migrate.cloudseam.tech 192.168.77.40 and the destination AD SRV record check from Lesson 9.
+**DO** Run nslookup migrate.cloudseam.tech 10.50.0.40 and the destination AD SRV record check from Lesson 9.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -2840,7 +2800,7 @@ Now perform one controlled cross-domain server move. Keep the old domain running
 > hostname
 > (Get-CimInstance Win32_ComputerSystem).Domain
 > Get-Service W3SVC
-> Test-NetConnection 192.168.77.40 -Port 53
+> Test-NetConnection 10.50.0.40 -Port 53
 > gpupdate /force
 > gpresult /r /scope computer
 
@@ -2985,7 +2945,7 @@ LAB 13 / PATCHING
 
 WSUS is a separate server role. Treat it as an application dependency, not as something that must automatically move into the cloud.
 
-**\[ \]** Create WSUS01 (Windows Server) on the cloudseam.tech lab network; set IP 192.168.77.50 and DNS 192.168.77.10.
+**\[ \]** Create WSUS01 (Windows Server) on the cloudseam.tech lab network; set IP 10.50.0.50 and DNS 10.50.0.10.
 
 **\[ \]** Join WSUS01 to cloudseam.tech and restart.
 
@@ -3039,15 +2999,15 @@ Picture five school buildings. AD is the student directory; WSUS is the update l
 
 | **Build order** | **Machine**       | **Suggested lab IP** | **Its job**                                                      |
 |-----------------|-------------------|----------------------|------------------------------------------------------------------|
-| 1               | AG-DC01 / AG-DC02 | 192.168.77.10 / .11  | AD domain cloudseam.tech; DNS, accounts, GPO                        |
-| 2               | WSUS01            | 192.168.77.50        | Windows update service; later add MECM software update point     |
-| 3               | SQL01             | 192.168.77.60        | SQL Server database engine; MECM database + separate PracticeDB  |
-| 4               | MECM01            | 192.168.77.70        | Configuration Manager site server, management/distribution roles |
-| 5               | APP01             | 192.168.77.30        | IIS member server and client to test migration                   |
-| 6               | DEST-DC01         | 192.168.77.40        | Separate migrate.cloudseam.tech forest for identity migration practice |
+| 1               | DC01 / DC02 | 10.50.0.10 / .11  | AD domain cloudseam.tech; DNS, accounts, GPO                        |
+| 2               | WSUS01            | 10.50.0.50        | Windows update service; later add MECM software update point     |
+| 3               | SQL01             | 10.50.0.60        | SQL Server database engine; MECM database + separate PracticeDB  |
+| 4               | MECM01            | 10.50.0.70        | Configuration Manager site server, management/distribution roles |
+| 5               | APP01             | 10.50.0.30        | IIS member server and client to test migration                   |
+| 6               | DEST-DC01         | 10.50.0.40        | Separate migrate.cloudseam.tech forest for identity migration practice |
 | 7               | AZ-SQL01 (later)  | 10.90.x.x            | Azure SQL Server VM; practice .bak restore                       |
 
-Only turn on what you need. For MECM to run: AG-DC01 + SQL01 + MECM01 must be on; add WSUS01 for update lessons. A second DC adds redundancy, not a new forest.
+Only turn on what you need. For MECM to run: DC01 + SQL01 + MECM01 must be on; add WSUS01 for update lessons. A second DC adds redundancy, not a new forest.
 
 MECM and SQL Server can technically share a server for a lab, but we deliberately separate them so you learn dependency mapping. This requires more RAM and is NOT a tiny laptop lab.
 
@@ -3065,7 +3025,7 @@ MECM and SQL Server can technically share a server for a lab, but we deliberatel
 
 ### Step 01: Create WSUS01 (Windows Server) on the cloudseam.tech lab network; set IP 192.16
 
-**DO** Create WSUS01 (Windows Server) on the cloudseam.tech lab network; set IP 192.168.77.50 and DNS 192.168.77.10.
+**DO** Create WSUS01 (Windows Server) on the cloudseam.tech lab network; set IP 10.50.0.50 and DNS 10.50.0.10.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -3263,20 +3223,20 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 \[ \] Give this VM name SQL01, 2-4 vCPUs, lab-sized RAM (begin around 12 GB if you can), and a disk sized for Windows plus SQL data/backups.
 
-\[ \] Attach the same isolated VMware VMnet network used by AG-DC01. NEVER bridge into a work or classified network.
+\[ \] Attach the same isolated VMware VMnet network used by DC01. NEVER bridge into a work or classified network.
 
-\[ \] After Windows installation, rename it SQL01 and reboot. Set fixed IP 192.168.77.60/24, correct VMware gateway, DNS 192.168.77.10.
+\[ \] After Windows installation, rename it SQL01 and reboot. Set fixed IP 10.50.0.60/24, correct no default gateway, DNS 10.50.0.10.
 
-\[ \] On SQL01 run nslookup cloudseam.tech and ping AG-DC01 by name; ICMP may be blocked, so DNS is the important first check.
+\[ \] On SQL01 run nslookup cloudseam.tech and ping DC01 by name; ICMP may be blocked, so DNS is the important first check.
 
 \[ \] Windows \> Settings \> System \> About \> Rename this PC (advanced) \> Change \> Domain: cloudseam.tech. Enter lab domain join credentials; restart.
 
 > hostname
 > (Get-CimInstance Win32_ComputerSystem).Domain
 > ipconfig /all
-> Resolve-DnsName AG-DC01.cloudseam.tech
+> Resolve-DnsName DC01.cloudseam.tech
 
-**PASS CHECK** SQL01 is a MEMBER of cloudseam.tech and resolves AG-DC01 correctly. It is NOT a DC.
+**PASS CHECK** SQL01 is a MEMBER of cloudseam.tech and resolves DC01 correctly. It is NOT a DC.
 
 **WRITE IT DOWN** Server or resource: \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Result: PASS / FAIL Date: \_\_\_\_\_\_\_\_\_\_
 
@@ -3286,9 +3246,9 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 **WHERE** Physical host Workstation Pro, then SQL01 Server 2019 member guest / local Administrator and authorized domain join account.
 
-**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual private VMnet/subnet/gateway and unused static addresses. Replica/member builds also require working AG-DC01 DNS. Example addresses apply only to the non-overlapping 192.168.77.0/24 lab plan.
+**BEFORE** LAB 02 must confirm Windows Server 2019 Desktop Experience media and host resources; LAB 03 must record the actual VMnet2 host-only subnet and blank default gateway and unused static addresses. Replica/member builds also require working DC01 DNS. Example addresses apply only to the non-overlapping 10.50.0.0/24 lab plan.
 
-**PASS** SQL01 is a MEMBER of cloudseam.tech and resolves AG-DC01 correctly. It is NOT a DC.
+**PASS** SQL01 is a MEMBER of cloudseam.tech and resolves DC01 correctly. It is NOT a DC.
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
@@ -3386,7 +3346,7 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 ### Step 09: Attach the private VMnet
 
-**DO** Select Network Adapter. Choose Custom: Specific virtual network and the NAT VMnet recorded in LAB 03. Enable Connected and Connect at power on.
+**DO** Select Network Adapter. Choose Custom: Specific virtual network and VMnet2 (Host-only) from LAB 03. Enable Connected and Connect at power on.
 
 **EXPECT** The VM is attached to the same private lab VMnet as the other lab servers.
 
@@ -3468,11 +3428,11 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 ### Step 17: Patch the new Server 2019 guest
 
-**DO** Inside the guest open Start > Settings > Update & Security > Windows Update. Check for updates and restart as required before changing its DNS to the new lab domain.
+**DO** This new guest is not domain-joined yet. Shut it down. In VMware choose VM > Settings > Network Adapter > NAT, keeping one adapter. Start Windows and set Ethernet IPv4 and DNS to Obtain automatically for this temporary update session. Open Start > Settings > Update & Security > Windows Update, check for updates and restart as required. Activate the evaluation while internet access is available. Shut down again, change the same adapter to Custom > VMnet2, and start the guest. The next network steps restore its planned static address and blank gateway before any domain work.
 
 **EXPECT** Windows has completed its pending restarts.
 
-**IF STUCK** Use the NAT VMnet’s permitted internet path. Do not open inbound RDP or attach the VM to a workplace LAN for updates.
+**IF STUCK** VMnet2 has no internet route. Before AD promotion/domain join, power off this fresh guest, temporarily change its single adapter to NAT, obtain automatic IPv4/DNS, apply updates/activate, shut down, return the adapter to Custom VMnet2, and restore its planned static IPv4/DNS with a blank gateway. Keep one adapter only. Never bridge the guest or add an internet adapter to a domain controller.
 
 **EVIDENCE** Capture windows has completed its pending restarts. Record the target computer and date.
 
@@ -3501,13 +3461,13 @@ We must build the computer first. It is not SQL until SQL Server software is ins
 
 ### Step 20: Enter the lab address
 
-**DO** For the example LAB 03 network only, choose Use the following IP address: 192.168.77.60; subnet mask 255.255.255.0; gateway = the NAT gateway you recorded in LAB 03. Set preferred DNS to 192.168.77.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
+**DO** For the example LAB 03 network only, choose Use the following IP address: 10.50.0.60; subnet mask 255.255.255.0; leave Default gateway blank (VMnet2 is host-only). Set preferred DNS to 10.50.0.10. Click OK and Close. If you changed the subnet in LAB 03, use your matching address plan instead.
 
-**EXPECT** ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter.
+**EXPECT** ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2.
 
-**IF STUCK** Never guess the NAT gateway or use a public DNS server as the AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
+**IF STUCK** Do not enter a gateway on isolated VMnet2 or use a public DNS server as an AD client’s DNS. If an address conflict appears, stop and allocate an unused lab address.
 
-**EVIDENCE** Capture ipconfig /all shows the chosen private address, gateway, and DNS on the connected adapter. Record the target computer and date.
+**EVIDENCE** Capture ipconfig /all shows the planned 10.50.0.x address, blank default gateway, and the lab DNS address on VMnet2. Record the target computer and date.
 
 **COMMAND**
 > ipconfig /all
@@ -3591,7 +3551,7 @@ SQL Server is the filing cabinet. We will configure its lock, doors and labels b
 
 \[ \] For the simple lab, choose a fixed TCP port 1433 under TCP/IP IPAll, clear dynamic port, restart SQL Server (MSSQLSERVER). Document before changing anything.
 
-\[ \] On SQL01, use Windows Defender Firewall with Advanced Security \> Inbound Rules \> New Rule \> Port \> TCP 1433 \> Allow \> scope to MECM01 (192.168.77.70) / authorized management IPs ONLY.
+\[ \] On SQL01, use Windows Defender Firewall with Advanced Security \> Inbound Rules \> New Rule \> Port \> TCP 1433 \> Allow \> scope to MECM01 (10.50.0.70) / authorized management IPs ONLY.
 
 \[ \] Do NOT allow public or entire-internet connections to TCP 1433; keep SQL inside private networks.
 
@@ -3622,7 +3582,7 @@ SQL Server is the filing cabinet. We will configure its lock, doors and labels b
 
 **EXPECT** SQL Server Installation Center opens on SQL01.
 
-**IF STUCK** Do not install SQL on AG-DC01. Confirm SQL01 is a domain member and your chosen SQL edition is compatible with any later MECM exercise.
+**IF STUCK** Do not install SQL on DC01. Confirm SQL01 is a domain member and your chosen SQL edition is compatible with any later MECM exercise.
 
 **EVIDENCE** Capture sQL Server Installation Center opens on SQL01. Record the target computer and date.
 
@@ -3988,7 +3948,7 @@ MECM-01 / MAKE THE SITE SERVER
 
 Configuration Manager / MECM is the school office: it knows which computers exist and which software and updates they need. It stores much of that information in SQL01.
 
-\[ \] VMware \> File \> New VM \> Windows Server Desktop Experience; name MECM01; fixed lab IP 192.168.77.70; DNS 192.168.77.10; allocate about 12-16 GB RAM if possible.
+\[ \] VMware \> File \> New VM \> Windows Server Desktop Experience; name MECM01; fixed lab IP 10.50.0.70; DNS 10.50.0.10; allocate about 12-16 GB RAM if possible.
 
 \[ \] Join MECM01 to cloudseam.tech, restart, and confirm domain name/DNS connectivity.
 
@@ -4023,7 +3983,7 @@ Configuration Manager / MECM is the school office: it knows which computers exis
 
 ### Step 01: VMware / File
 
-**DO** VMware > File > New VM > Windows Server Desktop Experience; name MECM01; fixed lab IP 192.168.77.70; DNS 192.168.77.10; allocate about 12-16 GB RAM if possible.
+**DO** VMware > File > New VM > Windows Server Desktop Experience; name MECM01; fixed lab IP 10.50.0.70; DNS 10.50.0.10; allocate about 12-16 GB RAM if possible.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4104,7 +4064,7 @@ MECM-02 / AD + SQL PERMISSIONS
 
 A computer can be domain-joined and still be denied database access. We must give the proper identity permission.
 
-\[ \] On AG-DC01, open Server Manager \> Tools \> ADSI Edit. This is the advanced AD editor; use ONLY in this disposable training forest.
+\[ \] On DC01, open Server Manager \> Tools \> ADSI Edit. This is the advanced AD editor; use ONLY in this disposable training forest.
 
 \[ \] In ADSI Edit \> Connect to Default naming context \> DC=cloudseam,DC=tech \> CN=System. Right-click System \> New \> Object \> Container, name it System Management.
 
@@ -4133,7 +4093,7 @@ A computer can be domain-joined and still be denied database access. We must giv
 
 ## Guided walkthrough
 
-**WHERE** AG-DC01, SQL01, and MECM01 / ADUC, SSMS, and Windows security tools / authorized administrators.
+**WHERE** DC01, SQL01, and MECM01 / ADUC, SSMS, and Windows security tools / authorized administrators.
 
 **BEFORE** Complete the preceding required pathway pass checks. Use only the isolated lab and authorized accounts. Record the target, software version, and recovery point before a change.
 
@@ -4141,9 +4101,9 @@ A computer can be domain-joined and still be denied database access. We must giv
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
-### Step 01: On AG-DC01, open Server Manager / Tools
+### Step 01: On DC01, open Server Manager / Tools
 
-**DO** On AG-DC01, open Server Manager > Tools > ADSI Edit. This is the advanced AD editor; use ONLY in this disposable training forest.
+**DO** On DC01, open Server Manager > Tools > ADSI Edit. This is the advanced AD editor; use ONLY in this disposable training forest.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4385,7 +4345,7 @@ MECM-04 / A REAL MANAGED DEVICE
 
 The office needs a student. An MECM site with no client is like a tracking system with nothing to track.
 
-\[ \] On MECM01 \> Administration \> Hierarchy Configuration \> Boundaries, add the LAB subnet 192.168.77.0/24 or your actual VMnet IP range.
+\[ \] On MECM01 \> Administration \> Hierarchy Configuration \> Boundaries, add the LAB subnet 10.50.0.0/24 or your actual VMnet IP range.
 
 \[ \] Create a Boundary Group (example LAB-BG), add that boundary, and associate site assignment LAB and the distribution/management server as appropriate.
 
@@ -4422,7 +4382,7 @@ The office needs a student. An MECM site with no client is like a tracking syste
 
 ### Step 01: On MECM01 / Administration
 
-**DO** On MECM01 > Administration > Hierarchy Configuration > Boundaries, add the LAB subnet 192.168.77.0/24 or your actual VMnet IP range.
+**DO** On MECM01 > Administration > Hierarchy Configuration > Boundaries, add the LAB subnet 10.50.0.0/24 or your actual VMnet IP range.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -4699,7 +4659,7 @@ Azure is the new building. We will move ONLY our practice database first, then p
 
 \[ \] Before cutover: identify every app that writes to it. Since this is a test database with no writes, no downtime is needed; for a real app use a change window, final backup and consistency checks.
 
-\[ \] Azure portal \> Resource groups \> choose lab group \> Create a VNet subnet for application/SQL. Do not overlap your VMware 192.168.77.0/24.
+\[ \] Azure portal \> Resource groups \> choose lab group \> Create a VNet subnet for application/SQL. Do not overlap your VMware 10.50.0.0/24.
 
 \[ \] Create an Azure Windows Server VM named AZ-SQL01 on a private subnet; access it via an approved secure management path (VPN/Bastion), not an open public RDP rule.
 
@@ -4758,7 +4718,7 @@ Azure is the new building. We will move ONLY our practice database first, then p
 
 ### Step 03: Azure portal / Resource groups
 
-**DO** Azure portal > Resource groups > choose lab group > Create a VNet subnet for application/SQL. Do not overlap your VMware 192.168.77.0/24.
+**DO** Azure portal > Resource groups > choose lab group > Create a VNet subnet for application/SQL. Do not overlap your VMware 10.50.0.0/24.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -6656,14 +6616,14 @@ To actually move an on-premises server into an Azure-hosted domain, the two netw
 <thead>
 <tr class="header">
 <th><p><strong>THIS IS NOT JUST ONE PORTAL SWITCH</strong></p>
-<p>A typical site-to-site connection requires an Azure VPN gateway, an on-premises compatible VPN endpoint with appropriate public reachability, routing, and nonoverlapping subnets. VMware NAT by itself is not an on-prem VPN appliance. A home ISP using carrier-grade NAT may complicate site-to-site connectivity. Azure VPN Gateway can cost money even when idle.</p></th>
+<p>A typical site-to-site connection requires an Azure VPN gateway, an on-premises compatible VPN endpoint with appropriate public reachability, routing, and nonoverlapping subnets. Host-only VMnet2 by itself cannot reach Azure. A later private-connectivity extension needs a separately planned router/VPN appliance connected to VMnet2 and an approved uplink; its routing and cost must be reviewed first. Do not assume the two-DC isolation lab supplies that appliance. A home ISP using carrier-grade NAT may complicate site-to-site connectivity. Azure VPN Gateway can cost money even when idle.</p></th>
 </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 
-**\[ \]** Write down your SOURCE subnet (192.168.77.0/24), DESTINATION VNet subnet (10.90.1.0/24), and expected routing through the VPN device.
+**\[ \]** Write down your SOURCE subnet (10.50.0.0/24), DESTINATION VNet subnet (10.90.1.0/24), and expected routing through the VPN device.
 
 **\[ \]** Check whether you actually have a compatible on-premises VPN endpoint/router, control of firewall/NAT, and permission to use it.
 
@@ -6722,9 +6682,9 @@ To actually move an on-premises server into an Azure-hosted domain, the two netw
 
 **ROLLBACK** Stop at a failed prerequisite; keep the original source and evidence. For a disposable member VM, restore only using its recorded verified backup/rebuild plan. For domain controllers, use AD-aware recovery or a planned demotion/rebuild, not an arbitrary snapshot revert. For SQL/MECM, follow their application-aware backup and recovery procedures.
 
-### Step 01: Write down your SOURCE subnet (192.168.77.0/24), DESTINATION VNet subnet (10
+### Step 01: Write down your SOURCE subnet (10.50.0.0/24), DESTINATION VNet subnet (10
 
-**DO** Write down your SOURCE subnet (192.168.77.0/24), DESTINATION VNet subnet (10.90.1.0/24), and expected routing through the VPN device.
+**DO** Write down your SOURCE subnet (10.50.0.0/24), DESTINATION VNet subnet (10.90.1.0/24), and expected routing through the VPN device.
 
 **EXPECT** The named action finishes without an error; the next screen or check described in the action is available.
 
@@ -6913,7 +6873,7 @@ Only after the networking gate passes: do one member server at a time. Do not tr
 
 **EXPECT** APP02 is created without a public inbound RDP rule.
 
-**IF STUCK** A NAT VMnet is not a VPN. Do not click Create until LAB 16 proves the approved private route; do not open 3389 to the internet.
+**IF STUCK** The isolated host-only VMnet2 is not a VPN and has no Azure route. Do not click Create until LAB 16 proves the approved private route; do not open 3389 to the internet.
 
 **EVIDENCE** Capture aPP02 is created without a public inbound RDP rule. Record the target computer and date.
 
@@ -6976,7 +6936,7 @@ Only after the networking gate passes: do one member server at a time. Do not tr
 
 **EXPECT** Your evidence clearly separates application migration from the subsequent OS upgrade.
 
-**IF STUCK** Do not upgrade AG-DC01, AG-DC02, AZ-DC01, SQL01, or MECM01 using the simple member-server procedure.
+**IF STUCK** Do not upgrade DC01, DC02, AZ-DC01, SQL01, or MECM01 using the simple member-server procedure.
 
 **EVIDENCE** Capture your evidence clearly separates application migration from the subsequent OS upgrade. Record the target computer and date.
 

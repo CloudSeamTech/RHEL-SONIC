@@ -18,7 +18,7 @@ const stageDefinitions = [
   [
     'source',
     'Build the Agency Windows Domain',
-    'Create AG-DC01, the agency users and policy, APP01, and the optional second domain controller.',
+    'Create DC01, the agency users and policy, APP01, and the optional second domain controller.',
   ],
   [
     'destination',
@@ -87,12 +87,12 @@ export const migrationTasks = [
   },
   {
     id: 'build-agency-domain-controller',
-    title: 'Build AG-DC01 and create cloudseam.tech',
+    title: 'Build DC01 and create cloudseam.tech',
     description:
       'Create the first Windows Server VM, give it the approved private address, install AD DS, and promote it safely.',
     lessonId: 'lab-04',
     state: 'available',
-    machine: 'AG-DC01 · Windows Server 2019',
+    machine: 'DC01 · Windows Server 2019',
   },
   {
     id: 'build-app01',

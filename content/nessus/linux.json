@@ -3,7 +3,7 @@
   "title": "Install Nessus on AlmaLinux 9",
   "description": "Let’s build your own Nessus 10.12.5 scanner on AlmaLinux 9, open its web page, and check that it is ready for the scanning class.",
   "baseline": "We’ll use VMware Workstation Pro, supported AlmaLinux 9 on a 64-bit Intel/AMD VM, and Nessus 10.12.5.",
-  "prerequisite": "Before we start, let’s give Nessus its own practice computer inside VMware. That way you can learn without replacing Windows on your everyday PC. Here’s what we’ll use; the next lesson will help you check anything you’re missing.",
+  "prerequisite": "Before we start, let’s give Nessus its own practice computer inside VMware. That way you can learn without replacing Windows on your everyday PC. Here’s what we’ll use; the next lesson will help you check anything you’re missing. This scanner class uses a separate practice network. Keep the DC01/DC02 host-only VMnet2 lab separate; its blank gateway is not the scanner’s temporary internet setup.",
   "sources": [
     {
       "title": "Intro",

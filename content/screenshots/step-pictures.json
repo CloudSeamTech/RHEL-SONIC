@@ -72,51 +72,51 @@
     },
     {
       "stepId": "lab-03:guided:1",
-      "instructionHash": "fcf008180869075281d5eedfa897bfb1b25979065792515fbed64edc3155f385",
-      "src": "/step-pictures/lab-03--guided--1--fcf0081808.svg",
-      "title": "Open the network editor",
+      "instructionHash": "35af7a96f22f3bfa4b3cc634bcde3e9d43f20abc2cf263362a97b547b3139104",
+      "src": "/step-pictures/lab-03--guided--1--35af7a96f2.svg",
+      "title": "Open Virtual Network Editor",
       "kind": "action-map",
-      "fileHash": "cec642f0d227d8af405c901f1ccbf1ca473c7d777fffce24bcfa3bc6a5197c0e"
+      "fileHash": "49aa70e73db182bb2eb80489711ebf16206a206ab1678d41572802e52172516f"
     },
     {
       "stepId": "lab-03:guided:2",
-      "instructionHash": "553753da9fa3f37e772ec5aa891527bc3174ad3088151f6971055c7f5c5ab2dc",
-      "src": "/step-pictures/lab-03--guided--2--553753da9f.svg",
-      "title": "Create a dedicated NAT VMnet",
+      "instructionHash": "c621ec5e0efe781bef5c59866bab3b776143eae999f6e56252af92d3d5b90f3b",
+      "src": "/step-pictures/lab-03--guided--2--c621ec5e0e.svg",
+      "title": "Create VMnet2 as Host-only",
       "kind": "action-map",
-      "fileHash": "5485fd91911228333eb5e04d5b6e68119af09a72309177bb616c1a648c190d45"
+      "fileHash": "d5efe990811108ba2ac66fa4b31dcf7b49539a5fc818aef9638fa4b56b447651"
     },
     {
       "stepId": "lab-03:guided:3",
-      "instructionHash": "aeb3723d25392cab1ea7e0d69ad74b09f1e6607c4ae0add1511b9e92f2bc3ca0",
-      "src": "/step-pictures/lab-03--guided--3--aeb3723d25.svg",
-      "title": "Set a non-overlapping subnet",
+      "instructionHash": "3c51f9afc5419ec49d07f99f869578aa07170edcf8041628267a1938a0c70b72",
+      "src": "/step-pictures/lab-03--guided--3--3c51f9afc5.svg",
+      "title": "Set the private address range",
       "kind": "action-map",
-      "fileHash": "490508a7d1d7abb9748063d3c7da45a93322c7336349411cb90fe44f2b5e8657"
+      "fileHash": "8d1c934f1ce149e9bcdbc2b4705ed232ca3d988778f3147a738378b5cb6b75e7"
     },
     {
       "stepId": "lab-03:guided:4",
-      "instructionHash": "4ac84d2a2ca3bb001e4f36f10e513395274ec7daf22fafbbc8397653e6e727ae",
-      "src": "/step-pictures/lab-03--guided--4--4ac84d2a2c.svg",
-      "title": "Record the actual NAT gateway",
+      "instructionHash": "f3591dafd63429006d9a9760e22b0b1e4b34fe0bab22f7ccd0c7caa8710c1ec1",
+      "src": "/step-pictures/lab-03--guided--4--f3591dafd6.svg",
+      "title": "Turn off VMware DHCP",
       "kind": "action-map",
-      "fileHash": "584883ab1bf07479bbf3a2c3f96832699a4770721a5a35a2ab2028c3052f7da7"
+      "fileHash": "62b6c9dd16702564896128e204337c1f1c03d360c35ff93cf1f7e9b0d82ff12a"
     },
     {
       "stepId": "lab-03:guided:5",
-      "instructionHash": "d47bb152e30de9826b6f5c7848006ebc4a7576a95be635e00f2106b335e9496a",
-      "src": "/step-pictures/lab-03--guided--5--d47bb152e3.svg",
-      "title": "Reserve the static lab addresses",
+      "instructionHash": "b7bb697dfbe45e4c7cd470e725216dafa6d840fba07ceecb1ebbbe1de1ac715c",
+      "src": "/step-pictures/lab-03--guided--5--b7bb697dfb.svg",
+      "title": "Write the two-server plan",
       "kind": "action-map",
-      "fileHash": "bb26d788d0448111d1917c2dc915ff966d4af38a394ce2cc24581ecd911fb87e"
+      "fileHash": "cd2bd88204c903a1487f3f026ba10abd2c503da948fccc29542f0a2cd409a8db"
     },
     {
       "stepId": "lab-03:guided:6",
-      "instructionHash": "9aadda17b27bd2725610711c6980ab62dbbaa40e3ded90778685fee3a5a53b1e",
-      "src": "/step-pictures/lab-03--guided--6--9aadda17b2.svg",
-      "title": "Attach each guest to this VMnet",
+      "instructionHash": "8e6e32bc2a9417952e39ee9492aea765a75d993dcc26574c616fe537e910cf2d",
+      "src": "/step-pictures/lab-03--guided--6--8e6e32bc2a.svg",
+      "title": "Connect the guests to VMnet2",
       "kind": "action-map",
-      "fileHash": "1ffd0f5fe4ac8fbf237a3b3df88df6930f6c2fcfc8ed117d9b1a2eef3247c5d5"
+      "fileHash": "859effc6c657e1c6970e1f378966aa1a198a0a023709c9b39a3e23008e798f57"
     },
     {
       "stepId": "lab-04:guided:1",
@@ -124,7 +124,7 @@
       "src": "/step-pictures/lab-04--guided--1--756c40654b.svg",
       "title": "Open the new VM wizard",
       "kind": "action-map",
-      "fileHash": "8a8a676206492dcb0c8c8de1e3aac376f24840e059b067ad05ab9cc97cb9b179"
+      "fileHash": "5bcb5bf21dc4d8f0afe1747d57bcd80cd82a24f9574b5ad350de726332ececfc"
     },
     {
       "stepId": "lab-04:guided:2",
@@ -132,7 +132,7 @@
       "src": "/step-pictures/lab-04--guided--2--c2e177798e.svg",
       "title": "Choose Typical",
       "kind": "action-map",
-      "fileHash": "07499fd08f9cbffe531ff563a1c61540e159f66bacbbdf10ced7e40a4132f0c3"
+      "fileHash": "917c6864497d015afa1f5baf45f12ac100e03deaa9b3680be9d21ac1a8b05d0d"
     },
     {
       "stepId": "lab-04:guided:3",
@@ -140,7 +140,7 @@
       "src": "/step-pictures/lab-04--guided--3--676886086a.svg",
       "title": "Use manual Windows installation",
       "kind": "action-map",
-      "fileHash": "eddc795a9898e25bc88412a5ea1a43c509a73f0c71e10ae679abc0176d355935"
+      "fileHash": "29391f05a4644aa4d5d75fc483f787ae90b860e72e17dd9d391f4fb4faf603cf"
     },
     {
       "stepId": "lab-04:guided:4",
@@ -148,15 +148,15 @@
       "src": "/step-pictures/lab-04--guided--4--5f104ffbd0.svg",
       "title": "Choose the Server 2019 guest profile",
       "kind": "action-map",
-      "fileHash": "dc94fe9c4056f81d0ddcebb14d2117fde8a0181f64a0d85d2096988f86479c63"
+      "fileHash": "e8c614e9c25aaf032c823a0ae0d2f90da3894af1df96fb940fa45629551d4ce5"
     },
     {
       "stepId": "lab-04:guided:5",
-      "instructionHash": "e39c46429abc52c066db69100a9d9bdebfa2ba8ca8fb6d6059420fc8e35ba4f6",
-      "src": "/step-pictures/lab-04--guided--5--e39c46429a.svg",
+      "instructionHash": "36f5163414047d05cfcd2b34bdf7f41e099ca4402a30ad317ecbf324afab0f17",
+      "src": "/step-pictures/lab-04--guided--5--36f5163414.svg",
       "title": "Name the VM",
       "kind": "action-map",
-      "fileHash": "826869f7793d9c6e310e7efdebd51bb5c3d1b3a2351eb8e567ca20113dcb7b76"
+      "fileHash": "a02da1b4b257c1b9a4c0e8eeda28208abea9d659703bcf4440643f4491eab4c7"
     },
     {
       "stepId": "lab-04:guided:6",
@@ -164,7 +164,7 @@
       "src": "/step-pictures/lab-04--guided--6--49a079c8bd.svg",
       "title": "Create a new virtual disk",
       "kind": "action-map",
-      "fileHash": "48c6d5c7f993785ba571ba3c8bee970375f18940b99d36fde6dd5e8cd7bd6897"
+      "fileHash": "7924ba05d2c51082a59a2e78d2f8bc23f184b20128ab715d1676c99e540c4f1d"
     },
     {
       "stepId": "lab-04:guided:7",
@@ -172,7 +172,7 @@
       "src": "/step-pictures/lab-04--guided--7--3a88969c72.svg",
       "title": "Set memory and CPU",
       "kind": "action-map",
-      "fileHash": "e88ae05244c9a6b6bf5a1b0258aade2736cb5d939a3dd4e332737ef280ca1a06"
+      "fileHash": "c75b79de73757bd928d9e06268d20e2a51a2cf59181924a4ef9591b85293f384"
     },
     {
       "stepId": "lab-04:guided:8",
@@ -180,15 +180,15 @@
       "src": "/step-pictures/lab-04--guided--8--01b8b6971a.svg",
       "title": "Attach the Server 2019 ISO",
       "kind": "action-map",
-      "fileHash": "0ccef2fcc3b1fe01bfd24508584c73e446058510da3128328624a7a751f6ed06"
+      "fileHash": "1cddd8298b3aa2cea8e5930eaab11c9873725b84fb740daf406fb453289def1b"
     },
     {
       "stepId": "lab-04:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
-      "src": "/step-pictures/lab-04--guided--9--e779ca4940.svg",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
+      "src": "/step-pictures/lab-04--guided--9--86eb89ef50.svg",
       "title": "Attach the private VMnet",
       "kind": "action-map",
-      "fileHash": "28516384806c0051b54bad83897829da40e28e43ff2eb78deac7eaaf3ed6214e"
+      "fileHash": "be0ba9239a563edcb0a6bcf1ffbe935cedfffbc67b3df529b6d8386f95eefeb0"
     },
     {
       "stepId": "lab-04:guided:10",
@@ -196,7 +196,7 @@
       "src": "/step-pictures/lab-04--guided--10--71dab0d746.svg",
       "title": "Finish and start the VM",
       "kind": "action-map",
-      "fileHash": "a61cc61f2d43295887a34a0d5f2590e703f933e281759bcf90c1bc77a4db0d9c"
+      "fileHash": "afb765de1fe51f2b6f897f3bc72ab99d30179034cb666dd4b5d487aeb421d974"
     },
     {
       "stepId": "lab-04:guided:11",
@@ -204,7 +204,7 @@
       "src": "/step-pictures/lab-04--guided--11--d126b0dfba.svg",
       "title": "Start Windows Setup",
       "kind": "action-map",
-      "fileHash": "ac90579d49d8a2a1e6e1bb9f22203a9186cba85051aad5945f9539f54df077d2"
+      "fileHash": "a115fcf9cdac351c3bd9f84c92350229c9d5b8c44dc5004fac8536165171660d"
     },
     {
       "stepId": "lab-04:guided:12",
@@ -212,7 +212,7 @@
       "src": "/step-pictures/lab-04--guided--12--4f02542b54.svg",
       "title": "Choose Desktop Experience",
       "kind": "action-map",
-      "fileHash": "4d7ba64eb1340e256c77c967cd05c1c98e5479fd5927cb4e472405a25bf3423a"
+      "fileHash": "5ded5935d0cdcfd3dcbe031cb65283d86c3c79eff0f30b1ab04876d8d3af3ce5"
     },
     {
       "stepId": "lab-04:guided:13",
@@ -220,7 +220,7 @@
       "src": "/step-pictures/lab-04--guided--13--8140d6fd83.svg",
       "title": "Install only on the new blank disk",
       "kind": "action-map",
-      "fileHash": "1a93096ebeadd957048789701ec0c3296cfad8605952af91bc2385d7f359e59c"
+      "fileHash": "654747d2d8a628374ad3f1ec27bd10039224d4b7787948e53a367861b99479ef"
     },
     {
       "stepId": "lab-04:guided:14",
@@ -228,7 +228,7 @@
       "src": "/step-pictures/lab-04--guided--14--c04a32bb39.svg",
       "title": "Create the local Administrator password",
       "kind": "action-map",
-      "fileHash": "8e33f85e944d66d12b08dd6297fcd358c57ebf4d653175decbda668f15a50496"
+      "fileHash": "8f2f3bd94ba53130ee55387fd879af8090c7c1a5b9b54a74996868708c97bb21"
     },
     {
       "stepId": "lab-04:guided:15",
@@ -236,7 +236,7 @@
       "src": "/step-pictures/lab-04--guided--15--1ac101fe07.svg",
       "title": "Sign into the guest",
       "kind": "action-map",
-      "fileHash": "cf1383ee80f400c84bab6e8a3c2cf45c4a96186513d77c94842095ec888501c9"
+      "fileHash": "989f04fa2321d21a339dbc07c5d8d547809307e71b46b3568033ac20f2b28f79"
     },
     {
       "stepId": "lab-04:guided:16",
@@ -244,23 +244,23 @@
       "src": "/step-pictures/lab-04--guided--16--c14026da79.svg",
       "title": "Install VMware Tools",
       "kind": "action-map",
-      "fileHash": "58345cb4daad4b64f5233a5a515919c2b25c077c6a9aec79d833ab54e69d98b1"
+      "fileHash": "c1a2593472cf53cc8fe3e6f52aa507dda38b1e3516d06883abe6b4fdf345cc80"
     },
     {
       "stepId": "lab-04:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/lab-04--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/lab-04--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "3f81d3de0b5c47872eb883755f109efe26237b15cb585623ceb550615d1e85dd"
+      "fileHash": "be664d732b9225c893059151f9fdb44a64c0ba21e5808c1cd1d1d22fce7244cd"
     },
     {
       "stepId": "lab-04:guided:18",
-      "instructionHash": "594124fbf66280fd0b5816626a3750fa86a3e308261c926a7489d72ec07b5b33",
-      "src": "/step-pictures/lab-04--guided--18--594124fbf6.svg",
+      "instructionHash": "62d3a03691a4fa9dfc17495321e6a26fac670d80415970f1791351e6b47c2650",
+      "src": "/step-pictures/lab-04--guided--18--62d3a03691.svg",
       "title": "Rename Windows",
       "kind": "command-map",
-      "fileHash": "9d1a2efeaa8351f5e2b42c22225107fdae4b5cd8d19f02eda6d0f809a0f1c060"
+      "fileHash": "251be7409cc1de82a188b2d484ee2930e1bb19e7d68f0019d59e34e40880030a"
     },
     {
       "stepId": "lab-04:guided:19",
@@ -268,23 +268,23 @@
       "src": "/step-pictures/lab-04--guided--19--d47e3d62a1.svg",
       "title": "Open the guest IPv4 settings",
       "kind": "action-map",
-      "fileHash": "714516cea307afc4533c8e5fd792c9fca5e612363f930701da8f310cc65a306c"
+      "fileHash": "5975d6c50dfb01f8e77b8a380d0bd6af12e9b7fd9d062e03e065cf3b1b8a608b"
     },
     {
       "stepId": "lab-04:guided:20",
-      "instructionHash": "87b61d2a29d14568f2f8506744b3fac0819ca424493a11563d8650493a4f6ad0",
-      "src": "/step-pictures/lab-04--guided--20--87b61d2a29.svg",
+      "instructionHash": "0a9f6dcaa6969851efc4f64b6b2832cdec4fd418d3e50499572a6d9e113191bc",
+      "src": "/step-pictures/lab-04--guided--20--0a9f6dcaa6.svg",
       "title": "Enter the lab address",
       "kind": "command-map",
-      "fileHash": "69641fed4604c1774ad81eab3b49d4f2722ddb362c4b192136b2a4025cc69102"
+      "fileHash": "02202da9da441be19e2e454876cbdb8b3a3900059face905aeaeda30912d7868"
     },
     {
       "stepId": "lab-04:guided:21",
-      "instructionHash": "e7ad0d6143b75dde37ff6d93186af7c1ef2e106d5b3b8311b1ca64611d0a985c",
-      "src": "/step-pictures/lab-04--guided--21--e7ad0d6143.svg",
+      "instructionHash": "743bccc8f22a562bc3da9f15afdc5cdfdf5aa4c92266d4059cbbaf657c4d9740",
+      "src": "/step-pictures/lab-04--guided--21--743bccc8f2.svg",
       "title": "Confirm this is Server 2019",
       "kind": "command-map",
-      "fileHash": "f9e9476db92ba27afe65e5923b773d9daf7fe8b631adcd9756df2dfe4c5f2167"
+      "fileHash": "e6ec02dae16a88d45bbdcd0fc630a0cd984c94f014bcdcac26387648323a963e"
     },
     {
       "stepId": "lab-04:guided:22",
@@ -292,7 +292,7 @@
       "src": "/step-pictures/lab-04--guided--22--5e529fdb25.svg",
       "title": "Open Add Roles and Features",
       "kind": "action-map",
-      "fileHash": "321c9d074104a4c5cf726d3081aae076fc35d1646977dc9940ea7ca30d7bc3de"
+      "fileHash": "c0e75a819d3a48cd142a1dd1c33c51b2af998400409888f10c2331b9142d34df"
     },
     {
       "stepId": "lab-04:guided:23",
@@ -300,7 +300,7 @@
       "src": "/step-pictures/lab-04--guided--23--c46d681a6d.svg",
       "title": "Select the local destination server",
       "kind": "action-map",
-      "fileHash": "524386727e21341f3013927e878b4e3c80dc0892429f05141e4f1700c74c904a"
+      "fileHash": "096ddee1ae3ca7239e4b40a3676ab13eb89e30635a84c3dff05cef442f294fff"
     },
     {
       "stepId": "lab-04:guided:24",
@@ -308,7 +308,7 @@
       "src": "/step-pictures/lab-04--guided--24--96a249337e.svg",
       "title": "Select AD DS and its tools",
       "kind": "action-map",
-      "fileHash": "eb5f55de4c74946d3cc438b7088d1bdb33cfcd82e196ac2501275179f726f19d"
+      "fileHash": "404f73f8c7d19d411a28751e51e61d80b07f843f335966407adf5f232de1116c"
     },
     {
       "stepId": "lab-04:guided:25",
@@ -316,7 +316,7 @@
       "src": "/step-pictures/lab-04--guided--25--2801e1c379.svg",
       "title": "Install the role",
       "kind": "action-map",
-      "fileHash": "83aec86673dff0ada9deafae14e05f1f7bd99205b3ff8b6aeb40093d2aba7ff5"
+      "fileHash": "73d2352e04b512f98f5b82bd028b7221e52fa708f23cf25150586bebbd17cdc6"
     },
     {
       "stepId": "lab-04:guided:26",
@@ -324,7 +324,7 @@
       "src": "/step-pictures/lab-04--guided--26--c06b250fd1.svg",
       "title": "Choose the correct promotion operation",
       "kind": "action-map",
-      "fileHash": "ffb9a09e461576e7b0710e8c593ff944e55cb2bbfbd6a4c7f081fda2067d1254"
+      "fileHash": "2a46f18de8d108d609033a8de7ea02ef15b216bf5c1ea635f117252d533dace5"
     },
     {
       "stepId": "lab-04:guided:27",
@@ -332,7 +332,7 @@
       "src": "/step-pictures/lab-04--guided--27--2bd445c137.svg",
       "title": "Set controller options and DSRM",
       "kind": "action-map",
-      "fileHash": "a5244663d1a4ad9ea41a0d20004b8cdec632b758508afe6493b3bc20a4fb0813"
+      "fileHash": "f2c352dd03639ac347391aed5d09326497001de0a35239d33377a85085fce17f"
     },
     {
       "stepId": "lab-04:guided:28",
@@ -340,7 +340,7 @@
       "src": "/step-pictures/lab-04--guided--28--7a3f8e2385.svg",
       "title": "Review DNS and additional options",
       "kind": "action-map",
-      "fileHash": "497a5a78a35e233d94578d1e3d6c6e864face9fccaef49fddb76f6799e8d5ead"
+      "fileHash": "b4fb06641a6a49a3f02592f58ac4be831fcca9a21a5b6b24cccd20a5d588d52c"
     },
     {
       "stepId": "lab-04:guided:29",
@@ -348,7 +348,7 @@
       "src": "/step-pictures/lab-04--guided--29--4f28400760.svg",
       "title": "Keep the default AD paths",
       "kind": "action-map",
-      "fileHash": "058ecca43f6f1591038c06c0b727b57484899d13d3f186a82f7f0fed9542ff2f"
+      "fileHash": "6b482f95aa888b727d29e263866aa2b42e1be2314b8fb48ad5b0d8c233f56424"
     },
     {
       "stepId": "lab-04:guided:30",
@@ -356,7 +356,7 @@
       "src": "/step-pictures/lab-04--guided--30--cf29f451f7.svg",
       "title": "Check prerequisites before promotion",
       "kind": "action-map",
-      "fileHash": "c969fe78b65aa0ba6e3a69652c9fe58f1393a53427dbdc8e51eba410211a598a"
+      "fileHash": "ffed54ef9c1f361340d0716f8d995f6a1c3041b957b581bd480469f1e23dfb91"
     },
     {
       "stepId": "lab-04:guided:31",
@@ -364,7 +364,7 @@
       "src": "/step-pictures/lab-04--guided--31--e87f3effdf.svg",
       "title": "Promote and wait for restart",
       "kind": "action-map",
-      "fileHash": "1f38b0b7d4ff727428b6b9377797970f16ae75d4f5cf1d10a488b9ac661fd92a"
+      "fileHash": "54c11dde5c3246d6caebef151fc079c3fb10698f841d73397139ec814aa4d085"
     },
     {
       "stepId": "lab-04:guided:32",
@@ -372,15 +372,15 @@
       "src": "/step-pictures/lab-04--guided--32--4266f9047d.svg",
       "title": "Verify the directory",
       "kind": "command-map",
-      "fileHash": "51bb571da364f8faa78328f33407170474ba777b984f8fc83683049b7af01aec"
+      "fileHash": "a166f9a7a881f07ec56a586d963bcbde993e894c9f7dad47afaff505c89bf94b"
     },
     {
       "stepId": "lab-05:guided:1",
-      "instructionHash": "bc6bdc8a8bdd4eac8fb9b75ab27568894dda49da9bd049d51e3e1543922417be",
-      "src": "/step-pictures/lab-05--guided--1--bc6bdc8a8b.svg",
+      "instructionHash": "cfd23dd4b729f8d0d5e6276eedf73f5237534b333bc955ef88da012e7a66691e",
+      "src": "/step-pictures/lab-05--guided--1--cfd23dd4b7.svg",
       "title": "Open Active Directory Users and Computers",
       "kind": "action-map",
-      "fileHash": "79d6f32bb7eaa3c34299df349fda98bedc50d183eaafb9a1e8c9d06ac4419c22"
+      "fileHash": "33fa03c9a097942edef095e0b29888d2110db68d89099ed8acf9eee31adab40e"
     },
     {
       "stepId": "lab-05:guided:2",
@@ -388,7 +388,7 @@
       "src": "/step-pictures/lab-05--guided--2--c1645e2aff.svg",
       "title": "Create the Operations OU",
       "kind": "action-map",
-      "fileHash": "afbc3eae118feb4df6ec1aa42aca7c6aae095d1f44ac209d8b7423e437afb25f"
+      "fileHash": "209435af433b26b5472c57134b2bbdf2b70ee8d6ed452cc7a9585d8199ce2a85"
     },
     {
       "stepId": "lab-05:guided:3",
@@ -396,7 +396,7 @@
       "src": "/step-pictures/lab-05--guided--3--e998ce6c63.svg",
       "title": "Create the test user",
       "kind": "action-map",
-      "fileHash": "94b5e1760c84170bcbdcc8ceaac7f180d2d49134fda2345a666c5eeee661b11b"
+      "fileHash": "336d5c9650a603b337231a91d188426cdb2edfb135446527518d1f17ccef9ba6"
     },
     {
       "stepId": "lab-05:guided:4",
@@ -404,7 +404,7 @@
       "src": "/step-pictures/lab-05--guided--4--ba36b14332.svg",
       "title": "Create and populate the group",
       "kind": "action-map",
-      "fileHash": "09a1432327c7ad583e206aa4dcc1dca94ee984b8d8a35ffd33d4d8585774982b"
+      "fileHash": "7b28062e4e406c361b9871986c9c2930b9d465da3646d445aa89dd21e7a751d7"
     },
     {
       "stepId": "lab-05:guided:5",
@@ -412,7 +412,7 @@
       "src": "/step-pictures/lab-05--guided--5--c1610ef471.svg",
       "title": "Open Group Policy Management",
       "kind": "action-map",
-      "fileHash": "d50182c73145b1bb31990a92d39b1f97d586c6d3b0a2a83bad9f4d45df123fc8"
+      "fileHash": "8ed032e4438b06a1e32a30081f40fc4323880bcc990f8f0a1ff2178ba0ae64b5"
     },
     {
       "stepId": "lab-05:guided:6",
@@ -420,7 +420,7 @@
       "src": "/step-pictures/lab-05--guided--6--d2456f3e51.svg",
       "title": "Create and link the GPO",
       "kind": "action-map",
-      "fileHash": "dcf9af2e94600deb06fa1a2f1fd6404d7d7699a6af9a35a747f55684c752465f"
+      "fileHash": "0f6a57ea26e1ca0a31b139d881f174dc375aee8bdb466ea8c69cee32f9d95296"
     },
     {
       "stepId": "lab-05:guided:7",
@@ -428,15 +428,15 @@
       "src": "/step-pictures/lab-05--guided--7--ad122c601b.svg",
       "title": "Edit the logon banner",
       "kind": "action-map",
-      "fileHash": "385582a91625fe5ea214253a455b645747600069c965dfed55000521480b9925"
+      "fileHash": "418f53d0ea54d8052f8ac7ab330da1e275a96e4203a028a0c48b403fbe02a35d"
     },
     {
       "stepId": "lab-05:guided:8",
-      "instructionHash": "3490bb69d8e510bce41ae03934f31dd661f8e893541561d4183488246443a08a",
-      "src": "/step-pictures/lab-05--guided--8--3490bb69d8.svg",
+      "instructionHash": "697d1f583845e40a1d7821d2b8fd5403472dc9e65f1d81bca5b59b71f9f05aa4",
+      "src": "/step-pictures/lab-05--guided--8--697d1f5838.svg",
       "title": "Verify the objects",
       "kind": "command-map",
-      "fileHash": "da096114d012fd7292633e5286b4e2782b9c2c547d1d04510fbbf7629ba0b264"
+      "fileHash": "9a6944c8516d758b2fc3a13e283318de667af6e88e84cc0cc89a7209f8af7c3a"
     },
     {
       "stepId": "lab-06:guided:1",
@@ -504,11 +504,11 @@
     },
     {
       "stepId": "lab-06:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
-      "src": "/step-pictures/lab-06--guided--9--e779ca4940.svg",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
+      "src": "/step-pictures/lab-06--guided--9--86eb89ef50.svg",
       "title": "Attach the private VMnet",
       "kind": "action-map",
-      "fileHash": "5a7df0c2853e997905bd7989827e6ead349faffb7b037b6ae0c51fd94e8628f6"
+      "fileHash": "0c14e146b965b49e2f7d9fb707dde2ad98b4cbbd8c2ca84c26fe4b7474842f2f"
     },
     {
       "stepId": "lab-06:guided:10",
@@ -568,11 +568,11 @@
     },
     {
       "stepId": "lab-06:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/lab-06--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/lab-06--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "cce78fca0453a499d1184c9fe041c9bd3e02ca1361c9fbc98d351f35ecdf70c0"
+      "fileHash": "65921b637d3efd4897931216a0c24ce3c9efa1ae717f84d9f857fee1e72c13e1"
     },
     {
       "stepId": "lab-06:guided:18",
@@ -592,11 +592,11 @@
     },
     {
       "stepId": "lab-06:guided:20",
-      "instructionHash": "bc3255908bb02dcaba16e8109405d8b30b82e003ef30f7a74feb70fffeb79bba",
-      "src": "/step-pictures/lab-06--guided--20--bc3255908b.svg",
+      "instructionHash": "092b0da6c613de3e68b2f7b2ce64f96b713e541bda2347f9c17d968132b75094",
+      "src": "/step-pictures/lab-06--guided--20--092b0da6c6.svg",
       "title": "Enter the lab address",
       "kind": "command-map",
-      "fileHash": "6b3c7645217d4126126a82fa5072177a9449cbd3ebc6d48f89d9b17aaaace942"
+      "fileHash": "7b3146e8f328930903afe5c878c478a7ab1c253fd3f5892bcbee23bdeb80a2a0"
     },
     {
       "stepId": "lab-06:guided:21",
@@ -660,7 +660,7 @@
       "src": "/step-pictures/lab-07--guided--1--756c40654b.svg",
       "title": "Open the new VM wizard",
       "kind": "action-map",
-      "fileHash": "90a292f6cb1ebfb26814de97425f5d4650d97de9d06851df1e4196d25caeded9"
+      "fileHash": "f36358eaa8f69ee3e3fbbf6ee30d9de5f169008029e1b50f1f48556fa9ce49ad"
     },
     {
       "stepId": "lab-07:guided:2",
@@ -668,7 +668,7 @@
       "src": "/step-pictures/lab-07--guided--2--c2e177798e.svg",
       "title": "Choose Typical",
       "kind": "action-map",
-      "fileHash": "64a1ff24ba077618297b07130257e2d140565a60eaaa40ac4a422d84acae59e9"
+      "fileHash": "90211185224ad81b0d00c23d837fb79bd4272db55558b7c4bb74d1b6d9b4e5b4"
     },
     {
       "stepId": "lab-07:guided:3",
@@ -676,7 +676,7 @@
       "src": "/step-pictures/lab-07--guided--3--676886086a.svg",
       "title": "Use manual Windows installation",
       "kind": "action-map",
-      "fileHash": "afb0acdc2ac6dd79527d5947ea5acb1ff7c11ac361decfc954d1d95ecbf79346"
+      "fileHash": "be1db878f5ee016417653b715de6156f3cc94e292f9fdabda00400413903a78b"
     },
     {
       "stepId": "lab-07:guided:4",
@@ -684,15 +684,15 @@
       "src": "/step-pictures/lab-07--guided--4--5f104ffbd0.svg",
       "title": "Choose the Server 2019 guest profile",
       "kind": "action-map",
-      "fileHash": "cf20a3a9027aa3c0374dfcc314fd70df667071f3b30e5e74f6e980e6cfac9f4b"
+      "fileHash": "50fe8d5c08efa74265c679a29648b25f0559b5694517523c0980ef467a657f41"
     },
     {
       "stepId": "lab-07:guided:5",
-      "instructionHash": "39a749ae4ed9bea7e95ad37a615ef64140115cd780b5f663ca9ccb4bf8583afa",
-      "src": "/step-pictures/lab-07--guided--5--39a749ae4e.svg",
+      "instructionHash": "43fd401c8cdfd6fb4b7450b280d94b424350254f91fe89d64a58f6e02ecdf835",
+      "src": "/step-pictures/lab-07--guided--5--43fd401c8c.svg",
       "title": "Name the VM",
       "kind": "action-map",
-      "fileHash": "042df48d9a04becd9f481a51f27e90e9cb244f9a6bfbe2d0ba1a3036057c34ed"
+      "fileHash": "44a344f7e7c355da068ca8571ad20c010b02ca638a596d1616361a861ed03f7d"
     },
     {
       "stepId": "lab-07:guided:6",
@@ -700,7 +700,7 @@
       "src": "/step-pictures/lab-07--guided--6--49a079c8bd.svg",
       "title": "Create a new virtual disk",
       "kind": "action-map",
-      "fileHash": "1a0ef20fadd2147192b8c9338895e78c75b1e2193068db18761ab232886c0e34"
+      "fileHash": "75ffa18a1f3c41daac0ad3526499842ba612ac8fa700170a3ad1f19fb5d5b328"
     },
     {
       "stepId": "lab-07:guided:7",
@@ -708,7 +708,7 @@
       "src": "/step-pictures/lab-07--guided--7--3a88969c72.svg",
       "title": "Set memory and CPU",
       "kind": "action-map",
-      "fileHash": "22c912aa919c2972359db8238ad14018dda79bb7494ddf04901481aed553acb5"
+      "fileHash": "247482a097ca9329e0a70d9c3964b0f63031996513d2d9cf9d1a645be72dff71"
     },
     {
       "stepId": "lab-07:guided:8",
@@ -716,15 +716,15 @@
       "src": "/step-pictures/lab-07--guided--8--01b8b6971a.svg",
       "title": "Attach the Server 2019 ISO",
       "kind": "action-map",
-      "fileHash": "8ccc2ce23c1df9ed8d0063c0ac9acf3004feae51f964d104cf235c83a4d22dab"
+      "fileHash": "c2e2bd7d3034d645f5d1d158d3f9a3f218a94ec67927b58ac4bc606dd5e30561"
     },
     {
       "stepId": "lab-07:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
-      "src": "/step-pictures/lab-07--guided--9--e779ca4940.svg",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
+      "src": "/step-pictures/lab-07--guided--9--86eb89ef50.svg",
       "title": "Attach the private VMnet",
       "kind": "action-map",
-      "fileHash": "8636915a184aa8b2161c8223e6cf19e647e5c6b30b79bb56e02a5d3f441f95a8"
+      "fileHash": "1d9b8c6b82cd41e3b99ac0850f679f9c2088ac85df8960efbefb949e3701f46f"
     },
     {
       "stepId": "lab-07:guided:10",
@@ -732,7 +732,7 @@
       "src": "/step-pictures/lab-07--guided--10--71dab0d746.svg",
       "title": "Finish and start the VM",
       "kind": "action-map",
-      "fileHash": "0991db2310792f7cce0004a2abeed0f961e222f1aa67820ff0ea31e7ceb179de"
+      "fileHash": "2a2216801532ae2380ce2925ecdf884163afe429be59f0e18ab9de23beee0b17"
     },
     {
       "stepId": "lab-07:guided:11",
@@ -740,7 +740,7 @@
       "src": "/step-pictures/lab-07--guided--11--d126b0dfba.svg",
       "title": "Start Windows Setup",
       "kind": "action-map",
-      "fileHash": "6f7e6aacc031488aee16c9d2a474f27e01f6fbcc7e422198c10bfc3c69da5599"
+      "fileHash": "e84e0773ece49d72daaf717aa45ed8a5b83f9ccedb80b89c9e75c17b30d23061"
     },
     {
       "stepId": "lab-07:guided:12",
@@ -748,7 +748,7 @@
       "src": "/step-pictures/lab-07--guided--12--4f02542b54.svg",
       "title": "Choose Desktop Experience",
       "kind": "action-map",
-      "fileHash": "7a24cc8fba8ac8340c4f41d83da3ca6d06ceccaa1fe6007b8cbdc7632d07d448"
+      "fileHash": "d654de28cd98a561ad3fd6cff4309c30bcefa62fa01e122f28f31bb323c86449"
     },
     {
       "stepId": "lab-07:guided:13",
@@ -756,7 +756,7 @@
       "src": "/step-pictures/lab-07--guided--13--8140d6fd83.svg",
       "title": "Install only on the new blank disk",
       "kind": "action-map",
-      "fileHash": "2c03a44d17f56bb77545c644bc772dc8cf87642efef7d91bd675ece0c21c7595"
+      "fileHash": "bb74715fb68cb078cae786124ac70b7af0f150ed0f185d402176d271960854c5"
     },
     {
       "stepId": "lab-07:guided:14",
@@ -764,7 +764,7 @@
       "src": "/step-pictures/lab-07--guided--14--c04a32bb39.svg",
       "title": "Create the local Administrator password",
       "kind": "action-map",
-      "fileHash": "15d8c58926ec0fcefbda58e4915de7f549c652224cff87ed0a3fffb6c7029221"
+      "fileHash": "90876fad91fc9680f064d9f5421c57dbb19469635d754ffb87379de7f1c1acbe"
     },
     {
       "stepId": "lab-07:guided:15",
@@ -772,7 +772,7 @@
       "src": "/step-pictures/lab-07--guided--15--1ac101fe07.svg",
       "title": "Sign into the guest",
       "kind": "action-map",
-      "fileHash": "bb441b19d68fc1ae3e82c3b6aa45fc4b8cb96c90e8af3ddb9f1ac006496bdf7f"
+      "fileHash": "1fc82ce434092b89660f9b4f284a135e053a04e85bff8d79f967c68d72648338"
     },
     {
       "stepId": "lab-07:guided:16",
@@ -780,23 +780,23 @@
       "src": "/step-pictures/lab-07--guided--16--c14026da79.svg",
       "title": "Install VMware Tools",
       "kind": "action-map",
-      "fileHash": "291d6ae03dcc8ff70c4b67b23592b991edc3a7a34a4aab97d29df68173cb94df"
+      "fileHash": "907cef9d5666a53bc305dbdab7bbfa1433c804c101dda17252d97208397bfa28"
     },
     {
       "stepId": "lab-07:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/lab-07--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/lab-07--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "8246d369a02f780ada6b31884f68ba9945585df1a617a0a1cc4523106dd0d546"
+      "fileHash": "18890543889ae043e57bba496c289ab3887461158986c19a64f11e21366c3805"
     },
     {
       "stepId": "lab-07:guided:18",
-      "instructionHash": "521b7bc8dc6127d0426f76ac9ea4c495a73d97d8721310e19818d677168959a9",
-      "src": "/step-pictures/lab-07--guided--18--521b7bc8dc.svg",
+      "instructionHash": "e9f6fd90edcd7f6f07d08ab6d22a23b24d604d45fcd9562d4b69e3455d8c17c7",
+      "src": "/step-pictures/lab-07--guided--18--e9f6fd90ed.svg",
       "title": "Rename Windows",
       "kind": "command-map",
-      "fileHash": "3174ae79a9b72cf6fc5902b3f644f364d34d1249fcf4c31322b736c9affe3d11"
+      "fileHash": "77bfdefb9682239098148f3c64c670425cc8fdd9b6eba0b66b8a7a176fc70f9d"
     },
     {
       "stepId": "lab-07:guided:19",
@@ -804,47 +804,47 @@
       "src": "/step-pictures/lab-07--guided--19--d47e3d62a1.svg",
       "title": "Open the guest IPv4 settings",
       "kind": "action-map",
-      "fileHash": "df9c9f6e3f862dcd14606ffb82a527e5878bc4d7c7cd3b0824019cb34d6b00f3"
+      "fileHash": "9e959c3bfb7999f72831df7779474029371d3b93defac7195a4f226fd269787d"
     },
     {
       "stepId": "lab-07:guided:20",
-      "instructionHash": "ac3c7f023e455de182180f6cc0a892d94e5a90942a74726bdfac903cd2703d20",
-      "src": "/step-pictures/lab-07--guided--20--ac3c7f023e.svg",
+      "instructionHash": "13eed2480644ea0277191d4b91c89008fa795641b3ef82db87fe203734d1cb82",
+      "src": "/step-pictures/lab-07--guided--20--13eed24806.svg",
       "title": "Enter the lab address",
       "kind": "command-map",
-      "fileHash": "8a7fc5bae21f28c68fdcc386cc2d61d84802636035d3267f0b83979c8fb8edad"
+      "fileHash": "e14fc6789589b4f075eafb430c20b4ddcf8c4d9813f9f4ccd17d7c25d46fb5ef"
     },
     {
       "stepId": "lab-07:guided:21",
-      "instructionHash": "1c8c793ed1ed9d006b6fb78dee5edff6400460259122bcf81ce88766e82e2d47",
-      "src": "/step-pictures/lab-07--guided--21--1c8c793ed1.svg",
-      "title": "Confirm this is Server 2019",
+      "instructionHash": "c9591dad9527f4f1033ac469f1791b77a48f343c6a26c30e57502befdbe0decd",
+      "src": "/step-pictures/lab-07--guided--21--c9591dad95.svg",
+      "title": "Prove the two private servers can talk",
       "kind": "command-map",
-      "fileHash": "f614050d140cf21542c59cba486f7ea6bc07a18f58267b15044c44c19d93e180"
+      "fileHash": "f304f4242a9f292201a15b897ba1c67170e4bd531e3a6a306cddb2dad277bade"
     },
     {
       "stepId": "lab-07:guided:22",
-      "instructionHash": "a0e5d99db158ec4580ee8c0d3fa6ed614224888c5472e21b8fa44c406ef57b20",
-      "src": "/step-pictures/lab-07--guided--22--a0e5d99db1.svg",
+      "instructionHash": "2a59fd58943d5f18e8f39eab480c3511867e2a2ed75b70b86409a5d5af9e3417",
+      "src": "/step-pictures/lab-07--guided--22--2a59fd5894.svg",
       "title": "Check domain DNS before joining",
       "kind": "command-map",
-      "fileHash": "1ad72968c1bd2883f42a1560ef37ff4ffda3cbb88ba8a2e72726478a6f2b98d5"
+      "fileHash": "4e69b06c6b8e45fc3d01b6c0e53f73db5e868678b63cc1fc1deb8b7d9e82f59f"
     },
     {
       "stepId": "lab-07:guided:23",
-      "instructionHash": "a84e9c64f1fe01844f4ccc2d72fb02c9b70068f54ccbe3018d201d47dabf1896",
-      "src": "/step-pictures/lab-07--guided--23--a84e9c64f1.svg",
+      "instructionHash": "3aa4b072549adebee746b0ce2b36d8926fb5f7b1d3bf94601fd28707e57ada27",
+      "src": "/step-pictures/lab-07--guided--23--3aa4b07254.svg",
       "title": "Join the domain",
       "kind": "action-map",
-      "fileHash": "123c2763a51f18424c2524032d23d0654ac0aaac12b59e66406e35efacf40d3f"
+      "fileHash": "1b9109904648d3aeac607216c6350bbe3a9f4f181e1538cb4136f303575bbfd0"
     },
     {
       "stepId": "lab-07:guided:24",
-      "instructionHash": "b35246ce79ae6df46a4bbb43bece8913e15c75058e4d9cdde69fd185a3f2a5db",
-      "src": "/step-pictures/lab-07--guided--24--b35246ce79.svg",
+      "instructionHash": "d17c7d765cb25e263182b3819c4ce240cfc5907bd6250bec9317b818e247fbe1",
+      "src": "/step-pictures/lab-07--guided--24--d17c7d765c.svg",
       "title": "Restart and verify membership",
       "kind": "command-map",
-      "fileHash": "cd1e16d733d391991979cc528a102b7ec3a2f955a7cf8ea5ccee40a8a79f50ee"
+      "fileHash": "79ab027f1a5e2a8f6c5a8ab9728e596450eb4854bf87214366f0810d8fab100f"
     },
     {
       "stepId": "lab-07:guided:25",
@@ -852,7 +852,7 @@
       "src": "/step-pictures/lab-07--guided--25--5e529fdb25.svg",
       "title": "Open Add Roles and Features",
       "kind": "action-map",
-      "fileHash": "3397194db03ef2eee6c518b87be019d713257ad9edc662aa0807d6b4aa1c3e75"
+      "fileHash": "30572d05af196af50f78d1de6e883365b648f6bcfa7ddd35c576692172156d24"
     },
     {
       "stepId": "lab-07:guided:26",
@@ -860,7 +860,7 @@
       "src": "/step-pictures/lab-07--guided--26--c46d681a6d.svg",
       "title": "Select the local destination server",
       "kind": "action-map",
-      "fileHash": "95f4b9b9bc42371f10b35da90feee14ba8a6b400f4cfbb225859ebb469910dff"
+      "fileHash": "d9db3e5f871a755e95e6895af7f4ba9161a0cf0512d598ea55a318aa419de469"
     },
     {
       "stepId": "lab-07:guided:27",
@@ -868,7 +868,7 @@
       "src": "/step-pictures/lab-07--guided--27--96a249337e.svg",
       "title": "Select AD DS and its tools",
       "kind": "action-map",
-      "fileHash": "8867bcab79aad23a02aa86f9e4fe82e786b1051899f2c9f9429b576e8cb8c1e5"
+      "fileHash": "09ec8cf8e19ce8b2b441ae0c5d46bb093b984ce1e2615911225a79a2fd6cfbfd"
     },
     {
       "stepId": "lab-07:guided:28",
@@ -876,7 +876,7 @@
       "src": "/step-pictures/lab-07--guided--28--2801e1c379.svg",
       "title": "Install the role",
       "kind": "action-map",
-      "fileHash": "3f962846787be1ccc10658b7893c344a3837468a21880f5c03ca57a09b3d42f7"
+      "fileHash": "38920a7e0088413d0af11df211e7da11f90172ac898a27ade8c05f1eb53bdbb3"
     },
     {
       "stepId": "lab-07:guided:29",
@@ -884,7 +884,7 @@
       "src": "/step-pictures/lab-07--guided--29--7290936613.svg",
       "title": "Choose the correct promotion operation",
       "kind": "action-map",
-      "fileHash": "0281f0c63db1168b684f69da0258bf1243e4250e04271e973329d1c03212e6a4"
+      "fileHash": "fa5f753bda33ce5e28b3799db71e1b09ff30f6e66515b246202af3acd4bdefd6"
     },
     {
       "stepId": "lab-07:guided:30",
@@ -892,15 +892,15 @@
       "src": "/step-pictures/lab-07--guided--30--4782ef42a0.svg",
       "title": "Set controller options and DSRM",
       "kind": "action-map",
-      "fileHash": "450aafeef413eb6d3b5d882c0c8ea403cd928e4d1841b7f67f6e961a9b1b1b17"
+      "fileHash": "37cb3271fb300d2ba14363133b71143a4ef3c7c568d08ae9418f162ca3f248ba"
     },
     {
       "stepId": "lab-07:guided:31",
-      "instructionHash": "2f2eb4dbf7f2906d77645a7242127e75de7c1f56d02312b87301b4879c83b6dd",
-      "src": "/step-pictures/lab-07--guided--31--2f2eb4dbf7.svg",
+      "instructionHash": "25d4d48e4a403a1092e86c99b2dfeb33ecaf2c6810c558ec0d1537698059e6fb",
+      "src": "/step-pictures/lab-07--guided--31--25d4d48e4a.svg",
       "title": "Review DNS and additional options",
       "kind": "action-map",
-      "fileHash": "356a2ebe5003895bf9d0cccac7618dc45577d673bd0716e7293a6accf1bef3aa"
+      "fileHash": "7e467d6e0480d26724b33f6fe13946aee1c5db89733c11b09f0ced6e5d4ce17c"
     },
     {
       "stepId": "lab-07:guided:32",
@@ -908,7 +908,7 @@
       "src": "/step-pictures/lab-07--guided--32--4f28400760.svg",
       "title": "Keep the default AD paths",
       "kind": "action-map",
-      "fileHash": "e00b06ba7aab58c41ca448aca90423c64ce0ea4f8abd89f7732419da86a80dc6"
+      "fileHash": "0881ec06751c4886e5315bdd337a9c2ad34973350640f3b7a891e7272285e017"
     },
     {
       "stepId": "lab-07:guided:33",
@@ -916,7 +916,7 @@
       "src": "/step-pictures/lab-07--guided--33--cf29f451f7.svg",
       "title": "Check prerequisites before promotion",
       "kind": "action-map",
-      "fileHash": "573d0faf1f91c3bbf88d4c01963d6457379922ed7ea7adbc7611455b839adcbc"
+      "fileHash": "73947f643264a1670a1ea0df933c800e3a96791286ff8e0d6fae97d400d5d009"
     },
     {
       "stepId": "lab-07:guided:34",
@@ -924,7 +924,7 @@
       "src": "/step-pictures/lab-07--guided--34--e87f3effdf.svg",
       "title": "Promote and wait for restart",
       "kind": "action-map",
-      "fileHash": "91c755075eab2b4ef5ffd2b72406d735f0b5e45fa8243aad77b9f47b620c07da"
+      "fileHash": "22197b1132cb31b826cf642666efc0555e1ce7fb269255aed5a4fcdb654fa2fd"
     },
     {
       "stepId": "lab-07:guided:35",
@@ -932,15 +932,15 @@
       "src": "/step-pictures/lab-07--guided--35--4266f9047d.svg",
       "title": "Verify the directory",
       "kind": "command-map",
-      "fileHash": "44fb53013b825a73d12a7647b98c1e41daf394f40980909ad489403e916f9845"
+      "fileHash": "5d03a38903bd90f83cfdcf071c7bc54f7ff7d1123cb85af3c681d2ec17fb5ffc"
     },
     {
       "stepId": "lab-07:guided:36",
-      "instructionHash": "4a05bcb29b833d8c919bd23c122dd4a9234b22075ddccf6549f228bb9405e96a",
-      "src": "/step-pictures/lab-07--guided--36--4a05bcb29b.svg",
+      "instructionHash": "387386b96aeb78647589b083bcbd42403007ea634b6b1a56986628ef35460947",
+      "src": "/step-pictures/lab-07--guided--36--387386b96a.svg",
       "title": "Prove replication",
       "kind": "command-map",
-      "fileHash": "13d283726b906a093c75c39e52bf413f6f5c4a413ec1920de081418f56a0391d"
+      "fileHash": "a0a5d057d3470cbaefde3db665ee7b677148baa6b96005da92140d5e655e9dac"
     },
     {
       "stepId": "lab-08:guided:1",
@@ -1008,11 +1008,11 @@
     },
     {
       "stepId": "lab-08:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
-      "src": "/step-pictures/lab-08--guided--9--e779ca4940.svg",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
+      "src": "/step-pictures/lab-08--guided--9--86eb89ef50.svg",
       "title": "Attach the private VMnet",
       "kind": "action-map",
-      "fileHash": "2f688444d77f0451e21c1963948312628c60650069b0623fb5fa103a9c21a18f"
+      "fileHash": "0410282a592f5461167522de31140d003b2d34bed6c1777b1c10522e5c61b2ba"
     },
     {
       "stepId": "lab-08:guided:10",
@@ -1072,11 +1072,11 @@
     },
     {
       "stepId": "lab-08:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/lab-08--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/lab-08--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "6eb08b8caea31b4d514438c037d0efd5c003d346f25f1f1f0c0f8f0c284b28bd"
+      "fileHash": "9b503fc18537ecafb452a9ae151784f5805a32858011ff16a927b635396300fd"
     },
     {
       "stepId": "lab-08:guided:18",
@@ -1096,11 +1096,11 @@
     },
     {
       "stepId": "lab-08:guided:20",
-      "instructionHash": "15055098f0c164996e9aba8c3a05bcf7c7bf39fd32b118ffb58faabd32a1c96e",
-      "src": "/step-pictures/lab-08--guided--20--15055098f0.svg",
+      "instructionHash": "58862d0e695b22e6fdad7dd548a11879668cd8565cca9220f80e5981af2d6df4",
+      "src": "/step-pictures/lab-08--guided--20--58862d0e69.svg",
       "title": "Enter the lab address",
       "kind": "command-map",
-      "fileHash": "f82d121a671d1e83a3dbcd87fe549c66457ce4c37da5e395f9d29bf46b5f8273"
+      "fileHash": "d2d1293ddef080cf22d00d77401cb9e4ef350809f43b7a956e441a693a9c7fbf"
     },
     {
       "stepId": "lab-08:guided:21",
@@ -1200,27 +1200,27 @@
     },
     {
       "stepId": "lab-09:guided:1",
-      "instructionHash": "8158fca8987934c48e2e8172779fd462fc526f832ddc6f5b2b2ad27c70ecd61f",
-      "src": "/step-pictures/lab-09--guided--1--8158fca898.svg",
-      "title": "On AG-DC01, open Server Manager / Tools",
+      "instructionHash": "b3049b462dde4a9f6b3e33ef4d0aaa907a83908ac6d61af836b23edee9efc08f",
+      "src": "/step-pictures/lab-09--guided--1--b3049b462d.svg",
+      "title": "On DC01, open Server Manager / Tools",
       "kind": "action-map",
-      "fileHash": "ccec3913b76da37400382e6032074a90ba8e786347138f58b25842b54e3e02a8"
+      "fileHash": "4944f77d3f4f85602d259639da1926766ddd83c9d0e3f8170caa2941a8119062"
     },
     {
       "stepId": "lab-09:guided:2",
-      "instructionHash": "fedde9d0862177962913d6b9ff4f7ec1b473311a4fc5551560c6c46db99d47ab",
-      "src": "/step-pictures/lab-09--guided--2--fedde9d086.svg",
+      "instructionHash": "f1c6bbe1d282e9af55aa593dbc7bfc7aea653740bf3737f1f4a6668a380ee75b",
+      "src": "/step-pictures/lab-09--guided--2--f1c6bbe1d2.svg",
       "title": "Right-click Conditional Forwarders / New Conditional Forwarder. DNS domain:",
       "kind": "action-map",
-      "fileHash": "9eaca16bb77c8378f466106c14fcc74555870ecbdaeff6ce909555512071396f"
+      "fileHash": "45e0f04d11d72ec3a66b581631b232b2484acc7aac15b4d23d407cafb34d1094"
     },
     {
       "stepId": "lab-09:guided:3",
-      "instructionHash": "cc47f0a6495aee35d2b6ed8b0e0896c140e0a94f404f66f7e9ad29eaba7df06f",
-      "src": "/step-pictures/lab-09--guided--3--cc47f0a649.svg",
+      "instructionHash": "94b750c06a7f6965c892a11cf20a71868a1ac520c6ac033c2d1c41cffb118bc5",
+      "src": "/step-pictures/lab-09--guided--3--94b750c06a.svg",
       "title": "On DEST-DC01, open DNS / Conditional Forwarders",
       "kind": "action-map",
-      "fileHash": "15d442ccf09b747363eb5b2b15865afa28fd136d0b574fd5202947aa425e1b24"
+      "fileHash": "d0de214d56c29a189c966ab3d9bb002463730126ab0de46f83c433d1d7b7bb95"
     },
     {
       "stepId": "lab-09:guided:4",
@@ -1228,7 +1228,7 @@
       "src": "/step-pictures/lab-09--guided--4--095ac327f3.svg",
       "title": "On both DCs run nslookup with the other domain name and its explicit local D",
       "kind": "action-map",
-      "fileHash": "dd4db293b7dc56e61dd70cf486690d349a61c61491afa7a6e585f336bd6943bf"
+      "fileHash": "7b519e496f7a910e5dc0db4ced30d7d9251bf26a476da9f2babd394561a61247"
     },
     {
       "stepId": "lab-09:guided:5",
@@ -1236,7 +1236,7 @@
       "src": "/step-pictures/lab-09--guided--5--da1422c163.svg",
       "title": "For a trust exercise ONLY, after name resolution works: open Active Director",
       "kind": "action-map",
-      "fileHash": "9711f24f039428f35af6a7d2f24aa13554a6de38d24f97b9ed09c6de021855f2"
+      "fileHash": "0235858d8206bb4478f189f99f0b27a6420c47154aeba8d65c579212c51b2735"
     },
     {
       "stepId": "lab-09:guided:6",
@@ -1244,23 +1244,23 @@
       "src": "/step-pictures/lab-09--guided--6--73f519e2ad.svg",
       "title": "Enter the other forest name and review the wizard. For a local-only lab you",
       "kind": "action-map",
-      "fileHash": "f0d42e758139ffdc9092deed8b97ad8469d230ac3f0039489988d1489cfc06dd"
+      "fileHash": "3094be678a2c386dd5d379001cb37b248b202cd2185b61d533f77c9d82a11649"
     },
     {
       "stepId": "lab-09:guided:7",
-      "instructionHash": "0cee5ccde4bb1d4faf23cf365521058a5a651044e2926376ee4ee9fe806bd89a",
-      "src": "/step-pictures/lab-09--guided--7--0cee5ccde4.svg",
+      "instructionHash": "e00448fd18648100cd92135510a2f52f571ee57157e37ffa7e0b133d35bd73a2",
+      "src": "/step-pictures/lab-09--guided--7--e00448fd18.svg",
       "title": "Run the reference check 1",
       "kind": "command-map",
-      "fileHash": "09a8972212197e856fb0eeadd956afcb9949c0bd39fbf560c712c27d1dff7f72"
+      "fileHash": "7346a71047944aa175e9c44ae46e05b566d28fb8b74c8fb20f70b38a096c2e20"
     },
     {
       "stepId": "lab-10:guided:1",
-      "instructionHash": "6a1604bc82d2c6dcc0f8cf7854da7e19143eb49232c9313e06737341140d7466",
-      "src": "/step-pictures/lab-10--guided--1--6a1604bc82.svg",
-      "title": "On AG-DC01 open Group Policy Management. Expand cloudseam.tech / Group Policy O",
+      "instructionHash": "33bf99d976fd3b23d0e2039ae567fcad7cbf62120ec3e07291923fb637d9e846",
+      "src": "/step-pictures/lab-10--guided--1--33bf99d976.svg",
+      "title": "On DC01 open Group Policy Management. Expand cloudseam.tech / Group Policy O",
       "kind": "action-map",
-      "fileHash": "b238e8996fb94c946b12a3bcccd38f7a8a78b35896645c422888c0568584183a"
+      "fileHash": "80bb5982ddc7e9a92ab776bb8cda7f1c7bb72c4298d85f9a21c19eb287c74402"
     },
     {
       "stepId": "lab-10:guided:2",
@@ -1268,7 +1268,7 @@
       "src": "/step-pictures/lab-10--guided--2--45d95df811.svg",
       "title": "Right-click LAB-Operations-Banner / Back Up. Choose a folder like C:\\GPOBack",
       "kind": "action-map",
-      "fileHash": "32a0a5db9a615d3ff9415962996c96eeff49462a558b1a176470993223cd57f2"
+      "fileHash": "acdeedebe31c1e3cc6a87e5faa41139f0a2a1c9568aa0c4db94414f3dc1243c3"
     },
     {
       "stepId": "lab-10:guided:3",
@@ -1276,7 +1276,7 @@
       "src": "/step-pictures/lab-10--guided--3--f390825f20.svg",
       "title": "Copy the completed GPO backup folder onto DEST-DC01 using an approved local",
       "kind": "action-map",
-      "fileHash": "20bc46ebd9f130817b09d3f594bf0105eb041a7698643650f455b8a2a9c75f22"
+      "fileHash": "8406fd9c7b5b182bf7d410e09da15b6dd96c75ea8d6b048f92b44222327da92c"
     },
     {
       "stepId": "lab-10:guided:4",
@@ -1284,7 +1284,7 @@
       "src": "/step-pictures/lab-10--guided--4--83e237078d.svg",
       "title": "On DEST-DC01 open Group Policy Management. Expand migrate.cloudseam.tech / Group P",
       "kind": "action-map",
-      "fileHash": "0889a8bf91017f61b164ce9126c47c839b03c7ea87a16fdf0a7b7c817ec975ca"
+      "fileHash": "176338a5e76b567fae1c95f22546a6151481ad0d56cfdf6fd3ecf2b0102210a8"
     },
     {
       "stepId": "lab-10:guided:5",
@@ -1292,7 +1292,7 @@
       "src": "/step-pictures/lab-10--guided--5--2a39660369.svg",
       "title": "Right-click Group Policy Objects / New. Create LAB-Operations-Banner-Dest.",
       "kind": "action-map",
-      "fileHash": "dcef44cd56373f9566ca074de2cfa75b0d0f5a64028bf7562977cad947997057"
+      "fileHash": "8428f99fe362689f0e8053b09f66e8f3eca1a5be23359af146261e19efd3cbe2"
     },
     {
       "stepId": "lab-10:guided:6",
@@ -1300,7 +1300,7 @@
       "src": "/step-pictures/lab-10--guided--6--84a7813e19.svg",
       "title": "Right-click that new GPO / Import Settings",
       "kind": "action-map",
-      "fileHash": "552f0ce357d82c723f4a1ab49aaad531cf18187025a6da95aa16ef37c541d687"
+      "fileHash": "fdff89d554e9507eea180d844b9b7b788e4dbc79792f3f0d9cf09ee056731b43"
     },
     {
       "stepId": "lab-10:guided:7",
@@ -1308,7 +1308,7 @@
       "src": "/step-pictures/lab-10--guided--7--22f642e6a9.svg",
       "title": "Choose LAB-Operations-Banner. For our simple banner the wizard should not ne",
       "kind": "action-map",
-      "fileHash": "000700546a92376262f2c461a55470ed7ae25b3b39f0f341509a54aa54de8220"
+      "fileHash": "ba72a18e053b5f637ab597a22576b6c70988c429537f3926c37eddd9157191ca"
     },
     {
       "stepId": "lab-10:guided:8",
@@ -1316,7 +1316,7 @@
       "src": "/step-pictures/lab-10--guided--8--ab9225f867.svg",
       "title": "Right-click the Operations OU in migrate.cloudseam.tech / Link an Existing GPO",
       "kind": "action-map",
-      "fileHash": "a35698e881ae1239118374f391740354fdfbaf523dd17c8e73c03dafc44950a9"
+      "fileHash": "2e05dcbabd9262c0777a8a271c14ec48524caf53499ac08ddea578f3494eba22"
     },
     {
       "stepId": "lab-10:guided:9",
@@ -1324,7 +1324,7 @@
       "src": "/step-pictures/lab-10--guided--9--de11bff331.svg",
       "title": "Open the destination GPO and confirm the login title and message are present",
       "kind": "action-map",
-      "fileHash": "74ab3e869e66a2f352ae2b416884fcda77006cd420626170130366deef929938"
+      "fileHash": "e42fd135062476f0abfc89f25150de7623e91ef6dddacda1119fdc78a4ccc67a"
     },
     {
       "stepId": "lab-10:guided:10",
@@ -1332,7 +1332,7 @@
       "src": "/step-pictures/lab-10--guided--10--14dd95ea35.svg",
       "title": "Run the reference check 1",
       "kind": "command-map",
-      "fileHash": "c1e7f0af9c0ced515aed4a4abb1025676ae09e357929d14b976bed486f3f3bf0"
+      "fileHash": "be6d35b287c20259884427af4e1695ad8a32bf673da5697d4963e797fc6910d4"
     },
     {
       "stepId": "lab-11:guided:1",
@@ -1368,19 +1368,19 @@
     },
     {
       "stepId": "lab-11:guided:5",
-      "instructionHash": "f5c867beb593e38d7ea8f3b204619049ba431a8b2992b0b33dd807101eb4ce28",
-      "src": "/step-pictures/lab-11--guided--5--f5c867beb5.svg",
-      "title": "Log in with APP01\\Administrator (local). Change APP01 DNS from 192.168.77.10",
+      "instructionHash": "06af8641dd1e15875616f2e9508929e15acad00352a70d1fffadcb9cf076b74a",
+      "src": "/step-pictures/lab-11--guided--5--06af8641dd.svg",
+      "title": "Log in with APP01\\Administrator (local). Change APP01 DNS from 10.50.0.10",
       "kind": "action-map",
-      "fileHash": "3d21ccbf1e64a40d12236685c775d8a2a2ad5cff110db6fefd3794faa845b6c9"
+      "fileHash": "f74a7162381c86f1025532d783b318af83a8caa5a063b55e887a0173f498f4df"
     },
     {
       "stepId": "lab-11:guided:6",
-      "instructionHash": "010040b56f4b3ac85795cc3a43238e2ef868d0c5945b0495447d60fb0609b87a",
-      "src": "/step-pictures/lab-11--guided--6--010040b56f.svg",
-      "title": "Run nslookup migrate.cloudseam.tech 192.168.77.40 and the destination AD SRV recor",
+      "instructionHash": "9ddca09b550a516a256bb91a09684c5edcbb5e06622dcd7f059d4c73d2a1ceb3",
+      "src": "/step-pictures/lab-11--guided--6--9ddca09b55.svg",
+      "title": "Run nslookup migrate.cloudseam.tech 10.50.0.40 and the destination AD SRV recor",
       "kind": "action-map",
-      "fileHash": "52a55dc43cdfdaad2b058e935f55d35ac1ad9daf651479d21375939d1956e541"
+      "fileHash": "6825576230efe68ed33c52c0fd5f35dc9b5362d8c83e5d40fa4a68ce99cfc7f0"
     },
     {
       "stepId": "lab-11:guided:7",
@@ -1408,11 +1408,11 @@
     },
     {
       "stepId": "lab-11:guided:10",
-      "instructionHash": "feaefe1b553e7da3b4cd76c6bed6ac45ee1cb684b71a8130ea937ec3ab7c9780",
-      "src": "/step-pictures/lab-11--guided--10--feaefe1b55.svg",
+      "instructionHash": "2815fc09c4da0d446229bf105178a89d88ab43180ed3a0213c1f3e4499712b9f",
+      "src": "/step-pictures/lab-11--guided--10--2815fc09c4.svg",
       "title": "Run the reference check 1",
       "kind": "command-map",
-      "fileHash": "ee1ab1c7923fabb0f474d54755afda6e8efaf635a734a1a11e2bade037e72ce9"
+      "fileHash": "06606a08f378e27c8238f595cf2dc54656eea5cff2a5d80899305c768fd35eaf"
     },
     {
       "stepId": "lab-12:guided:1",
@@ -1472,11 +1472,11 @@
     },
     {
       "stepId": "lab-13:guided:1",
-      "instructionHash": "c892959935fac98483f29c3664c5b54834e37117027248caad66637142d624b1",
-      "src": "/step-pictures/lab-13--guided--1--c892959935.svg",
+      "instructionHash": "999115ce1f3498d48611ad0ff220dac66dbd3ceb06e7b26a8e55062f3ba2ef51",
+      "src": "/step-pictures/lab-13--guided--1--999115ce1f.svg",
       "title": "Create WSUS01 (Windows Server) on the cloudseam.tech lab network; set IP 192.16",
       "kind": "action-map",
-      "fileHash": "f33e1edf9e7c437b03f14b90add8e466af2f143faa0c040f6c67d1909c956eb6"
+      "fileHash": "b1dfc435f0fe53c76561034dc03cc03715b84feca210f336d9d1ce68082d4c34"
     },
     {
       "stepId": "lab-13:guided:2",
@@ -1656,11 +1656,11 @@
     },
     {
       "stepId": "sql-02:guided:9",
-      "instructionHash": "e779ca4940b2ee4b5d4c7f4b8217afea473a87ba01899fdb14964d143eb6befb",
-      "src": "/step-pictures/sql-02--guided--9--e779ca4940.svg",
+      "instructionHash": "86eb89ef50aea08514ebd10c02b293e35d118f480270453ea00cf1f8c2a8e324",
+      "src": "/step-pictures/sql-02--guided--9--86eb89ef50.svg",
       "title": "Attach the private VMnet",
       "kind": "action-map",
-      "fileHash": "c0b35f86ca47daca69db52470daf388883169c2f08c3f67c709a28d2e0e5b8d0"
+      "fileHash": "b42baac36d80e51e13ce04909ce00e239e3d7668b0b679eb92121a14272384fb"
     },
     {
       "stepId": "sql-02:guided:10",
@@ -1720,11 +1720,11 @@
     },
     {
       "stepId": "sql-02:guided:17",
-      "instructionHash": "5cd98dfb37c8e88b889a953f6a73b66816800b06851c02f06aa89a40dcef2f34",
-      "src": "/step-pictures/sql-02--guided--17--5cd98dfb37.svg",
+      "instructionHash": "1de85e037ed32b36e1e5a232549042f220fff956b1e0e5566fe80747db346a3c",
+      "src": "/step-pictures/sql-02--guided--17--1de85e037e.svg",
       "title": "Patch the new Server 2019 guest",
       "kind": "action-map",
-      "fileHash": "48a4a8732174a0bf26e4e80111e608d707581fc16fee87cd827b509134fa19e1"
+      "fileHash": "ec3c1fc56b93c40ff67a56259e08c418b5f971fa0b9c0ba158f4053373958342"
     },
     {
       "stepId": "sql-02:guided:18",
@@ -1744,11 +1744,11 @@
     },
     {
       "stepId": "sql-02:guided:20",
-      "instructionHash": "5ec9cf000b2a83c6dad09f11809ee8f313caa6ae8cd699e834c80fd105d45d3d",
-      "src": "/step-pictures/sql-02--guided--20--5ec9cf000b.svg",
+      "instructionHash": "d0d032d95f81e392f911dac52eb8da08e108159b22dc021f02c241081f9f92da",
+      "src": "/step-pictures/sql-02--guided--20--d0d032d95f.svg",
       "title": "Enter the lab address",
       "kind": "command-map",
-      "fileHash": "9a0e0f36c32a2d33951250227fb8c26b974edc8599222703484561a1e2d0612e"
+      "fileHash": "a589687047fb7efc9bdfb0118aeadd3cecd881dbf1d953cf6a24a05e4d625558"
     },
     {
       "stepId": "sql-02:guided:21",
@@ -1976,11 +1976,11 @@
     },
     {
       "stepId": "mecm-01:guided:1",
-      "instructionHash": "07883a008e41c9a65d1d36bef2c3ea757607bf611cbdaf5ca7a5cdbc62840052",
-      "src": "/step-pictures/mecm-01--guided--1--07883a008e.svg",
+      "instructionHash": "4a0c0a09332b08a3de3aa2190042c4070fc015452852596bc14594e94ab05632",
+      "src": "/step-pictures/mecm-01--guided--1--4a0c0a0933.svg",
       "title": "VMware / File",
       "kind": "action-map",
-      "fileHash": "c8d35b1c8973339a36b0d7238d96063ab18cf460aeb6613435b36bf61d959d22"
+      "fileHash": "d6c4eaee11a4cbe5c9f7b1c2fcf64f5d24e9177ee93a3245ba8683ee0ac35956"
     },
     {
       "stepId": "mecm-01:guided:2",
@@ -2032,11 +2032,11 @@
     },
     {
       "stepId": "mecm-02:guided:1",
-      "instructionHash": "c66dedc0fc5842d2f15d37011857653a1df53bc3362ab7b2977727f38a2821c1",
-      "src": "/step-pictures/mecm-02--guided--1--c66dedc0fc.svg",
-      "title": "On AG-DC01, open Server Manager / Tools",
+      "instructionHash": "8511a5ed9ee219fe5ca523bb475e3653c5d0c414dd2e1ba5e9caf1302c0c7b31",
+      "src": "/step-pictures/mecm-02--guided--1--8511a5ed9e.svg",
+      "title": "On DC01, open Server Manager / Tools",
       "kind": "action-map",
-      "fileHash": "596fd229235ec069ab98be98a89fb3ebbbd9160bcfd0de86e78cb47de6720a9d"
+      "fileHash": "71b0dd8a99876fb9825bcb07431bd2acffc6137b5dccb134d689f5200d4a55f1"
     },
     {
       "stepId": "mecm-02:guided:2",
@@ -2044,7 +2044,7 @@
       "src": "/step-pictures/mecm-02--guided--2--d00ca2e4f2.svg",
       "title": "In ADSI Edit / Connect to Default naming context",
       "kind": "action-map",
-      "fileHash": "dbed378ef04a4e8fd3a945a04d4a067b0a7b9798b1a6a8724948df1698249966"
+      "fileHash": "a26f4f6fc9012fb137d5109c68670be303b5cc1738a7d4783c12561fafb42864"
     },
     {
       "stepId": "mecm-02:guided:3",
@@ -2052,7 +2052,7 @@
       "src": "/step-pictures/mecm-02--guided--3--3ea1c7e854.svg",
       "title": "Right-click CN=System Management / Properties",
       "kind": "action-map",
-      "fileHash": "3888c1fc564a20ca92c7a7e24c5a8e54328effcbc1bbeef9162b2e1482e4a08b"
+      "fileHash": "9c7ff14b49f26bb2476154d20b68ae6623a78bc933d2da7d75130c9e4b5cc523"
     },
     {
       "stepId": "mecm-02:guided:4",
@@ -2060,7 +2060,7 @@
       "src": "/step-pictures/mecm-02--guided--4--fc6b10058a.svg",
       "title": "Optionally extend the lab AD schema using ConfigMgr media \\SMSSETUP\\BIN\\X64\\",
       "kind": "action-map",
-      "fileHash": "6b1caf8e88e32fabaa10e84730090a94e5a85a84a8813605a7a3b17f221faae3"
+      "fileHash": "2ec978c69140bb671ab719eb635bff2d555ada0b9a8d04fe4ebbd658683a3a67"
     },
     {
       "stepId": "mecm-02:guided:5",
@@ -2068,7 +2068,7 @@
       "src": "/step-pictures/mecm-02--guided--5--f96d3d693b.svg",
       "title": "On SQL01: Computer Management / Local Users and Groups",
       "kind": "action-map",
-      "fileHash": "08c1fe3f374b3b0a60c3cf8b234bfa6592f2485202a14bae4a171058d5078a42"
+      "fileHash": "9013d085411d472f0715d89b944f7433153d99c7608d0822f1f4f5f25868e3d1"
     },
     {
       "stepId": "mecm-02:guided:6",
@@ -2076,7 +2076,7 @@
       "src": "/step-pictures/mecm-02--guided--6--825ff5231d.svg",
       "title": "SSMS on SQL01 / Security",
       "kind": "action-map",
-      "fileHash": "4787e1bb9c9a1ce24a0767bca381c98b94bf5e675959116761d1b42b7d9329e8"
+      "fileHash": "ddf36845e5f8a3bf1c50fb42389ecdcda7a4d7b8c549a2869cfd01aa51873199"
     },
     {
       "stepId": "mecm-02:guided:7",
@@ -2084,7 +2084,7 @@
       "src": "/step-pictures/mecm-02--guided--7--fbf6d0b290.svg",
       "title": "Ensure the account RUNNING MECM Setup is local Administrator on MECM01 and S",
       "kind": "action-map",
-      "fileHash": "5f6d30239e4e608b9cf26ca831c81d040f7be6c562667120d3e65a79d2256564"
+      "fileHash": "8172ecc9d3337ba62b13b0b453307ad2bf3f5566cc3575f851eef63dd9509cce"
     },
     {
       "stepId": "mecm-02:guided:8",
@@ -2092,7 +2092,7 @@
       "src": "/step-pictures/mecm-02--guided--8--bd2761396f.svg",
       "title": "On MECM01 test name resolution and SQL connectivity again. Confirm SQL01 Win",
       "kind": "action-map",
-      "fileHash": "0a1a8fc4573f8b075bb297dc2be705a4206cb57c63d0e37cecee46b27ed9423f"
+      "fileHash": "499d6277644bd4742c0f40ec1cd060863273bf8b5d2c17718836b5279aa75502"
     },
     {
       "stepId": "mecm-02:guided:9",
@@ -2100,7 +2100,7 @@
       "src": "/step-pictures/mecm-02--guided--9--f8ea65677c.svg",
       "title": "Run the reference check 1",
       "kind": "command-map",
-      "fileHash": "5bd13178d6a30e404e1dac4a15b069203b4a6324c1c5bf2be159674cad012d96"
+      "fileHash": "dd8339b6d5412b6f50cbace48f7d38941a6dda8a3dc8cb2d03a54ac409d7c2fa"
     },
     {
       "stepId": "mecm-03:guided:1",
@@ -2184,11 +2184,11 @@
     },
     {
       "stepId": "mecm-04:guided:1",
-      "instructionHash": "6250163fb2cd99140237b51f4a3d97b88e25fc3bf545203fd1b602f4fbf0b945",
-      "src": "/step-pictures/mecm-04--guided--1--6250163fb2.svg",
+      "instructionHash": "795b4cdb1d277fc26b3074788f41adf5fd01198cfc9187e25baecf1de4204f89",
+      "src": "/step-pictures/mecm-04--guided--1--795b4cdb1d.svg",
       "title": "On MECM01 / Administration",
       "kind": "action-map",
-      "fileHash": "84c4ae9a468f660a0fca2131994d188507b6ca2b048587c51d23cf22093fda6e"
+      "fileHash": "d01bf6fc35ff7187bf92fddb0fb27b09ddf000d3aa3744a5deb99cd5c7420c17"
     },
     {
       "stepId": "mecm-04:guided:2",
@@ -2352,11 +2352,11 @@
     },
     {
       "stepId": "move-02:guided:3",
-      "instructionHash": "0ae64af69e51f31712b5df26eeec212bd01d4ec68eaad2fc3e9fbd3f6f20f782",
-      "src": "/step-pictures/move-02--guided--3--0ae64af69e.svg",
+      "instructionHash": "450784353ad8f87f2c157061c6a6488e64e81e42d79933d9bbb9f64f26a11bc4",
+      "src": "/step-pictures/move-02--guided--3--450784353a.svg",
       "title": "Azure portal / Resource groups",
       "kind": "action-map",
-      "fileHash": "e7fe81168402c6abe645fec2f84e7c99f3a212923c3cd40e8cf0380e9ae63ca2"
+      "fileHash": "411c8cc0f3b576b97818567f741284f59d1005cd4d5af1ceca06ce361b5f2287"
     },
     {
       "stepId": "move-02:guided:4",
@@ -2680,11 +2680,11 @@
     },
     {
       "stepId": "lab-16:guided:1",
-      "instructionHash": "776cc83274d3445b8b8e0205f04f6a7c9eb650516a73a40f5a9fc87f47f60b94",
-      "src": "/step-pictures/lab-16--guided--1--776cc83274.svg",
-      "title": "Write down your SOURCE subnet (192.168.77.0/24), DESTINATION VNet subnet (10",
+      "instructionHash": "124c06277fbc6dc613acf7f4ae65fcce7a042cceb6fe30d956ccefb23f4e04cf",
+      "src": "/step-pictures/lab-16--guided--1--124c06277f.svg",
+      "title": "Write down your SOURCE subnet (10.50.0.0/24), DESTINATION VNet subnet (10",
       "kind": "action-map",
-      "fileHash": "154b78b50b6b693ef1ad324cf026f987f4e82a652cbe42a475a773f7b3aea9aa"
+      "fileHash": "a37bc8f667d15fe80c6527f3c9d75ee27ca544ddc4e3e3a1b8c0e3d4fe79b720"
     },
     {
       "stepId": "lab-16:guided:2",
