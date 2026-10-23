@@ -532,9 +532,10 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
           >
             <summary>Your practice files and setup help</summary>
             <p>
-              Download these inside the practice VM. Both files contain invented
-              lab data. Use the event CSV only once in Add Data; use the status
-              CSV in Lookups.
+              Download these inside your practice VM. All three files contain
+              fictional lab data. Upload each event CSV only once using Add Data
+              when its lesson asks you to. Use cloudseam-status.csv only in
+              Lookups.
             </p>
             <a href="/splunk/cloudseam-web.csv" download>
               Download cloudseam-web.csv · 12 events
