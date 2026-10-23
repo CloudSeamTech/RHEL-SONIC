@@ -3031,3 +3031,19 @@ html
   a:not(.active):hover {
   background: #352746 !important;
 }
+html
+  body
+  .academy-shell.academy-shell
+  .reader-workspace.reader-workspace
+  :is(
+    .guided-lab,
+    .guided-workspace,
+    .guided-step,
+    .guided-step-content,
+    .guided-visuals,
+    .guided-screenshot,
+    .guided-screenshot figcaption
+  ) {
+  border: 0 !important;
+  box-shadow: none !important;
+}
