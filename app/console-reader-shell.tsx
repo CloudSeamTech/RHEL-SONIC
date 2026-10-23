@@ -213,26 +213,31 @@ export function ConsoleReaderShell({
             />
           </form>
           <div className="reader-tools">{tools}</div>
-          <a
-            className="profile-link"
-            href="/profile"
-            aria-label="My learning profile"
-          >
-            <span className="profile-avatar">
-              {academy.user ? (
-                academy.user.name.slice(0, 2).toUpperCase()
-              ) : (
-                <UserRound size={17} />
-              )}
-            </span>
-            <span>
-              <small>
-                {academy.user ? 'Welcome back,' : 'YOUR LEARNING PROFILE'}
-              </small>
-              <strong>{academy.user ? academy.user.name : 'Sign in'}</strong>
-            </span>
-            <ChevronRight size={14} />
-          </a>
+          <details className="profile-menu">
+            <summary className="profile-link" aria-label="My learning profile">
+              <span className="profile-avatar">
+                {academy.user ? (
+                  academy.user.name.slice(0, 2).toUpperCase()
+                ) : (
+                  <UserRound size={17} />
+                )}
+              </span>
+              <span>
+                <small>
+                  {academy.user ? 'Welcome back,' : 'YOUR LEARNING PROFILE'}
+                </small>
+                <strong>{academy.user ? academy.user.name : 'Sign in'}</strong>
+              </span>
+              <ChevronRight size={14} />
+            </summary>
+            <div className="profile-menu-options">
+              <a href="/profile">Account</a>
+              <a href="/?view=bookmarks">My saved labs</a>
+              <a href="/profile">
+                {academy.user ? 'Manage profile' : 'Sign in'}
+              </a>
+            </div>
+          </details>
         </header>
         {lessonId && course && (
           <div className="course-progress-strip">

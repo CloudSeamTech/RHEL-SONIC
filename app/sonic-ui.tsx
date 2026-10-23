@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
+import { LabStepNav } from './lab-step-nav';
 import { SessionGuide } from './session-guide';
 import { smallActions } from '@/lib/beginner-directions';
 import { InstructionScreenshots } from './instruction-screenshots';
@@ -247,29 +248,61 @@ export function SonicWalkthrough({
   lessonId?: string;
   variant?: string;
 }) {
+  const [activeStep, setActiveStep] = useState(0);
   return (
     <section
       className="sonic-walkthrough"
       aria-label="Step-by-step walkthrough"
     >
+      <LabStepNav
+        titles={steps.map((step) =>
+          readableStepTitle(step.title, step.actions, step.command),
+        )}
+        current={activeStep}
+        onChoose={(index) => {
+          setActiveStep(index);
+          const target = document.getElementById(
+            `lab-step-${lessonId}-${variant}-${index}`,
+          ) as HTMLDetailsElement | null;
+          if (target) {
+            target.open = true;
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            target.querySelector('summary')?.focus({ preventScroll: true });
+          }
+        }}
+      />
       <h3>DO THIS IN ORDER · ONE STEP AT A TIME</h3>
       <p>
-        Open the first step, do the action in your own lab, and check the outcome.
-        Expand the next step only when ready. Commands are examples and do not
-        run on this website.
+        Open the first step, do the action in your own lab, and check the
+        outcome. Expand the next step only when ready. Commands are examples and
+        do not run on this website.
       </p>
       <ol>
         {steps.map((step, index) => (
           <li key={`${variant}-${index}-${step.title}`}>
-            <details className="sonic-action-panel" name={`walkthrough-${lessonId}`} open={index === 0}>
+            <details
+              id={`lab-step-${lessonId}-${variant}-${index}`}
+              onToggle={(event) => {
+                if (event.currentTarget.open) setActiveStep(index);
+              }}
+              className="sonic-action-panel"
+              name={`walkthrough-${lessonId}`}
+              open={index === 0}
+            >
               <summary>
                 <span>STEP {String(index + 1).padStart(2, '0')}</span>
-                <strong>{readableStepTitle(step.title, step.actions, step.command)}</strong>
+                <strong>
+                  {readableStepTitle(step.title, step.actions, step.command)}
+                </strong>
               </summary>
               <div className="sonic-action-body">
-                <p className="walkthrough-location">WHERE TO WORK: {step.where}</p>
+                <p className="walkthrough-location">
+                  WHERE TO WORK: {step.where}
+                </p>
                 <details className="sonic-action-assist">
-                  <summary>How to open the correct terminal or application</summary>
+                  <summary>
+                    How to open the correct terminal or application
+                  </summary>
                   <SessionGuide location={step.where} />
                 </details>
                 <StepTeachingNotes
@@ -280,33 +313,35 @@ export function SonicWalkthrough({
                   expected={step.expected}
                 />
                 <b className="sonic-action-label">DO THIS NOW · IN YOUR LAB</b>
-            <ol>
-              {step.actions.flatMap(smallActions).map((action, actionIndex) => (
-                <li key={`${actionIndex}-${action}`}>{action}</li>
-              ))}
-            </ol>
-            {lessonId && (
-              <details className="sonic-action-assist sonic-action-visual">
-                <summary>See the picture for this step</summary>
-                <InstructionScreenshots
-                  stepId={`${lessonId}:${variant}:${index + 1}`}
-                />
-              </details>
-            )}
-            {step.command && (
-              <SonicTerminal
-                shell={step.where}
-                command={step.command}
-                expected={step.expected}
-              />
-            )}
-            {!step.command && (
-              <p className="walkthrough-check">
-                <strong>What you should see</strong>
-                <br />
-                {step.expected}
-              </p>
-            )}
+                <ol>
+                  {step.actions
+                    .flatMap(smallActions)
+                    .map((action, actionIndex) => (
+                      <li key={`${actionIndex}-${action}`}>{action}</li>
+                    ))}
+                </ol>
+                {lessonId && (
+                  <details className="sonic-action-assist sonic-action-visual">
+                    <summary>See the picture for this step</summary>
+                    <InstructionScreenshots
+                      stepId={`${lessonId}:${variant}:${index + 1}`}
+                    />
+                  </details>
+                )}
+                {step.command && (
+                  <SonicTerminal
+                    shell={step.where}
+                    command={step.command}
+                    expected={step.expected}
+                  />
+                )}
+                {!step.command && (
+                  <p className="walkthrough-check">
+                    <strong>What you should see</strong>
+                    <br />
+                    {step.expected}
+                  </p>
+                )}
               </div>
             </details>
           </li>

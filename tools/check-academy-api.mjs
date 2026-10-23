@@ -60,6 +60,8 @@ assert.equal(
   (
     await post(user, {
       name: 'Alice Learning',
+      email: 'alice@example.test',
+      phone: '+1 (555) 010-0200',
       records: { 'sonic-agency-azure-migration-v1': record },
       lessonId: 'lab-00',
     })
@@ -68,6 +70,13 @@ assert.equal(
 );
 const saved = await get(user);
 assert.equal(saved.user.name, 'Alice Learning');
+assert.equal(saved.user.email, 'alice@example.test');
+assert.equal(saved.user.phone, '+1 (555) 010-0200');
+assert.equal(saved.user.subscriptionTier, 'free');
+assert.equal((await post(user, { subscriptionTier: 'apex' })).status, 400);
+assert.equal((await post(user, { email: 'invalid email' })).status, 400);
+assert.equal((await post(user, { phone: '<script>' })).status, 400);
+assert.equal((await get(user)).user.subscriptionTier, 'free');
 assert.equal(saved.records['sonic-agency-azure-migration-v1'], record);
 assert.equal(saved.activity[0].lesson_id, 'lab-00');
 assert.deepEqual((await get(other)).records, {});

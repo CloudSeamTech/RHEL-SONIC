@@ -1557,6 +1557,375 @@ html body .academy-shell .academy-search input::placeholder {
   opacity: 1;
 }
 
-.academy-readiness { display:contents; border:0; margin:0; padding:0; min-width:0; }
-.academy-readiness > legend { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
-html body .academy-shell .profile-link strong { max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.academy-readiness {
+  display: contents;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+.academy-readiness > legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+html body .academy-shell .profile-link strong {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Comfortable reading space and a persistent, borderless lesson index. */
+:root {
+  --academy-cream: #9f8c76;
+}
+html body .academy-shell {
+  --academy-cream: #9f8c76;
+  background: #9f8c76;
+}
+html body .academy-shell .reader-workspace {
+  background: #9f8c76 !important;
+}
+html body .academy-shell .path-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+html body .academy-shell .path-card {
+  height: auto !important;
+  min-width: 0;
+  padding: 24px;
+  overflow-wrap: anywhere;
+}
+html body .academy-shell .path-card :is(h3, p, div) {
+  height: auto !important;
+  max-height: none;
+  white-space: normal;
+  position: static;
+}
+html body .academy-shell .path-card > div {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+html body .academy-shell .path-card h3 {
+  font-size: 17px !important;
+  line-height: 1.5 !important;
+}
+html body .academy-shell .path-card p {
+  font-size: 14px !important;
+  min-height: 0;
+}
+html body .academy-shell .reader-course summary {
+  white-space: normal;
+  line-height: 1.6;
+  padding-block: 12px;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .guided-lab,
+    .guided-step,
+    .guided-workspace,
+    .migration-lesson,
+    .alma-reader,
+    .lesson-content,
+    .lesson-hero,
+    .lab-overview,
+    .sonic-walkthrough,
+    .sonic-action-panel,
+    .sonic-action-body,
+    .guided-visuals,
+    .guided-heading,
+    .nessus-lesson,
+    .guided-final,
+    .guided-reference,
+    .guided-production,
+    .guided-evidence,
+    .guided-rollback
+  ) {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.guided-step, .sonic-action-body) {
+  padding: 28px 0 !important;
+  margin-inline: 0;
+}
+html body .academy-shell .reader-workspace .guided-step {
+  display: block !important;
+}
+html body .academy-shell .reader-workspace .guided-step > * {
+  width: auto !important;
+  max-width: none !important;
+  grid-column: auto !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .teaching-callout,
+    .coaching-why,
+    .coaching-brief,
+    .guided-expected,
+    .walkthrough-check,
+    .nessus-best,
+    .nessus-mistakes,
+    .nessus-troubleshooting,
+    .guided-production,
+    .guided-rollback,
+    .sonic-action-assist
+  ) {
+  background: #56545a !important;
+  color: #fff !important;
+  border: 0 !important;
+  padding: 22px 26px !important;
+  border-radius: 10px !important;
+  margin-block: 24px;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .teaching-callout,
+    .coaching-why,
+    .coaching-brief,
+    .guided-expected,
+    .walkthrough-check,
+    .nessus-best,
+    .nessus-mistakes,
+    .nessus-troubleshooting,
+    .guided-production,
+    .guided-rollback,
+    .sonic-action-assist
+  )
+  :is(p, li, h2, h3, h4, b, strong, summary, span, dd, dt) {
+  color: #fff !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.teaching-callout, .coaching-brief, .nessus-best, .sonic-action-assist)
+  a {
+  color: #ffcf9f !important;
+}
+html body .academy-shell .guided-step-number {
+  color: #4b254e !important;
+  background: #fff4e7;
+  padding: 8px 12px;
+  display: inline-block;
+  border-left: 4px solid #e27b32;
+}
+html body .academy-shell .lab-step-nav {
+  position: fixed;
+  right: 24px;
+  top: 116px;
+  width: 218px;
+  max-height: calc(100dvh - 140px);
+  overflow-y: auto;
+  z-index: 20;
+  padding: 12px;
+  border: 0;
+  background: #ede4d8;
+  border-radius: 12px;
+}
+html body .academy-shell .lab-step-nav h2 {
+  font-size: 18px !important;
+  margin: 0 0 8px;
+}
+html body .academy-shell .lab-step-nav p {
+  font-size: 13px !important;
+  margin: 0 0 14px;
+}
+html body .academy-shell .lab-step-nav ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+html body .academy-shell .lab-step-nav li {
+  margin: 0 0 8px;
+  padding: 0;
+}
+html body .academy-shell .lab-step-nav button {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  color: #34283d;
+  font-size: 13px;
+  line-height: 1.6;
+  padding: 10px;
+  border-radius: 8px;
+}
+html body .academy-shell .lab-step-nav button[aria-current] {
+  background: #fff;
+  box-shadow: inset 4px 0 #e27b32;
+  font-weight: 800;
+}
+html body .academy-shell .lab-step-nav button:hover {
+  background: #fff5e8;
+}
+html body .academy-shell .lab-step-nav button > span:first-child {
+  color: #743bd0;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+html body .academy-shell .profile-menu {
+  position: relative;
+}
+html body .academy-shell .profile-menu summary {
+  list-style: none;
+  cursor: pointer;
+}
+html body .academy-shell .profile-menu-options {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 60;
+  min-width: 210px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 10px 28px #211a3130;
+}
+html body .academy-shell .profile-menu-options a {
+  display: block;
+  padding: 12px;
+  color: #542598;
+}
+html body .academy-shell .account-tabs {
+  display: flex;
+  gap: 24px;
+  margin-block: 24px;
+}
+html body .academy-shell .account-tabs [aria-current] {
+  font-weight: 800;
+  border-bottom: 3px solid #df7c34;
+  padding-bottom: 8px;
+}
+html body .academy-shell .account-subscription {
+  background: #fff6ea;
+  padding: 24px;
+  margin-block: 28px;
+  border-radius: 12px;
+}
+@media (min-width: 1200px) {
+  html body .academy-shell .reader-workspace:has(.lab-step-nav) {
+    padding-right: 280px !important;
+  }
+}
+@media (max-width: 1199px) {
+  html body .academy-shell .lab-step-nav {
+    position: static;
+    width: auto;
+    max-height: 260px;
+    margin: 24px 0;
+  }
+}
+html body .academy-shell .dashboard-metrics article:nth-child(2n) {
+  background: #fff4e8;
+}
+html body .academy-shell .dashboard-metrics article:nth-child(2n) svg {
+  color: #c76420;
+}
+html body .academy-shell .dashboard-quick-links a {
+  background: #fff;
+}
+html body .academy-shell .academy-hero .secondary-button {
+  background: #fff;
+  border-color: #e58944;
+  color: #71351d;
+}
+html body .academy-shell .reader-course[open] > summary {
+  box-shadow: inset 3px 0 #ef9c59;
+}
+html body .academy-shell .lab-step-nav button:focus-visible {
+  outline: 3px solid #6d35bb;
+  outline-offset: 2px;
+}
+html body .academy-shell .reader-lesson-link {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: auto;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  margin: 4px 0;
+}
+html body .academy-shell .console-subnav > details {
+  min-width: 0;
+}
+html body .academy-shell .reader-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  flex-shrink: 0;
+}
+html body .academy-shell .reader-tools a {
+  font-size: 12px;
+}
+html body .academy-shell .reader-workspace :is(.lesson-hero, .alma-header) {
+  display: block;
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 28px 0 !important;
+  margin: 20px 0 !important;
+  background: transparent !important;
+  backdrop-filter: none;
+}
+html body .academy-shell .reader-workspace .lesson-hero::before,
+html body .academy-shell .reader-workspace .lesson-hero::after {
+  display: none;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.migration-shell main, .nessus-main, .alma-main) {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 24px !important;
+}
+html body .academy-shell .you-are-here {
+  position: static;
+}
+html body .academy-shell .reader-workspace .guided-heading {
+  margin-top: 24px;
+}
+@media (max-width: 1399px) {
+  html body .academy-shell .reader-tools {
+    display: none;
+  }
+}
+html body .academy-shell .reader-workspace .guided-lab details {
+  border: 0 !important;
+}
+html body .academy-shell .reader-workspace .lesson-hero {
+  padding-block: 16px !important;
+  margin-block: 12px !important;
+}
+html body .academy-shell .reader-workspace .guided-lab {
+  margin-block: 12px !important;
+  padding-block: 8px !important;
+}
+html body .academy-shell .reader-workspace .explanation .lab-step-nav {
+  position: static;
+  width: auto;
+  max-height: 260px;
+}
