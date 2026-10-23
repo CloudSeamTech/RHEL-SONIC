@@ -1,12 +1,7 @@
-type Tip = {
-  title: string;
-  symptom: string;
-  where: string;
-  checks: string[];
-  command?: string;
-  expected: string;
-  next: string;
-};
+import {
+  additionalScenarios,
+  type TroubleshootingTip as Tip,
+} from '@/lib/troubleshooting-scenarios';
 const groups: { title: string; intro: string; source: string; tips: Tip[] }[] =
   [
     {
@@ -348,57 +343,144 @@ export function TroubleshootingLibrary() {
           notes.
         </p>
       </aside>
-      {groups.map((group) => (
-        <details className="troubleshooting-category" key={group.title}>
-          <summary>
-            {group.title}
-            <span>{group.tips.length} common issues</span>
-          </summary>
-          <p>{group.intro}</p>
-          {group.tips.map((tip) => (
-            <details className="troubleshooting-tip" key={tip.title}>
-              <summary>{tip.title}</summary>
-              <p>
-                <strong>What you noticed: </strong>
-                {tip.symptom}
-              </p>
-              <p>
-                <strong>Where to work: </strong>
-                {tip.where}
-              </p>
-              <ol>
-                {tip.checks.map((check) => (
-                  <li key={check}>{check}</li>
+      {groups
+        .map((baseGroup) => ({
+          ...baseGroup,
+          tips: [
+            ...baseGroup.tips,
+            ...(additionalScenarios[baseGroup.title] ?? []),
+          ],
+        }))
+        .map((group) => (
+          <details className="troubleshooting-category" key={group.title}>
+            <summary>
+              {group.title}
+              <span>{group.tips.length} common issues</span>
+            </summary>
+            <p>{group.intro}</p>
+            {group.tips.map((tip) => (
+              <details className="troubleshooting-tip" key={tip.title}>
+                <summary>{tip.title}</summary>
+                <p>
+                  <strong>What you noticed: </strong>
+                  {tip.symptom}
+                </p>
+                <p>
+                  <strong>Where to work: </strong>
+                  {tip.where}
+                </p>
+                {tip.changesStorage && (
+                  <aside className="teaching-callout">
+                    <h4>This procedure changes storage</h4>
+                    <p>
+                      Use your own practice VM or an approved maintenance
+                      window. Confirm the target names and a recoverable backup
+                      before any write command. Stop if your layout differs.
+                    </p>
+                  </aside>
+                )}
+                {tip.storageMap && (
+                  <figure className="lvm-storage-map">
+                    <figcaption>How LVM shares disk space</figcaption>
+                    <ol>
+                      {[
+                        'Disk · the storage device',
+                        'PV · a disk LVM can use',
+                        'VG · the shared space pool',
+                        'LV · a slice of that pool',
+                        'Filesystem · where your files live',
+                      ].map((label) => (
+                        <li key={label}>{label}</li>
+                      ))}
+                    </ol>
+                  </figure>
+                )}
+                <ol>
+                  {tip.checks.map((check) => (
+                    <li key={check}>{check}</li>
+                  ))}
+                </ol>
+                {tip.command && (
+                  <>
+                    <p>
+                      <strong>
+                        Paste into the terminal named above, one line at a time.
+                      </strong>{' '}
+                      Replace any named placeholders first.
+                    </p>
+                    <pre>
+                      <code>{tip.command}</code>
+                    </pre>
+                  </>
+                )}
+                {tip.procedure?.map((step) => (
+                  <section
+                    className="troubleshooting-procedure"
+                    key={step.title}
+                  >
+                    <h4>{step.title}</h4>
+                    <aside className="teaching-callout">
+                      <p>
+                        <strong>Why: </strong>
+                        {step.why}
+                      </p>
+                    </aside>
+                    <ol>
+                      {step.actions.map((action) => (
+                        <li key={action}>{action}</li>
+                      ))}
+                    </ol>
+                    {step.command && (
+                      <>
+                        <p>
+                          <strong>In the Linux terminal:</strong> Replace the
+                          named placeholders first. Run one line, check its
+                          result, then continue.
+                        </p>
+                        <pre>
+                          <code>{step.command}</code>
+                        </pre>
+                      </>
+                    )}
+                    <p>
+                      <strong>Check before you continue: </strong>
+                      {step.expected}
+                    </p>
+                  </section>
                 ))}
-              </ol>
-              {tip.command && (
-                <>
-                  <p>
-                    <strong>
-                      Paste into the terminal named above, one line at a time.
-                    </strong>{' '}
-                    Replace any named placeholders first.
-                  </p>
-                  <pre>
-                    <code>{tip.command}</code>
-                  </pre>
-                </>
-              )}
-              <aside className="teaching-callout">
-                <h4>What should I see?</h4>
-                <p>{tip.expected}</p>
-              </aside>
-              <p>
-                <strong>Your next move: </strong>
-                {tip.next}
-              </p>
-            </details>
-          ))}
-          <a href={group.source} target="_blank" rel="noreferrer">
-            Official troubleshooting reference ↗
-          </a>
-        </details>
-      ))}
+                <aside className="teaching-callout">
+                  <h4>What should I see?</h4>
+                  <p>{tip.expected}</p>
+                </aside>
+                <p>
+                  <strong>Your next move: </strong>
+                  {tip.next}
+                </p>
+                {tip.references && (
+                  <ul
+                    className="troubleshooting-sources"
+                    aria-label="Official references"
+                  >
+                    {tip.references.map((reference) => (
+                      <li key={reference.url}>
+                        <a
+                          href={reference.url}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {reference.title} ↗
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </details>
+            ))}
+            <a href={group.source} target="_blank" rel="noreferrer">
+              Official troubleshooting reference ↗
+            </a>
+          </details>
+        ))}
       <p>
         Need the full build instructions?{' '}
         <a href="/?view=courses">Choose your class</a> and follow its lab steps.
