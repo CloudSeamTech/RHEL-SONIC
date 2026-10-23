@@ -143,8 +143,8 @@ const titles: Record<string, [string, string]> = {
     'Prepare a practice cutover plan with validation and rollback gates.',
   ],
   'lab-19': [
-    'Troubleshoot a Failed Migration',
-    'Follow the evidence tree to isolate a failed migration step.',
+    'Troubleshoot Common IT Problems',
+    'Choose a symptom in Azure, Windows, RHEL, SQL, migrations or applications and follow the checks in order.',
   ],
   'lab-13': [
     'Install WSUS',
