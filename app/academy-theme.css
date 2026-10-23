@@ -1952,7 +1952,7 @@ html
     .guided-context > div,
     .nessus-location
   ) {
-  background: #d0c8be !important;
+  background: #ede4d8 !important;
   color: #302a36 !important;
   border: 0 !important;
   border-radius: 10px !important;
@@ -2135,7 +2135,7 @@ html
     .nessus-location,
     .guided-context
   ) {
-  background: #d0c8be !important;
+  background: #ede4d8 !important;
   color: #292929 !important;
   border-color: #b4ada3 !important;
   box-shadow: none !important;
@@ -2337,7 +2337,7 @@ html
 html body .academy-shell .lvm-storage-map {
   margin: 24px 0;
   padding: 20px;
-  background: #d0c8be;
+  background: #ede4d8;
   border-radius: 10px;
 }
 html body .academy-shell .lvm-storage-map figcaption {
@@ -2610,4 +2610,167 @@ html body .academy-shell .lab-step-nav > details > summary {
     padding-block: 0 !important;
     margin-block: 0 !important;
   }
+}
+
+/* Keep the cream teaching surfaces while restoring the purple brand chrome. */
+html body .academy-shell.academy-shell .console-sidebar {
+  background: #211a31 !important;
+}
+html
+  body
+  .academy-shell.academy-shell
+  .console-sidebar
+  :is(.active, .reader-lesson-link.active, .reader-course[open] > summary) {
+  background: #674199 !important;
+  border-left-color: #e7975f !important;
+}
+html body .academy-shell.academy-shell .console-sidebar .academy-nav a.active {
+  background: linear-gradient(100deg, #7137c6, #6227bb) !important;
+}
+html body .academy-shell.academy-shell .reader-workspace .profile-link {
+  background: #603294 !important;
+  padding: 8px 12px;
+  border-radius: 12px;
+}
+html
+  body
+  .academy-shell.academy-shell
+  .reader-workspace
+  .profile-link
+  :is(span, small, strong, svg) {
+  color: #fff !important;
+}
+html body .academy-shell.academy-shell .reader-workspace .profile-avatar {
+  background: #783dd0 !important;
+  color: #fff !important;
+}
+html body .academy-shell .academy-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 24px;
+  min-height: 0;
+  padding: 26px;
+  align-items: center;
+}
+html body .academy-shell .academy-hero > div {
+  width: 100% !important;
+  min-width: 0;
+}
+html body .academy-shell .academy-hero > img {
+  position: static !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: 290px;
+  object-fit: contain !important;
+  object-position: center;
+  display: block;
+  margin: 0;
+  align-self: center;
+}
+html body .academy-shell .reader-workspace .academy-hero h1 {
+  font-size: clamp(26px, 2.4vw, 38px) !important;
+  line-height: 1.25 !important;
+  margin: 12px 0 16px;
+}
+html body .academy-shell .reader-workspace .academy-hero p {
+  font-size: 16px !important;
+  line-height: 1.65 !important;
+  margin: 0;
+  max-width: none;
+  height: auto;
+}
+html body .academy-shell .hero-actions {
+  gap: 12px;
+  margin-top: 20px;
+}
+@media (max-width: 1100px) {
+  html body .academy-shell .academy-hero {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  html body .academy-shell .academy-hero > img {
+    max-height: 240px;
+  }
+}
+@media (max-width: 560px) {
+  html body .academy-shell .academy-hero {
+    padding: 20px;
+    gap: 20px;
+  }
+  html body .academy-shell .hero-actions > a {
+    width: 100%;
+  }
+}
+html body .academy-shell .splunk-practice-files a {
+  display: block;
+  margin: 12px 0;
+}
+html
+  body
+  .academy-shell.academy-shell
+  .reader-workspace
+  :is(
+    .teaching-callout,
+    .coaching-why,
+    .coaching-brief,
+    .guided-expected,
+    .walkthrough-check,
+    .teacher-preparation,
+    .guided-context,
+    .nessus-location,
+    .nessus-explanation,
+    .nessus-best,
+    .nessus-mistakes,
+    .nessus-troubleshooting,
+    .guided-production,
+    .guided-rollback,
+    .guided-final,
+    .guided-evidence,
+    .sonic-action-assist,
+    .troubleshooting-category,
+    .troubleshooting-tip,
+    .lvm-storage-map,
+    .nessus-exercise,
+    .nessus-quiz,
+    .alma-verify,
+    .account-subscription
+  ) {
+  background: #ede4d8 !important;
+}
+html body .academy-shell .academy-hero :is(h1, p, .hero-actions) {
+  max-width: none !important;
+}
+html body .academy-shell .academy-hero > img {
+  opacity: 1 !important;
+  transform: none !important;
+}
+html body .academy-shell.academy-shell .reader-workspace .guided-image-dialog {
+  background: #ede4d8 !important;
+  color: #292929 !important;
+  border-color: #c9beac !important;
+}
+html
+  body
+  .academy-shell.academy-shell
+  .reader-workspace
+  .guided-image-dialog
+  > button {
+  background: #333 !important;
+  color: #fff !important;
+}
+html
+  body
+  .academy-shell.academy-shell
+  .reader-workspace
+  :is(
+    .guided-check,
+    .guided-image-button,
+    .picture-pan-canvas,
+    .nessus-quiz fieldset
+  ) {
+  background: #ede4d8 !important;
+  border-color: #d2c5b4 !important;
+}
+html body .academy-shell.academy-shell .reader-workspace .picture-zoom-label {
+  background: #ede4d8 !important;
+  color: #292929 !important;
 }

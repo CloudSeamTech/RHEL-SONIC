@@ -33,7 +33,11 @@ function CommandExample({ step }: { step: NessusStep }) {
       {step.command && (
         <section className="guided-command">
           <header>
-            <span>YOUR COMMAND · COPY IT WHEN YOU’RE READY</span>
+            <span>
+              {step.command?.startsWith('index=sonic_lab')
+                ? 'SPL SEARCH · PASTE INTO SPLUNK WEB'
+                : 'YOUR COMMAND · COPY IT WHEN YOU’RE READY'}
+            </span>
             <button
               type="button"
               onClick={async () => {
@@ -403,12 +407,18 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
   const isEnterprise = ['mecm-operations', 'wsus-operations'].includes(
     course.id,
   );
+  const isSplunk = course.id === 'splunk-core-user';
   const isLandingZone = course.id === 'azure-landing-zone';
   const isMaintenance = course.id === 'azure-maintenance';
   const isHelpdesk = course.id === 'iis-helpdesk';
   const isSecurity = course.id === 'budget-cloud-security';
   const relatedCourses =
-    isEnterprise || isLandingZone || isMaintenance || isHelpdesk || isSecurity
+    isSplunk ||
+    isEnterprise ||
+    isLandingZone ||
+    isMaintenance ||
+    isHelpdesk ||
+    isSecurity
       ? [course]
       : nessusCourses;
   const [id, setId] = useState(course.lessons[0].id);
@@ -456,7 +466,8 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
         <nav
           className={
             'nessus-course-switcher' +
-            (isEnterprise ||
+            (isSplunk ||
+            isEnterprise ||
             isLandingZone ||
             isMaintenance ||
             isHelpdesk ||
@@ -465,7 +476,7 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
               : '')
           }
           aria-label={
-            isEnterprise
+            isSplunk || isEnterprise
               ? course.title
               : isLandingZone
                 ? 'Azure landing zone course'
@@ -491,7 +502,7 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
         </nav>
         <header className="alma-header">
           <span className="eyebrow">
-            {isEnterprise
+            {isSplunk || isEnterprise
               ? course.title.toUpperCase()
               : isLandingZone
                 ? 'YOUR FIRST AZURE LANDING ZONE'
@@ -525,6 +536,33 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
             self-verified
           </small>
         </header>
+        {isSplunk && (
+          <details
+            className="teaching-callout splunk-practice-files"
+            open={lesson.id === 'splunk-start'}
+          >
+            <summary>Your practice files and setup help</summary>
+            <p>
+              Download these inside the practice VM. Both files contain invented
+              lab data. Use the event CSV only once in Add Data; use the status
+              CSV in Lookups.
+            </p>
+            <a href="/splunk/cloudseam-web.csv" download>
+              Download cloudseam-web.csv · 12 events
+            </a>
+            <a href="/splunk/cloudseam-status.csv" download>
+              Download cloudseam-status.csv · lookup
+            </a>
+            <a href="/migration#lesson=lab-04-vmware">
+              Need a VM? Open the VMware setup lab
+            </a>
+            <p>
+              Paste SPL into Splunk Web’s Search bar, not the SONIC terminal or
+              PowerShell. A reference picture shows real vendor controls, not
+              your own result.
+            </p>
+          </details>
+        )}
         <LabOverview
           summary={lesson.what === lesson.description ? undefined : lesson.what}
           steps={lesson.steps.map((item) => item.title)}
