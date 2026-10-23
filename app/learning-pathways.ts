@@ -1,16 +1,36 @@
-import { mecmCourse, wsusCourse, landingZoneCourse, securityCourse, helpdeskCourse, maintenanceCourse } from '../lib/guided-courses.ts';
+import {
+  splunkCourse,
+  mecmCourse,
+  wsusCourse,
+  landingZoneCourse,
+  securityCourse,
+  helpdeskCourse,
+  maintenanceCourse,
+} from '../lib/guided-courses.ts';
 import { welcomeFor } from '../lib/lesson-welcome.ts';
 import { nessusCourses, nessusCourseHref } from '../lib/nessus-curriculum.ts';
 import almaCourse from '../content/alma/desktop-lessons.json' with { type: 'json' };
 import { lessons, modules } from './course.ts';
-import { migrationCurriculum as migrationLessons, migrationParts } from './migration-curriculum.ts';
+import {
+  migrationCurriculum as migrationLessons,
+  migrationParts,
+} from './migration-curriculum.ts';
 
 export type ConsoleLesson = {
   id: string;
   title: string;
   description: string;
   href: string;
-  source: 'linux' | 'migration' | 'alma' | 'nessus' | 'azure-lab' | 'helpdesk' | 'security-lab' | 'landing-zone' | 'enterprise';
+  source:
+    | 'linux'
+    | 'migration'
+    | 'alma'
+    | 'nessus'
+    | 'azure-lab'
+    | 'helpdesk'
+    | 'security-lab'
+    | 'landing-zone'
+    | 'enterprise';
   metadata: string;
   steps: string[];
 };
@@ -251,7 +271,9 @@ function migration(ids: string[]): ConsoleLesson[] {
   return ids.flatMap(migrationParts).map((id) => {
     const lesson = migrationLessons.find((item) => item.id === id);
     if (!lesson) throw new Error(`Unknown pathway lesson: ${id}`);
-    const [title, description] = (lesson.separated ? [lesson.title, lesson.description!] : titles[id]) ?? [
+    const [title, description] = (lesson.separated
+      ? [lesson.title, lesson.description!]
+      : titles[id]) ?? [
       lesson.title,
       lesson.body
         .split('\n')
@@ -276,32 +298,83 @@ function migration(ids: string[]): ConsoleLesson[] {
   });
 }
 
-function securityLesson(lesson: (typeof securityCourse.lessons)[number]): ConsoleLesson {
-  return {id: lesson.id, title: lesson.title, description: lesson.description,
-    href: `/security#lesson=${lesson.id}`, source: 'security-lab',
+function securityLesson(
+  lesson: (typeof securityCourse.lessons)[number],
+): ConsoleLesson {
+  return {
+    id: lesson.id,
+    title: lesson.title,
+    description: lesson.description,
+    href: `/security#lesson=${lesson.id}`,
+    source: 'security-lab',
     metadata: 'VMware-first / Azure Arc / Defender cost and license gates',
-    steps: lesson.steps.map((step) => step.title)};
+    steps: lesson.steps.map((step) => step.title),
+  };
 }
 
-function enterpriseLessons(course: typeof mecmCourse, route: string): ConsoleLesson[] {
-  return course.lessons.map(lesson => ({ id: lesson.id, title: lesson.title, description: lesson.description,
-    href: `${route}#lesson=${lesson.id}`, source: 'enterprise', metadata: course.baseline,
-    steps: lesson.steps.map(step => step.title) }));
+function enterpriseLessons(
+  course: typeof mecmCourse,
+  route: string,
+): ConsoleLesson[] {
+  return course.lessons.map((lesson) => ({
+    id: lesson.id,
+    title: lesson.title,
+    description: lesson.description,
+    href: `${route}#lesson=${lesson.id}`,
+    source: 'enterprise',
+    metadata: course.baseline,
+    steps: lesson.steps.map((step) => step.title),
+  }));
 }
-function standaloneLessons(course: typeof mecmCourse, route: string, source: ConsoleLesson['source']): ConsoleLesson[] {
-  return enterpriseLessons(course, route).map(lesson => ({...lesson, source}));
+function standaloneLessons(
+  course: typeof mecmCourse,
+  route: string,
+  source: ConsoleLesson['source'],
+): ConsoleLesson[] {
+  return enterpriseLessons(course, route).map((lesson) => ({
+    ...lesson,
+    source,
+  }));
 }
 export const learningPathways: LearningPathway[] = [
-  { id: 'windows', title: 'Windows Server & VMware', prerequisite: 'Start here · prepare the private lab', sections: [
-    { title: 'Plan and Prepare', lessons: migration(['lab-00','lab-01','lab-02','lab-03']) },
-    { title: 'Create and Install DC01', lessons: migration(['lab-04']).filter(l => l.id !== 'lab-04') },
-    { title: 'Create and Install DC02', lessons: migration(['lab-07']).filter(l => l.id !== 'lab-07') },
-  ] },
-  { id: 'active-directory', title: 'Active Directory & DNS', prerequisite: 'After the DC01 and DC02 Windows installation labs', sections: [
-    { title: 'Install AD DS and DNS', lessons: migration(['lab-04']).filter(l => l.id === 'lab-04') },
-    { title: 'Add a Controller and Check Replication', lessons: migration(['lab-07']).filter(l => l.id === 'lab-07') },
-    { title: 'Manage Users and Group Policy', lessons: migration(['lab-05']) },
-  ] },
+  {
+    id: 'windows',
+    title: 'Windows Server & VMware',
+    prerequisite: 'Start here · prepare the private lab',
+    sections: [
+      {
+        title: 'Plan and Prepare',
+        lessons: migration(['lab-00', 'lab-01', 'lab-02', 'lab-03']),
+      },
+      {
+        title: 'Create and Install DC01',
+        lessons: migration(['lab-04']).filter((l) => l.id !== 'lab-04'),
+      },
+      {
+        title: 'Create and Install DC02',
+        lessons: migration(['lab-07']).filter((l) => l.id !== 'lab-07'),
+      },
+    ],
+  },
+  {
+    id: 'active-directory',
+    title: 'Active Directory & DNS',
+    prerequisite: 'After the DC01 and DC02 Windows installation labs',
+    sections: [
+      {
+        title: 'Install AD DS and DNS',
+        lessons: migration(['lab-04']).filter((l) => l.id === 'lab-04'),
+      },
+      {
+        title: 'Add a Controller and Check Replication',
+        lessons: migration(['lab-07']).filter((l) => l.id === 'lab-07'),
+      },
+      {
+        title: 'Manage Users and Group Policy',
+        lessons: migration(['lab-05']),
+      },
+    ],
+  },
   {
     id: 'sql',
     title: 'SQL Server',
@@ -318,41 +391,147 @@ export const learningPathways: LearningPathway[] = [
       },
     ],
   },
-  { id: 'helpdesk', title: 'IIS & Help Desk', prerequisite: 'After Active Directory · disposable APP01 member server', sections: [
-    {title: 'Prepare APP01 and IIS', lessons: migration(['lab-06'])},
-    {title: 'Install and Configure osTicket', lessons: standaloneLessons(helpdeskCourse, '/helpdesk', 'helpdesk').slice(0, 8)},
-    {title: 'Operate, Update and Recover', lessons: standaloneLessons(helpdeskCourse, '/helpdesk', 'helpdesk').slice(8)},
-  ] },
-  { id: 'wsus', title: 'WSUS · Windows Updates', prerequisite: 'After AD · standalone WSUS01 and a disposable pilot', sections: [
-    {title: 'Install and Configure WSUS', lessons: migration(['lab-13'])},
-    {title: 'Computer Groups and Client Policy', lessons: enterpriseLessons(wsusCourse, '/wsus').slice(0,1)},
-    {title: 'Approve Updates and Reboot in Batches', lessons: enterpriseLessons(wsusCourse, '/wsus').slice(1,2)},
-    {title: 'Troubleshoot and Recover', lessons: enterpriseLessons(wsusCourse, '/wsus').slice(2)},
-  ] },
-  { id: 'mecm', title: 'MECM · Configuration Manager', prerequisite: 'After AD and SQL · evaluation primary site and test clients', sections: [
-    {title: 'Install and Configure the Site', lessons: migration(['mecm-01','mecm-02','mecm-03'])},
-    {title: 'Connect and Troubleshoot Dependencies', lessons: migration(['mecm-04'])},
-    {title: 'Build and Enroll a Test Client', lessons: enterpriseLessons(mecmCourse, '/mecm').slice(0,1)},
-    {title: 'Device Collections', lessons: enterpriseLessons(mecmCourse, '/mecm').slice(1,2)},
-    {title: 'Deploy and Remove Software', lessons: enterpriseLessons(mecmCourse, '/mecm').slice(2,3)},
-    {title: 'Heartbeat and Client Health', lessons: enterpriseLessons(mecmCourse, '/mecm').slice(3,4)},
-    {title: 'Compliance Baselines', lessons: enterpriseLessons(mecmCourse, '/mecm').slice(4,5)},
-    {title: 'Daily Operations and Recovery', lessons: enterpriseLessons(mecmCourse, '/mecm').slice(5)},
-    {title: 'Software Update Point', lessons: migration(['mecm-05'])},
-  ] },
-  { id: 'azure', title: 'Microsoft Azure Foundations', prerequisite: 'After Windows / AD · review costs first', sections: [
-    {title: 'Budget and Private Destination', lessons: migration(['az-01','lab-14','lab-15','lab-16'])},
-  ] },
-  { id: 'landing-zone', title: 'Azure Landing Zones', prerequisite: 'Review Azure costs before creating resources', sections: [
-    {title: 'Plan, Build and Test', lessons: standaloneLessons(landingZoneCourse, '/landing-zone', 'landing-zone')},
-  ] },
-  { id: 'azure-operations', title: 'Azure Server Maintenance', prerequisite: 'After Azure foundations · protect and pilot before rollout', sections: [
-    {title: 'Backups, Updates and Recovery', lessons: standaloneLessons(maintenanceCourse, '/azure-operations', 'azure-lab')},
-  ] },
-  { id: 'security', title: 'Cloud & Endpoint Security', prerequisite: 'Review licensing and the lab cost goal first', sections: [
-    {title: 'Endpoint Protection and Defender', lessons: securityCourse.lessons.slice(0,12).map(securityLesson)},
-    {title: 'Optional Licensed Cloud VDI', optional: true, lessons: securityCourse.lessons.slice(12).map(securityLesson)},
-  ] },
+  {
+    id: 'helpdesk',
+    title: 'IIS & Help Desk',
+    prerequisite: 'After Active Directory · disposable APP01 member server',
+    sections: [
+      { title: 'Prepare APP01 and IIS', lessons: migration(['lab-06']) },
+      {
+        title: 'Install and Configure osTicket',
+        lessons: standaloneLessons(
+          helpdeskCourse,
+          '/helpdesk',
+          'helpdesk',
+        ).slice(0, 8),
+      },
+      {
+        title: 'Operate, Update and Recover',
+        lessons: standaloneLessons(
+          helpdeskCourse,
+          '/helpdesk',
+          'helpdesk',
+        ).slice(8),
+      },
+    ],
+  },
+  {
+    id: 'wsus',
+    title: 'WSUS · Windows Updates',
+    prerequisite: 'After AD · standalone WSUS01 and a disposable pilot',
+    sections: [
+      { title: 'Install and Configure WSUS', lessons: migration(['lab-13']) },
+      {
+        title: 'Computer Groups and Client Policy',
+        lessons: enterpriseLessons(wsusCourse, '/wsus').slice(0, 1),
+      },
+      {
+        title: 'Approve Updates and Reboot in Batches',
+        lessons: enterpriseLessons(wsusCourse, '/wsus').slice(1, 2),
+      },
+      {
+        title: 'Troubleshoot and Recover',
+        lessons: enterpriseLessons(wsusCourse, '/wsus').slice(2),
+      },
+    ],
+  },
+  {
+    id: 'mecm',
+    title: 'MECM · Configuration Manager',
+    prerequisite: 'After AD and SQL · evaluation primary site and test clients',
+    sections: [
+      {
+        title: 'Install and Configure the Site',
+        lessons: migration(['mecm-01', 'mecm-02', 'mecm-03']),
+      },
+      {
+        title: 'Connect and Troubleshoot Dependencies',
+        lessons: migration(['mecm-04']),
+      },
+      {
+        title: 'Build and Enroll a Test Client',
+        lessons: enterpriseLessons(mecmCourse, '/mecm').slice(0, 1),
+      },
+      {
+        title: 'Device Collections',
+        lessons: enterpriseLessons(mecmCourse, '/mecm').slice(1, 2),
+      },
+      {
+        title: 'Deploy and Remove Software',
+        lessons: enterpriseLessons(mecmCourse, '/mecm').slice(2, 3),
+      },
+      {
+        title: 'Heartbeat and Client Health',
+        lessons: enterpriseLessons(mecmCourse, '/mecm').slice(3, 4),
+      },
+      {
+        title: 'Compliance Baselines',
+        lessons: enterpriseLessons(mecmCourse, '/mecm').slice(4, 5),
+      },
+      {
+        title: 'Daily Operations and Recovery',
+        lessons: enterpriseLessons(mecmCourse, '/mecm').slice(5),
+      },
+      { title: 'Software Update Point', lessons: migration(['mecm-05']) },
+    ],
+  },
+  {
+    id: 'azure',
+    title: 'Microsoft Azure Foundations',
+    prerequisite: 'After Windows / AD · review costs first',
+    sections: [
+      {
+        title: 'Budget and Private Destination',
+        lessons: migration(['az-01', 'lab-14', 'lab-15', 'lab-16']),
+      },
+    ],
+  },
+  {
+    id: 'landing-zone',
+    title: 'Azure Landing Zones',
+    prerequisite: 'Review Azure costs before creating resources',
+    sections: [
+      {
+        title: 'Plan, Build and Test',
+        lessons: standaloneLessons(
+          landingZoneCourse,
+          '/landing-zone',
+          'landing-zone',
+        ),
+      },
+    ],
+  },
+  {
+    id: 'azure-operations',
+    title: 'Azure Server Maintenance',
+    prerequisite: 'After Azure foundations · protect and pilot before rollout',
+    sections: [
+      {
+        title: 'Backups, Updates and Recovery',
+        lessons: standaloneLessons(
+          maintenanceCourse,
+          '/azure-operations',
+          'azure-lab',
+        ),
+      },
+    ],
+  },
+  {
+    id: 'security',
+    title: 'Cloud & Endpoint Security',
+    prerequisite: 'Review licensing and the lab cost goal first',
+    sections: [
+      {
+        title: 'Endpoint Protection and Defender',
+        lessons: securityCourse.lessons.slice(0, 12).map(securityLesson),
+      },
+      {
+        title: 'Optional Licensed Cloud VDI',
+        optional: true,
+        lessons: securityCourse.lessons.slice(12).map(securityLesson),
+      },
+    ],
+  },
   {
     id: 'migrations',
     title: 'Cloud Migrations',
@@ -435,6 +614,30 @@ export const learningPathways: LearningPathway[] = [
         })),
     })),
   },
+  {
+    id: 'splunk',
+    title: 'Splunk Core User',
+    prerequisite:
+      'Windows practice VM · search, reports, dashboards and alerts',
+    sections: [
+      {
+        title: '01 / Get Ready and Upload Data',
+        lessons: enterpriseLessons(splunkCourse, '/splunk').slice(0, 3),
+      },
+      {
+        title: '02 / Search and Explain Results',
+        lessons: enterpriseLessons(splunkCourse, '/splunk').slice(3, 9),
+      },
+      {
+        title: '03 / Reports, Dashboards and Lookups',
+        lessons: enterpriseLessons(splunkCourse, '/splunk').slice(9, 12),
+      },
+      {
+        title: '04 / Scheduling and Final Investigation',
+        lessons: enterpriseLessons(splunkCourse, '/splunk').slice(12),
+      },
+    ],
+  },
   ...nessusCourses.map((course) => ({
     id: course.id,
     title: course.title,
@@ -462,10 +665,24 @@ export const pathwayLessons = (pathway: LearningPathway) =>
 // Core lesson pagination follows the prerequisite route. Optional extensions
 // stay within their own sequence instead of interrupting the core route.
 export function lessonSequenceFor(id: string): ConsoleLesson[] {
-  if (id.startsWith('lz-')) return pathwayLessons(learningPathways.find(p => p.id === 'landing-zone')!);
-  if (id.startsWith('mecm-') || id.startsWith('wsus-') || id === 'lab-13') return pathwayLessons(learningPathways.find(p => p.id === (id.startsWith('mecm-') ? 'mecm' : 'wsus'))!);
+  if (id.startsWith('splunk-'))
+    return pathwayLessons(learningPathways.find((p) => p.id === 'splunk')!);
+  if (id.startsWith('lz-'))
+    return pathwayLessons(
+      learningPathways.find((p) => p.id === 'landing-zone')!,
+    );
+  if (id.startsWith('mecm-') || id.startsWith('wsus-') || id === 'lab-13')
+    return pathwayLessons(
+      learningPathways.find(
+        (p) => p.id === (id.startsWith('mecm-') ? 'mecm' : 'wsus'),
+      )!,
+    );
   if (id.startsWith('sec-')) return securityCourse.lessons.map(securityLesson);
-  if (id.startsWith('helpdesk-') || id.startsWith('nessus-') || id.startsWith('azure-maint-')) {
+  if (
+    id.startsWith('helpdesk-') ||
+    id.startsWith('nessus-') ||
+    id.startsWith('azure-maint-')
+  ) {
     const pathway = learningPathways.find((path) =>
       path.sections.some((section) =>
         section.lessons.some((lesson) => lesson.id === id),
@@ -473,9 +690,11 @@ export function lessonSequenceFor(id: string): ConsoleLesson[] {
     );
     return pathway
       ? pathwayLessons(pathway).filter((lesson) =>
-          id.startsWith('helpdesk-') ? lesson.source === 'helpdesk' : id.startsWith('azure-maint-')
-            ? lesson.source === 'azure-lab'
-            : lesson.source === 'nessus',
+          id.startsWith('helpdesk-')
+            ? lesson.source === 'helpdesk'
+            : id.startsWith('azure-maint-')
+              ? lesson.source === 'azure-lab'
+              : lesson.source === 'nessus',
         )
       : [];
   }
@@ -484,12 +703,14 @@ export function lessonSequenceFor(id: string): ConsoleLesson[] {
   const sections = learningPathways
     .filter(
       (pathway) =>
-        !['linux', 'alma', 'mecm', 'wsus'].includes(pathway.id) &&
+        !['linux', 'alma', 'mecm', 'wsus', 'splunk'].includes(pathway.id) &&
         !pathway.id.startsWith('nessus-'),
     )
     .flatMap((pathway) => pathway.sections)
     .filter((section) =>
-      section.lessons.every((lesson) => !['azure-lab', 'landing-zone'].includes(lesson.source)),
+      section.lessons.every(
+        (lesson) => !['azure-lab', 'landing-zone'].includes(lesson.source),
+      ),
     );
   const optional = sections.find(
     (section) =>

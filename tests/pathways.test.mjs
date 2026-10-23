@@ -1,4 +1,12 @@
-import { mecmCourse, wsusCourse, landingZoneCourse, securityCourse, helpdeskCourse, maintenanceCourse } from '../lib/guided-courses.ts';
+import {
+  splunkCourse,
+  mecmCourse,
+  wsusCourse,
+  landingZoneCourse,
+  securityCourse,
+  helpdeskCourse,
+  maintenanceCourse,
+} from '../lib/guided-courses.ts';
 import { nessusLessons } from '../lib/nessus-curriculum.ts';
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -29,6 +37,7 @@ test('pathways retain every existing lesson exactly once with its original reade
         ...landingZoneCourse.lessons,
         ...mecmCourse.lessons,
         ...wsusCourse.lessons,
+        ...splunkCourse.lessons,
       ].map((lesson) => lesson.id),
     ),
   );
@@ -58,6 +67,7 @@ test('core route builds the domain controllers before SQL, then Azure and migrat
       'migrations',
       'linux',
       'alma',
+      'splunk',
       'nessus-linux',
       'nessus-windows',
       'nessus-scanning',
@@ -95,7 +105,11 @@ test('core route builds the domain controllers before SQL, then Azure and migrat
     )
     .map((lesson) => lesson.id);
   assert.ok(optional.includes('ha-01'));
-  assert.ok(learningPathways.find(p => p.id === 'mecm').sections.some(s => s.lessons.some(l => l.id === 'mecm-01')));
+  assert.ok(
+    learningPathways
+      .find((p) => p.id === 'mecm')
+      .sections.some((s) => s.lessons.some((l) => l.id === 'mecm-01')),
+  );
   assert.ok(!core.includes('ha-01'));
   const sequence = lessonSequenceFor('lab-06').map((lesson) => lesson.id);
   assert.equal(sequence[sequence.indexOf('lab-06') + 1], 'helpdesk-plan');

@@ -219,7 +219,7 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
                   </a>
                 </header>
                 <div className="course-grid">
-                  {['mecm', 'wsus', 'alma', 'sql'].map((id) => {
+                  {['splunk', 'mecm', 'wsus', 'alma'].map((id) => {
                     const path = learningPathways.find((p) => p.id === id)!;
                     return (
                       <a href={pathwayLessons(path)[0].href} key={id}>

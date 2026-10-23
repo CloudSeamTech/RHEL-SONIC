@@ -1,0 +1,1766 @@
+{
+  "id": "splunk-core-user",
+  "title": "Splunk Core User",
+  "description": "Learn to search machine data, explain results, build reports and dashboards, use lookups and test alerts in a small CloudSeam lab.",
+  "baseline": "Splunk Enterprise 10.4+ · supported Windows Server guest · cloudseam.tech dummy data · SPL (not SPL2)",
+  "prerequisite": "Before you start, have a supported Windows Server practice VM ready in VMware Workstation Pro, an administrator account for setup, and an eligible Splunk Enterprise trial or license. Start with the Windows Server & VMware class if you have not built a guest yet. Later lessons use the Splunk Search bar, not PowerShell. Your Windows 10 machine remains the host.",
+  "supplies": [
+    "A supported x86-64 Windows Server guest called SPLUNK01, with resources checked against the selected release’s official requirements.",
+    "An official Splunk Enterprise installer and a trial/license that permits scheduling; a website visit does not create an entitlement.",
+    "The supplied 12-event cloudseam-web.csv and three-row cloudseam-status.csv files. All names and events are fictional.",
+    "A private browser session on the guest at http://localhost:8000 after installation. No paid Azure resources are needed."
+  ],
+  "sources": [
+    {
+      "title": "Core Certified User blueprint",
+      "url": "https://www.splunk.com/content/dam/splunk2/en_us/pdfs/training/splunk-test-blueprint-user.pdf"
+    },
+    {
+      "title": "Official Enterprise download",
+      "url": "https://www.splunk.com/en_us/download/splunk-enterprise.html"
+    },
+    {
+      "title": "Supported OS and installation requirements",
+      "url": "https://help.splunk.com/en/splunk-enterprise/administer/install-and-upgrade/10.4/plan-your-splunk-enterprise-installation/system-requirements-for-use-of-splunk-enterprise-on-premises"
+    },
+    {
+      "title": "Windows installation",
+      "url": "https://help.splunk.com/en/splunk-enterprise/get-started/install-and-upgrade/10.4/install-splunk-enterprise-on-windows/install-on-windows"
+    },
+    {
+      "title": "Windows service identity for 10.4",
+      "url": "https://help.splunk.com/en/splunk-enterprise/administer/install-and-upgrade/10.4/install-splunk-enterprise-on-windows/choose-the-windows-user-splunk-enterprise-should-run-as"
+    },
+    {
+      "title": "Search app interface",
+      "url": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+    },
+    {
+      "title": "Lookups",
+      "url": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups"
+    },
+    {
+      "title": "Classic dashboards",
+      "url": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/9.2/part-7-creating-dashboards/create-dashboards-and-panels"
+    },
+    {
+      "title": "Scheduled alerts",
+      "url": "https://help.splunk.com/en/splunk-enterprise/alert-and-respond/alerting-manual/10.2/create-alerts/create-scheduled-alerts"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "splunk-start",
+      "title": "Meet Splunk and Prepare Your Lab",
+      "description": "Get your practice server ready and learn what Splunk will help you do.",
+      "what": "Get your practice server ready and learn what Splunk will help you do.",
+      "why": "Splunk turns machine events into searchable evidence. We will investigate a tiny fictional CloudSeam website, not collect real users’ data.",
+      "needs": [
+        "A supported Windows Server practice VM, or access to the Windows Server & VMware setup lessons.",
+        "An account you control for the official Splunk download and trial terms."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "You have a supported practice VM, the two CSV files and a trial/license plan.",
+      "exercise": "Write down your guest OS and where the CSV files are saved. Do not record any passwords.",
+      "quiz": [
+        {
+          "question": "Which product gives this lab its full Search & Reporting interface?",
+          "options": [
+            "Splunk Enterprise",
+            "Only the Universal Forwarder",
+            "IIS by itself"
+          ],
+          "answer": 0,
+          "explanation": "A forwarder sends data; it does not provide this full search lab interface."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Choose the practice computer",
+          "where": "Your Windows host → VMware Workstation Pro → Windows Server guest",
+          "actions": [
+            "Use a separate Windows Server 2019 or 2022 practice VM from the Windows Server & VMware pathway. Your Windows 10 computer stays the VMware host; do not install an unsupported Splunk release on it.",
+            "Call the practice server SPLUNK01. If it is joined to the class domain, its full name is SPLUNK01.cloudseam.tech. A domain join is not required for local Splunk searches.",
+            "Keep enough free resources for your chosen release; compare the linked official requirements with your VM before downloading. A tiny CSV lab is not a production sizing recommendation."
+          ],
+          "expected": "You can identify the guest VM, supported OS and available resources.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A separate guest keeps this installation away from your main PC and your domain controllers."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Choose the practice computer · interface reference",
+            "assetId": "splunk-interface-01",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        },
+        {
+          "title": "Understand the three jobs",
+          "where": "The interface reference picture in this lesson; open the real app after installation",
+          "actions": [
+            "Open the screenshot and identify the Search & Reporting app. This is where you will ask questions.",
+            "An indexer stores searchable events; a search head handles your searches; a forwarder sends data from another machine. In this small lab one Enterprise installation handles searching and indexing.",
+            "We will upload a file directly, so you do not need a forwarder, Enterprise Security or a separate cloud subscription."
+          ],
+          "expected": "You can explain searching, storing and forwarding in your own words.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Knowing the parts helps you avoid installing the Universal Forwarder when you need the full search interface."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Understand the three jobs · interface reference",
+            "assetId": "splunk-interface-02",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        },
+        {
+          "title": "Plan the license and practice files",
+          "where": "Browser inside SPLUNK01 → official downloads and SONIC-Academy practice files",
+          "actions": [
+            "Open the official Splunk Enterprise download page from the course references. Use an account you control and review the current trial terms.",
+            "An eligible Enterprise trial is needed for the scheduled report and alert lessons. The Free license has fewer features; it is not a substitute for those exercises. Record your actual trial expiry.",
+            "Download the two CloudSeam CSV files from the practice-files box below the lesson title. Keep them in Downloads without opening and resaving them in Excel."
+          ],
+          "expected": "You have the event CSV, lookup CSV and a clear license plan.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The class supplies only dummy data. It does not provide or activate a Splunk license."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Plan the license and practice files · interface reference",
+            "assetId": "splunk-interface-01",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "splunk-install",
+      "title": "Install Splunk Enterprise on Windows",
+      "description": "Install the full Splunk product inside your Windows practice VM and open its web interface.",
+      "what": "Install the full Splunk product inside your Windows practice VM and open its web interface.",
+      "why": "We need a working local instance before we can search, build reports or save dashboards.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "You can sign in to Splunk Web on SPLUNK01 and open Search & Reporting.",
+      "exercise": "Record the installed version and a screenshot without passwords or license details.",
+      "quiz": [
+        {
+          "question": "Where do you open Splunk Web when browsing on the same server?",
+          "options": [
+            "http://localhost:8000",
+            "The SONIC-Academy terminal",
+            "The Windows AD Users console"
+          ],
+          "answer": 0,
+          "explanation": "Port 8000 is the default local Splunk Web port; a customized deployment can use another address."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Check and launch the installer",
+          "where": "SPLUNK01 Windows Server guest → File Explorer → Downloads",
+          "actions": [
+            "Inside SPLUNK01, use the official download page to get the Windows 64-bit Splunk Enterprise MSI for a supported, maintained release. Record the exact version.",
+            "In File Explorer → Downloads, right-click the MSI → Properties → Digital Signatures. Check the signature is valid and matches the trusted publisher. If no valid signature is available, stop and verify the download.",
+            "Double-click the MSI, approve the Windows administrator prompt, read the license agreement and proceed only if you accept it. This is the Enterprise installer, not the Universal Forwarder installer."
+          ],
+          "expected": "The Enterprise setup wizard opens on the intended guest.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "You install on the guest, and verify the package before giving it installation privileges."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Check and launch the installer · interface reference",
+            "assetId": "splunk-interface-20",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/get-started/install-and-upgrade/10.4/install-splunk-enterprise-on-windows/install-on-windows"
+          ]
+        },
+        {
+          "title": "Choose the service identity and administrator login",
+          "where": "SPLUNK01 Windows Server guest → Splunk Enterprise setup wizard",
+          "actions": [
+            "For a new 10.4-or-later Windows installation, use the documented non-privileged local service account option (NT SERVICE\\Splunkd), rather than an administrative service identity. Follow the current installer’s local service account choice; older reference images can show retired choices.",
+            "Keep the default installation folder and ports for this isolated lab. When asked for a Splunk administrator, create a unique lab username and strong password; this is a separate login from your Windows account.",
+            "Keep the credentials in your password manager. Continue through the summary and choose Install. Do not add the service account to Administrators to work around a permission problem."
+          ],
+          "expected": "The installer finishes, with a non-privileged service identity and a Splunk login you control.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The Windows service identity runs the background program. Your Splunk user signs into its web interface."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Choose the service identity and administrator login · interface reference",
+            "assetId": "splunk-interface-21",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/get-started/install-and-upgrade/10.4/install-splunk-enterprise-on-windows/install-on-windows"
+          ]
+        },
+        {
+          "title": "Sign in and confirm the instance",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "On SPLUNK01, open a browser and type http://localhost:8000 in the address bar. Sign in with the Splunk account you just created.",
+            "Open Search & Reporting from the Apps panel. Use Help → About, or the version information available in your release, to record the running version.",
+            "If the page does not open, open Windows Services and check Splunkd, then verify port 8000 is not already in use. Keep the web and management ports private; no public firewall opening is needed to use localhost."
+          ],
+          "expected": "Search & Reporting opens on your own instance.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A successful installer is only the first check; opening the application proves it started."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Sign in and confirm the instance · interface reference",
+            "assetId": "splunk-interface-01",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "splunk-upload",
+      "title": "Upload the CloudSeam Practice Events",
+      "description": "Load 12 fictional web events into a separate practice index.",
+      "what": "Load 12 fictional web events into a separate practice index.",
+      "why": "A small known dataset lets you tell whether a search is correct, rather than guessing from unfamiliar production logs.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "Exactly 12 supplied events are searchable in sonic_lab.",
+      "exercise": "Save a screenshot of the count and record the source, index and time setting.",
+      "quiz": [
+        {
+          "question": "Why do we use All time for this first count?",
+          "options": [
+            "The practice events have fixed dates, outside Last 24 hours",
+            "All time makes duplicate uploads disappear",
+            "It changes old events into new events"
+          ],
+          "answer": 0,
+          "explanation": "A time picker filters by event time; it does not update the events themselves."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Select the practice CSV",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "In Splunk Web, click Settings → Add Data → Upload → Select File.",
+            "Browse to cloudseam-web.csv in Downloads. Select the CSV itself; this course does not use tutorialdata.zip.",
+            "Continue to Set Source Type. Choose csv if it is not detected. Confirm the preview has separate fields named timestamp, server, user, action, status, bytes, path and clientip."
+          ],
+          "expected": "The preview shows the CSV columns correctly.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The parser tells Splunk how to split each event into useful fields."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Select the practice CSV · interface reference",
+            "assetId": "splunk-interface-05",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-2-uploading-the-tutorial-data/upload-the-tutorial-data"
+          ]
+        },
+        {
+          "title": "Check time, host and index before submitting",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "In the preview, check that each row is one event. Use timestamp as the timestamp field and %Y-%m-%dT%H:%M:%SZ as the format if automatic timestamp recognition is incorrect; the Z means UTC. The dates are 15 January 2026.",
+            "Continue to Input Settings. Use Constant value for Host and enter SPLUNK01.cloudseam.tech. The CSV server field separately identifies the fictional application server. Do not copy the path-segment/regex host settings from the ZIP reference screenshot.",
+            "For Index, choose Create a new index and name it sonic_lab; keep the default event index settings for this tiny practice file. If it already exists, select it. An administrator must create the index or grant your practice role access."
+          ],
+          "expected": "Review shows source cloudseam-web.csv, CSV parsing, the intended host and index sonic_lab.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Wrong timestamps or the wrong index can make correctly uploaded events appear to be missing."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Check time, host and index before submitting · interface reference",
+            "assetId": "splunk-interface-06",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-2-uploading-the-tutorial-data/upload-the-tutorial-data"
+          ]
+        },
+        {
+          "title": "Import once and prove the event count",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Review the settings, then click Submit once. Wait for the success screen and click Start Searching.",
+            "Set the time picker to All time. Paste the SPL below into Splunk’s Search bar, then click the search icon. Do not paste it into PowerShell.",
+            "Open Statistics. Expect events=12. If the count is 24, the file was probably imported twice. Stop and fix the lab index with your instructor; do not keep re-uploading."
+          ],
+          "expected": "Statistics contains one row with events=12.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A known count is your first evidence that the upload and search scope are correct."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Import once and prove the event count · interface reference",
+            "assetId": "splunk-interface-09",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | stats count AS events"
+        }
+      ]
+    },
+    {
+      "id": "splunk-navigate",
+      "title": "Find Your Way Around Search",
+      "description": "Use the search bar, timeline, time picker and search-job controls.",
+      "what": "Use the search bar, timeline, time picker and search-job controls.",
+      "why": "Knowing where results and controls live makes every later lesson easier.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "You can find the main search controls, restore All time and export dummy results.",
+      "exercise": "Record why Last 24 hours can show zero and identify the job controls in a screenshot.",
+      "quiz": [
+        {
+          "question": "What does stopping a running search mean?",
+          "options": [
+            "Its results may be incomplete",
+            "All matching events were necessarily processed",
+            "Its data has been deleted"
+          ],
+          "answer": 0,
+          "explanation": "Stopping execution does not guarantee the search processed all matching events."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Find the search controls",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Open Search & Reporting → Search. Paste the base search below and choose All time.",
+            "Click Search. Find the Events, Statistics and Visualization tabs, the time picker, the timeline and the left Fields sidebar.",
+            "Keep Smart mode for this first pass. Open an event to see its raw data and extracted fields."
+          ],
+          "expected": "You can point to each control and see all 12 events.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "An event is one recorded activity; a field is a named piece of that activity."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Find the search controls · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\""
+        },
+        {
+          "title": "Try a time filter and explain the result",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Change the time picker to Last 24 hours and run the same search. The fixed January 2026 dataset should return no events when that range excludes its date.",
+            "Switch back to All time. Drag across the timeline around part of the sample activity to narrow it, then restore All time.",
+            "Event dates may display in your account’s timezone. Open your username → Preferences to inspect the timezone and use UTC for this lab if your role/version exposes that option."
+          ],
+          "expected": "You can deliberately change the time scope and return to 12 events.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The time picker is often the simplest explanation for an empty search."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Try a time filter and explain the result · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        },
+        {
+          "title": "Inspect the job and export a result",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the search again. Locate the search-job controls near the timeline. Identify pause, stop and job details; a stopped search may return incomplete results.",
+            "This tiny search may finish before you can pause it. Inspect the completed job details instead of pretending you paused it.",
+            "Use the Export results control (download icon in supported versions) to save the dummy events as CSV. Keep the file private and note that exported results are a point-in-time copy, not a saved report definition."
+          ],
+          "expected": "You have inspected a search job and can explain an export versus a report.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A finished search, a canceled job and an exported file are different things."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Inspect the job and export a result · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "splunk-search",
+      "title": "Find Failed Logins with Simple Searches",
+      "description": "Filter the practice events using fields, Boolean operators and wildcards.",
+      "what": "Filter the practice events using fields, Boolean operators and wildcards.",
+      "why": "Good filters turn a wall of events into a clear question you can answer.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "You can find four failed logins, two 503s and six total error events.",
+      "exercise": "Write one scoped search that finds failures and explain each filter.",
+      "quiz": [
+        {
+          "question": "Which grouped filter includes both statuses?",
+          "options": [
+            "(status=401 OR status=503)",
+            "status=401 AND status=503",
+            "NOT status=*"
+          ],
+          "answer": 0,
+          "explanation": "An individual single-valued status cannot be both 401 and 503; OR selects either value."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Find one exact status",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Open a new Search view, choose All time and paste the SPL below.",
+            "Click Search and inspect the raw events. The dataset contains four 401 login responses.",
+            "Change 401 to 503 and rerun; that should return two application errors. Return to 401 afterward."
+          ],
+          "expected": "The 401 search returns four events; the 503 search returns two.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "An explicit field=value filter is easier to explain than a broad keyword guess."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Find one exact status · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" status=401"
+        },
+        {
+          "title": "Use AND, OR and NOT deliberately",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the parenthesized search below. The two status filters are joined by OR; index and source still scope the data.",
+            "Expect six events: four 401 plus two 503. Add NOT user=bob and rerun; the two dan events should remain.",
+            "Keep parentheses when mixing Boolean conditions. Confirm the raw events match your intended question."
+          ],
+          "expected": "The grouped error search returns six events before excluding bob.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Grouping makes it clear which alternatives belong together."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Use AND, OR and NOT deliberately · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" (status=401 OR status=503)"
+        },
+        {
+          "title": "Use a wildcard without losing the scope",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the search below. The wildcard matches paths beginning with /log, such as /login.",
+            "Count six login-path events. Inspect their user and status fields; not every login-path event failed.",
+            "Save the useful search text in your private notes along with the index and All time setting."
+          ],
+          "expected": "The path wildcard returns six login-path events, including both successes and failures.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A matching path does not by itself tell you whether the action succeeded."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Use a wildcard without losing the scope · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" path=\"/log*\""
+        }
+      ]
+    },
+    {
+      "id": "splunk-fields",
+      "title": "Use Fields to Explain an Event",
+      "description": "Read field values and distinguish event metadata from the fields in our CSV.",
+      "what": "Read field values and distinguish event metadata from the fields in our CSV.",
+      "why": "Fields let you ask structured questions such as which user, server or status was involved.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "You can identify default metadata, CSV fields and missing-field effects.",
+      "exercise": "Record the five distinct users and explain host versus server.",
+      "quiz": [
+        {
+          "question": "What does dc(user) count?",
+          "options": [
+            "Distinct user values",
+            "All bytes transferred",
+            "The number of domain controllers"
+          ],
+          "answer": 0,
+          "explanation": "dc means distinct count; it counts unique values present in the selected field."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Inspect the fields sidebar",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the base search with All time. Switch to Verbose mode if the fields you need are not visible.",
+            "Click user in the Fields sidebar or All Fields. Inspect its values and select bob to add a filter.",
+            "Confirm bob has four events. If a field is absent, open an event and inspect whether the CSV columns were parsed correctly."
+          ],
+          "expected": "A user=bob filter returns four events.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The field picker can help build a search, but you still need to read the resulting filter."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Inspect the fields sidebar · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\""
+        },
+        {
+          "title": "Separate metadata from the application server",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Open one event and compare host, source, sourcetype, index and _time with server, user and status.",
+            "host is the upload metadata SPLUNK01.cloudseam.tech in this lab. server is APP01.cloudseam.tech or WEB02.cloudseam.tech from the fictional activity.",
+            "Use the table search below to see these fields together. _time can display in your chosen timezone."
+          ],
+          "expected": "You can explain where the data came from and which fictional server produced the activity.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Metadata and event fields answer different questions; a field name alone is not its meaning."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Separate metadata from the application server · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | table _time host source sourcetype server user status"
+        },
+        {
+          "title": "Check field coverage before trusting a report",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the summary below and open Statistics.",
+            "Expect 12 events, 12 with a user value and five distinct users. Count(user) excludes events without that field; count counts all matching events.",
+            "If these differ, inspect missing fields before using user counts in a report."
+          ],
+          "expected": "Statistics shows events=12, with_user=12 and unique_users=5.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Missing fields can make two reasonable-looking totals disagree."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Check field coverage before trusting a report · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | stats count AS events count(user) AS with_user dc(user) AS unique_users"
+        }
+      ]
+    },
+    {
+      "id": "splunk-pipeline",
+      "title": "Build a Clear Table with SPL",
+      "description": "Use the pipe, fields, table and rename commands to shape a readable result.",
+      "what": "Use the pipe, fields, table and rename commands to shape a readable result.",
+      "why": "A search pipeline passes its current results to the next command, one stage at a time.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "You can build a table, keep fields and rename a displayed column.",
+      "exercise": "Save the failed-login table query and explain what each pipe stage does.",
+      "quiz": [
+        {
+          "question": "Does rename change the indexed event itself?",
+          "options": [
+            "No; it changes the current search result field name",
+            "Yes; it edits every source CSV row",
+            "Yes; it deletes the old event"
+          ],
+          "answer": 0,
+          "explanation": "SPL result shaping does not rewrite the already-indexed source events."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Read the pipeline from left to right",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Paste the query below into the Search bar and run it with All time.",
+            "The search before | finds the matching events; table keeps the named columns in the displayed order.",
+            "Read the four failed-login rows and confirm user=bob on each row."
+          ],
+          "expected": "The table shows four rows with the selected columns.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The pipe character joins commands; it is not a PowerShell instruction here."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Read the pipeline from left to right · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" status=401 | table _time user server status"
+        },
+        {
+          "title": "Keep useful fields and rename a heading",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the query below. fields limits the carried fields, table chooses the final display columns, and rename changes a result column’s label.",
+            "Find the response_code column. The underlying stored CSV events were not rewritten.",
+            "Remove rename and rerun to compare the heading, then put it back."
+          ],
+          "expected": "Your result table labels status as response_code without altering indexed events.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Display labels can help readers without modifying the source data."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Keep useful fields and rename a heading · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | fields _time user status | table _time user status | rename status AS response_code"
+        },
+        {
+          "title": "Explain event results versus statistics",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the base search, then add | stats count by status and rerun.",
+            "The first query gives individual events. The second gives one summary row per status, on Statistics.",
+            "Go back to the base query when you need to inspect raw event details."
+          ],
+          "expected": "You can tell an event list from a transformed summary.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "After a transforming command, each row can represent many original events."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Explain event results versus statistics · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | stats count by status"
+        }
+      ]
+    },
+    {
+      "id": "splunk-sort",
+      "title": "Sort Results and Remove Repeated Values",
+      "description": "Put rows in order and use dedup to show one result for each user.",
+      "what": "Put rows in order and use dedup to show one result for each user.",
+      "why": "Ordering matters: dedup keeps the first matching row it encounters.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "You can sort 12 events and keep five latest-per-user results.",
+      "exercise": "Record bob’s event count and explain why dedup alone cannot provide it.",
+      "quiz": [
+        {
+          "question": "Which event does dedup keep?",
+          "options": [
+            "The first event it encounters for each matching value",
+            "Always the oldest event regardless of order",
+            "A randomly selected event"
+          ],
+          "answer": 0,
+          "explanation": "The current result order determines the retained row; sort explicitly when that choice matters."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Sort by time explicitly",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the query below and open Statistics. sort 0 avoids the command’s default result limit; this dataset is tiny.",
+            "Read from earliest to latest. The table should still contain all 12 events.",
+            "A large production search needs a thoughtful result limit and scope; do not assume every small-lab pattern scales."
+          ],
+          "expected": "The 12 events appear in ascending event-time order.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "An explicit sort makes the report’s ordering clear."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Sort by time explicitly · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | sort 0 _time | table _time user status"
+        },
+        {
+          "title": "Show the latest event for each user",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the descending time sort and dedup query below.",
+            "Expect five rows, one each for alice, bob, cara, dan and erin.",
+            "Compare the retained event time with the raw events for one user. dedup removes rows from the result; it does not delete indexed events."
+          ],
+          "expected": "Five latest-per-user rows remain.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Sort first when you care which repeated event is retained."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Show the latest event for each user · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | sort 0 - _time | dedup user | table _time user status"
+        },
+        {
+          "title": "Compare dedup with a statistical total",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the count-by-user query below. Expect bob=4, alice=3, cara=2, dan=2 and erin=1.",
+            "Explain why dedup gives five rows but does not tell you how many events each user had.",
+            "Choose stats count when you need frequency, and dedup when you need one representative row."
+          ],
+          "expected": "The frequency report preserves counts for all five users.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "One row per value is not the same as a count of that value."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Compare dedup with a statistical total · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | stats count AS events by user | sort - events"
+        }
+      ]
+    },
+    {
+      "id": "splunk-stats",
+      "title": "Count Events with top, rare and stats",
+      "description": "Turn the practice events into useful frequency and status summaries.",
+      "what": "Turn the practice events into useful frequency and status summaries.",
+      "why": "Summaries help a support engineer spot what is common, unusual or failing.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "You have correct top, rare and status-count results.",
+      "exercise": "Record the status totals and the most/least common user.",
+      "quiz": [
+        {
+          "question": "Which command gives a count for each status?",
+          "options": [
+            "stats count by status",
+            "dedup status",
+            "rename status AS count"
+          ],
+          "answer": 0,
+          "explanation": "stats aggregates events into status groups; dedup only chooses representative rows."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Find the most common user",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the top query below. Read the user, count and percent columns.",
+            "bob should be first with four of 12 events, about 33.33 percent.",
+            "top summarizes the field values; it does not prove a user is malicious or that the result is a security incident."
+          ],
+          "expected": "bob is the most common user with count=4.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A frequency ranking is a starting point for investigation, not a verdict."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Find the most common user · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | top limit=5 user"
+        },
+        {
+          "title": "Find a rare value",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run rare and inspect the least frequent user.",
+            "erin appears once in this dataset. Tied values elsewhere can appear in a different order; compare counts instead of memorizing row positions.",
+            "Open erin’s original event to connect the statistic to the underlying activity."
+          ],
+          "expected": "erin has one event and is the rarest user.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Unusual activity can be legitimate. Check context before escalating it."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Find a rare value · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | rare limit=5 user"
+        },
+        {
+          "title": "Build and verify the status summary",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run stats count by status below.",
+            "Expect status 200=6, 401=4 and 503=2. Add the counts; they must total 12.",
+            "Select Visualization and a column chart to compare the three status groups. Return to Statistics to verify the underlying counts."
+          ],
+          "expected": "Three status groups sum to 12 events.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Verifying totals catches missing filters and parsing problems before a chart misleads someone."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Build and verify the status summary · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | stats count AS events by status | sort status"
+        }
+      ]
+    },
+    {
+      "id": "splunk-reports",
+      "title": "Save a Report You Can Reuse",
+      "description": "Save a verified status summary as a private report and reopen it.",
+      "what": "Save a verified status summary as a private report and reopen it.",
+      "why": "A saved report keeps the search definition, while an export is just a copy of one result.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "A private status report can be reopened and its totals verified.",
+      "exercise": "Record the report title, app, owner and time range without credentials.",
+      "quiz": [
+        {
+          "question": "What should you verify before sharing a report?",
+          "options": [
+            "Its search scope, totals, time range and permissions",
+            "Only its colors",
+            "Whether it has the longest title"
+          ],
+          "answer": 0,
+          "explanation": "The report must answer the right question for the right audience."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Validate the report search",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the query below with All time.",
+            "Confirm 6 successful responses, 4 unauthorized responses and 2 service-unavailable responses.",
+            "Choose a column chart on Visualization. Keep a clear axis label such as Events and avoid treating 401s as confirmed attacks."
+          ],
+          "expected": "The chart agrees with the three verified status totals.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A polished chart still needs accurate data underneath."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Validate the report search · interface reference",
+            "assetId": "splunk-interface-23",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | stats count AS events by status | sort status"
+        },
+        {
+          "title": "Save it with a helpful name",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Choose Save As → Report. For Title, enter CloudSeam - HTTP Status Summary.",
+            "Use a short description: Counts the 12 synthetic web events by HTTP status. Save the chart and statistics table if your dialog offers both.",
+            "Keep the report private in the Search & Reporting app, and keep its All time scope for the fixed-date sample. Click Save, then View."
+          ],
+          "expected": "The named private report opens and returns the same totals.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A clear title and description help the next person understand the result."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Save it with a helpful name · interface reference",
+            "assetId": "splunk-interface-25",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        },
+        {
+          "title": "Reopen and edit the report",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Click Reports in the Search & Reporting app bar, find your report and open it.",
+            "Use its Edit menu to inspect the search, time range, description and permissions available to your role. Do not share it globally for this exercise.",
+            "Confirm that reopening runs or displays the report according to its definition; an exported CSV does not automatically update this way."
+          ],
+          "expected": "The saved report can be found and still shows the intended scope.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Finding and understanding a saved object is part of operating it responsibly."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Reopen and edit the report · interface reference",
+            "assetId": "splunk-interface-25",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "splunk-dashboard",
+      "title": "Build a Small Operations Dashboard",
+      "description": "Create a private dashboard with status counts and failed-logins panels.",
+      "what": "Create a private dashboard with status counts and failed-logins panels.",
+      "why": "A few focused panels are easier to use than a crowded wall of charts.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "A private two-panel dashboard shows 200=6, 401=4, 503=2 and bob failed_logins=4.",
+      "exercise": "Capture the dashboard and record each panel’s time range.",
+      "quiz": [
+        {
+          "question": "Does adding a time input automatically control every panel?",
+          "options": [
+            "No; each intended panel must use the shared time picker",
+            "Yes, without any panel configuration",
+            "It deletes each panel’s time range"
+          ],
+          "answer": 0,
+          "explanation": "Inspect the panel’s search configuration to confirm its time source."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Create the first dashboard panel",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Open your saved status report. Use Add to Dashboard from its available action menu, or run its query and select Save As → Dashboard Panel.",
+            "Choose New dashboard. Use CloudSeam - Web Operations for the dashboard title, keep permissions Private, and name the first panel HTTP Status Counts.",
+            "Use the Classic dashboard option for this walkthrough if a framework choice is offered. Dashboard Studio is a separate editor; follow its matching reference rather than expecting Classic controls there. Save and view the dashboard."
+          ],
+          "expected": "A private dashboard contains the verified status panel.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The screenshot is a Classic dashboard reference; the same data can also be presented in Dashboard Studio."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Create the first dashboard panel · interface reference",
+            "assetId": "splunk-interface-26",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/9.2/part-7-creating-dashboards/create-dashboards-and-panels"
+          ]
+        },
+        {
+          "title": "Add a failed-login panel",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Open Search and run the query below with All time. Choose a column chart.",
+            "Save As → Dashboard Panel → Existing and select CloudSeam - Web Operations. Name this panel Failed Logins by User.",
+            "View the dashboard. The panel should show bob=4. Keep panel titles specific and rearrange panels using Edit if needed."
+          ],
+          "expected": "The dashboard has two focused panels and bob has four failed logins.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Panels should answer distinct operational questions."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Add a failed-login panel · interface reference",
+            "assetId": "splunk-interface-27",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/9.2/part-7-creating-dashboards/create-dashboards-and-panels"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" status=401 | stats count AS failed_logins by user"
+        },
+        {
+          "title": "Check time controls and the underlying search",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Open the dashboard’s Edit mode and inspect the search/time setting for each panel.",
+            "Keep All time for both fixed-date dataset panels. If you add a shared Time input, connect each intended panel to that shared picker explicitly; adding an input alone does not connect it.",
+            "Save, reopen the dashboard, then open a panel’s search to confirm its scope and totals."
+          ],
+          "expected": "Both panels use an understood time range and match the source searches.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A dashboard can show inconsistent answers if its panels silently use different times."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Check time controls and the underlying search · interface reference",
+            "assetId": "splunk-interface-28",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/9.2/part-7-creating-dashboards/create-dashboards-and-panels"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "splunk-lookups",
+      "title": "Add Friendly Status Names with a Lookup",
+      "description": "Match numeric status codes to readable descriptions using a CSV lookup.",
+      "what": "Match numeric status codes to readable descriptions using a CSV lookup.",
+      "why": "A lookup adds useful context without changing the original events.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "The explicit and automatic lookup both add the correct status meanings.",
+      "exercise": "Record the file, definition, scope and one matching result.",
+      "quiz": [
+        {
+          "question": "Does a lookup rewrite the original indexed event?",
+          "options": [
+            "No; it enriches the search result",
+            "Yes; it replaces the original status",
+            "Yes; it reimports every event"
+          ],
+          "answer": 0,
+          "explanation": "The original status remains available while meaning adds context."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Upload the lookup CSV",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Download cloudseam-status.csv from the practice-files box. It has three status-to-meaning mappings.",
+            "In Splunk Web choose Settings → Lookups → Lookup table files → Add new. Set Destination app to search.",
+            "Choose the file, enter Destination filename cloudseam-status.csv and click Save. Keep access limited to your lab; do not copy the reference tutorial’s global sharing settings."
+          ],
+          "expected": "The lookup file appears in Search & Reporting’s lookup table list.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A lookup table is a reference file, not another copy of the event stream."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Upload the lookup CSV · interface reference",
+            "assetId": "splunk-interface-15",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups"
+          ]
+        },
+        {
+          "title": "Create the lookup definition",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Return to Settings → Lookups. Beside Lookup definitions choose Add new.",
+            "Set Destination app to search, Name to cloudseam_status, Type to File-based, and Lookup file to cloudseam-status.csv. Leave time-based and advanced options off.",
+            "Click Save. Keep the definition and its file accessible in the same app for your intended user. An administrator can grant required capabilities without making everyone an admin."
+          ],
+          "expected": "The definition cloudseam_status points to the intended CSV.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The definition gives the CSV a name you can use in SPL."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Create the lookup definition · interface reference",
+            "assetId": "splunk-interface-16",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups"
+          ]
+        },
+        {
+          "title": "Use the definition in a search",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Open Search & Reporting → Search, choose All time and run the SPL below.",
+            "Expect three rows whose meanings are OK, Unauthorized and Service Unavailable, with counts 6, 4 and 2.",
+            "If meaning is blank, compare status field names/values in both files and check the lookup definition and app permissions."
+          ],
+          "expected": "The summary includes readable meanings for all three status codes.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The matching input field connects each event to a row in the lookup."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Use the definition in a search · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" | lookup cloudseam_status status OUTPUT meaning | stats count AS events by status meaning"
+        },
+        {
+          "title": "Configure and verify an automatic lookup",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "In Settings → Lookups → Automatic lookups → Add new, choose app search and name cloudseam_status_auto. Select lookup table cloudseam_status.",
+            "For this single-instance exercise, apply to host named SPLUNK01.cloudseam.tech, exactly as set during upload. Set input status = status and output meaning = meaning. Leave Overwrite field values unchecked and Save.",
+            "Run a new base search followed by | table status meaning, with no explicit lookup command. Verify that meaning is populated, and inspect your actual host if it is not."
+          ],
+          "expected": "New searches get the meaning field automatically for the scoped practice host.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A scoped automatic lookup enriches new search results without typing the lookup command each time."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Configure and verify an automatic lookup · interface reference",
+            "assetId": "splunk-interface-17",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "splunk-schedule",
+      "title": "Schedule a Report and a Test Alert",
+      "description": "Run a saved report on a schedule and prove an alert fires before disabling the test.",
+      "what": "Run a saved report on a schedule and prove an alert fires before disabling the test.",
+      "why": "A scheduled report runs routinely; an alert adds a condition and an action when something needs attention.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "A scheduled report completed, one test alert fired, and both practice schedules were disabled.",
+      "exercise": "Record the run time, fired-alert evidence and disabled schedule states.",
+      "quiz": [
+        {
+          "question": "Why do we disable this All time practice alert?",
+          "options": [
+            "The same fixed historical events would trigger it repeatedly",
+            "The data will automatically disappear",
+            "All production alerts must always use All time"
+          ],
+          "answer": 0,
+          "explanation": "This is a controlled exercise, not a production detection rule."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Check your license and schedule a report",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Use an eligible Enterprise trial/license and a role with schedule_search. If the controls are unavailable under Splunk Free or your role, stop and ask the lab administrator; do not mark this lesson complete.",
+            "In Reports, find CloudSeam - HTTP Status Summary → Edit → Edit Schedule (the exact label can vary by release). Enable a short lab schedule, such as every five minutes, using the fixed sample’s All time range.",
+            "Keep it private, do not add email delivery, and record the next run time/timezone. Save and check that a scheduled run completes."
+          ],
+          "expected": "A real scheduled report run is visible; simply saving a schedule is not proof.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Feature availability and permissions are separate from writing a valid search."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Check your license and schedule a report · interface reference",
+            "assetId": "splunk-interface-25",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/create-dashboards-and-reports/reporting-manual/10.6/report-management/schedule-reports"
+          ]
+        },
+        {
+          "title": "Create a controlled scheduled alert",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Run the 401 search below with All time. There must be four matching event rows before you save it.",
+            "Choose Save As → Alert. Name it CloudSeam - Failed Login Practice, keep Private, choose Scheduled, run every five minutes, and set its search range to All time for this one fixed-date test.",
+            "Trigger when Number of Results is greater than 0. Add the Add to Triggered Alerts action. Do not send email, run scripts or use webhooks for this beginner test. Save."
+          ],
+          "expected": "A private scheduled alert is configured to record a triggered-alert entry.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A stats count query can produce one row even for zero events; event rows make this test condition unambiguous."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Create a controlled scheduled alert · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/alert-and-respond/alerting-manual/10.2/create-alerts/create-scheduled-alerts"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" status=401"
+        },
+        {
+          "title": "Observe one firing, then stop the repetition",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Keep the practice VM running until the next scheduled run. Open Activity → Triggered Alerts or your version’s Fired/Triggered Alerts page.",
+            "Find CloudSeam - Failed Login Practice and open its results. Confirm four failed logins from the known dummy data.",
+            "Disable the practice alert and report schedule in their Edit menus after verifying one run. This All time fixed-data test would otherwise fire repeatedly. Real monitoring uses an appropriate recent time window, cadence and throttling."
+          ],
+          "expected": "You observed a real firing, checked its results, and disabled both practice schedules.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The final check includes cleanup so a successful exercise does not become noisy background work."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Observe one firing, then stop the repetition · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/alert-and-respond/alerting-manual/10.2/create-alerts/create-scheduled-alerts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "splunk-capstone",
+      "title": "Investigate a CloudSeam Web Problem",
+      "description": "Use your searches, lookup, report and dashboard to explain the practice incident.",
+      "what": "Use your searches, lookup, report and dashboard to explain the practice incident.",
+      "why": "A support engineer needs a clear explanation backed by reproducible evidence.",
+      "needs": [
+        "Complete the earlier lessons in this pathway in order.",
+        "Use only the supplied synthetic practice data and your own authorized Splunk instance."
+      ],
+      "bestPractices": [
+        "Keep practice objects private in the Search & Reporting app. Use a named index and verify results before saving a report or alert."
+      ],
+      "commonMistakes": [
+        "Pasting SPL into PowerShell instead of the Splunk Search bar.",
+        "Using Last 24 hours for the fixed-date practice CSV, or importing the same file twice."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "The search returns no events.",
+          "fix": "Select All time, check index=sonic_lab and the source filename, then confirm the upload completed and your role can search that index."
+        },
+        {
+          "problem": "A button or setting is missing.",
+          "fix": "Check your Splunk version, license and role. Setup needs an administrator; scheduling requires scheduling capabilities and an eligible Enterprise license. Do not claim a task worked if the control is unavailable."
+        }
+      ],
+      "pass": "You can explain the incident with correct scoped searches, verified totals and a tidy practice environment.",
+      "exercise": "Produce a short handoff with findings, SPL, time range, limits and the next diagnostic question.",
+      "quiz": [
+        {
+          "question": "What makes a useful troubleshooting conclusion?",
+          "options": [
+            "A reproducible search, its scope and the evidence it supports",
+            "A chart with no time range",
+            "Assuming every 401 is an attacker"
+          ],
+          "answer": 0,
+          "explanation": "An evidence-based statement explains both what the data proves and what it does not prove."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Answer the incident questions from the data",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "A fictional team reports login trouble and occasional web errors. Use the scoped practice data; do not assume every error has the same cause.",
+            "Find the user with failed logins, count the 401 and 503 responses, and identify the two fictional server names.",
+            "Write each finding beside its exact SPL and All time scope. Compare your totals with the known 12 events."
+          ],
+          "expected": "Your evidence identifies bob=4 failed logins and two 503 responses.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "The evidence must support the statement, including its time and dataset limits."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Answer the incident questions from the data · interface reference",
+            "assetId": "splunk-interface-03",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-web.csv\" (status=401 OR status=503) | stats count AS events by server user status"
+        },
+        {
+          "title": "Present a small, understandable handoff",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Open the private dashboard and saved report. Verify they agree with your new investigation searches.",
+            "Use the lookup’s readable status meanings. Explain that HTTP 401 alone does not establish an attack and 503 alone does not identify the failing dependency.",
+            "Export only the synthetic result table or take a screenshot without account, license or password details. Label it practice evidence."
+          ],
+          "expected": "Your handoff states what happened, what is unknown and the next check.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "Good analysis separates observed facts from a possible explanation."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Present a small, understandable handoff · interface reference",
+            "assetId": "splunk-interface-27",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        },
+        {
+          "title": "Review skills and leave the lab tidy",
+          "where": "Splunk Web → Search & Reporting, on your own practice instance",
+          "actions": [
+            "Confirm you practiced navigation, time, job controls, fields, the SPL pipeline, table/fields/rename/sort/dedup, top/rare/stats, reports, dashboards, explicit/automatic lookups and scheduling.",
+            "Confirm the test alert and report schedules are disabled. Keep your private practice objects and notes, then shut down the guest when finished. Check the license expiry before the next session.",
+            "Use the official Core Certified User blueprint to plan revision. SONIC-Academy is independent training; finishing this pathway does not award the vendor certification."
+          ],
+          "expected": "You have a reproducible practice investigation and a tidy lab.",
+          "breakdown": [
+            {
+              "term": "Why this step matters",
+              "meaning": "A skills checklist guides revision; it is not an exam pass or a vendor-issued credential."
+            }
+          ],
+          "screenshot": {
+            "status": "reference",
+            "title": "Review skills and leave the lab tidy · interface reference",
+            "assetId": "splunk-interface-02",
+            "instructions": "This unaltered Splunk documentation image shows related controls, not the result of your lab. Use the written CloudSeam file names, searches and values; original images may show Buttercup Games data, another version, or Splunk Cloud."
+          },
+          "sources": [
+            "https://www.splunk.com/content/dam/splunk2/en_us/pdfs/training/splunk-test-blueprint-user.pdf"
+          ]
+        }
+      ]
+    }
+  ]
+}
