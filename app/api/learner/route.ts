@@ -25,7 +25,7 @@ function identity(request: Request) {
       name = '';
     }
   }
-  return { id, name: name || email.split('@')[0] || 'Learner' };
+  return { id, email, name: name || email.split('@')[0] || 'Learner' };
 }
 export async function GET(request: Request) {
   const db = academyDb();
@@ -46,9 +46,16 @@ export async function GET(request: Request) {
     });
   const [profile, records, activity] = await Promise.all([
     db
-      .prepare('SELECT display_name FROM learner_profiles WHERE user_id = ?')
+      .prepare(
+        'SELECT display_name, email, phone, subscription_tier FROM learner_profiles WHERE user_id = ?',
+      )
       .bind(user.id)
-      .first<{ display_name: string }>(),
+      .first<{
+        display_name: string;
+        email: string | null;
+        phone: string | null;
+        subscription_tier: string;
+      }>(),
     db
       .prepare(
         'SELECT progress_key, payload FROM learner_progress WHERE user_id = ?',
@@ -64,7 +71,13 @@ export async function GET(request: Request) {
   ]);
   return json({
     accountAvailable: true,
-    user: { id: user.id, name: profile?.display_name ?? user.name },
+    user: {
+      id: user.id,
+      name: profile?.display_name ?? user.name,
+      email: profile?.email ?? user.email,
+      phone: profile?.phone ?? '',
+      subscriptionTier: profile?.subscription_tier ?? 'free',
+    },
     records: Object.fromEntries(
       records.results.map((r) => [r.progress_key, r.payload]),
     ),
@@ -93,6 +106,9 @@ export async function POST(request: Request) {
     accountId?: string;
     records?: Record<string, string>;
     name?: string;
+    email?: string;
+    phone?: string;
+    subscriptionTier?: unknown;
     lessonId?: string;
   };
   try {
@@ -104,6 +120,25 @@ export async function POST(request: Request) {
     return json({ error: 'Invalid progress update.' }, 400);
   if (body.accountId !== user.id)
     return json({ error: 'Your account changed. Reload before saving.' }, 409);
+  if (body.subscriptionTier !== undefined)
+    return json(
+      { error: 'Subscription status is managed by the academy.' },
+      400,
+    );
+  if (
+    body.email !== undefined &&
+    (typeof body.email !== 'string' ||
+      body.email.length > 254 ||
+      (body.email !== '' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)))
+  )
+    return json({ error: 'Enter a valid contact email.' }, 400);
+  if (
+    body.phone !== undefined &&
+    (typeof body.phone !== 'string' ||
+      body.phone.length > 32 ||
+      !/^[+()\d .-]*$/.test(body.phone))
+  )
+    return json({ error: 'Enter a valid phone number.' }, 400);
   const tasks: D1PreparedStatement[] = [];
   const now = Date.now();
   if (body.name !== undefined) {
@@ -122,6 +157,21 @@ export async function POST(request: Request) {
           'INSERT INTO learner_profiles(user_id,display_name,updated_at) VALUES(?,?,?) ON CONFLICT(user_id) DO UPDATE SET display_name=excluded.display_name,updated_at=excluded.updated_at',
         )
         .bind(user.id, body.name.trim(), now),
+    );
+  }
+  if (body.email !== undefined || body.phone !== undefined) {
+    tasks.push(
+      db
+        .prepare(
+          'INSERT INTO learner_profiles(user_id,display_name,email,phone,updated_at) VALUES(?,?,?,?,?) ON CONFLICT(user_id) DO UPDATE SET email=COALESCE(excluded.email,learner_profiles.email),phone=COALESCE(excluded.phone,learner_profiles.phone),updated_at=excluded.updated_at',
+        )
+        .bind(
+          user.id,
+          body.name?.trim() || user.name,
+          body.email ?? null,
+          body.phone ?? null,
+          now,
+        ),
     );
   }
   if (body.records !== undefined) {

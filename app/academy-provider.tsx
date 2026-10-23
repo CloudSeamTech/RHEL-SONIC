@@ -10,7 +10,13 @@ import { isProgressKey, parseCompleted } from '@/lib/academy-tracking';
 const ownerKey = 'sonic-academy-active-account';
 const guestKey = 'sonic-academy-guest-backup';
 type Activity = { lesson_id: string; visited_at: number };
-type Learner = { id: string; name: string };
+type Learner = {
+  id: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  subscriptionTier?: string;
+};
 type AccountResponse = {
   accountAvailable: boolean;
   user: Learner | null;
@@ -25,7 +31,10 @@ type AcademyState = {
   bookmarks: string[];
   activity: Activity[];
   syncMessage: string;
-  saveProfile: (name: string) => Promise<void>;
+  saveProfile: (
+    name: string,
+    contact?: { email: string; phone: string },
+  ) => Promise<void>;
   toggleBookmark: (id: string) => void;
   importGuest: () => Promise<void>;
 };
@@ -172,7 +181,10 @@ export function AcademyProvider({ children }: { children: ReactNode }) {
     };
     const initialize = async () => {
       try {
-        const response = await fetch('/api/learner', { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+        const response = await fetch('/api/learner', {
+          cache: 'no-store',
+          signal: AbortSignal.timeout(8000),
+        });
         if (!response.ok)
           throw new Error(
             'Account connection is unavailable. You can still learn as a guest.',
@@ -255,15 +267,20 @@ export function AcademyProvider({ children }: { children: ReactNode }) {
       window.removeEventListener('pagehide', tick);
     };
   }, []);
-  async function saveProfile(name: string) {
+  async function saveProfile(
+    name: string,
+    contact?: { email: string; phone: string },
+  ) {
     const response = await fetch('/api/learner', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, accountId: user?.id }),
+      body: JSON.stringify({ name, ...contact, accountId: user?.id }),
     });
     if (!response.ok)
       throw new Error('Your profile could not be saved. Try again.');
-    setUser((current) => (current ? { ...current, name: name.trim() } : null));
+    setUser((current) =>
+      current ? { ...current, ...contact, name: name.trim() } : null,
+    );
   }
   function toggleBookmark(id: string) {
     try {
@@ -342,7 +359,11 @@ export function AcademyProvider({ children }: { children: ReactNode }) {
         importGuest,
       }}
     >
-      <fieldset className="academy-readiness" disabled={!ready} aria-busy={!ready}>
+      <fieldset
+        className="academy-readiness"
+        disabled={!ready}
+        aria-busy={!ready}
+      >
         <legend className="sr-only">Learning controls</legend>
         {children}
       </fieldset>

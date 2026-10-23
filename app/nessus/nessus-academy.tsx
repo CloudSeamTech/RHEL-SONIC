@@ -1,4 +1,5 @@
 'use client';
+import { LabStepNav } from '../lab-step-nav';
 import { LabOverview } from '../lab-overview';
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
@@ -176,7 +177,9 @@ function LessonReader({
   useEffect(() => {
     const resumeStep = () => {
       const current = JSON.parse(nessusSnapshot()) as NessusProgress;
-      const next = lesson.steps.findIndex((_, i) => !current.checked.includes(`${lesson.id}:step:${i}`));
+      const next = lesson.steps.findIndex(
+        (_, i) => !current.checked.includes(`${lesson.id}:step:${i}`),
+      );
       setIndex(next < 0 ? 0 : next);
     };
     resumeStep();
@@ -203,6 +206,14 @@ function LessonReader({
   return (
     <article className="nessus-lesson">
       <section className="guided-lab" aria-label="Guided walkthrough">
+        <LabStepNav
+          titles={lesson.steps.map((item) => item.title)}
+          current={index}
+          completed={lesson.steps.flatMap((_, i) =>
+            progress.checked.includes(`${lesson.id}:step:${i}`) ? [i] : [],
+          )}
+          onChoose={choose}
+        />
         <header className="guided-heading">
           <h2>Let’s do this together</h2>
           <span>
@@ -214,7 +225,15 @@ function LessonReader({
             /{lesson.steps.length} steps checked
           </span>
         </header>
-        <progress value={lesson.steps.filter((_, i) => progress.checked.includes(`${lesson.id}:step:${i}`)).length} max={lesson.steps.length} aria-label="Lab step completion" />
+        <progress
+          value={
+            lesson.steps.filter((_, i) =>
+              progress.checked.includes(`${lesson.id}:step:${i}`),
+            ).length
+          }
+          max={lesson.steps.length}
+          aria-label="Lab step completion"
+        />
         <p>
           Let’s take one small step at a time. Try it on the computer named
           below, then check what happened. You can go back whenever you need to.
@@ -244,55 +263,61 @@ function LessonReader({
             </div>
             <h3>{step.title}</h3>
             <div className="guided-step-content">
-            <div className="nessus-location">
-              <b>WHERE TO WORK</b>
-              <p>{step.where}</p>
-            </div>
-            <section className="guided-action">
-              <h4>Let’s try it</h4>
-              <ol>
-                {step.actions.map((action, i) => (
-                  <li key={i}>{action}</li>
+              <div className="nessus-location">
+                <b>WHERE TO WORK</b>
+                <p>{step.where}</p>
+              </div>
+              <section className="guided-action">
+                <h4>Let’s try it</h4>
+                <ol>
+                  {step.actions.map((action, i) => (
+                    <li key={i}>{action}</li>
+                  ))}
+                </ol>
+              </section>
+              <CommandExample key={`${lesson.id}:${index}`} step={step} />
+              <section className="guided-expected">
+                <h4>What you should see</h4>
+                <p>{step.expected}</p>
+                <small>
+                  Expected observation, not recorded output from your
+                  environment.
+                </small>
+              </section>
+              <details className="nessus-explanation">
+                <summary>Official reference for this step</summary>
+                {step.sources.map((url) => (
+                  <a key={url} href={url} target="_blank" rel="noreferrer">
+                    {url.replace('https://docs.tenable.com/', 'Tenable / ')} ↗
+                  </a>
                 ))}
-              </ol>
-            </section>
-            <CommandExample key={`${lesson.id}:${index}`} step={step} />
-            <section className="guided-expected">
-              <h4>What you should see</h4>
-              <p>{step.expected}</p>
-              <small>
-                Expected observation, not recorded output from your environment.
-              </small>
-            </section>
-            <details className="nessus-explanation">
-              <summary>Official reference for this step</summary>
-              {step.sources.map((url) => (
-                <a key={url} href={url} target="_blank" rel="noreferrer">
-                  {url.replace('https://docs.tenable.com/', 'Tenable / ')} ↗
-                </a>
-              ))}
-            </details>
-            <label className="guided-check">
-              <input
-                type="checkbox"
-                checked={progress.checked.includes(stepKey)}
-                onChange={() => check(stepKey)}
-              />
-              I checked this result in my own lab
-            </label>
-            <nav className="guided-pagination" aria-label="Step navigation">
-              <button disabled={index === 0} onClick={() => choose(index - 1)}>
-                ← Previous step
-              </button>
-              <button
-                disabled={index === lesson.steps.length - 1}
-                onClick={() => choose(index + 1)}
-              >
-                Next step →
-              </button>
-            </nav>
+              </details>
+              <label className="guided-check">
+                <input
+                  type="checkbox"
+                  checked={progress.checked.includes(stepKey)}
+                  onChange={() => check(stepKey)}
+                />
+                I checked this result in my own lab
+              </label>
+              <nav className="guided-pagination" aria-label="Step navigation">
+                <button
+                  disabled={index === 0}
+                  onClick={() => choose(index - 1)}
+                >
+                  ← Previous step
+                </button>
+                <button
+                  disabled={index === lesson.steps.length - 1}
+                  onClick={() => choose(index + 1)}
+                >
+                  Next step →
+                </button>
+              </nav>
             </div>
-            <div className="guided-visuals"><CourseScreenshot screenshot={step.screenshot} /></div>
+            <div className="guided-visuals">
+              <CourseScreenshot screenshot={step.screenshot} />
+            </div>
           </section>
         </div>
       </section>
@@ -348,7 +373,8 @@ function LessonReader({
         <h2>Finished? Verify this lesson</h2>
         <p>
           Check every step, finish the exercise, and pass the knowledge check.
-          Progress is self-reported. Signed-in learners can save it to their connected academy account.
+          Progress is self-reported. Signed-in learners can save it to their
+          connected academy account.
         </p>
         <button
           type="button"
@@ -374,12 +400,17 @@ function LessonReader({
 
 export function NessusAcademy({ courseId }: { courseId: string }) {
   const course = guidedCourses.find((item) => item.id === courseId)!;
-  const isEnterprise = ['mecm-operations', 'wsus-operations'].includes(course.id);
+  const isEnterprise = ['mecm-operations', 'wsus-operations'].includes(
+    course.id,
+  );
   const isLandingZone = course.id === 'azure-landing-zone';
   const isMaintenance = course.id === 'azure-maintenance';
   const isHelpdesk = course.id === 'iis-helpdesk';
   const isSecurity = course.id === 'budget-cloud-security';
-  const relatedCourses = isEnterprise || isLandingZone || isMaintenance || isHelpdesk || isSecurity ? [course] : nessusCourses;
+  const relatedCourses =
+    isEnterprise || isLandingZone || isMaintenance || isHelpdesk || isSecurity
+      ? [course]
+      : nessusCourses;
   const [id, setId] = useState(course.lessons[0].id);
   const [notice, setNotice] = useState('');
   const progress = JSON.parse(
@@ -424,10 +455,27 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
       <main className="alma-reader nessus-reader">
         <nav
           className={
-            'nessus-course-switcher' + (isEnterprise || isLandingZone || isMaintenance || isHelpdesk || isSecurity ? ' single-course' : '')
+            'nessus-course-switcher' +
+            (isEnterprise ||
+            isLandingZone ||
+            isMaintenance ||
+            isHelpdesk ||
+            isSecurity
+              ? ' single-course'
+              : '')
           }
           aria-label={
-            isEnterprise ? course.title : isLandingZone ? 'Azure landing zone course' : isSecurity ? 'Cloud security course' : isMaintenance ? 'Azure maintenance course' : isHelpdesk ? 'IIS help desk course' : 'Nessus courses'
+            isEnterprise
+              ? course.title
+              : isLandingZone
+                ? 'Azure landing zone course'
+                : isSecurity
+                  ? 'Cloud security course'
+                  : isMaintenance
+                    ? 'Azure maintenance course'
+                    : isHelpdesk
+                      ? 'IIS help desk course'
+                      : 'Nessus courses'
           }
         >
           {relatedCourses.map((item, i) => (
@@ -443,11 +491,33 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
         </nav>
         <header className="alma-header">
           <span className="eyebrow">
-            {isEnterprise ? course.title.toUpperCase() : isLandingZone ? 'YOUR FIRST AZURE LANDING ZONE' : isSecurity ? 'CLOUD AND ENDPOINT SECURITY' : isMaintenance ? 'AZURE SERVER MAINTENANCE' : isHelpdesk ? 'IIS / CLOUDSEAM HELP DESK' : 'NESSUS 10.12.5'} /
-            LESSON {index + 1} OF {course.lessons.length}
+            {isEnterprise
+              ? course.title.toUpperCase()
+              : isLandingZone
+                ? 'YOUR FIRST AZURE LANDING ZONE'
+                : isSecurity
+                  ? 'CLOUD AND ENDPOINT SECURITY'
+                  : isMaintenance
+                    ? 'AZURE SERVER MAINTENANCE'
+                    : isHelpdesk
+                      ? 'IIS / CLOUDSEAM HELP DESK'
+                      : 'NESSUS 10.12.5'}{' '}
+            / LESSON {index + 1} OF {course.lessons.length}
           </span>
           <p>{course.title}</p>
-          {isEnterprise && <p><a href={course.id === 'mecm-operations' ? '/migration#lesson=mecm-01' : '/migration#lesson=lab-13'}>Need the installation first? Open this class’s install lab →</a></p>}
+          {isEnterprise && (
+            <p>
+              <a
+                href={
+                  course.id === 'mecm-operations'
+                    ? '/migration#lesson=mecm-01'
+                    : '/migration#lesson=lab-13'
+                }
+              >
+                Need the installation first? Open this class’s install lab →
+              </a>
+            </p>
+          )}
           <h1>{lesson.title}</h1>
           <p>{lesson.description}</p>
           <small>
@@ -455,7 +525,11 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
             self-verified
           </small>
         </header>
-        <LabOverview summary={lesson.what === lesson.description ? undefined : lesson.what} steps={lesson.steps.map(item => item.title)} outcome={lesson.pass} />
+        <LabOverview
+          summary={lesson.what === lesson.description ? undefined : lesson.what}
+          steps={lesson.steps.map((item) => item.title)}
+          outcome={lesson.pass}
+        />
         <LessonWelcome
           showIntro={false}
           content={{
@@ -496,7 +570,10 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
           ].includes(lesson.id) && (
             <MaintenanceRehearsal key={`practice-${lesson.id}`} />
           )}
-        {isSecurity && ['sec-plan','sec-cost','sec-vdi-license'].includes(lesson.id) && <SecurityBudget />}
+        {isSecurity &&
+          ['sec-plan', 'sec-cost', 'sec-vdi-license'].includes(lesson.id) && (
+            <SecurityBudget />
+          )}
         <LessonReader
           key={lesson.id}
           lesson={lesson}
@@ -521,10 +598,10 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
             We’ve checked the written steps against the official references
             below. Real interfaces can change, so compare your version and
             subscription or license with the lesson before making a change.
-            Original interface references show real controls. Action diagrams are
-            labeled as illustrations; remaining capture gaps use checklists. These pages have been tested, but an
-            instructor still needs to test installation, updates, scans and
-            recovery in a real practice lab.
+            Original interface references show real controls. Action diagrams
+            are labeled as illustrations; remaining capture gaps use checklists.
+            These pages have been tested, but an instructor still needs to test
+            installation, updates, scans and recovery in a real practice lab.
           </p>
           {course.sources.map((source) => (
             <a

@@ -7,6 +7,9 @@ import {
 export const learnerProfiles = sqliteTable('learner_profiles', {
   userId: text('user_id').primaryKey(),
   displayName: text('display_name').notNull(),
+  email: text('email'),
+  phone: text('phone'),
+  subscriptionTier: text('subscription_tier').notNull().default('free'),
   updatedAt: integer('updated_at').notNull(),
 });
 export const learnerProgress = sqliteTable(

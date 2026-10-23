@@ -4,13 +4,21 @@ import { useAcademy } from '../academy-provider';
 import { ConsoleReaderShell } from '../console-reader-shell';
 export default function Profile() {
   const academy = useAcademy();
+  const [email, setEmail] = useState<string | null>(null),
+    [phone, setPhone] = useState<string | null>(null);
   const [name, setName] = useState(''),
     [notice, setNotice] = useState('');
   return (
     <ConsoleReaderShell>
       <main className="profile-page">
         <span className="eyebrow">YOUR LEARNING SPACE</span>
-        <h1>My profile</h1>
+        <h1>My account</h1>
+        <nav className="account-tabs" aria-label="Profile sections">
+          <a href="/profile" aria-current="page">
+            Account
+          </a>
+          <a href="/?view=bookmarks">My saved labs</a>
+        </nav>
         {!academy.ready ? (
           <p>Loading your profile…</p>
         ) : academy.user ? (
@@ -23,8 +31,11 @@ export default function Profile() {
               onSubmit={async (event) => {
                 event.preventDefault();
                 try {
-                  await academy.saveProfile(name || academy.user!.name);
-                  setNotice('Your display name is saved.');
+                  await academy.saveProfile(name || academy.user!.name, {
+                    email: email ?? academy.user!.email ?? '',
+                    phone: phone ?? academy.user!.phone ?? '',
+                  });
+                  setNotice('Your account details are saved.');
                 } catch (error) {
                   setNotice((error as Error).message);
                 }
@@ -39,8 +50,52 @@ export default function Profile() {
                   onChange={(event) => setName(event.target.value)}
                 />
               </label>
+              <label>
+                Contact email
+                <input
+                  type="email"
+                  value={email ?? academy.user.email ?? ''}
+                  maxLength={254}
+                  onChange={(event) => setEmail(event.target.value)}
+                  autoComplete="email"
+                />
+              </label>
+              <label>
+                Phone (optional)
+                <input
+                  type="tel"
+                  value={phone ?? academy.user.phone ?? ''}
+                  maxLength={32}
+                  onChange={(event) => setPhone(event.target.value)}
+                  autoComplete="tel"
+                />
+              </label>
+              <p>
+                Your contact email does not change the account you use to sign
+                in.
+              </p>
               <button className="primary-button">Save profile</button>
             </form>
+            <section className="account-subscription">
+              <h2>Subscription status</h2>
+              <p>
+                Current plan:{' '}
+                <strong>
+                  {(
+                    {
+                      free: 'Free Tier',
+                      enhanced: 'Enhanced',
+                      apex: 'Apex Tier',
+                    } as Record<string, string>
+                  )[academy.user.subscriptionTier ?? 'free'] ?? 'Free Tier'}
+                </strong>
+              </p>
+              <p>Plans: Free Tier · Enhanced · Apex Tier</p>
+              <p>
+                Paid subscriptions are not connected yet. No payment is taken
+                here.
+              </p>
+            </section>
             <aside className="teaching-callout">
               <h2>Already started as a guest?</h2>
               <p>

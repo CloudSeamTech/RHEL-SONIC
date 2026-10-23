@@ -1,6 +1,7 @@
 /* Native images preserve the full-resolution instructional asset and work without a remote image optimizer. */
 /* oxlint-disable next/no-img-element, react/react-compiler -- Load saved local notes after hydration; no lab operations execute here. */
 'use client';
+import { LabStepNav } from '../lab-step-nav';
 
 import { useEffect, useRef, useState } from 'react';
 import type { GuidedLab as Guide } from '@/lib/guided-lab';
@@ -38,12 +39,21 @@ export function GuidedLab({
     setCopied(false);
     setNotice('');
     const loadChecks = (event?: StorageEvent) => {
-      if(event?.key && event.key !== storageKey) return;
+      if (event?.key && event.key !== storageKey) return;
       try {
         const saved = JSON.parse(localStorage.getItem(storageKey) ?? '[]');
-        const values: number[] = Array.isArray(saved) ? saved.filter((value): value is number => Number.isInteger(value) && value >= 0 && value < guide.steps.length) : [];
+        const values: number[] = Array.isArray(saved)
+          ? saved.filter(
+              (value): value is number =>
+                Number.isInteger(value) &&
+                value >= 0 &&
+                value < guide.steps.length,
+            )
+          : [];
         setChecked(values);
-        const firstUnchecked = guide.steps.findIndex((_, i) => !values.includes(i));
+        const firstUnchecked = guide.steps.findIndex(
+          (_, i) => !values.includes(i),
+        );
         setIndex(firstUnchecked < 0 ? 0 : firstUnchecked);
       } catch {
         setChecked([]);
@@ -56,7 +66,7 @@ export function GuidedLab({
     return () => window.removeEventListener('storage', loadChecks);
   }, [storageKey, guide.steps.length]);
 
-  const welcome = welcomeFor(lessonId,stepOffset===21);
+  const welcome = welcomeFor(lessonId, stepOffset === 21);
   const step = guide.steps[index];
   const clarity = checkTeachingFor(screenshotLessonId, index + stepOffset + 1);
   const currentTitle = clarity?.title ?? step.title;
@@ -83,13 +93,19 @@ export function GuidedLab({
     setChecked(next);
     try {
       localStorage.setItem(storageKey, JSON.stringify(next));
-    window.dispatchEvent(new Event('sonic-academy-progress'));
+      window.dispatchEvent(new Event('sonic-academy-progress'));
     } catch {
       setNotice('Step checks are kept for this visit only.');
     }
   }
   return (
     <section className="guided-lab" aria-label="Guided lab walkthrough">
+      <LabStepNav
+        titles={guide.steps.map((item) => item.title)}
+        current={index}
+        completed={checked}
+        onChoose={select}
+      />
       <header className="guided-heading">
         <div>
           <span className="eyebrow">GUIDED LAB / ONE STEP AT A TIME</span>
@@ -99,8 +115,16 @@ export function GuidedLab({
           {checked.length} of {guide.steps.length} steps checked
         </span>
       </header>
-      <LabOverview summary={purpose ?? welcome?.welcome} steps={guide.steps.map(item => item.title)} outcome={guide.pass} />
-      <progress value={checked.length} max={guide.steps.length} aria-label="Lab step completion" />
+      <LabOverview
+        summary={purpose ?? welcome?.welcome}
+        steps={guide.steps.map((item) => item.title)}
+        outcome={guide.pass}
+      />
+      <progress
+        value={checked.length}
+        max={guide.steps.length}
+        aria-label="Lab step completion"
+      />
       <LessonWelcome content={welcome} showIntro={false} />
       {purpose && !welcome && (
         <section className="guided-purpose">
@@ -114,7 +138,6 @@ export function GuidedLab({
           <dt>WHERE TO WORK</dt>
           <dd>{guide.where}</dd>
         </div>
-
       </dl>
       <label className="guided-step-picker">
         Choose a step
@@ -142,103 +165,103 @@ export function GuidedLab({
           </div>
           <h3>{currentTitle}</h3>
           <div className="guided-step-content">
-          <p className="coaching-why">
-            <strong>Why this matters:</strong> {coaching.reason}
-          </p>
-          <div className="guided-action">
-            <b>Follow these actions in order</b>
-            <BeginnerActions text={currentAction} />
-          </div>
-          <p className="coaching-effect">
-            <strong>What this does:</strong> {coaching.impact}
-          </p>
-          {step.command && (
-            <section className="guided-command">
-              <header>
-                <span>COMMAND · USE THE WORKSPACE LISTED ABOVE</span>
-                <button
-                  onClick={async () => {
-                    try {
-                      await navigator.clipboard.writeText(step.command);
-                      setCopied(true);
-                    } catch {
-                      setNotice('Select the command and copy it manually.');
-                    }
-                  }}
-                >
-                  {copied ? 'Copied ✓' : 'Copy command block'}
-                </button>
-              </header>
-              <pre>
-                <code>{step.command}</code>
-              </pre>
-              <p>
-                Copying does not run a command. Paste it into the app named in
-                this step. Read the whole block first; some lines belong
-                together.
-              </p>
-              {coaching.commandNotes.length > 0 && (
-                <details className="coaching-command">
-                  <summary>Understand this command and its options</summary>
-                  <ul>
-                    {coaching.commandNotes.map((note) => (
-                      <li key={note}>{note}</li>
-                    ))}
-                  </ul>
-                </details>
-              )}
+            <p className="coaching-why">
+              <strong>Why this matters:</strong> {coaching.reason}
+            </p>
+            <div className="guided-action">
+              <b>Follow these actions in order</b>
+              <BeginnerActions text={currentAction} />
+            </div>
+            <p className="coaching-effect">
+              <strong>What this does:</strong> {coaching.impact}
+            </p>
+            {step.command && (
+              <section className="guided-command">
+                <header>
+                  <span>COMMAND · USE THE WORKSPACE LISTED ABOVE</span>
+                  <button
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(step.command);
+                        setCopied(true);
+                      } catch {
+                        setNotice('Select the command and copy it manually.');
+                      }
+                    }}
+                  >
+                    {copied ? 'Copied ✓' : 'Copy command block'}
+                  </button>
+                </header>
+                <pre>
+                  <code>{step.command}</code>
+                </pre>
+                <p>
+                  Copying does not run a command. Paste it into the app named in
+                  this step. Read the whole block first; some lines belong
+                  together.
+                </p>
+                {coaching.commandNotes.length > 0 && (
+                  <details className="coaching-command">
+                    <summary>Understand this command and its options</summary>
+                    <ul>
+                      {coaching.commandNotes.map((note) => (
+                        <li key={note}>{note}</li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
+              </section>
+            )}
+            <section className="guided-expected">
+              <b>What you should see</b>
+              <p>{step.expect}</p>
             </section>
-          )}
-          <section className="guided-expected">
-            <b>What you should see</b>
-            <p>{step.expect}</p>
-          </section>
-          <details
-            className="guided-production"
-            aria-label="How this differs in production"
-          >
-            <summary>Best practice at work · optional</summary>
-            <p>{productionPracticeFor(lessonId)}</p>
-            <small>
-              Compare with real-world practice; do not run lab commands against
-              company systems without approval.
-            </small>
-          </details>
-          <details className="guided-trouble">
-            <summary>My screen is different / it did not work</summary>
-            <p>{step.trouble}</p>
-          </details>
-          <details className="guided-evidence">
-            <summary>Save a picture or note of your result</summary>
-            <p>{step.evidence}</p>
-            <small>
-              Use Win + Shift + S on your host to capture the VM screen. Keep
-              screenshots in your own lab folder; do not include passwords,
-              tokens, or product keys.
-            </small>
-          </details>
-          <label className="guided-check">
-            <input
-              type="checkbox"
-              checked={checked.includes(index)}
-              onChange={toggle}
-            />{' '}
-            I checked this result on my practice system
-          </label>
-          <nav
-            className="guided-pagination"
-            aria-label="Walkthrough pagination"
-          >
-            <button disabled={index === 0} onClick={() => select(index - 1)}>
-              ← Previous step
-            </button>
-            <button
-              disabled={index === guide.steps.length - 1}
-              onClick={() => select(index + 1)}
+            <details
+              className="guided-production"
+              aria-label="How this differs in production"
             >
-              Next step →
-            </button>
-          </nav>
+              <summary>Best practice at work · optional</summary>
+              <p>{productionPracticeFor(lessonId)}</p>
+              <small>
+                Compare with real-world practice; do not run lab commands
+                against company systems without approval.
+              </small>
+            </details>
+            <details className="guided-trouble">
+              <summary>My screen is different / it did not work</summary>
+              <p>{step.trouble}</p>
+            </details>
+            <details className="guided-evidence">
+              <summary>Save a picture or note of your result</summary>
+              <p>{step.evidence}</p>
+              <small>
+                Use Win + Shift + S on your host to capture the VM screen. Keep
+                screenshots in your own lab folder; do not include passwords,
+                tokens, or product keys.
+              </small>
+            </details>
+            <label className="guided-check">
+              <input
+                type="checkbox"
+                checked={checked.includes(index)}
+                onChange={toggle}
+              />{' '}
+              I checked this result on my practice system
+            </label>
+            <nav
+              className="guided-pagination"
+              aria-label="Walkthrough pagination"
+            >
+              <button disabled={index === 0} onClick={() => select(index - 1)}>
+                ← Previous step
+              </button>
+              <button
+                disabled={index === guide.steps.length - 1}
+                onClick={() => select(index + 1)}
+              >
+                Next step →
+              </button>
+            </nav>
           </div>
           <section
             className="guided-visuals"
