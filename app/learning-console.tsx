@@ -74,14 +74,27 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
   const recent = academy.activity
     .map((a) => ({ ...a, lesson: lessons.find((l) => l.id === a.lesson_id) }))
     .filter((a) => a.lesson);
-  const recentPath = learningPathways.find((p) =>
-    pathwayLessons(p).some((l) => l.id === recent[0]?.lesson_id),
+  const contextSubject = learningPathways.find((path) => path.id === subjectId);
+  const requestedLessons = careerLessons(pathId);
+  const contextLessons = requestedLessons.length
+    ? requestedLessons
+    : contextSubject
+      ? pathwayLessons(contextSubject)
+      : lessons;
+  const contextRecent = recent.find((item) =>
+    contextLessons.some((lesson) => lesson.id === item.lesson_id),
   );
-  const resume = recentPath
-    ? (pathwayLessons(recentPath).find((l) => !complete.has(l.id)) ??
-      lessons.find((l) => !complete.has(l.id)) ??
-      pathwayLessons(recentPath)[0])
-    : (lessons.find((l) => !complete.has(l.id)) ?? lessons[0]);
+  const recentPath = learningPathways.find((path) =>
+    pathwayLessons(path).some(
+      (lesson) => lesson.id === contextRecent?.lesson_id,
+    ),
+  );
+  const resume =
+    (recentPath
+      ? pathwayLessons(recentPath).find((lesson) => !complete.has(lesson.id))
+      : undefined) ??
+    contextLessons.find((lesson) => !complete.has(lesson.id)) ??
+    contextLessons[0];
   const resumePath = learningPathways.find((p) =>
     pathwayLessons(p).some((l) => l.id === resume.id),
   )!;
