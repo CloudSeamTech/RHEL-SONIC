@@ -4,7 +4,7 @@
 
 The connected Sites academy uses managed sign-in and Cloudflare D1 (`DB`). Tables: `learner_profiles`, `learner_progress`, `learner_activity`. The public Vercel mirror deliberately disables account database writes and keeps guest progress in the browser. GitHub stores application source, not the production user database.
 
-No paid checkout, payment provider, automatic paid-tier grants, or public customer authentication has been connected. Plan labels are Free Tier, Enhanced Tier and Apex Tier. Their paid prices/features must not be invented.
+No paid checkout, payment provider, automatic paid-tier grants, or public customer authentication has been connected. Plan labels are Free Tier and Apex Tier. Their paid prices/features must not be invented.
 
 Business: Cloud Seam Technologies, Delaware, United States. The owner confirms that support@cloudseam.tech is not receiving mail yet. Support pages must show that status until real delivery and replies have been tested.
 
@@ -18,7 +18,7 @@ For billing: maintain a server-owned user-to-Stripe-customer mapping; only allow
 
 ## Decisions needed before paid enrollment
 
-- Prices, currency, billing interval and exact features for Enhanced Tier/Apex Tier.
+- Prices, currency, billing interval and exact features for Apex Tier.
 - Renewal/cancellation effective dates, refund rules, failed-payment/grace policy and tax treatment.
 - Required legal seller/address details and purchase/privacy terms for the actual business.
 - Working support mailbox with tested inbound and outbound delivery; SPF/DKIM/DMARC for the chosen provider.
@@ -31,3 +31,7 @@ Test new and existing accounts, progress isolation, cross-device resume, concurr
 ## Nano Banana 2 design workflow
 
 Use exported images for brand illustrations, pathway icons and dashboard concepts. Keep layouts, text, navigation and accessibility in application code. Store approved assets locally and optimize them; do not call an image model when a student opens a page. Maintain the academy's cream, purple, orange, black and white palette. Technical screenshots must retain real provenance; generated interfaces must be labeled illustrations/mockups. Verify actual PNG alpha rather than trusting a painted checkerboard. An API workflow requires the owner's Google project, server-side credentials, separate usage/cost limits and review before any generated asset is published.
+
+## Updated catalog split
+
+`lib/plan-access.ts` classifies every lesson for the planned two-tier catalog. The catalog labels and filters are a preview, not an authorization boundary. Apex includes Free. Existing curriculum and pictures are shipped in browser bundles and the public GitHub repository, so hiding a panel would not make that material private. Protected delivery must replace those public payloads before restrictions or charges are advertised as live. Public account provisioning is also still required. Never grant the owner Apex by matching the display name: verify the actual Site-scoped account ID, then store the entitlement server-side.

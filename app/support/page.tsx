@@ -114,9 +114,9 @@ export default function SupportPage() {
             </strong>
           </p>
           <p>
-            Our plan names are Free Tier, Enhanced Tier and Apex Tier. Prices,
-            paid benefits, renewal terms and refund rules have not been
-            announced. See <a href="/plans">Plan information →</a>
+            Our plan names are Free Tier and Apex Tier. Prices, paid benefits,
+            renewal terms and refund rules have not been announced. See{' '}
+            <a href="/plans">Plan information →</a>
           </p>
           <h3>Before you pay</h3>
           <p>

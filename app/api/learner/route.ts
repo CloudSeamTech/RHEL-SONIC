@@ -1,3 +1,4 @@
+import { normalizePlanTier } from '@/lib/plan-access';
 import { academyDb } from '@/lib/academy-db';
 import { isProgressKey } from '@/lib/academy-tracking';
 import { learningPathways, pathwayLessons } from '@/app/learning-pathways';
@@ -76,7 +77,7 @@ export async function GET(request: Request) {
       name: profile?.display_name ?? user.name,
       email: profile?.email ?? user.email,
       phone: profile?.phone ?? '',
-      subscriptionTier: profile?.subscription_tier ?? 'free',
+      subscriptionTier: normalizePlanTier(profile?.subscription_tier),
     },
     records: Object.fromEntries(
       records.results.map((r) => [r.progress_key, r.payload]),

@@ -3196,3 +3196,47 @@ html body .academy-shell .information-tabs a {
     margin-inline: 16px;
   }
 }
+.plan-information-grid.two-plans {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.plan-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  background: #ede4d8;
+  color: #292929;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 11px !important;
+  font-weight: 700;
+  line-height: 1.4;
+}
+html body .academy-shell .console-sidebar .plan-badge {
+  background: #443453;
+  color: #fff !important;
+  margin-left: auto;
+  font-size: 9px !important;
+}
+.catalog-tier-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  grid-column: 1 / -1;
+}
+.catalog-tier-filters a {
+  padding: 10px 14px;
+  background: #ede4d8;
+  border-radius: 8px;
+}
+.catalog-tier-filters a[aria-current='page'] {
+  box-shadow: inset 0 -3px #e7975f;
+  font-weight: 800;
+}
+.catalog-plan-note {
+  grid-column: 1 / -1;
+}
+@media (max-width: 850px) {
+  .plan-information-grid.two-plans {
+    grid-template-columns: 1fr;
+  }
+}

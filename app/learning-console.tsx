@@ -28,6 +28,7 @@ import {
   careerLessons,
 } from './career-pathways';
 import { CyberActivityMap } from './cyber-activity-map';
+import { lessonTier } from '../lib/plan-access';
 import { useAcademy } from './academy-provider';
 const lessons = learningPathways.flatMap(pathwayLessons);
 function PathIcon({ id }: { id: string }) {
@@ -52,13 +53,18 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
   const [query, setQuery] = useState(''),
     [view, setView] = useState('dashboard'),
     [pathId, setPathId] = useState(''),
-    [subjectId, setSubjectId] = useState('');
+    [subjectId, setSubjectId] = useState(''),
+    [tier, setTier] = useState('all');
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setQuery(params.get('q') ?? '');
     setView(params.get('view') ?? 'dashboard');
     setPathId(params.get('path') ?? '');
     setSubjectId(params.get('subject') ?? '');
+    const requestedTier = params.get('tier') ?? 'all';
+    setTier(
+      ['all', 'free', 'apex'].includes(requestedTier) ? requestedTier : 'all',
+    );
   }, []);
   const complete = new Set(
     academy.completed.filter((id) => lessons.some((l) => l.id === id)),
@@ -110,6 +116,7 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
   ).filter(
     (l) =>
       (view !== 'bookmarks' || academy.bookmarks.includes(l.id)) &&
+      (tier === 'all' || lessonTier(l.id) === tier) &&
       `${l.title} ${l.description}`.toLowerCase().includes(query.toLowerCase()),
   );
   const showLibrary =
@@ -158,6 +165,11 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
         </span>
         <h3>{path.title}</h3>
         <p>{path.prerequisite}</p>
+        <small>
+          {items.filter((item) => lessonTier(item.id) === 'free').length} Free ·{' '}
+          {items.filter((item) => lessonTier(item.id) === 'apex').length}{' '}
+          planned Apex labs
+        </small>
         <progress
           value={count}
           max={items.length}
@@ -349,15 +361,45 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
                     {careerPathways.map(careerCard)}
                   </div>
                 )
-              ) : view === 'courses' && !query && !selectedSubject ? (
+              ) : view === 'courses' &&
+                !query &&
+                !selectedSubject &&
+                tier === 'all' ? (
                 <div className="path-grid">
                   {learningPathways.map(pathCard)}
                 </div>
               ) : (
                 <div className="lab-library-list">
+                  <nav
+                    className="catalog-tier-filters"
+                    aria-label="Catalog plan filter"
+                  >
+                    {['all', 'free', 'apex'].map((value) => (
+                      <a
+                        key={value}
+                        href={`/?view=${view}&subject=${encodeURIComponent(subjectId)}&q=${encodeURIComponent(query)}&tier=${value}`}
+                        aria-current={tier === value ? 'page' : undefined}
+                      >
+                        {value === 'all'
+                          ? 'All labs'
+                          : value === 'free'
+                            ? 'Free labs'
+                            : 'Planned Apex labs'}
+                      </a>
+                    ))}
+                  </nav>
+                  <p className="catalog-plan-note">
+                    Plan preview: labels show the proposed Free/Apex split.
+                    Access restrictions and payments are not live yet.
+                  </p>
                   {filtered.map((l) => (
                     <article key={l.id}>
                       <a href={l.href}>
+                        <span className="plan-badge">
+                          {lessonTier(l.id) === 'free'
+                            ? 'Free'
+                            : 'Apex · planned'}
+                        </span>
                         <h2>{l.title}</h2>
                         <p>{l.description}</p>
                         <span>

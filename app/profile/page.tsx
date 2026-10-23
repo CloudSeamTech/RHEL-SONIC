@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useAcademy } from '../academy-provider';
+import { planLabel } from '../../lib/plan-access';
 import { ConsoleReaderShell } from '../console-reader-shell';
 export default function Profile() {
   const academy = useAcademy();
@@ -80,17 +81,9 @@ export default function Profile() {
               <h2>Subscription status</h2>
               <p>
                 Current plan:{' '}
-                <strong>
-                  {(
-                    {
-                      free: 'Free Tier',
-                      enhanced: 'Enhanced Tier',
-                      apex: 'Apex Tier',
-                    } as Record<string, string>
-                  )[academy.user.subscriptionTier ?? 'free'] ?? 'Free Tier'}
-                </strong>
+                <strong>{planLabel(academy.user.subscriptionTier)}</strong>
               </p>
-              <p>Plans: Free Tier · Enhanced Tier · Apex Tier</p>
+              <p>Plans: Free Tier · Apex Tier</p>
               <p>
                 Paid subscriptions are not connected yet. No payment is taken
                 here.
