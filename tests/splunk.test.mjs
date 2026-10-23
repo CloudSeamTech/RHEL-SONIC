@@ -48,11 +48,11 @@ test('Splunk practice evidence matches the downloadable synthetic dataset', () =
 });
 
 test('every Splunk step has an intact attributed local reference and stays in its own pathway', () => {
-  assert.equal(course.lessons.length, 14);
+  assert.equal(course.lessons.length, 18);
   const steps = course.lessons.flatMap((lesson) => lesson.steps);
-  assert.equal(steps.length, 43);
+  assert.equal(steps.length, 56);
   for (const step of steps) {
-    assert.equal(step.screenshot.status, 'reference');
+    assert.ok(['reference', 'illustration'].includes(step.screenshot.status));
     const ref = refs.find((item) => item.id === step.screenshot.assetId);
     assert.ok(ref, step.title);
     const file = new URL('../public' + ref.src, import.meta.url);
@@ -61,7 +61,7 @@ test('every Splunk step has an intact attributed local reference and stays in it
       createHash('sha256').update(readFileSync(file)).digest('hex'),
       ref.sha256,
     );
-    assert.ok(ref.source.startsWith('https://help.splunk.com/'));
+    assert.ok(/^https:\/\/(help|docs)\.splunk\.com\//.test(ref.source));
     assert.ok(!ref.original.includes('jwt='));
   }
   assert.deepEqual(

@@ -19,15 +19,22 @@ export function LessonWelcome({
     <section className="teacher-welcome" aria-label="Let’s get ready">
       <span className="eyebrow">LET’S GET READY</span>
       {showIntro && <p className="teacher-intro">{welcome.welcome}</p>}
-      <aside className="teaching-callout"><h3>Why this matters</h3><p>{welcome.why}</p></aside>
-      <details className="teacher-preparation">
-        <summary>Before you start · what you’ll need</summary>
+      <aside className="teaching-callout">
+        <h3>Why this matters</h3>
+        <p>{welcome.why}</p>
+      </aside>
+      <section className="teacher-preparation">
+        <h3>What you’ll need</h3>
         <ul>
-          {welcome.needs.map((item, i) => <li key={i}>{item}</li>)}
+          {welcome.needs.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
         </ul>
-        <p><strong>Your first move: </strong>{welcome.firstMove}</p>
-        <p>{welcome.reassurance}</p>
-      </details>
+        <p>
+          <strong>Your first move: </strong>
+          {welcome.firstMove}
+        </p>
+      </section>
     </section>
   );
 }

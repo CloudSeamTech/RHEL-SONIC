@@ -6,18 +6,14 @@ import {
   BookOpen,
   FlaskConical,
   Cloud,
-  Terminal,
-  ShieldCheck,
-  Database,
-  Monitor,
   LifeBuoy,
   Bookmark,
   Search,
   Menu,
   UserRound,
-  ChevronRight,
 } from 'lucide-react';
 import { learningPathways, pathwayLessons } from './learning-pathways';
+import { careerPathways } from './career-pathways';
 import { useAcademy } from './academy-provider';
 import './learning-console.css';
 import './lesson-reading.css';
@@ -45,6 +41,9 @@ export function ConsoleReaderShell({
   const course = learningPathways.find((path) =>
     pathwayLessons(path).some((l) => l.id === lessonId),
   );
+  const career = careerPathways.find((path) =>
+    path.subjects.includes(course?.id ?? ''),
+  );
   const completed = allLessons.filter((l) =>
     academy.completed.includes(l.id),
   ).length;
@@ -54,7 +53,10 @@ export function ConsoleReaderShell({
         .length
     : 0;
   return (
-    <div className="learning-console console-reader academy-shell">
+    <div
+      className="learning-console console-reader academy-shell"
+      data-lesson-id={lessonId}
+    >
       <a className="console-skip" href="#reader-content">
         Skip to learning
       </a>
@@ -106,65 +108,6 @@ export function ConsoleReaderShell({
             Start Your Lab
           </a>
         </nav>
-        <div className="console-nav-label">YOUR CLASSROOMS</div>
-        <nav
-          aria-label="Course pathways"
-          onClick={(event) => {
-            if ((event.target as HTMLElement).closest('a')) setMenuOpen(false);
-          }}
-        >
-          {learningPathways.map((pathway) => {
-            const Icon = pathway.id.includes('sql')
-              ? Database
-              : pathway.id.includes('security') || pathway.id.includes('nessus')
-                ? ShieldCheck
-                : pathway.id.includes('azure') ||
-                    pathway.id.includes('landing') ||
-                    pathway.id === 'migrations'
-                  ? Cloud
-                  : pathway.id.includes('linux') || pathway.id === 'alma'
-                    ? Terminal
-                    : Monitor;
-            return (
-              <details
-                className="reader-course"
-                key={pathway.id}
-                open={pathway.id === course?.id}
-              >
-                <summary>
-                  <Icon size={17} />
-                  <span>{pathway.title}</span>
-                  <ChevronRight size={13} />
-                </summary>
-                <div className="console-subnav">
-                  {pathway.sections.map((section) => (
-                    <details
-                      key={section.title}
-                      open={section.lessons.some((l) => l.id === lessonId)}
-                    >
-                      <summary>{section.title}</summary>
-                      {section.lessons.map((lesson) => (
-                        <a
-                          className={
-                            'reader-lesson-link' +
-                            (lesson.id === lessonId ? ' active' : '')
-                          }
-                          href={lesson.href}
-                          key={lesson.id}
-                          aria-current={
-                            lesson.id === lessonId ? 'page' : undefined
-                          }
-                        >
-                          {lesson.title}
-                        </a>
-                      ))}
-                    </details>
-                  ))}
-                </div>
-              </details>
-            );
-          })}
-        </nav>
         <div className="academy-secondary-nav">
           <a href="/?view=bookmarks">
             <Bookmark size={17} />
@@ -213,36 +156,25 @@ export function ConsoleReaderShell({
             />
           </form>
           <div className="reader-tools">{tools}</div>
-          <details className="profile-menu">
-            <summary className="profile-link" aria-label="My learning profile">
-              <span className="profile-avatar">
-                {academy.user ? (
-                  academy.user.name.slice(0, 2).toUpperCase()
-                ) : (
-                  <UserRound size={17} />
-                )}
-              </span>
-              <span>
-                <small>
-                  {academy.user ? 'Welcome back,' : 'YOUR LEARNING PROFILE'}
-                </small>
-                <strong>{academy.user ? academy.user.name : 'Sign in'}</strong>
-              </span>
-              <ChevronRight size={14} />
-            </summary>
-            <div className="profile-menu-options">
-              <a href="/profile">Account</a>
-              <a href="/?view=bookmarks">My saved labs</a>
-              <a href="/profile">
-                {academy.user ? 'Manage profile' : 'Sign in'}
-              </a>
-            </div>
-          </details>
+          <a
+            className="profile-link profile-avatar-link"
+            href="/profile"
+            aria-label="My profile"
+            title="My profile"
+          >
+            <span className="profile-avatar">
+              {academy.user ? (
+                academy.user.name.slice(0, 2).toUpperCase()
+              ) : (
+                <UserRound size={20} />
+              )}
+            </span>
+          </a>
         </header>
         {lessonId && course && (
           <div className="course-progress-strip">
             <a
-              href="/?view=paths"
+              href={career ? `/?view=paths&path=${career.id}` : '/?view=paths'}
               className={activeView === 'paths' ? 'active' : ''}
             >
               {course.title}

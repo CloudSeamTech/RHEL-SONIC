@@ -24,14 +24,14 @@ export function StepTeachingNotes({
         <strong>What this does:</strong> {note.impact}
       </p>
       {note.commandNotes.length > 0 && (
-        <details className="coaching-command">
-          <summary>What the command and its options mean</summary>
+        <section className="coaching-command">
+          <h4>What the command means</h4>
           <ul>
             {note.commandNotes.map((text) => (
               <li key={text}>{text}</li>
             ))}
           </ul>
-        </details>
+        </section>
       )}
     </section>
   );

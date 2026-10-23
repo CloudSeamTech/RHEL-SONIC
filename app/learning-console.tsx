@@ -22,15 +22,23 @@ import {
   pathwayLessons,
   type LearningPathway,
 } from './learning-pathways';
+import {
+  careerPathways,
+  careerSubjects,
+  careerLessons,
+} from './career-pathways';
+import { CyberActivityMap } from './cyber-activity-map';
 import { useAcademy } from './academy-provider';
 const lessons = learningPathways.flatMap(pathwayLessons);
 function PathIcon({ id }: { id: string }) {
   const Icon =
     id === 'sql'
       ? Database
-      : id.includes('security') || id.includes('nessus')
+      : id.includes('security') ||
+          id.includes('nessus') ||
+          id === 'cyber-analyst'
         ? ShieldCheck
-        : id === 'linux' || id === 'alma'
+        : id.includes('linux') || id === 'alma'
           ? Terminal
           : id.includes('azure') ||
               id.includes('landing') ||
@@ -42,11 +50,15 @@ function PathIcon({ id }: { id: string }) {
 export function LearningConsole(_props: { initialPathId?: string } = {}) {
   const academy = useAcademy();
   const [query, setQuery] = useState(''),
-    [view, setView] = useState('dashboard');
+    [view, setView] = useState('dashboard'),
+    [pathId, setPathId] = useState(''),
+    [subjectId, setSubjectId] = useState('');
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     setQuery(params.get('q') ?? '');
     setView(params.get('view') ?? 'dashboard');
+    setPathId(params.get('path') ?? '');
+    setSubjectId(params.get('subject') ?? '');
   }, []);
   const complete = new Set(
     academy.completed.filter((id) => lessons.some((l) => l.id === id)),
@@ -77,23 +89,55 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
     complete.has(l.id),
   ).length;
   const percent = Math.round((complete.size / lessons.length) * 100);
-  const features = ['azure', 'linux', 'active-directory', 'security'].map(
-    (id) => learningPathways.find((p) => p.id === id)!,
+  const selectedSubject = learningPathways.find(
+    (path) => path.id === subjectId,
   );
-  const filtered = lessons.filter(
+  const filtered = (
+    selectedSubject ? pathwayLessons(selectedSubject) : lessons
+  ).filter(
     (l) =>
       (view !== 'bookmarks' || academy.bookmarks.includes(l.id)) &&
       `${l.title} ${l.description}`.toLowerCase().includes(query.toLowerCase()),
   );
   const showLibrary =
     Boolean(query) || ['courses', 'paths', 'bookmarks'].includes(view);
+  const selectedCareer = careerPathways.find((path) => path.id === pathId);
+  function careerCard(path: (typeof careerPathways)[number]) {
+    const items = careerLessons(path.id),
+      count = items.filter((l) => complete.has(l.id)).length;
+    return (
+      <a
+        className="path-card career-card"
+        href={`/?view=paths&path=${path.id}`}
+        key={path.id}
+      >
+        <span className="path-icon">
+          <PathIcon id={path.id} />
+        </span>
+        <h3>{path.title} Pathway</h3>
+        <p>{path.description}</p>
+        <progress
+          value={count}
+          max={items.length}
+          aria-label={`${path.title} progress`}
+        />
+        <div>
+          <span>
+            {careerSubjects(path.id).length} subjects · {items.length} labs
+          </span>
+          <strong>{Math.round((count / items.length) * 100)}%</strong>
+        </div>
+        <span>Explore pathway →</span>
+      </a>
+    );
+  }
   function pathCard(path: LearningPathway) {
     const items = pathwayLessons(path),
       count = items.filter((l) => complete.has(l.id)).length;
     return (
       <a
         className={`path-card path-${path.id}`}
-        href={items.find((l) => !complete.has(l.id))?.href ?? items[0].href}
+        href={`/?view=courses&subject=${path.id}`}
         key={path.id}
       >
         <span className="path-icon">
@@ -171,7 +215,7 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
                   },
                   {
                     label: 'Learning Paths',
-                    value: learningPathways.length,
+                    value: careerPathways.length,
                     note: 'Explore your next skill',
                     Icon: Layers,
                   },
@@ -209,7 +253,9 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
                     View All Paths <ArrowRight size={14} />
                   </a>
                 </header>
-                <div className="path-grid">{features.map(pathCard)}</div>
+                <div className="path-grid">
+                  {careerPathways.map(careerCard)}
+                </div>
               </section>
               <section className="explore-courses">
                 <header>
@@ -259,18 +305,38 @@ export function LearningConsole(_props: { initialPathId?: string } = {}) {
                       : view === 'bookmarks'
                         ? 'My Bookmarks'
                         : view === 'paths'
-                          ? 'Learning Paths'
-                          : 'All Courses'}
+                          ? selectedCareer
+                            ? `${selectedCareer.title} Pathway`
+                            : 'Learning Paths'
+                          : (selectedSubject?.title ?? 'All Courses')}
                   </h1>
                   <p>
                     {query
                       ? `Labs matching “${query}”`
-                      : 'Choose your subject. Follow the installation, configuration, and daily operations in order.'}
+                      : (selectedCareer?.description ??
+                        selectedSubject?.prerequisite ??
+                        'Choose a career pathway or a subject. Your lessons stay in order, from setup to daily operations.')}
                   </p>
                 </div>
                 <a href="/">Back to dashboard</a>
               </header>
-              {(view === 'paths' || view === 'courses') && !query ? (
+              {selectedCareer?.id === 'cyber-analyst' && !query && (
+                <CyberActivityMap />
+              )}
+              {view === 'paths' && !query ? (
+                selectedCareer ? (
+                  <>
+                    <h2>Training in this pathway</h2>
+                    <div className="path-grid">
+                      {careerSubjects(selectedCareer.id).map(pathCard)}
+                    </div>
+                  </>
+                ) : (
+                  <div className="path-grid">
+                    {careerPathways.map(careerCard)}
+                  </div>
+                )
+              ) : view === 'courses' && !query && !selectedSubject ? (
                 <div className="path-grid">
                   {learningPathways.map(pathCard)}
                 </div>

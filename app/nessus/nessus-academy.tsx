@@ -59,8 +59,8 @@ function CommandExample({ step }: { step: NessusStep }) {
         </section>
       )}
       {step.breakdown.length > 0 && (
-        <details className="nessus-explanation teaching-callout" open>
-          <summary>Understand these commands and settings</summary>
+        <section className="nessus-explanation teaching-callout">
+          <h4>What these commands and settings mean</h4>
           <dl className="nessus-breakdown">
             {step.breakdown.map((item, i) => (
               <div key={i}>
@@ -71,7 +71,7 @@ function CommandExample({ step }: { step: NessusStep }) {
               </div>
             ))}
           </dl>
-        </details>
+        </section>
       )}
     </>
   );
@@ -238,10 +238,7 @@ function LessonReader({
           max={lesson.steps.length}
           aria-label="Lab step completion"
         />
-        <p>
-          Let’s take one small step at a time. Try it on the computer named
-          below, then check what happened. You can go back whenever you need to.
-        </p>
+
         <label className="guided-step-picker">
           Choose a step
           <select
@@ -288,14 +285,9 @@ function LessonReader({
                   environment.
                 </small>
               </section>
-              <details className="nessus-explanation">
-                <summary>Official reference for this step</summary>
-                {step.sources.map((url) => (
-                  <a key={url} href={url} target="_blank" rel="noreferrer">
-                    {url.replace('https://docs.tenable.com/', 'Tenable / ')} ↗
-                  </a>
-                ))}
-              </details>
+              <div className="guided-visuals">
+                <CourseScreenshot screenshot={step.screenshot} />
+              </div>
               <label className="guided-check">
                 <input
                   type="checkbox"
@@ -319,29 +311,26 @@ function LessonReader({
                 </button>
               </nav>
             </div>
-            <div className="guided-visuals">
-              <CourseScreenshot screenshot={step.screenshot} />
-            </div>
           </section>
         </div>
       </section>
       <div className="nessus-advice">
-        <details className="nessus-explanation">
-          <summary>Best practices</summary>
+        <section className="teaching-callout">
+          <h3>Best practices</h3>
           <ul>
             {lesson.bestPractices.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
           </ul>
-        </details>
-        <details className="nessus-explanation">
-          <summary>Common mistakes</summary>
+        </section>
+        <section className="teaching-callout">
+          <h3>Avoid these mistakes</h3>
           <ul>
             {lesson.commonMistakes.map((item, i) => (
               <li key={i}>{item}</li>
             ))}
           </ul>
-        </details>
+        </section>
         <details className="nessus-explanation">
           <summary>Troubleshooting · my screen is different</summary>
           {lesson.troubleshooting.map((item, i) => (
@@ -550,6 +539,9 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
             <a href="/splunk/cloudseam-web.csv" download>
               Download cloudseam-web.csv · 12 events
             </a>
+            <a href="/splunk/cloudseam-security.csv" download>
+              Download cloudseam-security.csv · security investigations
+            </a>
             <a href="/splunk/cloudseam-status.csv" download>
               Download cloudseam-status.csv · lookup
             </a>
@@ -582,21 +574,7 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
               'You don’t have to remember every setting. Keep the instructions beside your screen, and take one small action at a time.',
           }}
         />
-        <details className="guided-reference alma-course-index">
-          <summary>Choose a lesson · follow this order</summary>
-          {course.lessons.map((item, i) => (
-            <a
-              key={item.id}
-              href={`#lesson=${item.id}`}
-              aria-current={item.id === lesson.id ? 'page' : undefined}
-            >
-              {progress.verified.includes(item.id)
-                ? '✓'
-                : String(i + 1).padStart(2, '0')}{' '}
-              · {item.title}
-            </a>
-          ))}
-        </details>
+
         <output className="nessus-storage-notice" aria-live="polite">
           {notice}
         </output>

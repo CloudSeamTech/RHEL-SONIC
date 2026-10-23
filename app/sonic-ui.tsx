@@ -263,38 +263,30 @@ export function SonicWalkthrough({
           setActiveStep(index);
           const target = document.getElementById(
             `lab-step-${lessonId}-${variant}-${index}`,
-          ) as HTMLDetailsElement | null;
+          ) as HTMLElement | null;
           if (target) {
-            target.open = true;
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            target.querySelector('summary')?.focus({ preventScroll: true });
+            target.focus({ preventScroll: true });
           }
         }}
       />
-      <h3>DO THIS IN ORDER · ONE STEP AT A TIME</h3>
-      <p>
-        Open the first step, do the action in your own lab, and check the
-        outcome. Expand the next step only when ready. Commands are examples and
-        do not run on this website.
-      </p>
+      <h3>Lab steps</h3>
+
       <ol>
         {steps.map((step, index) => (
           <li key={`${variant}-${index}-${step.title}`}>
-            <details
+            <section
               id={`lab-step-${lessonId}-${variant}-${index}`}
-              onToggle={(event) => {
-                if (event.currentTarget.open) setActiveStep(index);
-              }}
+              tabIndex={-1}
               className="sonic-action-panel"
-              name={`walkthrough-${lessonId}`}
-              open={index === 0}
+              onFocus={() => setActiveStep(index)}
             >
-              <summary>
+              <h4 className="sonic-step-title">
                 <span>STEP {String(index + 1).padStart(2, '0')}</span>
                 <strong>
                   {readableStepTitle(step.title, step.actions, step.command)}
                 </strong>
-              </summary>
+              </h4>
               <div className="sonic-action-body">
                 <p className="walkthrough-location">
                   WHERE TO WORK: {step.where}
@@ -321,12 +313,12 @@ export function SonicWalkthrough({
                     ))}
                 </ol>
                 {lessonId && (
-                  <details className="sonic-action-assist sonic-action-visual">
-                    <summary>See the picture for this step</summary>
+                  <section className="sonic-action-visual">
+                    <h4>See it on screen</h4>
                     <InstructionScreenshots
                       stepId={`${lessonId}:${variant}:${index + 1}`}
                     />
-                  </details>
+                  </section>
                 )}
                 {step.command && (
                   <SonicTerminal
@@ -343,7 +335,7 @@ export function SonicWalkthrough({
                   </p>
                 )}
               </div>
-            </details>
+            </section>
           </li>
         ))}
       </ol>

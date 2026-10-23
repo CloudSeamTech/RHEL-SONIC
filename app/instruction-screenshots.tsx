@@ -48,15 +48,17 @@ export function InstructionScreenshots({ stepId }: { stepId: string }) {
       data-step-id={stepId}
       aria-label="Pictures for this step"
     >
-      {association && (association.excludedAssetIds.length > 0 || /VMware Workstation/.test(association.selectionReason) ||
-        shots.some((shot) => /VMware Workstation/.test(shot.platform))) && (
-        <p className="vmware-platform-note">
-          <strong>Windows 10 is your host computer.</strong>{' '}
-          The guest is the computer inside VMware: use Server 2019 for the
-          Windows server builds, or AlmaLinux for the desktop course.
-          Neutral control references are not verified Windows 10 captures.
-        </p>
-      )}
+      {association &&
+        (association.excludedAssetIds.length > 0 ||
+          /VMware Workstation/.test(association.selectionReason) ||
+          shots.some((shot) => /VMware Workstation/.test(shot.platform))) && (
+          <p className="vmware-platform-note">
+            <strong>Windows 10 is your host computer.</strong> The guest is the
+            computer inside VMware: use Server 2019 for the Windows server
+            builds, or AlmaLinux for the desktop course. Neutral control
+            references are not verified Windows 10 captures.
+          </p>
+        )}
       {capture && (
         <figure className="guided-screenshot">
           <figcaption>
@@ -116,11 +118,9 @@ export function InstructionScreenshots({ stepId }: { stepId: string }) {
           guide below is a diagram, not a screenshot.
         </p>
       )}
-      {picture && (
-        <details className="step-map-details" open={!capture && !shots.length}>
-          <summary>
-            Illustrated action map · help with the written directions
-          </summary>
+      {picture && !capture && !shots.length && (
+        <section className="step-map-details">
+          <h4>Illustrated action map</h4>
           <button
             className="guided-image-button"
             aria-label={`Enlarge picture for ${stepId}`}
@@ -139,7 +139,7 @@ export function InstructionScreenshots({ stepId }: { stepId: string }) {
             />
             <span className="picture-zoom-label">Enlarge action map ↗</span>
           </button>
-        </details>
+        </section>
       )}
       <dialog
         className="guided-image-dialog"

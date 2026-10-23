@@ -634,7 +634,11 @@ export const learningPathways: LearningPathway[] = [
       },
       {
         title: '04 / Scheduling and Final Investigation',
-        lessons: enterpriseLessons(splunkCourse, '/splunk').slice(12),
+        lessons: enterpriseLessons(splunkCourse, '/splunk').slice(12, 14),
+      },
+      {
+        title: '05 / Cyber Analyst Investigations and Dashboard Inputs',
+        lessons: enterpriseLessons(splunkCourse, '/splunk').slice(14),
       },
     ],
   },
