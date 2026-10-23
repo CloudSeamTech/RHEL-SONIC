@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { learningPathways, pathwayLessons } from './learning-pathways';
 import { careerPathways } from './career-pathways';
+import { planLabel, lessonTier } from '../lib/plan-access';
 import { useAcademy } from './academy-provider';
 import './learning-console.css';
 import './lesson-reading.css';
@@ -130,11 +131,7 @@ export function ConsoleReaderShell({
           </p>
           <small>
             {academy.user
-              ? ({
-                  free: 'Free Tier',
-                  enhanced: 'Enhanced Tier',
-                  apex: 'Apex Tier',
-                }[academy.user.subscriptionTier ?? 'free'] ?? 'Free Tier')
+              ? planLabel(academy.user.subscriptionTier)
               : 'Guest learner · self-paced'}
           </small>
         </section>
@@ -204,6 +201,9 @@ export function ConsoleReaderShell({
             >
               {course.title}
             </a>
+            <span className="plan-badge">
+              {lessonTier(lessonId) === 'free' ? 'Free' : 'Apex · planned'}
+            </span>
             <span>
               {courseCount} of {pathwayLessons(course).length} labs complete
             </span>
