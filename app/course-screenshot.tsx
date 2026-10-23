@@ -6,7 +6,9 @@ import azureReferences from '@/content/azure/maintenance-references.json';
 import helpdeskReferences from '@/content/helpdesk/references.json';
 import securityReferences from '@/content/security/references.json';
 import landingZoneReferences from '@/content/landing-zone/references.json';
-const references = [...azureReferences, ...helpdeskReferences, ...securityReferences, ...landingZoneReferences];
+import enterpriseReferences from '@/content/enterprise/references.json';
+import coreReferences from '@/content/screenshots/interface-references.json';
+const references = [...enterpriseReferences, ...coreReferences.assets, ...azureReferences, ...helpdeskReferences, ...securityReferences, ...landingZoneReferences];
 import type { NessusStep } from '@/lib/nessus-curriculum';
 export function CourseScreenshot({
   screenshot,
@@ -54,6 +56,7 @@ export function CourseScreenshot({
       </button>
       <figcaption>
         <p>{asset.note}</p>
+        {screenshot.assetId && (screenshot.assetId.startsWith('mecm-') || screenshot.assetId.startsWith('wsus-')) && <p>{screenshot.instructions}</p>}
         <a href={asset.source} target="_blank" rel="noreferrer">
           {asset.credit} · original reference ↗
         </a>

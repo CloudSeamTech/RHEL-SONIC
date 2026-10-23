@@ -61,7 +61,7 @@ test('the copy rewrite preserves every Nessus command and includes concrete prep
     assert.equal(actual.get(item.stepId), item.sha256, item.stepId);
 });
 test('Azure maintenance is separate from migration pagination and all real pictures exist with provenance', () => {
-  const azure = learningPathways.find((p) => p.id === 'azure');
+  const azure = learningPathways.find((p) => p.id === 'azure-operations');
   const maintenance = pathwayLessons(azure).filter(
     (l) => l.source === 'azure-lab',
   );
