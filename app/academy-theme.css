@@ -2598,3 +2598,16 @@ html body .academy-shell .lab-step-nav > details > summary {
     scroll-margin-top: 20px;
   }
 }
+@media (max-width: 800px) {
+  html body .academy-shell .reader-workspace > main {
+    padding-inline: 0 !important;
+    width: 100%;
+    max-width: none;
+  }
+}
+@media (max-width: 800px) {
+  html body .academy-shell .reader-workspace .lesson-content {
+    padding-block: 0 !important;
+    margin-block: 0 !important;
+  }
+}
