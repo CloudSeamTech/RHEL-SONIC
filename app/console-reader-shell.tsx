@@ -118,6 +118,31 @@ export function ConsoleReaderShell({
             Troubleshooting
           </a>
         </div>
+        <section
+          className="sidebar-learning-details"
+          aria-label="Your learning space"
+        >
+          <span>LEARN · BUILD · VERIFY</span>
+          <p>
+            {careerPathways.length} career pathways
+            <br />
+            {learningPathways.length} subjects · {allLessons.length} labs
+          </p>
+          <small>
+            {academy.user
+              ? ({
+                  free: 'Free Tier',
+                  enhanced: 'Enhanced Tier',
+                  apex: 'Apex Tier',
+                }[academy.user.subscriptionTier ?? 'free'] ?? 'Free Tier')
+              : 'Guest learner · self-paced'}
+          </small>
+        </section>
+        <div className="sidebar-information-links">
+          <a href="/support">Help & FAQ</a>
+          <a href="/plans">Plans</a>
+          <a href="/support#contact">Contact us</a>
+        </div>
         <div className="console-sidebar-foot">
           <span>MY PROGRESS</span>
           <div className="sidebar-progress">
@@ -211,6 +236,17 @@ export function ConsoleReaderShell({
           </p>
         )}
         {children}
+        <footer className="academy-footer">
+          <span>CloudSeamTech · SONIC-Academy</span>
+          <nav aria-label="Support and business information">
+            <a href="/support#contact">Contact us</a>
+            <a href="/support#faq">FAQ</a>
+            <a href="/support#billing">Billing information</a>
+            <a href="/support#privacy">Privacy</a>
+            <a href="/support#about">About us</a>
+          </nav>
+          <a href="/support#contact">Support email · coming soon</a>
+        </footer>
       </div>
     </div>
   );
