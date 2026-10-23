@@ -1581,14 +1581,14 @@ html body .academy-shell .profile-link strong {
 
 /* Comfortable reading space and a persistent, borderless lesson index. */
 :root {
-  --academy-cream: #9f8c76;
+  --academy-cream: #e3d8c4;
 }
 html body .academy-shell {
-  --academy-cream: #9f8c76;
-  background: #9f8c76;
+  --academy-cream: #e3d8c4;
+  background: #e3d8c4;
 }
 html body .academy-shell .reader-workspace {
-  background: #9f8c76 !important;
+  background: #e3d8c4 !important;
 }
 html body .academy-shell .path-grid {
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
