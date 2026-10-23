@@ -1,4 +1,5 @@
 'use client';
+import { TroubleshootingLibrary } from '../troubleshooting-library';
 import { welcomeFor } from '@/lib/lesson-welcome';
 /* oxlint-disable next/no-html-link-for-pages -- Vinext's client router currently crashes on these cross-page transitions; native navigation is intentional. */
 
@@ -397,7 +398,6 @@ function LessonView({
           </span>
           <h1>{display.title}</h1>
           <p>{display.description}</p>
-
         </div>
         <div className="stage-progress">
           <strong>
@@ -414,16 +414,23 @@ function LessonView({
         </div>
       </header>
       <div className="lesson-content">
-        {guide && (
-          <GuidedLab
-            key={lesson.id}
-            lessonId={lesson.id}
-            guide={guide}
-            purpose={display.description}
-            screenshotLessonId={lesson.screenshotLessonId} stepOffset={lesson.stepOffset}
-          />
+        {lesson.id === 'lab-19' ? (
+          <TroubleshootingLibrary />
+        ) : (
+          guide && (
+            <GuidedLab
+              key={lesson.id}
+              lessonId={lesson.id}
+              guide={guide}
+              purpose={display.description}
+              screenshotLessonId={lesson.screenshotLessonId}
+              stepOffset={lesson.stepOffset}
+            />
+          )
         )}
-        {!lesson.separated && <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />}
+        {!lesson.separated && (
+          <LessonVisualGuide key={lesson.id} lessonId={lesson.id} />
+        )}
         <details className="guided-reference" open={!guide}>
           <summary>Full lesson reference, commands, and background</summary>
           {blocks.map((block, index) => (
