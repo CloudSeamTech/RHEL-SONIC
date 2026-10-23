@@ -1,5 +1,8 @@
 # SONIC-Academy · CloudSeamTech Training
 
+Public website: **https://sonic-academy-cloud-seam.vercel.app/**.
+The planned custom address is **https://cloudseam.tech/**; it is assigned in Vercel but still needs the Cloudflare DNS records described in [custom domain setup](docs/CUSTOM-DOMAIN.md).
+
 ## Self-paced academy
 
 The dashboard uses the CloudSeamTech cream, purple and orange visual system, with searchable subjects, resume learning, bookmarks, recent activity, and progress calculated from the curriculum. Course readers retain their existing routes, screenshot references and verification checks.
