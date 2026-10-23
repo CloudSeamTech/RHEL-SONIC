@@ -173,6 +173,16 @@ function LessonReader({
   save: (update: (current: NessusProgress) => NessusProgress) => void;
 }) {
   const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const resumeStep = () => {
+      const current = JSON.parse(nessusSnapshot()) as NessusProgress;
+      const next = lesson.steps.findIndex((_, i) => !current.checked.includes(`${lesson.id}:step:${i}`));
+      setIndex(next < 0 ? 0 : next);
+    };
+    resumeStep();
+    window.addEventListener('storage', resumeStep);
+    return () => window.removeEventListener('storage', resumeStep);
+  }, [lesson.id, lesson.steps]);
   const panel = useRef<HTMLElement>(null);
   const step = lesson.steps[index];
   const stepKey = `${lesson.id}:step:${index}`;
@@ -204,6 +214,7 @@ function LessonReader({
             /{lesson.steps.length} steps checked
           </span>
         </header>
+        <progress value={lesson.steps.filter((_, i) => progress.checked.includes(`${lesson.id}:step:${i}`)).length} max={lesson.steps.length} aria-label="Lab step completion" />
         <p>
           Let’s take one small step at a time. Try it on the computer named
           below, then check what happened. You can go back whenever you need to.
@@ -337,7 +348,7 @@ function LessonReader({
         <h2>Finished? Verify this lesson</h2>
         <p>
           Check every step, finish the exercise, and pass the knowledge check.
-          Progress stays in this browser and is self-reported.
+          Progress is self-reported. Signed-in learners can save it to their connected academy account.
         </p>
         <button
           type="button"
@@ -444,7 +455,7 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
             self-verified
           </small>
         </header>
-        <LabOverview summary={lesson.what} steps={lesson.steps.map(item => item.title)} outcome={lesson.pass} />
+        <LabOverview summary={lesson.what === lesson.description ? undefined : lesson.what} steps={lesson.steps.map(item => item.title)} outcome={lesson.pass} />
         <LessonWelcome
           showIntro={false}
           content={{

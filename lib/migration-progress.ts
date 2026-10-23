@@ -25,6 +25,7 @@ export function readMigrationProgress(validIds: readonly string[]): MigrationPro
 export function writeMigrationProgress(progress: MigrationProgress) {
   try {
     localStorage.setItem(storageKey, JSON.stringify(progress));
+    window.dispatchEvent(new Event('sonic-academy-progress'));
     return true;
   } catch {
     return false;

@@ -1,0 +1,1562 @@
+/* CloudSeamTech training academy: dark cream, charcoal, purple and warm orange. */
+:root {
+  --academy-cream: #e3d8c4;
+  --academy-card: #f6f0e6;
+  --academy-ink: #211b2d;
+  --academy-muted: #746f78;
+  --academy-purple: #713bd1;
+  --academy-orange: #e78c48;
+  --academy-edge: #d8cebc;
+}
+html body {
+  background: var(--academy-cream) !important;
+  color: var(--academy-ink) !important;
+}
+html body,
+html
+  body
+  .learning-console
+  :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    summary,
+    label,
+    li,
+    dd,
+    dt,
+    span,
+    strong,
+    b,
+    small,
+    div,
+    section,
+    article,
+    header,
+    nav,
+    aside,
+    footer,
+    td,
+    th,
+    legend,
+    output
+  ) {
+  font-family: var(--font-academy-ui), Arial, sans-serif !important;
+  letter-spacing: normal !important;
+}
+html
+  body
+  .learning-console
+  :is(pre, pre code, .terminal-output, .terminal-input-row textarea) {
+  font-family: var(--font-ibm-plex-mono), Consolas, monospace !important;
+}
+html body .academy-shell {
+  display: grid;
+  grid-template-columns: 238px minmax(0, 1fr);
+  gap: 0;
+  background: var(--academy-cream) !important;
+  color: var(--academy-ink);
+  padding: 14px;
+  min-height: 100vh;
+  color-scheme: light;
+  --console-border: var(--academy-edge);
+  --console-text: var(--academy-ink);
+  --console-muted: var(--academy-muted);
+  --console-cyan: var(--academy-purple);
+  --foreground: var(--academy-ink);
+  --background: var(--academy-cream);
+  --primary: var(--academy-purple);
+  --border: var(--academy-edge);
+  --edge: var(--academy-edge);
+  --card: var(--academy-card);
+  --surface: var(--academy-card);
+  --surface-raised: #ece3d4;
+  --ink-muted: var(--academy-muted);
+  --ink-soft: #5c5665;
+}
+html body .academy-shell .console-sidebar {
+  position: sticky;
+  top: 14px;
+  height: calc(100vh - 28px);
+  width: auto;
+  min-width: 0;
+  border: 0;
+  border-radius: 18px !important;
+  padding: 24px 16px 18px;
+  background: #211a31 !important;
+  color: #e7e0ed;
+  overflow: hidden;
+  box-shadow: 0 6px 26px #33284a16 !important;
+}
+html body .academy-shell .console-brand {
+  padding: 0 0 26px;
+  border: 0;
+}
+html body .academy-shell .academy-brand {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #f9f5ff;
+  font-size: 17px !important;
+  font-weight: 800;
+  white-space: nowrap;
+}
+html body .academy-shell .academy-brand small {
+  display: block;
+  font-size: 8px !important;
+  letter-spacing: 2px !important;
+  color: #b7aaca;
+  margin-top: 5px;
+}
+html body .academy-shell .brand-purple {
+  color: #b083f4;
+}
+html body .academy-shell .brand-cloud {
+  position: relative;
+  color: #ed965e;
+  flex-shrink: 0;
+}
+html body .academy-shell .brand-cloud > span {
+  position: absolute;
+  left: 14px;
+  top: 4px;
+  color: #d9ceef;
+  font-size: 25px;
+  transform: rotate(-20deg);
+}
+html body .academy-shell .academy-primary-nav {
+  flex-shrink: 0;
+  padding-bottom: 16px;
+}
+html body .academy-shell .academy-primary-nav a,
+html body .academy-shell .academy-secondary-nav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  font-size: 13px;
+  border-radius: 9px !important;
+  color: #e5dfee;
+}
+html body .academy-shell .academy-primary-nav a.active {
+  background: linear-gradient(100deg, #7137c6, #6227bb) !important;
+  color: white;
+  box-shadow: 0 3px 12px #100a2360 !important;
+}
+html body .academy-shell .console-nav-label {
+  font-size: 9px !important;
+  letter-spacing: 1.8px !important;
+  color: #ab9dbb;
+  margin: 5px 10px 12px;
+}
+html body .academy-shell nav[aria-label='Course pathways'] {
+  min-height: 100px;
+  flex: 1;
+  overflow: auto;
+  padding-right: 4px;
+  scrollbar-color: #51405f transparent;
+}
+html body .academy-shell .reader-course {
+  border: 0;
+  margin: 0 0 4px;
+}
+html body .academy-shell .reader-course > summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 9px;
+  min-height: 43px;
+  color: #e3daec;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  list-style: none;
+}
+html body .academy-shell .reader-course > summary > span {
+  flex: 1;
+}
+html body .academy-shell .reader-course > summary svg {
+  flex-shrink: 0;
+}
+html body .academy-shell .reader-course[open] > summary {
+  background: #382849;
+  color: #fff;
+}
+html body .academy-shell .reader-course[open] > summary > svg:last-child {
+  transform: rotate(90deg);
+}
+html body .academy-shell .console-subnav {
+  padding: 4px 0 8px 12px;
+}
+html body .academy-shell .console-subnav summary {
+  font-size: 11px !important;
+  line-height: 1.5;
+  color: #c6b8d8;
+  padding: 9px 7px;
+}
+html body .academy-shell .reader-lesson-link {
+  font-size: 11px !important;
+  line-height: 1.6;
+  padding: 9px 10px;
+  color: #d1c7db;
+}
+html body .academy-shell .reader-lesson-link.active {
+  color: #fff;
+  background: #674199 !important;
+  border-left: 2px solid #e7975f;
+  border-radius: 5px !important;
+}
+html body .academy-shell .academy-secondary-nav {
+  padding-top: 12px;
+  border-top: 1px solid #ffffff13;
+}
+html body .academy-shell .academy-secondary-nav a {
+  padding: 9px 10px;
+  font-size: 12px;
+}
+html body .academy-shell .console-sidebar-foot {
+  margin-top: 18px;
+  border-top: 1px solid #ffffff13;
+  padding: 18px 10px 0;
+  color: #b3a5c3;
+}
+html body .academy-shell .console-sidebar-foot > span {
+  font-size: 9px;
+  letter-spacing: 1.5px !important;
+}
+html body .academy-shell .sidebar-progress {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 13px;
+  margin: 12px 0;
+}
+html body .academy-shell .sidebar-progress strong {
+  color: white;
+  font-size: 26px;
+}
+html body .academy-shell .sidebar-progress span {
+  font-size: 11px;
+}
+html body .academy-shell .console-sidebar-foot small {
+  display: block;
+  margin-top: 9px;
+  color: #baacc9;
+  font-size: 10px;
+}
+html body .academy-shell .reader-workspace {
+  min-width: 0;
+  padding: 0 0 0 20px !important;
+  background: transparent !important;
+}
+html body .academy-shell .console-commandbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 64px;
+  padding: 10px 16px;
+  margin-bottom: 18px;
+  border: 1px solid #e5dccb;
+  border-radius: 13px !important;
+  background: #f4eee3 !important;
+  color: var(--academy-ink);
+}
+html body .academy-shell .academy-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(100%, 540px);
+  padding: 8px 12px;
+  border: 1px solid #dfd5c5;
+  border-radius: 7px !important;
+  background: #fbf7ef;
+  color: #8b828e;
+}
+html body .academy-shell .academy-search input {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  color: #332b3c;
+  font-size: 12px;
+  min-height: 20px;
+}
+html body .academy-shell .profile-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+html body .academy-shell .profile-link > span:not(.profile-avatar) {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+html body .academy-shell .profile-link small {
+  color: #77707d;
+  font-size: 9px !important;
+}
+html body .academy-shell .profile-link strong {
+  font-size: 12px;
+}
+html body .academy-shell .profile-avatar {
+  background: #6c34c2;
+  color: white;
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50% !important;
+  font-size: 12px;
+}
+html body .academy-shell .reader-tools {
+  font-size: 11px;
+  color: #6a3baf;
+}
+html body .academy-shell .console-menu {
+  display: none;
+  color: #41275f;
+  border: 0;
+  background: transparent;
+}
+html body .academy-shell progress {
+  display: block;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border: 0;
+  background: #ded7d2;
+  border-radius: 12px !important;
+  overflow: hidden;
+}
+html body .academy-shell progress::-webkit-progress-bar {
+  background: #ded7d2;
+}
+html body .academy-shell progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #7a3ad7, #5b27b0);
+  border-radius: 12px;
+}
+html body .academy-shell progress::-moz-progress-bar {
+  background: #713bd1;
+}
+html body .academy-shell .academy-dashboard {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 20px;
+  padding: 0 !important;
+  align-items: start;
+  background: transparent !important;
+}
+html body .academy-shell .dashboard-main {
+  min-width: 0;
+}
+html body .academy-shell .academy-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 220px;
+  overflow: hidden;
+  padding: 28px;
+  border: 1px solid #ddd0bd;
+  border-radius: 16px !important;
+  background: linear-gradient(115deg, #f6eddd, #ece1ce 70%, #ddd0c4) !important;
+}
+html body .academy-shell .academy-hero > div {
+  width: 65%;
+  position: relative;
+  z-index: 1;
+}
+html body .academy-shell .eyebrow {
+  font-size: 10px !important;
+  color: #64586e;
+  letter-spacing: 1.4px !important;
+  font-weight: 700;
+}
+html body .academy-shell .academy-hero h1 {
+  font-size: clamp(25px, 2.4vw, 39px) !important;
+  font-weight: 800 !important;
+  line-height: 1.18 !important;
+  margin: 12px 0;
+  letter-spacing: -1px !important;
+  color: #1d1529 !important;
+}
+html body .academy-shell .academy-hero h1 span {
+  color: #54239b;
+}
+html body .academy-shell .hero-mobile-break {
+  display: none;
+}
+html body .academy-shell .academy-hero p {
+  font-size: 13px !important;
+  line-height: 1.65 !important;
+  color: #63596c;
+  max-width: 440px;
+}
+html body .academy-shell .academy-hero > img {
+  position: absolute;
+  right: -38px;
+  width: 52%;
+  height: 115%;
+  top: -8%;
+  object-fit: contain;
+}
+html body .academy-shell .hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 19px;
+}
+html body .academy-shell .primary-button,
+html body .academy-shell .secondary-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  border-radius: 7px !important;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid #d6c9bd;
+  min-height: 42px;
+  text-decoration: none;
+}
+html body .academy-shell .primary-button {
+  background: linear-gradient(105deg, #7b3bdb, #5e26b2) !important;
+  color: #fff !important;
+  border-color: transparent;
+  box-shadow: 0 4px 12px #6d32c51c !important;
+}
+html body .academy-shell .secondary-button {
+  color: #382644;
+  background: #faf6ef !important;
+}
+html body .academy-shell .dashboard-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0 26px;
+}
+html body .academy-shell .dashboard-metrics article {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 18px 14px;
+  background: #f6f0e6;
+  border: 1px solid #ded4c4;
+  border-radius: 12px !important;
+}
+html body .academy-shell .metric-icon {
+  display: grid;
+  place-items: center;
+  color: #723cc7;
+  background: #ebe1f4;
+  border-radius: 9px !important;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+}
+html body .academy-shell .dashboard-metrics article:nth-child(3) .metric-icon {
+  color: #d97a37;
+  background: #f8e8d8;
+}
+html body .academy-shell .dashboard-metrics p {
+  font-size: 9px !important;
+  color: #706774;
+  line-height: 1.4 !important;
+}
+html body .academy-shell .dashboard-metrics strong {
+  display: block;
+  font-size: 24px;
+  line-height: 1.4;
+  color: #21182e;
+}
+html body .academy-shell .dashboard-metrics small {
+  font-size: 9px !important;
+  color: #8a808d;
+}
+html body .academy-shell :is(.featured-paths, .explore-courses) > header,
+html body .academy-shell .recent-card > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+html body .academy-shell :is(.featured-paths, .explore-courses) h2,
+html body .academy-shell .dashboard-right h2 {
+  font-size: 18px !important;
+  line-height: 1.4 !important;
+  margin: 0;
+  color: #251c30;
+  font-weight: 800 !important;
+}
+html body .academy-shell :is(.featured-paths, .explore-courses) > header a {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: #6c34ad;
+}
+html body .academy-shell .path-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+html body .academy-shell .path-card {
+  display: block;
+  background: var(--academy-card);
+  border: 1px solid #ddd3c2;
+  border-radius: 12px !important;
+  padding: 18px;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+html body .academy-shell .path-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px #41275d12 !important;
+}
+html body .academy-shell .path-icon {
+  display: inline-flex;
+  color: #7d3cd7;
+  padding: 0;
+  margin: 0 0 14px;
+}
+html body .academy-shell .path-linux .path-icon {
+  color: #352939;
+}
+html body .academy-shell .path-active-directory .path-icon {
+  color: #745aac;
+}
+html body .academy-shell .path-security .path-icon {
+  color: #282134;
+}
+html body .academy-shell .path-card h3 {
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  margin: 0 0 7px;
+  color: #2b2037;
+}
+html body .academy-shell .path-card p {
+  font-size: 10px !important;
+  line-height: 1.6 !important;
+  color: #807584;
+  margin-bottom: 15px;
+  min-height: 32px;
+}
+html body .academy-shell .path-card > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 10px;
+  color: #74677d;
+}
+html
+  body
+  .academy-shell
+  .path-card:nth-child(2n)
+  progress::-webkit-progress-value {
+  background: #e98c47;
+}
+html body .academy-shell .explore-courses {
+  margin-top: 26px;
+}
+html body .academy-shell .course-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+html body .academy-shell .course-grid > a {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 12px;
+  border: 1px solid #ddd3c2;
+  background: #f6f0e6;
+  border-radius: 11px !important;
+}
+html body .academy-shell .course-grid h3 {
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+  margin: 0 0 5px;
+}
+html body .academy-shell .course-grid p {
+  font-size: 9px !important;
+  line-height: 1.5 !important;
+  color: #85788b;
+}
+html body .academy-shell .course-grid small {
+  display: inline-block;
+  margin-top: 10px;
+  background: #ebe1f4;
+  padding: 3px 6px;
+  color: #6a3a9c;
+  border-radius: 4px !important;
+  font-size: 8px !important;
+}
+html body .academy-shell .learning-guide {
+  margin-top: 24px;
+  border-top: 1px solid #cabda9;
+  padding: 20px 0;
+}
+html body .academy-shell .learning-guide h2 {
+  font-size: 17px !important;
+}
+html body .academy-shell .learning-guide p {
+  font-size: 12px !important;
+  line-height: 1.8 !important;
+  margin: 10px 0;
+  color: #716575;
+}
+html body .academy-shell .learning-guide a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #6e32b6;
+}
+html body .academy-shell .dashboard-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  background: transparent !important;
+}
+html body .academy-shell .dashboard-right > section {
+  padding: 20px;
+  border: 1px solid #ddd2c0;
+  border-radius: 13px !important;
+  background: #f6f0e6;
+}
+html body .academy-shell .resume-progress {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0 9px;
+  font-size: 10px;
+  color: #675b70;
+}
+html body .academy-shell .resume-lesson {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+}
+html body .academy-shell .resume-lesson .path-icon {
+  margin: 0;
+  padding: 10px;
+  background: #eee5f4;
+  border-radius: 9px !important;
+}
+html body .academy-shell .resume-lesson h3 {
+  font-size: 12px !important;
+  line-height: 1.6 !important;
+  margin: 0;
+}
+html body .academy-shell .resume-lesson p {
+  font-size: 10px !important;
+  line-height: 1.6 !important;
+  color: #8c7d91;
+  margin-top: 4px;
+}
+html body .academy-shell .resume-card .primary-button {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+html body .academy-shell .recent-card > header a {
+  font-size: 10px;
+  color: #703ab4;
+}
+html body .academy-shell .activity-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-top: 18px;
+}
+html body .academy-shell .activity-icon {
+  padding: 7px;
+  background: #ece0f6;
+  border-radius: 7px !important;
+  color: #7938c5;
+}
+html body .academy-shell .activity-row h3 {
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+  margin: 0;
+}
+html body .academy-shell .activity-row p {
+  font-size: 9px !important;
+  color: #8c7d91;
+  margin-top: 3px;
+}
+html body .academy-shell .empty-activity {
+  font-size: 12px !important;
+  line-height: 1.8 !important;
+  margin-top: 18px;
+  color: #897a91;
+}
+html body .academy-shell .quick-card > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 16px;
+}
+html body .academy-shell .quick-card a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 8px;
+  font-size: 9px;
+  background: #fbf7ef;
+  border: 1px solid #e1d7ca;
+  border-radius: 7px !important;
+}
+html body .academy-shell .quick-card svg {
+  color: #763abf;
+  flex-shrink: 0;
+}
+html body .academy-shell .account-card h3 {
+  font-size: 14px !important;
+  margin: 0;
+}
+html body .academy-shell .account-card p {
+  font-size: 11px !important;
+  line-height: 1.8 !important;
+  margin: 10px 0;
+  color: #88768e;
+}
+html body .academy-shell .account-card a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  color: #7432b9;
+}
+html body .academy-shell .course-library header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+html body .academy-shell .course-library h1 {
+  font-size: 32px !important;
+  margin: 10px 0;
+}
+html body .academy-shell .course-library header p {
+  font-size: 13px !important;
+  line-height: 1.7 !important;
+  color: #706474;
+}
+html body .academy-shell .course-library header > a {
+  color: #6a309c;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+html body .academy-shell .course-library .path-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+html body .academy-shell .lab-library-list {
+  display: grid;
+  gap: 12px;
+}
+html body .academy-shell .lab-library-list article {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid #d4c7b6;
+  border-radius: 10px !important;
+  padding: 20px;
+  background: #f6f0e6;
+}
+html body .academy-shell .lab-library-list h2 {
+  font-size: 17px !important;
+  margin: 0 0 8px;
+}
+html body .academy-shell .lab-library-list p {
+  font-size: 12px !important;
+  line-height: 1.8 !important;
+  color: #776a7b;
+}
+html body .academy-shell .lab-library-list a > span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 12px;
+  color: #7234bd;
+  font-size: 11px;
+}
+html body .academy-shell .lab-library-list button {
+  align-self: flex-start;
+  padding: 10px;
+  border: 1px solid #dacbdd;
+  border-radius: 7px !important;
+  color: #7c3ac4;
+  background: #f9f3f9;
+}
+/* The same calm learning system on every existing course page. */
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .migration-lesson,
+    .alma-reader,
+    .lesson-content,
+    .lesson-hero,
+    .alma-header,
+    .guided-lab,
+    .teacher-welcome,
+    .nessus-exercise,
+    .nessus-quiz,
+    .alma-verify,
+    .lab-overview,
+    .sonic-walkthrough,
+    .sonic-action-panel,
+    .sonic-action-body,
+    .guided-step,
+    .guided-visuals,
+    .step-picture,
+    .guided-screenshot,
+    .nessus-location,
+    .guided-final,
+    .guided-reference,
+    .guided-production,
+    .guided-evidence,
+    .guided-rollback,
+    .nessus-location,
+    .nessus-explanation,
+    .nessus-best,
+    .nessus-mistakes,
+    .nessus-troubleshooting,
+    .sonic-action-assist
+  ) {
+  background: transparent !important;
+  color: #2e233a !important;
+  border-color: #d2c5b4 !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.migration-lesson, .alma-reader, .lesson-content) {
+  padding-inline: 20px !important;
+}
+html body .academy-shell .reader-workspace :is(p, li, dd) {
+  color: inherit;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .teaching-callout,
+    .coaching-why,
+    .coaching-brief,
+    .guided-expected,
+    .walkthrough-check
+  ) {
+  background: #eee4d4 !important;
+  border-left: 3px solid #e59753 !important;
+  color: #493b50 !important;
+  padding: 20px 24px !important;
+  border-radius: 0 10px 10px 0 !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.teaching-callout, .guided-expected)
+  :is(h3, h4, b) {
+  color: #4d2b6b !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .guided-action,
+    .guided-step-content,
+    .teacher-intro,
+    .guided-heading,
+    .task-heading,
+    .lesson-content > p
+  ) {
+  color: #32263d;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.guided-command, .sonic-terminal) {
+  background: #241e2e !important;
+  border: 1px solid #3b3149 !important;
+  color: #eee8f2 !important;
+  border-radius: 10px !important;
+}
+html body .academy-shell .reader-workspace :is(pre, .guided-command code) {
+  background: #241e2e !important;
+  color: #f3edf8 !important;
+  border-radius: 7px !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.guided-command header, .sonic-terminal header) {
+  background: #302638 !important;
+  color: #d3bfdc !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.guided-command p, .guided-command output) {
+  color: #c8b8d2 !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.guided-visuals, .guided-screenshot)
+  img {
+  border: 1px solid #d7caba;
+  border-radius: 8px !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.step-picture, .lesson-visual-guide) {
+  margin-block: 14px;
+}
+html body .academy-shell .reader-workspace .teacher-preparation {
+  background: transparent !important;
+}
+html body .academy-shell .reader-workspace :is(select, input, textarea) {
+  color: #33213f;
+  border: 1px solid #cdbfcd;
+  background: #faf5ec;
+  border-radius: 7px !important;
+  padding: 10px 12px;
+}
+html body .academy-shell .reader-workspace :is(summary, a) {
+  color: #7137b6;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .guided-nav button,
+    .guided-check,
+    .nessus-verify button,
+    .alma-verify button,
+    .guided-command button,
+    .sonic-terminal button,
+    .lesson-pagination a
+  ) {
+  color: #663599 !important;
+  background: #f2e8f5 !important;
+  border: 1px solid #d9c4e6 !important;
+  border-radius: 7px !important;
+}
+html body .academy-shell .reader-workspace .guided-heading {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+html body .academy-shell .reader-workspace .guided-heading > progress {
+  flex-basis: 100%;
+  margin-bottom: 16px;
+}
+html body .academy-shell .reader-workspace .course-progress-strip {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 20px;
+  background: #f6f0e6;
+  border: 1px solid #d8cbbb;
+  border-radius: 10px !important;
+  margin-bottom: 20px;
+  font-size: 11px;
+}
+html body .academy-shell .course-progress-strip > progress {
+  flex: 1;
+  min-width: 60px;
+  max-width: 280px;
+}
+html body .academy-shell .course-progress-strip > a:first-child {
+  font-weight: 700;
+}
+html body .academy-shell .profile-page {
+  padding: 30px !important;
+  max-width: 900px !important;
+  background: #f6f0e6 !important;
+  border-radius: 15px !important;
+}
+html body .academy-shell .profile-page h1 {
+  margin: 12px 0 22px;
+  font-size: 36px !important;
+}
+html body .academy-shell .profile-page p {
+  margin: 14px 0;
+  line-height: 1.8;
+  font-size: 15px !important;
+}
+html body .academy-shell .profile-page label {
+  display: grid;
+  gap: 10px;
+  margin: 24px 0 14px;
+}
+/* Real terminal output stays dark and compact. */
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .terminal-layout,
+    .terminal-console,
+    .terminal-guide,
+    .terminal-tabs button,
+    .copy-mode,
+    .terminal-output,
+    .terminal-input-row
+  ) {
+  background: #211b2b !important;
+  color: #efe7f5 !important;
+  border-color: #41334f !important;
+}
+html body .academy-shell .reader-workspace .terminal-tabs button.selected {
+  border-color: #a474dc !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.terminal-setup, .terminal-examples article) {
+  background: #f4ecdf !important;
+  color: #3d2f47 !important;
+  border-color: #d7c8b3;
+  border-radius: 10px !important;
+}
+html body .academy-shell .reader-workspace .terminal-titlebar p {
+  color: #74647e;
+}
+html body .academy-shell .reader-workspace .terminal-input-row textarea {
+  color: #f1e9fa !important;
+  background: #211b2b !important;
+}
+@media (min-width: 1750px) {
+  html body .academy-shell {
+    grid-template-columns: 255px minmax(0, 1fr);
+  }
+  html body .academy-shell .academy-dashboard {
+    grid-template-columns: minmax(0, 1fr) 315px;
+  }
+  html body .academy-shell .academy-hero {
+    min-height: 270px;
+  }
+}
+@media (max-width: 1350px) {
+  html body .academy-shell {
+    grid-template-columns: 215px minmax(0, 1fr);
+    padding: 12px;
+  }
+  html body .academy-shell .console-sidebar {
+    padding-inline: 12px;
+  }
+  html body .academy-shell .academy-brand {
+    font-size: 15px !important;
+  }
+  html body .academy-shell .reader-workspace {
+    padding-left: 16px !important;
+  }
+  html body .academy-shell .academy-dashboard {
+    grid-template-columns: minmax(0, 1fr) 245px;
+    gap: 16px;
+  }
+  html body .academy-shell .academy-hero {
+    padding: 24px;
+  }
+  html body .academy-shell .dashboard-metrics {
+    gap: 8px;
+  }
+  html body .academy-shell .dashboard-metrics article {
+    padding: 14px 10px;
+    gap: 8px;
+  }
+  html body .academy-shell .metric-icon {
+    width: 32px;
+    height: 32px;
+  }
+  html body .academy-shell .path-card {
+    padding: 14px;
+  }
+  html body .academy-shell .course-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1100px) {
+  html body .academy-shell .academy-dashboard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  html body .academy-shell .dashboard-right {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  html body .academy-shell .path-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  html body .academy-shell .reader-tools {
+    display: none;
+  }
+}
+@media (max-width: 800px) {
+  html body .academy-shell {
+    display: block;
+    padding: 12px;
+  }
+  html body .academy-shell .reader-workspace {
+    padding: 0 !important;
+  }
+  html body .academy-shell .console-sidebar {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 255px;
+    bottom: 10px;
+    height: calc(100dvh - 20px);
+    z-index: 60;
+    transform: translateX(-280px);
+  }
+  html body .academy-shell .console-sidebar.is-open {
+    transform: translateX(0);
+  }
+  html body .academy-shell .console-menu {
+    display: inline-flex;
+    padding: 6px;
+    flex-shrink: 0;
+  }
+  html body .academy-shell .console-commandbar {
+    gap: 10px;
+    padding: 10px;
+  }
+  html body .academy-shell .profile-link > span:not(.profile-avatar),
+  html body .academy-shell .profile-link > svg {
+    display: none;
+  }
+  html body .academy-shell .academy-search {
+    padding: 7px 8px;
+  }
+  html body .academy-shell .academy-search input {
+    font-size: 11px;
+  }
+  html body .academy-shell .course-progress-strip {
+    flex-wrap: wrap;
+    gap: 10px !important;
+  }
+}
+@media (max-width: 560px) {
+  html body .academy-shell .academy-hero {
+    padding: 23px 20px;
+    min-height: 300px;
+    align-items: flex-start;
+  }
+  html body .academy-shell .academy-hero > div {
+    width: 100%;
+  }
+  html body .academy-shell .academy-hero h1 {
+    font-size: 29px !important;
+    max-width: 270px;
+  }
+  html body .academy-shell .academy-hero p {
+    max-width: 235px;
+    font-size: 12px !important;
+  }
+  html body .academy-shell .academy-hero > img {
+    width: 190px;
+    height: 190px;
+    top: auto;
+    bottom: -40px;
+    right: -65px;
+    opacity: 0.4;
+  }
+  html body .academy-shell .hero-actions {
+    max-width: 255px;
+    gap: 9px;
+  }
+  html body .academy-shell .hero-actions a {
+    padding: 10px 12px;
+    font-size: 10px;
+  }
+  html body .academy-shell .dashboard-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  html body .academy-shell .path-grid,
+  html body .academy-shell .course-library .path-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  html body .academy-shell .path-card {
+    padding: 14px 12px;
+  }
+  html body .academy-shell .path-card h3 {
+    font-size: 12px !important;
+  }
+  html body .academy-shell :is(.featured-paths, .explore-courses) h2 {
+    font-size: 16px !important;
+  }
+  html body .academy-shell :is(.featured-paths, .explore-courses) > header a {
+    font-size: 9px;
+  }
+  html body .academy-shell .dashboard-right {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  html body .academy-shell .profile-page {
+    padding: 22px !important;
+  }
+  html body .academy-shell .course-library header {
+    flex-direction: column;
+  }
+  html body .academy-shell .lab-library-list article {
+    padding: 15px;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    :is(.migration-lesson, .alma-reader, .lesson-content) {
+    padding-inline: 5px !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html body .academy-shell * {
+    transition: none !important;
+  }
+}
+
+/* Retire the old engineering-console resets rather than carrying their dark surfaces forward. */
+html body:has(.academy-shell) {
+  background: var(--academy-cream) !important;
+}
+html body .academy-shell .academy-primary-nav {
+  flex: 0 0 auto !important;
+  overflow: visible !important;
+}
+html body .academy-shell .console-commandbar .academy-search input {
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: 12px !important;
+  min-height: 24px;
+}
+html body .academy-shell .reader-workspace :is(h1, h2, h3, h4, h5, h6) {
+  color: #2c2236 !important;
+}
+html body .academy-shell .reader-workspace .academy-hero h1 {
+  color: #21182c !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.dashboard-metrics, .featured-paths, .explore-courses, .learning-guide) {
+  background: transparent !important;
+}
+html body .academy-shell .reader-workspace .dashboard-metrics article,
+html body .academy-shell .reader-workspace .dashboard-right > section {
+  background: #f6f0e6 !important;
+  border-color: #ddd2c0 !important;
+}
+html body .academy-shell .reader-workspace .path-card h3 {
+  color: #2c2236 !important;
+}
+html body .academy-shell .reader-workspace .path-card p {
+  color: #7b6d83 !important;
+}
+html body .academy-shell .reader-workspace .course-progress-strip button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #7137b6;
+  border: 1px solid #d4bde5;
+  border-radius: 6px !important;
+  background: #f4e9f9;
+  padding: 7px 10px;
+  min-height: 32px;
+  font-size: 11px !important;
+}
+html body .academy-shell .reader-workspace .copy-mode h2 {
+  color: #f5effa !important;
+}
+html body .academy-shell .reader-workspace .guided-lab > progress {
+  margin: 8px 0 22px;
+}
+
+/* Course content uses the new palette as fully as the dashboard. */
+html body .academy-shell .reader-workspace :is(p, li, dd, label, legend) {
+  color: inherit;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .guided-lab,
+    .teacher-welcome,
+    .lesson-hero,
+    .alma-header,
+    .lesson-content
+  ) {
+  padding: 20px 0 !important;
+}
+html body .academy-shell .reader-workspace .guided-action {
+  background: transparent !important;
+  border: 0 !important;
+  padding: 16px 0 !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .guided-action > b,
+    .guided-expected p,
+    .nessus-breakdown dd,
+    .nessus-quiz label,
+    .nessus-quiz legend
+  ) {
+  color: #48394f !important;
+}
+html body .academy-shell .reader-workspace .guided-step-picker select {
+  background: #f8f1e7 !important;
+  color: #413049 !important;
+  border: 1px solid #d2bfd8;
+  border-radius: 7px !important;
+}
+html body .academy-shell .reader-workspace .nessus-course-switcher {
+  border: 1px solid #d8c5e3;
+  border-radius: 8px !important;
+  overflow: hidden;
+  background: #f3e8f7 !important;
+}
+html body .academy-shell .reader-workspace .nessus-course-switcher a {
+  color: #75489b;
+  border-color: #d8c5e3;
+  background: #f3e8f7;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  .nessus-course-switcher
+  a[aria-current] {
+  color: #fff !important;
+  background: #7040a8 !important;
+  border-bottom: 0;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  .nessus-course-switcher
+  a[aria-current]
+  small {
+  color: #e8d4fb !important;
+}
+html body .academy-shell .reader-workspace .guided-lab .guided-nav button {
+  background: #eee2f7 !important;
+  color: #663194 !important;
+  border: 1px solid #d8bfe9;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.guided-step, .sonic-action-panel) {
+  border: 0;
+  padding: 12px 0;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.guided-step-number, .guided-context dt, .nessus-location b) {
+  color: #8b4da9 !important;
+}
+html body .academy-shell .reader-workspace .guided-visuals {
+  padding: 16px 0;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.guided-screenshot, .guided-screenshot figcaption) {
+  background: transparent !important;
+}
+html body .academy-shell .reader-workspace .guided-screenshot small {
+  color: #806d88;
+}
+@media (min-width: 1600px) {
+  html body .academy-shell .reader-workspace .guided-step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 36px;
+    align-items: start;
+  }
+  html body .academy-shell .reader-workspace .guided-step > * {
+    min-width: 0;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    .guided-step
+    > .guided-step-content {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    .guided-step
+    > :is(.guided-step-number, h3) {
+    grid-column: 1 / -1;
+  }
+  html body .academy-shell .reader-workspace .guided-step > .guided-visuals {
+    grid-column: 2;
+    grid-row: 3;
+  }
+}
+html {
+  background: var(--academy-cream) !important;
+  min-height: 100%;
+}
+html body .academy-shell .reader-workspace :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 700 !important;
+}
+html body .academy-shell .reader-workspace .academy-hero h1 {
+  font-weight: 800 !important;
+}
+html body .academy-shell .reader-workspace .nessus-breakdown code {
+  color: #784098;
+  background: #f0e2f3;
+  padding: 2px 5px;
+  border-radius: 4px !important;
+}
+html body .academy-shell .account-sync-notice {
+  padding: 12px 16px;
+  margin: 0 0 16px;
+  background: #f4dfcb;
+  color: #6d432d;
+  border: 1px solid #dcaf84;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+}
+
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .security-budget,
+    .maintenance-practice,
+    .nessus-capture,
+    .lab-brief,
+    .sonic-readout
+  ) {
+  background: #f4ecde !important;
+  color: #49394e !important;
+  border-color: #d7c5b5 !important;
+  border-radius: 10px !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.security-budget, .maintenance-practice)
+  :is(p, label, th, td, caption, output) {
+  color: #65516c !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(.security-budget, .maintenance-practice)
+  button {
+  background: #ede0f5 !important;
+  color: #663393 !important;
+  border: 1px solid #d8c0e4;
+  border-radius: 6px !important;
+}
+html body .academy-shell .reader-workspace .practice-log {
+  background: #eee3d2;
+  color: #5c4866;
+}
+html body .academy-shell :is(a, button, input, select, summary):focus-visible {
+  outline: 2px solid #9e65dc !important;
+  outline-offset: 3px;
+}
+html body .academy-shell .sidebar-close {
+  display: none;
+}
+@media (max-width: 800px) {
+  html body .academy-shell .sidebar-close {
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    padding: 2px 7px;
+    color: #d9cae7;
+    background: transparent;
+    border: 0;
+    font-size: 25px !important;
+    min-height: 32px;
+  }
+}
+@media (max-width: 560px) {
+  html body .academy-shell .console-commandbar .academy-search input {
+    font-size: 16px !important;
+  }
+}
+
+/* Muted labels keep readable contrast on cream surfaces. */
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .dashboard-metrics small,
+    .activity-row p,
+    .resume-lesson p,
+    .account-card p,
+    .empty-activity,
+    .path-card p,
+    .course-grid p
+  ) {
+  color: #6b5c73 !important;
+}
+html body .academy-shell .console-sidebar .sidebar-progress span {
+  color: #d3c5e0;
+}
+html body .academy-shell .academy-search input::placeholder {
+  color: #73617e;
+  opacity: 1;
+}
+
+.academy-readiness { display:contents; border:0; margin:0; padding:0; min-width:0; }
+.academy-readiness > legend { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+html body .academy-shell .profile-link strong { max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }

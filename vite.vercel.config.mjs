@@ -11,8 +11,27 @@ import { defineConfig } from 'vite';
 import vinext from 'vinext';
 import { nitro } from 'nitro/vite';
 import tailwindcss from '@tailwindcss/postcss';
+import { readFileSync } from 'node:fs';
 
 export default defineConfig({
   css: { postcss: { plugins: [tailwindcss()] } },
-  plugins: [vinext(), nitro()],
+  plugins: [
+    {
+      name: 'academy-vercel-storage-adapter',
+      enforce: 'pre',
+      load(id) {
+        if (
+          id.split('?')[0] ===
+          new URL('./lib/academy-db.ts', import.meta.url).pathname
+        ) {
+          return readFileSync(
+            new URL('./lib/academy-db-vercel.ts', import.meta.url),
+            'utf8',
+          );
+        }
+      },
+    },
+    vinext(),
+    nitro(),
+  ],
 });

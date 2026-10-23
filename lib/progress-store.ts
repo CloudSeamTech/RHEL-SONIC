@@ -54,5 +54,6 @@ export function saveProgress(completed: string[]) {
     persisted = false;
   }
   window.dispatchEvent(new Event('wazuh-progress'));
+  window.dispatchEvent(new Event('sonic-academy-progress'));
   return persisted;
 }

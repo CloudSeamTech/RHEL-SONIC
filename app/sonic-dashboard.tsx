@@ -54,7 +54,7 @@ function OverallProgress({ model }: { model: Model }) {
         </b>{' '}
         lessons complete <span>{total - count} remaining</span>
       </p>
-      <small>Available lab lessons · saved in this browser</small>
+      <small>Available lab lessons · learn at your own pace</small>
     </section>
   );
 }
