@@ -11,7 +11,7 @@ import references from '../content/security/references.json' with {type:'json'};
 test('security course keeps every class, separate reader and correctly labeled visual',()=>{
  assert.equal(securityCourse.lessons.length,15);
  assert.equal(securityCourse.lessons.flatMap(l=>l.steps).length,48);
- const azure=learningPathways.find(p=>p.id==='azure');
+ const azure=learningPathways.find(p=>p.id==='security');
  const all=pathwayLessons(azure).filter(l=>l.source==='security-lab');
  assert.deepEqual(all.map(l=>l.id),securityCourse.lessons.map(l=>l.id));
  assert.ok(all.every(l=>l.href===`/security#lesson=${l.id}`));

@@ -1,0 +1,213 @@
+{
+  "courses": 2,
+  "lessons": [
+    {
+      "id": "mecm-ops-test-client",
+      "steps": [
+        {
+          "title": "Check the site before adding a client",
+          "reference": "mecm-workspaces",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Prepare the practice client",
+          "reference": "win-powershell-tabs",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Install the client from the site share",
+          "reference": "win-powershell-tabs",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Confirm the client reports to the console",
+          "reference": "mecm-workspaces",
+          "captureStatus": "partial-vendor-reference"
+        }
+      ]
+    },
+    {
+      "id": "mecm-ops-collections",
+      "steps": [
+        {
+          "title": "Create the pilot collection",
+          "reference": "mecm-collection-query",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Check the actual members",
+          "reference": "mecm-collection-query",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Create a rollout collection without deploying yet",
+          "reference": "mecm-collection-query",
+          "captureStatus": "partial-vendor-reference"
+        }
+      ]
+    },
+    {
+      "id": "mecm-ops-app",
+      "steps": [
+        {
+          "title": "Stage a small, trusted MSI",
+          "reference": "mecm-application-create",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Create the MSI application and inspect detection",
+          "reference": "mecm-application-properties",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Send content to the distribution point",
+          "reference": "mecm-deployment-monitor",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Offer the application only to the pilot",
+          "reference": "mecm-deployment-client-action",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Verify installation, then test removal",
+          "reference": "mecm-deployment-monitor",
+          "captureStatus": "partial-vendor-reference"
+        }
+      ]
+    },
+    {
+      "id": "mecm-ops-heartbeat",
+      "steps": [
+        {
+          "title": "Review the heartbeat schedule",
+          "reference": "mecm-workspaces",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Request one heartbeat on APP01",
+          "reference": "win-powershell-tabs",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Read the client health checks",
+          "reference": "mecm-health-dashboard",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Rehearse a brief client outage safely",
+          "reference": "mecm-health-dashboard",
+          "captureStatus": "partial-vendor-reference"
+        }
+      ]
+    },
+    {
+      "id": "mecm-ops-compliance",
+      "steps": [
+        {
+          "title": "Create a harmless setting on the pilot",
+          "reference": "win-powershell-tabs",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Define the configuration item",
+          "reference": "mecm-baseline-compliance-rule",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Deploy the baseline to the pilot",
+          "reference": "mecm-baseline-properties",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Prove the rule detects a mismatch",
+          "reference": "mecm-baseline-properties",
+          "captureStatus": "partial-vendor-reference"
+        }
+      ]
+    },
+    {
+      "id": "mecm-ops-maintenance",
+      "steps": [
+        {
+          "title": "Review site and component health",
+          "reference": "mecm-workspaces",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Check content and deployment failures",
+          "reference": "mecm-deployment-monitor",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Review maintenance and recovery safely",
+          "reference": "mecm-workspaces",
+          "captureStatus": "partial-vendor-reference"
+        }
+      ]
+    },
+    {
+      "id": "wsus-ops-groups",
+      "steps": [
+        {
+          "title": "Check your standalone WSUS server",
+          "reference": "wsus-computer-targeting",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Create the two computer groups",
+          "reference": "wsus-computer-group",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Point a practice client at WSUS",
+          "reference": "wsus-gpo-server-url",
+          "captureStatus": "partial-vendor-reference"
+        }
+      ]
+    },
+    {
+      "id": "wsus-ops-patching",
+      "steps": [
+        {
+          "title": "Prepare recovery and select an applicable update",
+          "reference": "wsus-approve-menu",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Approve the update only for the pilot",
+          "reference": "wsus-approve-group",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Validate before expanding",
+          "reference": "wsus-approval-progress",
+          "captureStatus": "partial-vendor-reference"
+        }
+      ]
+    },
+    {
+      "id": "wsus-ops-recovery",
+      "steps": [
+        {
+          "title": "Find why a client is missing",
+          "reference": "win-powershell-tabs",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Stop expansion and choose recovery",
+          "reference": "wsus-approve-group",
+          "captureStatus": "partial-vendor-reference"
+        },
+        {
+          "title": "Check recovery and review WSUS health",
+          "reference": "wsus-approval-progress",
+          "captureStatus": "partial-vendor-reference"
+        }
+      ]
+    }
+  ],
+  "steps": 32,
+  "liveLabCaptures": 0,
+  "note": "Each step has an attributed vendor interface reference; orientation screenshots do not capture every action. No live VMware, WSUS or MECM execution was performed."
+}

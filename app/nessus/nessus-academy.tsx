@@ -363,11 +363,12 @@ function LessonReader({
 
 export function NessusAcademy({ courseId }: { courseId: string }) {
   const course = guidedCourses.find((item) => item.id === courseId)!;
+  const isEnterprise = ['mecm-operations', 'wsus-operations'].includes(course.id);
   const isLandingZone = course.id === 'azure-landing-zone';
   const isMaintenance = course.id === 'azure-maintenance';
   const isHelpdesk = course.id === 'iis-helpdesk';
   const isSecurity = course.id === 'budget-cloud-security';
-  const relatedCourses = isLandingZone || isMaintenance || isHelpdesk || isSecurity ? [course] : nessusCourses;
+  const relatedCourses = isEnterprise || isLandingZone || isMaintenance || isHelpdesk || isSecurity ? [course] : nessusCourses;
   const [id, setId] = useState(course.lessons[0].id);
   const [notice, setNotice] = useState('');
   const progress = JSON.parse(
@@ -412,10 +413,10 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
       <main className="alma-reader nessus-reader">
         <nav
           className={
-            'nessus-course-switcher' + (isLandingZone || isMaintenance || isHelpdesk || isSecurity ? ' single-course' : '')
+            'nessus-course-switcher' + (isEnterprise || isLandingZone || isMaintenance || isHelpdesk || isSecurity ? ' single-course' : '')
           }
           aria-label={
-            isLandingZone ? 'Azure landing zone course' : isSecurity ? 'Cloud security course' : isMaintenance ? 'Azure maintenance course' : isHelpdesk ? 'IIS help desk course' : 'Nessus courses'
+            isEnterprise ? course.title : isLandingZone ? 'Azure landing zone course' : isSecurity ? 'Cloud security course' : isMaintenance ? 'Azure maintenance course' : isHelpdesk ? 'IIS help desk course' : 'Nessus courses'
           }
         >
           {relatedCourses.map((item, i) => (
@@ -431,10 +432,11 @@ export function NessusAcademy({ courseId }: { courseId: string }) {
         </nav>
         <header className="alma-header">
           <span className="eyebrow">
-            {isLandingZone ? 'YOUR FIRST AZURE LANDING ZONE' : isSecurity ? 'CLOUD AND ENDPOINT SECURITY' : isMaintenance ? 'AZURE SERVER MAINTENANCE' : isHelpdesk ? 'IIS / CLOUDSEAM HELP DESK' : 'NESSUS 10.12.5'} /
+            {isEnterprise ? course.title.toUpperCase() : isLandingZone ? 'YOUR FIRST AZURE LANDING ZONE' : isSecurity ? 'CLOUD AND ENDPOINT SECURITY' : isMaintenance ? 'AZURE SERVER MAINTENANCE' : isHelpdesk ? 'IIS / CLOUDSEAM HELP DESK' : 'NESSUS 10.12.5'} /
             LESSON {index + 1} OF {course.lessons.length}
           </span>
           <p>{course.title}</p>
+          {isEnterprise && <p><a href={course.id === 'mecm-operations' ? '/migration#lesson=mecm-01' : '/migration#lesson=lab-13'}>Need the installation first? Open this class’s install lab →</a></p>}
           <h1>{lesson.title}</h1>
           <p>{lesson.description}</p>
           <small>

@@ -11,7 +11,7 @@ test('landing zone follows a build, data, recovery sequence with truthful visual
  const ids=['lz-plan','lz-group','lz-network','lz-storage','lz-data','lz-recover'];
  assert.deepEqual(landingZoneCourse.lessons.map(l=>l.id),ids);
  assert.equal(guidedCourseHref(landingZoneCourse.id),'/landing-zone');
- const links=pathwayLessons(learningPathways.find(p=>p.id==='azure')).filter(l=>l.source==='landing-zone');
+ const links=pathwayLessons(learningPathways.find(p=>p.id==='landing-zone')).filter(l=>l.source==='landing-zone');
  assert.deepEqual(links.map(l=>l.id),ids);
  for(const lesson of landingZoneCourse.lessons){
   assert.deepEqual(lessonSequenceFor(lesson.id).map(l=>l.id),ids);

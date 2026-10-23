@@ -8,7 +8,7 @@ import {normalizeNessusProgress,canVerifyNessusLesson} from '../lib/nessus-progr
 import refs from '../content/helpdesk/references.json' with {type:'json'};
 
 test('help desk follows APP01, has a separate route and complete per-step visuals',()=>{
- const windows=learningPathways.find(p=>p.id==='windows');
+ const windows=learningPathways.find(p=>p.id==='helpdesk');
  const all=pathwayLessons(windows);assert.ok(all.findIndex(l=>l.id==='lab-06')<all.findIndex(l=>l.id==='helpdesk-plan'));
  assert.equal(helpdeskCourse.lessons.length,13);
  assert.equal(helpdeskCourse.lessons.flatMap(l=>l.steps).length,43);

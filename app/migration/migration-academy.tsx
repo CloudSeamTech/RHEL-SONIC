@@ -373,8 +373,8 @@ function LessonView({
   const stageCompleted = stage.lessonIds.filter((id) =>
     completed.includes(id),
   ).length;
-  const next = migrationLessonById(sequence[globalIndex + 1]?.id ?? null);
-  const previous = migrationLessonById(sequence[globalIndex - 1]?.id ?? null);
+  const next = sequence[globalIndex + 1];
+  const previous = sequence[globalIndex - 1];
   return (
     <article className="migration-lesson">
       <nav className="you-are-here" aria-label="You are here">
@@ -511,24 +511,24 @@ function LessonView({
       </section>
       <nav className="lesson-pagination" aria-label="Lesson navigation">
         {previous ? (
-          <button onClick={() => openLesson(previous.id)}>
+          <a href={previous.href}>
             <ArrowLeft size={15} />
             <span>
-              <small>PREVIOUS · {previous.code}</small>
+              <small>PREVIOUS LAB</small>
               {previous.title}
             </span>
-          </button>
+          </a>
         ) : (
           <span />
         )}
         {next ? (
-          <button onClick={() => openLesson(next.id)}>
+          <a href={next.href}>
             <span>
-              <small>NEXT · {next.code}</small>
+              <small>NEXT LAB</small>
               {next.title}
             </span>
             <ArrowRight size={15} />
-          </button>
+          </a>
         ) : (
           <span>COURSE ROUTE COMPLETE</span>
         )}
