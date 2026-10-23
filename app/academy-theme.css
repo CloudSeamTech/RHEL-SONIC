@@ -2407,3 +2407,207 @@ html
   a {
   text-decoration: underline;
 }
+
+/* One mobile gutter and a predictable vertical rhythm across all lab readers. */
+html body .academy-shell .lab-step-nav > details > summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px !important;
+  line-height: 1.5;
+}
+@media (min-width: 1200px) {
+  html body .academy-shell .lab-step-nav > details > summary {
+    display: none;
+  }
+}
+@media (max-width: 1199px) {
+  html body .academy-shell .lab-step-nav {
+    max-height: none;
+    padding: 14px 16px;
+    margin: 16px 0 24px;
+  }
+  html body .academy-shell .lab-step-nav > :is(h2, p) {
+    display: none;
+  }
+  html body .academy-shell .lab-step-nav ol {
+    max-height: 260px;
+    overflow-y: auto;
+    margin-top: 12px;
+  }
+}
+@media (max-width: 800px) {
+  html body .academy-shell {
+    padding: 12px 16px;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    :is(
+      .migration-shell main,
+      .nessus-main,
+      .alma-main,
+      .migration-lesson,
+      .alma-reader,
+      .lesson-content,
+      .nessus-lesson,
+      .guided-lab,
+      .teacher-welcome,
+      .lab-overview
+    ) {
+    padding-inline: 0 !important;
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
+    min-width: 0;
+  }
+  html body .academy-shell .reader-workspace .guided-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 0 !important;
+    margin: 0 0 24px !important;
+  }
+  html body .academy-shell .reader-workspace .guided-heading :is(h2, p, span) {
+    margin: 0 !important;
+  }
+  html body .academy-shell .reader-workspace .guided-heading > span {
+    font-size: 13px !important;
+    line-height: 1.5;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    :is(.guided-heading h2, .lab-overview h2) {
+    font-size: 24px !important;
+    line-height: 1.35 !important;
+    overflow-wrap: normal;
+  }
+  html body .academy-shell .reader-workspace .lab-overview {
+    margin-block: 0 24px !important;
+    padding-block: 0 !important;
+  }
+  html body .academy-shell .reader-workspace .lab-overview > h2 {
+    margin: 0 0 16px !important;
+  }
+  html body .academy-shell .reader-workspace .lab-overview > p {
+    margin: 0 0 16px !important;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    :is(.teacher-welcome, .guided-lab) {
+    padding-block: 0 !important;
+    margin-block: 16px !important;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    :is(
+      .teaching-callout,
+      .coaching-why,
+      .coaching-brief,
+      .guided-expected,
+      .walkthrough-check,
+      .teacher-preparation,
+      .guided-context,
+      .nessus-location,
+      .guided-production,
+      .guided-rollback,
+      .sonic-action-assist
+    ) {
+    padding: 18px !important;
+    margin-block: 16px !important;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    :is(
+      .teaching-callout,
+      .teacher-preparation,
+      .guided-context,
+      .nessus-location,
+      .guided-expected
+    )
+    :is(h3, h4) {
+    font-size: 20px !important;
+    line-height: 1.4 !important;
+    margin: 0 0 12px !important;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    :is(
+      .teaching-callout,
+      .teacher-preparation,
+      .guided-context,
+      .nessus-location,
+      .guided-expected
+    )
+    p {
+    margin: 0 0 12px !important;
+  }
+  html
+    body
+    .academy-shell
+    .reader-workspace
+    :is(
+      .teaching-callout,
+      .teacher-preparation,
+      .guided-context,
+      .nessus-location,
+      .guided-expected
+    )
+    p:last-child {
+    margin-bottom: 0 !important;
+  }
+  html body .academy-shell .reader-workspace :is(p, li, dd) {
+    font-size: 18px;
+    line-height: 1.65;
+  }
+  html body .academy-shell .reader-workspace .guided-context dd {
+    margin: 8px 0 0 !important;
+  }
+  html body .academy-shell .reader-workspace .guided-context > div {
+    padding: 0 !important;
+    margin: 0;
+  }
+  html body .academy-shell .reader-workspace .guided-step-picker {
+    margin: 24px 0 !important;
+    display: grid;
+    gap: 10px;
+  }
+  html body .academy-shell .reader-workspace .guided-step-picker select {
+    width: 100%;
+    max-width: 100%;
+    min-height: 48px;
+    font-size: 16px !important;
+  }
+  html body .academy-shell .reader-workspace .guided-lab > progress {
+    height: 4px !important;
+    margin: 16px 0 24px !important;
+  }
+  html body .academy-shell .reader-workspace .guided-step {
+    padding-block: 16px !important;
+    scroll-margin-top: 20px;
+  }
+}
+@media (max-width: 800px) {
+  html body .academy-shell .reader-workspace > main {
+    padding-inline: 0 !important;
+    width: 100%;
+    max-width: none;
+  }
+}
+@media (max-width: 800px) {
+  html body .academy-shell .reader-workspace .lesson-content {
+    padding-block: 0 !important;
+    margin-block: 0 !important;
+  }
+}
