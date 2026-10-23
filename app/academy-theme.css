@@ -2757,3 +2757,20 @@ html
   background: #333 !important;
   color: #fff !important;
 }
+html
+  body
+  .academy-shell.academy-shell
+  .reader-workspace
+  :is(
+    .guided-check,
+    .guided-image-button,
+    .picture-pan-canvas,
+    .nessus-quiz fieldset
+  ) {
+  background: #ede4d8 !important;
+  border-color: #d2c5b4 !important;
+}
+html body .academy-shell.academy-shell .reader-workspace .picture-zoom-label {
+  background: #ede4d8 !important;
+  color: #292929 !important;
+}
