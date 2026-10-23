@@ -201,14 +201,14 @@ export function GuidedLab({
                   together.
                 </p>
                 {coaching.commandNotes.length > 0 && (
-                  <details className="coaching-command">
-                    <summary>Understand this command and its options</summary>
+                  <section className="coaching-command">
+                    <h4>What the command means</h4>
                     <ul>
                       {coaching.commandNotes.map((note) => (
                         <li key={note}>{note}</li>
                       ))}
                     </ul>
-                  </details>
+                  </section>
                 )}
               </section>
             )}
@@ -216,30 +216,22 @@ export function GuidedLab({
               <b>What you should see</b>
               <p>{step.expect}</p>
             </section>
-            <details
-              className="guided-production"
-              aria-label="How this differs in production"
-            >
-              <summary>Best practice at work · optional</summary>
-              <p>{productionPracticeFor(lessonId)}</p>
-              <small>
-                Compare with real-world practice; do not run lab commands
-                against company systems without approval.
-              </small>
-            </details>
-            <details className="guided-trouble">
-              <summary>My screen is different / it did not work</summary>
+            <aside className="teaching-callout">
+              <h4>If your result is different</h4>
               <p>{step.trouble}</p>
-            </details>
-            <details className="guided-evidence">
-              <summary>Save a picture or note of your result</summary>
-              <p>{step.evidence}</p>
-              <small>
-                Use Win + Shift + S on your host to capture the VM screen. Keep
-                screenshots in your own lab folder; do not include passwords,
-                tokens, or product keys.
-              </small>
-            </details>
+            </aside>
+            <p className="step-evidence">
+              <strong>Keep this evidence:</strong> {step.evidence}
+            </p>
+            <section
+              className="guided-visuals"
+              aria-label="Pictures and screen references for this step"
+            >
+              <h4 className="guided-visuals-heading">See it on screen</h4>
+              <InstructionScreenshots
+                stepId={`${screenshotLessonId}:guided:${index + stepOffset + 1}`}
+              />
+            </section>
             <label className="guided-check">
               <input
                 type="checkbox"
@@ -263,17 +255,12 @@ export function GuidedLab({
               </button>
             </nav>
           </div>
-          <section
-            className="guided-visuals"
-            aria-label="Pictures and screen references for this step"
-          >
-            <h4 className="guided-visuals-heading">See it on screen</h4>
-            <InstructionScreenshots
-              stepId={`${screenshotLessonId}:guided:${index + stepOffset + 1}`}
-            />
-          </section>
         </article>
       </div>
+      <aside className="teaching-callout">
+        <h3>Best practice at work</h3>
+        <p>{productionPracticeFor(lessonId)}</p>
+      </aside>
       <details className="guided-extra-help">
         <summary>More setup details</summary>
         <p>{guide.before}</p>

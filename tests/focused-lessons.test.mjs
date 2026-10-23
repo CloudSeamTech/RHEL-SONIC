@@ -16,7 +16,7 @@ test('every migration and AlmaLinux lesson has a production comparison, not an e
   assert.match(productionPracticeFor('alma-wd-drive'), /never run destructive/i);
 });
 
-test('lesson readers put the action before optional pictures, and retain real checks', () => {
+test('lesson readers put the action before inline pictures, and retain real checks', () => {
   const guided = readFileSync('app/migration/guided-lab.tsx', 'utf8');
   assert.ok(guided.indexOf('className="guided-action"') < guided.indexOf('className="guided-visuals"'));
   assert.match(guided, /What you should see/);
@@ -24,5 +24,5 @@ test('lesson readers put the action before optional pictures, and retain real ch
   assert.match(guided, /<section\s+className="guided-visuals"[^>]*>/);
   const linux = readFileSync('app/sonic-ui.tsx', 'utf8');
   assert.match(linux, /className="sonic-action-panel"/);
-  assert.match(linux, /See the picture for this step/);
+  assert.match(linux, /See it on screen/);
 });

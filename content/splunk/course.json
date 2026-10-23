@@ -1,14 +1,15 @@
 {
   "id": "splunk-core-user",
   "title": "Splunk Core User",
-  "description": "Learn to search machine data, explain results, build reports and dashboards, use lookups and test alerts in a small CloudSeam lab.",
+  "description": "Learn Splunk from your first search to security investigations and dashboards with working filters, using small fictional CloudSeam datasets.",
   "baseline": "Splunk Enterprise 10.4+ · supported Windows Server guest · cloudseam.tech dummy data · SPL (not SPL2)",
   "prerequisite": "Before you start, have a supported Windows Server practice VM ready in VMware Workstation Pro, an administrator account for setup, and an eligible Splunk Enterprise trial or license. Start with the Windows Server & VMware class if you have not built a guest yet. Later lessons use the Splunk Search bar, not PowerShell. Your Windows 10 machine remains the host.",
   "supplies": [
     "A supported x86-64 Windows Server guest called SPLUNK01, with resources checked against the selected release’s official requirements.",
     "An official Splunk Enterprise installer and a trial/license that permits scheduling; a website visit does not create an entitlement.",
     "The supplied 12-event cloudseam-web.csv and three-row cloudseam-status.csv files. All names and events are fictional.",
-    "A private browser session on the guest at http://localhost:8000 after installation. No paid Azure resources are needed."
+    "A private browser session on the guest at http://localhost:8000 after installation. No paid Azure resources are needed.",
+    "The supplied 16-event cloudseam-security.csv for injection-pattern and external-login investigations. No attacks are sent; you analyze prepared logs."
   ],
   "sources": [
     {
@@ -1758,6 +1759,497 @@
           },
           "sources": [
             "https://www.splunk.com/content/dam/splunk2/en_us/pdfs/training/splunk-test-blueprint-user.pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "splunk-security-data",
+      "title": "Load Your Cyber Analyst Practice Logs",
+      "description": "Upload 16 fictional security events and learn which fields tell you who connected, where they went and what happened.",
+      "what": "Upload 16 fictional security events and learn which fields tell you who connected, where they went and what happened.",
+      "why": "Think of a log as a receipt: it records an action, but you still need to understand the context. We will read prepared evidence without sending attacks or exposing a server.",
+      "needs": [
+        "Finish the basic CSV upload and search lessons first.",
+        "Download cloudseam-security.csv inside your practice VM."
+      ],
+      "bestPractices": [
+        "Keep the search, time range and original events with your notes. Explain what you observed before deciding what it means."
+      ],
+      "commonMistakes": [
+        "Do not treat an IP address or a matching word as proof of compromise. Check the action and the outcome."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My count is different or the table is empty.",
+          "fix": "Set All time, check index=sonic_lab and the exact security CSV source. Confirm 16 events before continuing. Do not upload the file again to fix a search."
+        }
+      ],
+      "pass": "Confirm 16 security events and explain src_ip, dest_ip and action in your own words.",
+      "exercise": "Confirm 16 security events and explain src_ip, dest_ip and action in your own words.",
+      "quiz": [
+        {
+          "question": "Why do we choose All time?",
+          "options": [
+            "The practice events have fixed January 2026 timestamps.",
+            "All time makes blocked requests successful.",
+            "It uploads the file."
+          ],
+          "answer": 0,
+          "explanation": "The default recent time range can hide our fixed-date practice data."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Upload the security CSV once",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Download cloudseam-security.csv using the practice-files link above. In Splunk Web, click Settings → Add Data → Upload → Select File. Select the downloaded security CSV.",
+            "On Set Source Type choose csv. Check the preview columns: timestamp, server, src_ip, dest_ip, dest_port, user, event_type, action, status, request.",
+            "Use timestamp for event time. If needed, set its format to %Y-%m-%dT%H:%M:%SZ. These records are dated 16 January 2026 UTC.",
+            "Click Next → Input Settings. Set Host to SPLUNK01.cloudseam.tech and Index to the existing sonic_lab. Review, then click Submit once."
+          ],
+          "expected": "Review shows the security CSV, the existing sonic_lab index and the correct timestamp field.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "A separate source lets you practice security searches without changing the earlier 12-event web dataset."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Upload the security CSV once — expected example",
+            "assetId": "splunk-security-data-1",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        },
+        {
+          "title": "Prove that all 16 events arrived",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Click Start Searching. Open the time picker next to Search and select All time.",
+            "Click inside the Search bar, paste the SPL below and click the magnifying-glass Search button. Open Statistics.",
+            "Write down events=16. If you see 32, stop: the file was likely imported twice. Ask for help cleaning only your practice data; do not delete a shared index."
+          ],
+          "expected": "One Statistics row: events=16.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "We check a known total before trusting any security chart."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Prove that all 16 events arrived — expected example",
+            "assetId": "splunk-security-data-2",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-security.csv\" | stats count AS events"
+        },
+        {
+          "title": "Read one event as a short story",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Replace the Search bar with the SPL below, run it, then open Statistics.",
+            "Read the row at 10:09 UTC: 198.51.100.77 connected to 10.50.0.20 on port 3389 as labadmin; the recorded action is success.",
+            "All external-looking addresses here are reserved documentation examples. They do not identify real attackers. The server field names the practice application, while Splunk host names the collector."
+          ],
+          "expected": "The table has 16 rows and includes four failures followed by one success for labadmin.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "A successful connection deserves different attention from a blocked request."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Read one event as a short story — expected example",
+            "assetId": "splunk-security-data-3",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-security.csv\" | sort 0 timestamp | table timestamp src_ip dest_ip dest_port user event_type action status"
+        }
+      ]
+    },
+    {
+      "id": "splunk-injection",
+      "title": "Find Suspicious Injection Requests",
+      "description": "Decode web requests, find suspicious SQL and script patterns, and explain whether the requests were blocked.",
+      "what": "Decode web requests, find suspicious SQL and script patterns, and explain whether the requests were blocked.",
+      "why": "An odd request is a clue, not a verdict. You will learn to find clues and check the response before calling an incident.",
+      "needs": [
+        "Finish Load Your Cyber Analyst Practice Logs."
+      ],
+      "bestPractices": [
+        "Keep the search, time range and original events with your notes. Explain what you observed before deciding what it means."
+      ],
+      "commonMistakes": [
+        "Do not treat an IP address or a matching word as proof of compromise. Check the action and the outcome."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My count is different or the table is empty.",
+          "fix": "Set All time, check index=sonic_lab and the exact security CSV source. Confirm 16 events before continuing. Do not upload the file again to fix a search."
+        }
+      ],
+      "pass": "Find three SQL-like requests and one script-like request. State that all four were blocked, and name one extra log source you would check.",
+      "exercise": "Find three SQL-like requests and one script-like request. State that all four were blocked, and name one extra log source you would check.",
+      "quiz": [
+        {
+          "question": "What do the three blocked SQL-like requests prove?",
+          "options": [
+            "A database was stolen.",
+            "Suspicious requests were logged and blocked; success is not established.",
+            "Every request from another country is malicious."
+          ],
+          "answer": 1,
+          "explanation": "The recorded action is blocked. Successful exploitation would need additional evidence."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Make encoded requests readable",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Open Search & Reporting → Search. Set All time and paste the query below into the Search bar. Run it, then select Statistics.",
+            "Compare request with decoded_request. %27 becomes a quote, %20 becomes a space, and %3C becomes an opening angle bracket.",
+            "These are strings in a CSV. Do not paste them into a website or send them to a real application."
+          ],
+          "expected": "Eight web events; the decoded column is easier to read.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "Web logs often encode punctuation. Decoding the field helps you read the evidence."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Make encoded requests readable — expected example",
+            "assetId": "splunk-injection-1",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-security.csv\" event_type=web | eval decoded_request=urldecode(request) | table timestamp src_ip request decoded_request"
+        },
+        {
+          "title": "Find the SQL-like patterns",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Replace the Search bar with the query below. Run it with All time, then open Statistics.",
+            "Look for UNION SELECT and OR 1=1 in decoded_request. You should see three events from 203.0.113.50.",
+            "Check action and status in each row: all three are blocked with status 403. Record “SQL-like attempts blocked”; these logs do not prove database access."
+          ],
+          "expected": "Three SQL-like requests, all blocked (403).",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "The regular expression is a small teaching detector. Real detection needs tuning, normal traffic baselines and application/database evidence."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Find the SQL-like patterns — expected example",
+            "assetId": "splunk-injection-2",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-security.csv\" event_type=web | eval decoded_request=urldecode(request) | where match(decoded_request,\"(?i)(union[[:space:]]+select|or[[:space:]]+1=1)\") | table timestamp src_ip action status decoded_request"
+        },
+        {
+          "title": "Find the script marker and write a careful conclusion",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Run the query below. In Statistics, find the single decoded request containing <script>.",
+            "Record its time, source, action and status. It is a blocked request from 203.0.113.51.",
+            "Write: “One script-like request was blocked. These logs do not show that a browser executed a script.” In a real case, ask for WAF, application and endpoint evidence before escalating."
+          ],
+          "expected": "One script-like request, blocked with 403; no claim of confirmed execution.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "A request containing a script marker does not prove cross-site scripting succeeded."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Find the script marker and write a careful conclusion — expected example",
+            "assetId": "splunk-injection-3",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-security.csv\" event_type=web | eval decoded_request=urldecode(request) | where like(lower(decoded_request),\"%<script>%\") | table timestamp src_ip action status decoded_request"
+        }
+      ]
+    },
+    {
+      "id": "splunk-external-access",
+      "title": "Investigate Access from Outside the Lab Network",
+      "description": "Separate internal from external sources and investigate failed logins followed by a successful connection.",
+      "what": "Separate internal from external sources and investigate failed logins followed by a successful connection.",
+      "why": "Not every outside connection is bad. Your job is to identify what happened, check whether it was expected and preserve the evidence.",
+      "needs": [
+        "Finish the security CSV upload.",
+        "Our teaching network is 10.50.0.0/24. Other ranges are outside this particular lab, not automatically attackers."
+      ],
+      "bestPractices": [
+        "Keep the search, time range and original events with your notes. Explain what you observed before deciding what it means."
+      ],
+      "commonMistakes": [
+        "Do not treat an IP address or a matching word as proof of compromise. Check the action and the outcome."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My count is different or the table is empty.",
+          "fix": "Set All time, check index=sonic_lab and the exact security CSV source. Confirm 16 events before continuing. Do not upload the file again to fix a search."
+        }
+      ],
+      "pass": "Produce a handoff with the five-event timeline, four failures, one success and a next verification action.",
+      "exercise": "Produce a handoff with the five-event timeline, four failures, one success and a next verification action.",
+      "quiz": [
+        {
+          "question": "Is an outside IP alone proof of compromise?",
+          "options": [
+            "Yes.",
+            "No; check identity, authorization, outcome and supporting logs.",
+            "Only if it has three dots."
+          ],
+          "answer": 1,
+          "explanation": "Location is context, not a verdict. A documented network boundary helps scope an investigation."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Filter authentication events outside the lab subnet",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "In Splunk Search, choose All time. Paste the query below, run it and open Statistics.",
+            "cidrmatch asks whether an IP belongs to 10.50.0.0/24. NOT keeps the authentication records outside that subnet.",
+            "Read the five returned rows. All use 198.51.100.77, labadmin and destination port 3389. This is fictional remote-desktop-style evidence, not a live RDP connection."
+          ],
+          "expected": "Five external authentication rows: four failures and one success.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "We use the actual network boundary instead of guessing from how an address looks."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Filter authentication events outside the lab subnet — expected example",
+            "assetId": "splunk-external-access-1",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-security.csv\" event_type=auth | where NOT cidrmatch(\"10.50.0.0/24\",src_ip) | sort 0 timestamp | table timestamp src_ip dest_ip dest_port user action"
+        },
+        {
+          "title": "Summarize failures and successes together",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Run the summary below. Keep All time. Open Statistics.",
+            "Find failures=4 and successes=1 for labadmin from 198.51.100.77. first_seen and last_seen bound the sequence.",
+            "Open your previous event table to confirm the success occurred after the failures. Summary totals alone do not prove event order."
+          ],
+          "expected": "One source/user/destination group with failures=4 and successes=1.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "A successful login after repeated failures is worth investigating, but may still be a user mistyping a password."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Summarize failures and successes together — expected example",
+            "assetId": "splunk-external-access-2",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-security.csv\" event_type=auth | where NOT cidrmatch(\"10.50.0.0/24\",src_ip) | stats count(eval(action=\"failure\")) AS failures count(eval(action=\"success\")) AS successes min(timestamp) AS first_seen max(timestamp) AS last_seen by src_ip user dest_ip"
+        },
+        {
+          "title": "Prepare a useful analyst handoff",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Create a local note titled “CloudSeam external login review”. Include UTC time range 10:05–10:09, source 198.51.100.77, target 10.50.0.20:3389 and user labadmin.",
+            "Add your saved query and event-table screenshot. Write: “Four failures followed by one recorded success. Verify with the account owner, approved access list and Windows sign-in logs.”",
+            "In a real organization, follow the incident playbook and ask the authorized responder about containment. Do not block a country, disable an account or erase logs based on this exercise."
+          ],
+          "expected": "A short handoff separates facts, uncertainty and the next evidence to request.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "Clear notes let another analyst continue your investigation without guessing."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Prepare a useful analyst handoff — expected example",
+            "assetId": "splunk-external-access-3",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "splunk-dashboard-inputs",
+      "title": "Build a Security Dashboard with Working Filters",
+      "description": "Create a Classic security dashboard and wire a source-IP dropdown and time picker to the panel searches.",
+      "what": "Create a Classic security dashboard and wire a source-IP dropdown and time picker to the panel searches.",
+      "why": "A filter only helps when the panels actually use it. We will change the input and prove that the displayed results change.",
+      "needs": [
+        "Finish the security searches above.",
+        "Use a Classic dashboard for these exact controls. Dashboard Studio has a different editor; do not paste Classic XML there."
+      ],
+      "bestPractices": [
+        "Keep the search, time range and original events with your notes. Explain what you observed before deciding what it means."
+      ],
+      "commonMistakes": [
+        "Do not treat an IP address or a matching word as proof of compromise. Check the action and the outcome."
+      ],
+      "troubleshooting": [
+        {
+          "problem": "My count is different or the table is empty.",
+          "fix": "Set All time, check index=sonic_lab and the exact security CSV source. Confirm 16 events before continuing. Do not upload the file again to fix a search."
+        }
+      ],
+      "pass": "Save a private dashboard, prove all three source choices change the totals, and restore All time after testing the time input.",
+      "exercise": "Save a private dashboard, prove all three source choices change the totals, and restore All time after testing the time input.",
+      "quiz": [
+        {
+          "question": "Why might a new dropdown change nothing?",
+          "options": [
+            "Its token is not referenced by the panel search.",
+            "A dropdown automatically filters every panel.",
+            "The security CSV needs another upload."
+          ],
+          "answer": 0,
+          "explanation": "The panel must use the exact token name; the time picker must also be linked explicitly."
+        }
+      ],
+      "steps": [
+        {
+          "title": "Save a verified security panel",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Open Search. Run the SPL below with All time and open Statistics. Check that failures=5 and successes=3: this panel includes both internal and external authentication events.",
+            "Choose Save As → Dashboard Panel → New. Enter CloudSeam - Security Review. Keep permissions Private, choose Classic if asked, and name the panel Authentication Outcomes.",
+            "Save and choose View Dashboard. Click Edit to open the Classic visual editor."
+          ],
+          "expected": "A private Classic dashboard with Authentication Outcomes showing 5 failures and 3 successes.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "Start with a correct search before connecting any inputs."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Save a verified security panel — expected example",
+            "assetId": "splunk-dashboard-inputs-1",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://docs.splunk.com/Documentation/SplunkCloud/latest/Viz/FormEditor"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-security.csv\" event_type=auth | stats count by action"
+        },
+        {
+          "title": "Add the source dropdown and set its token",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "In Edit mode, select Add Input → Dropdown. Click the dropdown edit/pencil control to open its settings. Label it Source IP and set Token to src_filter.",
+            "Under Static Options / Choices, add All sources with Value *, then External login source with Value 198.51.100.77, then Internal workstation with Value 10.50.0.30. Set Default to * (All sources). Leave token prefix and suffix empty.",
+            "Enable Search on Change if available. If using a Submit button instead, click Submit after each selection. Save the input settings."
+          ],
+          "expected": "Source IP has three choices. The token is exactly src_filter, with default *.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "A token is a named value. Selecting External login source sets src_filter to 198.51.100.77; it does not filter a panel until its search reads that token."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Add the source dropdown and set its token — expected example",
+            "assetId": "splunk-dashboard-inputs-2",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://docs.splunk.com/Documentation/SplunkCloud/latest/Viz/FormEditor"
+          ]
+        },
+        {
+          "title": "Connect the panel and the time picker",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "While editing, open Authentication Outcomes → Edit Search. Replace its inline search with the SPL below. Keep the $ signs around src_filter.",
+            "Select Add Input → Time. Label it Time range, use token time_filter, and choose All time as its default. Edit the panel search time setting to Shared Time Picker → Time range rather than leaving a separate static range.",
+            "Save and leave Edit mode. If the installed Classic editor offers Source editing instead of these labels, use its supported form controls; do not switch to Dashboard Studio mid-lab."
+          ],
+          "expected": "The panel query reads src_filter and uses the shared time picker. All time still shows 5 failures and 3 successes.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "The dropdown supplies a value; the search consumes it. The time input must also be connected to each intended panel."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Connect the panel and the time picker — expected example",
+            "assetId": "splunk-dashboard-inputs-3",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://docs.splunk.com/Documentation/SplunkCloud/latest/Viz/FormEditor"
+          ],
+          "command": "index=sonic_lab source=\"*cloudseam-security.csv\" event_type=auth src_ip=\"$src_filter$\" | stats count by action"
+        },
+        {
+          "title": "Test all three choices before trusting the dashboard",
+          "where": "Your practice VM → browser → http://localhost:8000 → Search & Reporting",
+          "actions": [
+            "Select All sources. If needed, click Submit. Expect failure=5 and success=3.",
+            "Select External login source. Expect failure=4 and success=1. Select Internal workstation. Expect success=1 and no failure row.",
+            "Change Time range to Last 15 minutes. The fixed January events should disappear. Restore All time so they return. Save, reload the dashboard and repeat the external-source check.",
+            "If the totals never change, inspect the inline search for $src_filter$ and the selected shared time picker. Do not re-upload data to repair a dashboard input."
+          ],
+          "expected": "The input changes the results: all=8, external=5, internal workstation=1. Recent time hides the fixed-date events.",
+          "breakdown": [
+            {
+              "term": "Why we do this",
+              "meaning": "A visible dropdown is not enough: this test proves that its value reaches the search."
+            }
+          ],
+          "screenshot": {
+            "status": "illustration",
+            "title": "Test all three choices before trusting the dashboard — expected example",
+            "assetId": "splunk-dashboard-inputs-4",
+            "instructions": "Match the written steps and values shown here. The illustration helps you find the right input; confirm the actual result in your own Splunk instance."
+          },
+          "sources": [
+            "https://docs.splunk.com/Documentation/SplunkCloud/latest/Viz/FormEditor"
           ]
         }
       ]

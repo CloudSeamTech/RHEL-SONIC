@@ -177,7 +177,7 @@ test('migration readers share the pathway console and keep direct lesson navigat
     'utf8',
   );
   assert.match(shell, /href="\/migration#lesson=lab-00"/);
-  assert.match(shell, /aria-label="Course pathways"/);
+  assert.match(shell, /aria-label="Academy navigation"/);
   assert.match(appSource, /ConsoleReaderShell/);
   assert.match(appSource, /ProjectDirectory/);
   assert.match(appSource, /lessonSequenceFor\(lesson.id\)/);

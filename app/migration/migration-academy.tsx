@@ -134,7 +134,7 @@ function ContentBlock({ block }: { block: MigrationBlock }) {
   if (block.type === 'checklist') {
     return (
       <section className="migration-pane pane-action">
-        <span className="pane-label">DO THIS · ONE CHECK AT A TIME</span>
+        <span className="pane-label">Lab instructions</span>
         <ol className="action-list">
           {block.items.map((item, index) => (
             <li key={index}>

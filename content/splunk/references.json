@@ -7,7 +7,7 @@
     "title": "Splunk Apps panel: Search & Reporting",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -18,7 +18,7 @@
     "title": "Search summary: search bar and time picker",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -29,7 +29,7 @@
     "title": "Search results: fields, events, timeline and Save As",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -40,7 +40,7 @@
     "title": "Settings: Add Data",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-2-uploading-the-tutorial-data/upload-the-tutorial-data",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -51,7 +51,7 @@
     "title": "Upload a file",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-2-uploading-the-tutorial-data/upload-the-tutorial-data",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -62,7 +62,7 @@
     "title": "Input Settings: host and index controls",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-2-uploading-the-tutorial-data/upload-the-tutorial-data",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -73,7 +73,7 @@
     "title": "ZIP host extraction reference (not used for our CSV)",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-2-uploading-the-tutorial-data/upload-the-tutorial-data",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -84,7 +84,7 @@
     "title": "Add Data review",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-2-uploading-the-tutorial-data/upload-the-tutorial-data",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -95,7 +95,7 @@
     "title": "File upload success",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-2-uploading-the-tutorial-data/upload-the-tutorial-data",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -106,7 +106,7 @@
     "title": "Settings: Lookups",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -117,7 +117,7 @@
     "title": "Lookups manager",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -128,7 +128,7 @@
     "title": "Upload a lookup CSV",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -139,7 +139,7 @@
     "title": "Create a file-based lookup definition",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -150,7 +150,7 @@
     "title": "Automatic lookup form",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -161,7 +161,7 @@
     "title": "Automatic lookup field mapping",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-5-enriching-events-with-lookups/enabling-field-lookups",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -172,8 +172,8 @@
     "title": "Legacy Windows Enterprise installer: license agreement",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/install-and-upgrade/10.4/install-splunk-enterprise-on-windows/install-on-windows",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
-    "note": "Legacy installer screenshot retained in current vendor documentation. It is not a Windows 10/Server 2019 desktop capture or a current 10.4 service-account example. Follow this lesson\u2019s non-privileged service-account instructions; do not select the pictured Local System default."
+    "credit": "Splunk documentation · © Splunk Inc.",
+    "note": "Legacy installer screenshot retained in current vendor documentation. It is not a Windows 10/Server 2019 desktop capture or a current 10.4 service-account example. Follow this lesson’s non-privileged service-account instructions; do not select the pictured Local System default."
   },
   {
     "id": "splunk-interface-21",
@@ -183,8 +183,8 @@
     "title": "Legacy Windows Enterprise installer: Splunk administrator",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/install-and-upgrade/10.4/install-splunk-enterprise-on-windows/install-on-windows",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
-    "note": "Legacy installer screenshot retained in current vendor documentation. It is not a Windows 10/Server 2019 desktop capture or a current 10.4 service-account example. Follow this lesson\u2019s non-privileged service-account instructions; do not select the pictured Local System default."
+    "credit": "Splunk documentation · © Splunk Inc.",
+    "note": "Legacy installer screenshot retained in current vendor documentation. It is not a Windows 10/Server 2019 desktop capture or a current 10.4 service-account example. Follow this lesson’s non-privileged service-account instructions; do not select the pictured Local System default."
   },
   {
     "id": "splunk-interface-22",
@@ -194,8 +194,8 @@
     "title": "Legacy Windows Enterprise installer: completion",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/install-and-upgrade/10.4/install-splunk-enterprise-on-windows/install-on-windows",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
-    "note": "Legacy installer screenshot retained in current vendor documentation. It is not a Windows 10/Server 2019 desktop capture or a current 10.4 service-account example. Follow this lesson\u2019s non-privileged service-account instructions; do not select the pictured Local System default."
+    "credit": "Splunk documentation · © Splunk Inc.",
+    "note": "Legacy installer screenshot retained in current vendor documentation. It is not a Windows 10/Server 2019 desktop capture or a current 10.4 service-account example. Follow this lesson’s non-privileged service-account instructions; do not select the pictured Local System default."
   },
   {
     "id": "splunk-interface-23",
@@ -205,7 +205,7 @@
     "title": "Statistics results view",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-6-creating-reports-and-charts/create-a-report-from-a-custom-chart",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -216,7 +216,7 @@
     "title": "Visualization formatting",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-6-creating-reports-and-charts/create-a-report-from-a-custom-chart",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -227,7 +227,7 @@
     "title": "Saved report view",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/get-started/search-tutorial/9.2/part-6-creating-reports-and-charts/create-a-report-from-a-custom-chart",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -238,7 +238,7 @@
     "title": "Save As Dashboard Panel dialog",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/9.2/part-7-creating-dashboards/create-dashboards-and-panels",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -249,7 +249,7 @@
     "title": "Classic dashboard with a chart",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/9.2/part-7-creating-dashboards/create-dashboards-and-panels",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -260,7 +260,7 @@
     "title": "Classic dashboard editor",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/9.2/part-7-creating-dashboards/create-dashboards-and-panels",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
   },
   {
@@ -271,7 +271,150 @@
     "title": "Dashboard panel shared time picker",
     "platform": "Splunk Enterprise / Splunk Cloud reference interface",
     "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/9.2/part-7-creating-dashboards/create-dashboards-and-panels",
-    "credit": "Splunk documentation \u00b7 \u00a9 Splunk Inc.",
+    "credit": "Splunk documentation · © Splunk Inc.",
     "note": "Unaltered official Splunk screenshot. Its tutorial data, counts, dates, app labels or version can differ from this class. This is a partial interface reference, not a screenshot of the CloudSeam lab or evidence that your task succeeded."
+  },
+  {
+    "id": "splunk-security-data-1",
+    "src": "/splunk/splunk-security-data-1.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "d33a921289bb47f1fb4b81540125803aab94e4c88c26ab662df62bd90fea0100",
+    "title": "Upload the security CSV once — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-security-data-2",
+    "src": "/splunk/splunk-security-data-2.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "1478c3a75d76a3320aa542430364750f0e5f5a9b5b8b09e695ed77d4e63aa53b",
+    "title": "Prove that all 16 events arrived — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-security-data-3",
+    "src": "/splunk/splunk-security-data-3.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "a390506fda6c00f75570307a8dd65664d14dc0f7a25071c6d83d759dc848372a",
+    "title": "Read one event as a short story — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-injection-1",
+    "src": "/splunk/splunk-injection-1.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "57db47ba07a529806bc59aa3c774fe9fae94261104e4f6b3cd48a9be337ed402",
+    "title": "Make encoded requests readable — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-injection-2",
+    "src": "/splunk/splunk-injection-2.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "ef6d0b07480330ff646e0064b635fc4c664369c65a15804cd2b1b9ae62318226",
+    "title": "Find the SQL-like patterns — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-injection-3",
+    "src": "/splunk/splunk-injection-3.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "2af536dbc4913a3f22969e912c5870750f5fcef7076505a4b74c0b6901c0fb75",
+    "title": "Find the script marker and write a careful conclusion — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-external-access-1",
+    "src": "/splunk/splunk-external-access-1.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "cf693b71bbb6678c3b8ac6f28e19ad2f86ebd607c833b8ecefb9052e630dffd5",
+    "title": "Filter authentication events outside the lab subnet — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-external-access-2",
+    "src": "/splunk/splunk-external-access-2.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "66a4e007069ee353daa14be9a7f690636f06cae97ab6a2e79078a8fdc8a4bc38",
+    "title": "Summarize failures and successes together — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-external-access-3",
+    "src": "/splunk/splunk-external-access-3.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "cc626472fa3c879f0739e00969cf325eb9222c81dc034a462ca1b2e3aa0fd312",
+    "title": "Prepare a useful analyst handoff — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://help.splunk.com/en/splunk-enterprise/search/search-tutorial/10.0/part-3-using-the-splunk-search-app/exploring-the-search-views",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-dashboard-inputs-1",
+    "src": "/splunk/splunk-dashboard-inputs-1.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "6c01ffc7936692ea8320d89c3747ad0ea9ae18e61a51fc5e3fa3233a9416f367",
+    "title": "Save a verified security panel — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://docs.splunk.com/Documentation/SplunkCloud/latest/Viz/FormEditor",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-dashboard-inputs-2",
+    "src": "/splunk/splunk-dashboard-inputs-2.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "b3d64c582cbdf4323bc1ebc2ad0e9fc5d52fe3df1dbe0abb16054eedcb72df4f",
+    "title": "Add the source dropdown and set its token — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://docs.splunk.com/Documentation/SplunkCloud/latest/Viz/FormEditor",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-dashboard-inputs-3",
+    "src": "/splunk/splunk-dashboard-inputs-3.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "bc0811755d5c96a4d2bbd61f4c2c1122e4b9a4ac0a8f912038033b2c0a310aad",
+    "title": "Connect the panel and the time picker — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://docs.splunk.com/Documentation/SplunkCloud/latest/Viz/FormEditor",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
+  },
+  {
+    "id": "splunk-dashboard-inputs-4",
+    "src": "/splunk/splunk-dashboard-inputs-4.svg",
+    "original": "Original SONIC-Academy training illustration",
+    "sha256": "4e8ef257b14fe4f0a96cddc9f5f6df4139216da60b7e0f755d126d5d44ad66ff",
+    "title": "Test all three choices before trusting the dashboard — illustrated interface with CloudSeam values",
+    "platform": "Splunk-style training mockup",
+    "source": "https://docs.splunk.com/Documentation/SplunkCloud/latest/Viz/FormEditor",
+    "credit": "SONIC-Academy original illustration; Splunk is a trademark of Splunk Inc.",
+    "note": "Reconstructed teaching interface with exact practice values. This is not an actual Splunk screenshot or recorded output. Controls may vary by version."
   }
 ]
