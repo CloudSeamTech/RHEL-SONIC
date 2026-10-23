@@ -3047,3 +3047,152 @@ html
   border: 0 !important;
   box-shadow: none !important;
 }
+
+/* Support, clear plan information and a little more context in the learning rail. */
+html body .academy-shell .academy-hero {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+html body .academy-shell .sidebar-learning-details {
+  margin: 20px 14px 12px;
+  padding: 16px 0;
+  border-top: 1px solid #ffffff24;
+  border-bottom: 1px solid #ffffff24;
+  color: #f7f1e8;
+}
+html body .academy-shell .sidebar-learning-details > span {
+  color: #efb182 !important;
+  font-size: 10px !important;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+html body .academy-shell .sidebar-learning-details p {
+  color: #f7f1e8 !important;
+  font-size: 13px !important;
+  line-height: 1.8;
+  margin: 8px 0;
+}
+html body .academy-shell .sidebar-learning-details small {
+  color: #cfc0df !important;
+  font-size: 11px !important;
+}
+.sidebar-information-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin: 0 14px 20px;
+}
+html body .academy-shell .sidebar-information-links a {
+  color: #f7f1e8 !important;
+  font-size: 12px !important;
+  text-underline-offset: 4px;
+}
+.academy-footer {
+  margin: 32px 24px 24px;
+  padding: 24px 0 8px;
+  border-top: 1px solid #c9bca9;
+  display: flex;
+  gap: 16px 28px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.academy-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+}
+html body .academy-shell .academy-footer :is(span, a) {
+  font-size: 12px !important;
+  line-height: 1.7;
+}
+.academy-information {
+  padding: 36px 32px;
+  max-width: 1320px;
+  margin: 0 auto;
+}
+.academy-information > header {
+  margin-bottom: 28px;
+}
+.academy-information h1 {
+  font-size: clamp(30px, 4vw, 44px) !important;
+  margin: 10px 0 16px;
+}
+.academy-information h2 {
+  font-size: 25px !important;
+  line-height: 1.4;
+  margin: 0 0 16px;
+}
+.academy-information h3 {
+  font-size: 20px !important;
+  margin: 24px 0 12px;
+}
+.academy-information p {
+  font-size: 18px !important;
+  line-height: 1.8;
+  margin: 12px 0;
+}
+.academy-information small {
+  display: block;
+  font-size: 14px !important;
+  line-height: 1.7;
+}
+.academy-information > section,
+.academy-information > aside {
+  margin: 32px 0;
+  scroll-margin-top: 100px;
+}
+.information-panel {
+  background: #ede4d8;
+  padding: 28px;
+  border-radius: 16px;
+}
+.information-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+html body .academy-shell .information-tabs a {
+  padding: 10px 16px;
+  background: #ede4d8;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.academy-information a:not(.primary-button) {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  overflow-wrap: anywhere;
+}
+.academy-information details {
+  margin: 12px 0;
+  background: #ede4d8;
+  padding: 4px 14px;
+  border-radius: 10px;
+}
+.academy-information details p {
+  padding: 0 18px 12px;
+}
+.plan-information-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 32px 0;
+}
+.plan-information-grid > section {
+  min-width: 0;
+}
+@media (max-width: 850px) {
+  .plan-information-grid {
+    grid-template-columns: 1fr;
+  }
+  .academy-information {
+    padding: 28px 16px;
+  }
+  .information-panel {
+    padding: 22px;
+  }
+  .academy-footer {
+    margin-inline: 16px;
+  }
+}

@@ -84,16 +84,20 @@ export default function Profile() {
                   {(
                     {
                       free: 'Free Tier',
-                      enhanced: 'Enhanced',
+                      enhanced: 'Enhanced Tier',
                       apex: 'Apex Tier',
                     } as Record<string, string>
                   )[academy.user.subscriptionTier ?? 'free'] ?? 'Free Tier'}
                 </strong>
               </p>
-              <p>Plans: Free Tier · Enhanced · Apex Tier</p>
+              <p>Plans: Free Tier · Enhanced Tier · Apex Tier</p>
               <p>
                 Paid subscriptions are not connected yet. No payment is taken
                 here.
+              </p>
+              <p>
+                <a href="/plans">Plan information</a> ·{' '}
+                <a href="/support#billing">Billing & support</a>
               </p>
             </section>
             <aside className="teaching-callout">
