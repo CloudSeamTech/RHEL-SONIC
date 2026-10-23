@@ -35,25 +35,27 @@ export function GuidedLab({
   const storageKey = `sonic-guided-workstation2019-v1:${lessonId}${stepOffset ? `:part-${stepOffset}` : ''}`;
   // Synchronize saved lab notes after hydration; this does not execute a lab step.
   useEffect(() => {
-    setIndex(0);
     setCopied(false);
     setNotice('');
-    setChecked([]);
-    try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) ?? '[]');
-      if (Array.isArray(saved))
-        setChecked(
-          saved.filter(
-            (value): value is number =>
-              Number.isInteger(value) &&
-              value >= 0 &&
-              value < guide.steps.length,
-          ),
-        );
-    } catch {
-      setNotice('Step checks are kept for this visit only.');
-    }
+    const loadChecks = (event?: StorageEvent) => {
+      if(event?.key && event.key !== storageKey) return;
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) ?? '[]');
+        const values: number[] = Array.isArray(saved) ? saved.filter((value): value is number => Number.isInteger(value) && value >= 0 && value < guide.steps.length) : [];
+        setChecked(values);
+        const firstUnchecked = guide.steps.findIndex((_, i) => !values.includes(i));
+        setIndex(firstUnchecked < 0 ? 0 : firstUnchecked);
+      } catch {
+        setChecked([]);
+        setIndex(0);
+        setNotice('Step checks are kept for this visit only.');
+      }
+    };
+    loadChecks();
+    window.addEventListener('storage', loadChecks);
+    return () => window.removeEventListener('storage', loadChecks);
   }, [storageKey, guide.steps.length]);
+
   const welcome = welcomeFor(lessonId,stepOffset===21);
   const step = guide.steps[index];
   const clarity = checkTeachingFor(screenshotLessonId, index + stepOffset + 1);
@@ -81,6 +83,7 @@ export function GuidedLab({
     setChecked(next);
     try {
       localStorage.setItem(storageKey, JSON.stringify(next));
+    window.dispatchEvent(new Event('sonic-academy-progress'));
     } catch {
       setNotice('Step checks are kept for this visit only.');
     }
@@ -97,6 +100,7 @@ export function GuidedLab({
         </span>
       </header>
       <LabOverview summary={purpose ?? welcome?.welcome} steps={guide.steps.map(item => item.title)} outcome={guide.pass} />
+      <progress value={checked.length} max={guide.steps.length} aria-label="Lab step completion" />
       <LessonWelcome content={welcome} showIntro={false} />
       {purpose && !welcome && (
         <section className="guided-purpose">
@@ -193,7 +197,7 @@ export function GuidedLab({
             className="guided-production"
             aria-label="How this differs in production"
           >
-            <summary>How this works in production · optional</summary>
+            <summary>Best practice at work · optional</summary>
             <p>{productionPracticeFor(lessonId)}</p>
             <small>
               Compare with real-world practice; do not run lab commands against

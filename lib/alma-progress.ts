@@ -32,6 +32,7 @@ export function toggleAlmaLesson(id: string) {
       ? current.filter((item) => item !== id)
       : [...current, id];
     localStorage.setItem(almaProgressKey, JSON.stringify(next));
+    window.dispatchEvent(new Event('sonic-academy-progress'));
     window.dispatchEvent(new Event('sonic-alma-progress'));
     return true;
   } catch {

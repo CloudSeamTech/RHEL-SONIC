@@ -1,4 +1,10 @@
-# RHEL-SONIC Learning Console
+# SONIC-Academy · CloudSeamTech Training
+
+## Self-paced academy
+
+The dashboard uses the CloudSeamTech cream, purple and orange visual system, with searchable subjects, resume learning, bookmarks, recent activity, and progress calculated from the curriculum. Course readers retain their existing routes, screenshot references and verification checks.
+
+The connected Sites deployment provides Sign in with ChatGPT, learner profiles, and D1-backed progress. Guest browser progress can be imported explicitly after signing in. The separate public Vercel mirror remains available for guest learning and clearly explains that account saving needs its own provider connection. See [learner account and database details](docs/ACADEMY-ACCOUNTS.md).
 
 ## AlmaLinux Desktop Experience
 

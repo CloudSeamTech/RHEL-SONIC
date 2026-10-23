@@ -116,6 +116,7 @@ export function updateNessusProgress(
   try {
     const next = normalizeNessusProgress(update(JSON.parse(nessusSnapshot())));
     localStorage.setItem(nessusProgressKey, JSON.stringify(next));
+    window.dispatchEvent(new Event('sonic-academy-progress'));
     window.dispatchEvent(new Event(eventName));
     return true;
   } catch {
