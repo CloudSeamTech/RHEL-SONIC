@@ -3003,3 +3003,31 @@ html body .academy-shell .reader-workspace details > summary::after {
   font-size: 12px;
   letter-spacing: 0.06em;
 }
+/* Keep the simulation readable despite the neutral text reset elsewhere. */
+html
+  body
+  .academy-shell.academy-shell
+  .reader-workspace.reader-workspace
+  .cyber-map
+  :is(h2, p, .eyebrow) {
+  color: #f7f1e8 !important;
+}
+html
+  body
+  .academy-shell.academy-shell
+  .reader-workspace.reader-workspace
+  .cyber-map
+  svg {
+  color: #b9aacb !important;
+}
+html body .academy-shell .console-sidebar .academy-primary-nav a:not(.active) {
+  background: transparent !important;
+}
+html
+  body
+  .academy-shell
+  .console-sidebar
+  .academy-primary-nav
+  a:not(.active):hover {
+  background: #352746 !important;
+}
