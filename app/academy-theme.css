@@ -1929,3 +1929,140 @@ html body .academy-shell .reader-workspace .explanation .lab-step-nav {
   width: auto;
   max-height: 260px;
 }
+
+/* Warm gray teaching surfaces stay close to the cream canvas. */
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .teaching-callout,
+    .coaching-why,
+    .coaching-brief,
+    .guided-expected,
+    .walkthrough-check,
+    .nessus-best,
+    .nessus-mistakes,
+    .nessus-troubleshooting,
+    .guided-production,
+    .guided-rollback,
+    .sonic-action-assist,
+    .teacher-preparation,
+    .guided-context,
+    .guided-context > div,
+    .nessus-location
+  ) {
+  background: #d0c8be !important;
+  color: #302a36 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  padding: 20px 24px !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .teaching-callout,
+    .coaching-why,
+    .coaching-brief,
+    .guided-expected,
+    .walkthrough-check,
+    .nessus-best,
+    .nessus-mistakes,
+    .nessus-troubleshooting,
+    .guided-production,
+    .guided-rollback,
+    .sonic-action-assist,
+    .teacher-preparation,
+    .guided-context,
+    .nessus-location
+  )
+  :is(p, li, h2, h3, h4, b, strong, summary, span, dd, dt, label) {
+  color: #302a36 !important;
+  background-color: transparent !important;
+}
+html
+  body
+  .academy-shell
+  .reader-workspace
+  :is(
+    .teaching-callout,
+    .coaching-brief,
+    .nessus-best,
+    .sonic-action-assist,
+    .teacher-preparation
+  )
+  a {
+  color: #52238f !important;
+}
+html body .academy-shell .reader-workspace .guided-context {
+  display: block;
+  margin-block: 24px;
+}
+html body .academy-shell .reader-workspace .guided-context > div {
+  padding: 0 !important;
+}
+html body .academy-shell .reader-workspace .teacher-preparation summary {
+  font-size: 16px !important;
+  font-weight: 700;
+}
+html body .academy-shell .troubleshooting-library {
+  padding-block: 16px;
+}
+html body .academy-shell .troubleshooting-category {
+  background: #f3ede3;
+  border: 0;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin: 18px 0;
+}
+html body .academy-shell .troubleshooting-category > summary {
+  display: list-item;
+  font-size: 21px !important;
+  font-weight: 800;
+  line-height: 1.5;
+  cursor: pointer;
+  color: #382444 !important;
+}
+html body .academy-shell .troubleshooting-category > summary span {
+  display: inline-block;
+  margin-left: 16px;
+  color: #6a5b70;
+  font-size: 13px;
+  font-weight: 500;
+}
+html body .academy-shell .troubleshooting-tip {
+  background: #e5ded3;
+  padding: 18px 22px;
+  border: 0;
+  border-radius: 10px;
+  margin: 16px 0;
+}
+html body .academy-shell .troubleshooting-tip > summary {
+  font-weight: 800;
+  font-size: 18px !important;
+  cursor: pointer;
+  color: #382444 !important;
+}
+html body .academy-shell .troubleshooting-tip p {
+  margin-block: 16px;
+}
+html body .academy-shell .troubleshooting-tip li {
+  margin-block: 12px;
+}
+html body .academy-shell .troubleshooting-tip pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  padding: 20px;
+  color: #fff;
+  border-radius: 10px;
+}
+@media (max-width: 650px) {
+  html body .academy-shell .troubleshooting-category {
+    padding: 16px;
+  }
+  html body .academy-shell .troubleshooting-tip {
+    padding: 14px;
+  }
+}
