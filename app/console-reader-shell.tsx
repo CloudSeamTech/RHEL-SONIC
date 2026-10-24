@@ -5,7 +5,6 @@ import {
   Layers,
   BookOpen,
   FlaskConical,
-  Cloud,
   LifeBuoy,
   Bookmark,
   Search,
@@ -75,14 +74,7 @@ export function ConsoleReaderShell({
         </button>
         <div className="console-brand">
           <a href="/" className="academy-brand">
-            <span className="brand-cloud">
-              <Cloud size={30} />
-              <span>↗</span>
-            </span>
-            <span>
-              Cloud<span className="brand-purple">Seam</span>Tech
-              <small>SONIC-ACADEMY</small>
-            </span>
+            <img className="academy-logo" src="/cloudseam-logo.png" alt="Cloud Seam Tech — SONIC-Academy home" width={2030} height={775} />
           </a>
         </div>
         <nav className="academy-primary-nav" aria-label="Academy navigation">
@@ -246,6 +238,9 @@ export function ConsoleReaderShell({
             <a href="/support#about">About us</a>
           </nav>
           <a href="/support#contact">Support email · coming soon</a>
+          <a className="footer-brand" href="/" aria-label="Cloud Seam Tech home">
+            <img src="/cloudseam-logo.png" alt="Cloud Seam Tech" width={2030} height={775} loading="lazy" />
+          </a>
         </footer>
       </div>
     </div>

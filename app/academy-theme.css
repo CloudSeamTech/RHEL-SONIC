@@ -3240,3 +3240,36 @@ html body .academy-shell .console-sidebar .plan-badge {
     grid-template-columns: 1fr;
   }
 }
+
+/* Original owner-supplied transparent artwork, without recoloring or cropping. */
+html body .academy-shell .console-brand .academy-brand {
+  display: block;
+  padding: 12px;
+  background: #EDE4D8;
+  border-radius: 12px;
+}
+.academy-logo {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.academy-footer .footer-brand {
+  display: block;
+  margin-left: auto;
+  flex: 0 1 180px;
+  max-width: 180px;
+}
+.footer-brand img, .contact-brand {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+.contact-brand {
+  max-width: 330px;
+  margin: 0 0 24px;
+}
+@media (max-width: 600px) {
+  .academy-footer .footer-brand { flex-basis: auto; width: 150px; }
+}
