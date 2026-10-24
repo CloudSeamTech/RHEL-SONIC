@@ -15,6 +15,7 @@ import { learningPathways, pathwayLessons } from './learning-pathways';
 import { careerPathways } from './career-pathways';
 import { planLabel, lessonTier } from '../lib/plan-access';
 import { useAcademy } from './academy-provider';
+import { BrandLogo } from './brand-logo';
 import './learning-console.css';
 import './lesson-reading.css';
 const allLessons = learningPathways.flatMap(pathwayLessons);
@@ -74,7 +75,7 @@ export function ConsoleReaderShell({
         </button>
         <div className="console-brand">
           <a href="/" className="academy-brand">
-            <img className="academy-logo" src="/cloudseam-logo.png" alt="Cloud Seam Tech — SONIC-Academy home" width={2030} height={775} />
+            <BrandLogo className="academy-logo" label="Cloud Seam Tech — SONIC-Academy home" />
           </a>
         </div>
         <nav className="academy-primary-nav" aria-label="Academy navigation">
@@ -239,7 +240,7 @@ export function ConsoleReaderShell({
           </nav>
           <a href="/support#contact">Support email · coming soon</a>
           <a className="footer-brand" href="/" aria-label="Cloud Seam Tech home">
-            <img src="/cloudseam-logo.png" alt="Cloud Seam Tech" width={2030} height={775} loading="lazy" />
+            <BrandLogo />
           </a>
         </footer>
       </div>
