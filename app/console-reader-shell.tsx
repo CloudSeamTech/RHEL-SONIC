@@ -75,7 +75,7 @@ export function ConsoleReaderShell({
         </button>
         <div className="console-brand">
           <a href="/" className="academy-brand">
-            <BrandLogo className="academy-logo" label="Cloud Seam Tech — SONIC-Academy home" />
+            <BrandLogo wording="white" className="academy-logo" label="Cloud Seam Tech — SONIC-Academy home" />
           </a>
         </div>
         <nav className="academy-primary-nav" aria-label="Academy navigation">
