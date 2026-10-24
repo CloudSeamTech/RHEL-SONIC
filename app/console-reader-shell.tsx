@@ -166,7 +166,7 @@ export function ConsoleReaderShell({
             <input
               name="q"
               type="search"
-              placeholder="Search courses, labs, or topics…"
+              placeholder="Search courses or labs"
               aria-label="Search courses and labs"
             />
           </form>
