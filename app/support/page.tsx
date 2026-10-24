@@ -20,6 +20,7 @@ export default function SupportPage() {
           <a href="#about">About us</a>
         </nav>
         <section id="contact" className="information-panel">
+          <img className="contact-brand" src="/cloudseam-logo.png" alt="Cloud Seam Tech" width={2030} height={775} />
           <h2>Contact us</h2>
           <p>
             Stuck on a step? Start with the troubleshooting library below. When
