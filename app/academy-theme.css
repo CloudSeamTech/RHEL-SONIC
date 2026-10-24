@@ -3245,8 +3245,8 @@ html body .academy-shell .console-sidebar .plan-badge {
 html body .academy-shell .console-brand .academy-brand {
   display: block;
   padding: 12px;
-  background: #EDE4D8;
-  border-radius: 12px;
+  background: transparent;
+  border-radius: 0;
 }
 .academy-logo {
   display: block;
