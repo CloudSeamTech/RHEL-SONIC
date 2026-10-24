@@ -1,12 +1,10 @@
 # Connect cloudseam.tech
 
-Status checked October 23, 2026: the public academy responds successfully at
-https://sonic-academy-cloud-seam.vercel.app/. Both `cloudseam.tech` and
-`www.cloudseam.tech` are assigned to the same Vercel project. Vercel has verified
-ownership, but reports that external DNS is not configured. The `www` address
-is configured to redirect to the apex address using HTTP 308 once DNS works.
+The public academy is live at https://cloudseam.tech/.
+`www.cloudseam.tech` redirects to the apex address using HTTP 308. The fallback
+address is https://sonic-academy-cloud-seam.vercel.app/.
 
-## Finish in Cloudflare
+## DNS configuration reference
 
 1. Sign in to Cloudflare and open **cloudseam.tech → DNS → Records**.
 2. Add or edit the following website records. If an existing record uses the
@@ -14,10 +12,10 @@ is configured to redirect to the apex address using HTTP 308 once DNS works.
 
 | Type | Name | Target | Proxy status | TTL |
 | --- | --- | --- | --- | --- |
-| A | @ | 76.76.21.21 | DNS only | Auto |
+| CNAME | @ | bc30cfb8e410acd9.vercel-dns-017.com | DNS only | Auto |
 | CNAME | www | bc30cfb8e410acd9.vercel-dns-017.com | DNS only | Auto |
 
-These targets were returned by Vercel for this project on the date above.
+These are the Vercel CNAME targets used for this project; Cloudflare flattens the apex CNAME.
 Recheck **Vercel → Project → Settings → Domains** before changing DNS in the
 future; Vercel recommendations can change. Resolve conflicting website records
 only for `@` and `www`, including stale AAAA records if Vercel identifies them.

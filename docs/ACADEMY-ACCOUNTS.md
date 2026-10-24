@@ -29,3 +29,10 @@ Existing attributed interface references and clearly labeled illustrated action 
 ## Local regression test
 
 With the local D1 schema applied and a preview running at `http://127.0.0.1:3011`, run `npm run test:academy-api`. The tool checks actual database persistence, per-user isolation, expected-account matching, anonymous write denial, origin checks and input validation. It rejects non-local URLs and uses synthetic identities only in the local preview.
+
+## Google/GitHub and Supabase setup
+
+See [the owner setup guide](SUPABASE-SETUP.md) for provider configuration,
+callback addresses, proposed RLS schema, Vercel configuration, adapter work,
+account migration, and launch checks. Those steps do not indicate that public
+social sign-in has been activated.

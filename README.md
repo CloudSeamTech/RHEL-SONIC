@@ -1,7 +1,9 @@
 # SONIC-Academy · CloudSeamTech Training
 
-Public website: **https://sonic-academy-cloud-seam.vercel.app/**.
-The planned custom address is **https://cloudseam.tech/**; it is assigned in Vercel but still needs the Cloudflare DNS records described in [custom domain setup](docs/CUSTOM-DOMAIN.md).
+Public website: **https://cloudseam.tech/**.
+Fallback address: https://sonic-academy-cloud-seam.vercel.app/. See [custom domain setup](docs/CUSTOM-DOMAIN.md).
+
+For Google/GitHub sign-in and database setup, follow the [Supabase owner guide](docs/SUPABASE-SETUP.md). Public social sign-in is not connected yet.
 
 ## Self-paced academy
 
